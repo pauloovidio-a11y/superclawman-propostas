@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sisloc — Calculadora de Impacto · Operação Autônoma no WhatsApp</title>
+<meta name="description" content="Calculadora interativa de retorno: deflexão de chamados, economia mensal, payback do setup. Baseada nos números reais informados pela Sisloc.">
+<style>
+  :root{
+    --ivory:#F6F7F9; --paper:#FFFFFF; --slate:#11202E;
+    --clay:#1F5FAE; --clay-d:#16498A; --oat:#D9E2EE; --olive:#3B7A57;
+    --rust:#B5462C;
+    --g100:#EFF2F6; --g200:#DCE3EB; --g300:#BFCBD8; --g500:#7C8896; --g700:#3A4856;
+    --serif: ui-serif, Georgia, "Times New Roman", serif;
+    --sans:  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --mono:  ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--ivory);color:var(--slate);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:var(--clay);text-decoration:none;border-bottom:1px solid var(--oat)}
+  a:hover{color:var(--clay-d)}
+  .wrap{max-width:1180px;margin:0 auto;padding:48px 32px 80px}
+  @media (max-width:720px){.wrap{padding:32px 20px 64px}}
+
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--g700);display:inline-flex;align-items:center;gap:14px;margin-bottom:18px}
+  .eyebrow::before{content:"";display:inline-block;width:24px;height:2px;background:var(--clay);border-radius:2px}
+
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(38px,5.4vw,62px);line-height:1.06;letter-spacing:-0.018em;margin:0 0 18px;color:var(--slate)}
+  h1 em{font-style:italic;color:var(--clay)}
+  h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,2.6vw,32px);line-height:1.18;letter-spacing:-0.012em;margin:0 0 14px;color:var(--slate)}
+  h3{font-family:var(--sans);font-weight:600;font-size:17px;letter-spacing:-0.005em;margin:0 0 10px;color:var(--slate)}
+  p{margin:0 0 14px;color:var(--g700)}
+  p.lede{font-size:19px;line-height:1.55;color:var(--g700);max-width:62ch}
+
+  .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end;padding-bottom:48px;border-bottom:1.5px solid var(--g300)}
+  @media (max-width:880px){.hero{grid-template-columns:1fr;gap:24px}}
+
+  .tldr{background:var(--paper);border:1px solid var(--g200);border-left:3px solid var(--clay);border-radius:6px;padding:22px 24px;margin-top:8px}
+  .tldr .label{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--clay);margin-bottom:8px}
+  .tldr .stat{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--g200);font-variant-numeric:tabular-nums}
+  .tldr .stat:last-child{border-bottom:none}
+  .tldr .stat .k{font-size:13.5px;color:var(--g700)}
+  .tldr .stat .v{font-family:var(--mono);font-size:14px;color:var(--slate);font-weight:600}
+
+  section{padding:56px 0;border-bottom:1.5px solid var(--g300)}
+  section:last-of-type{border-bottom:none}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:28px;flex-wrap:wrap}
+  .section-head .num{font-family:var(--mono);font-size:11.5px;letter-spacing:0.12em;color:var(--clay);text-transform:uppercase}
+
+  /* Calculator layout */
+  .calc{display:grid;grid-template-columns:1.05fr 1.25fr;gap:36px;align-items:start}
+  @media (max-width:960px){.calc{grid-template-columns:1fr;gap:28px}}
+
+  .controls{background:var(--paper);border:1px solid var(--g200);border-radius:8px;padding:24px}
+  .control{padding:14px 0;border-bottom:1px dashed var(--g200)}
+  .control:last-child{border-bottom:none;padding-bottom:0}
+  .control .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;gap:12px}
+  .control label{font-size:13.5px;font-weight:600;color:var(--slate)}
+  .control .val{font-family:var(--mono);font-size:14px;color:var(--clay);font-weight:600;font-variant-numeric:tabular-nums}
+  .control .hint{font-size:12px;color:var(--g500);margin-top:4px;line-height:1.45}
+  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;background:var(--g200);border-radius:4px;outline:none;margin:8px 0 2px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--clay);cursor:grab;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--clay)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--clay);cursor:grab;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--clay)}
+
+  .scenarios{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .scn{flex:1;min-width:90px;background:var(--paper);border:1px solid var(--g300);border-radius:6px;padding:10px 12px;cursor:pointer;text-align:left;font-family:var(--sans);transition:all .15s}
+  .scn:hover{border-color:var(--clay)}
+  .scn.picked{border-color:var(--clay);background:var(--oat)}
+  .scn .scn-name{font-size:13px;font-weight:600;color:var(--slate)}
+  .scn .scn-sub{font-family:var(--mono);font-size:11px;color:var(--g500);margin-top:2px}
+
+  .results{background:var(--paper);border:1px solid var(--g200);border-radius:8px;padding:24px 24px 28px}
+  .res-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding-bottom:14px;border-bottom:1.5px solid var(--g200)}
+  .res-head .title{font-family:var(--mono);font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--g700)}
+  .res-head .pill{font-family:var(--mono);font-size:11px;color:var(--paper);background:var(--olive);padding:3px 10px;border-radius:999px;letter-spacing:0.04em}
+  .res-head .pill.warn{background:var(--rust)}
+
+  .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px}
+  @media (max-width:520px){.res-grid{grid-template-columns:1fr}}
+  .res{padding:6px 0}
+  .res .lbl{font-size:12px;color:var(--g500);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
+  .res .num{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--slate);font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+  .res .num.big{font-size:30px;color:var(--clay)}
+  .res .num.savings{color:var(--olive)}
+  .res .num.cost{color:var(--rust)}
+  .res .sub{font-size:11.5px;color:var(--g500);font-family:var(--mono);margin-top:2px}
+
+  .chart-wrap{margin-top:24px;padding-top:20px;border-top:1.5px solid var(--g200)}
+  .chart-wrap svg{width:100%;height:auto;display:block}
+
+  .summary-strip{margin-top:28px;background:var(--slate);color:#E8EEF5;border-radius:8px;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  .summary-strip .line{font-family:var(--serif);font-size:18px;line-height:1.4;max-width:60ch}
+  .summary-strip .line em{font-style:italic;color:#FFB87A}
+  .copy-btn{font-family:var(--sans);font-size:13.5px;font-weight:600;background:var(--clay);color:var(--paper);border:none;padding:11px 20px;border-radius:6px;cursor:pointer;letter-spacing:0.01em;transition:all .15s;white-space:nowrap}
+  .copy-btn:hover{background:var(--clay-d)}
+  .copy-btn.copied{background:var(--olive)}
+
+  /* Comparison */
+  table.compare{width:100%;border-collapse:collapse;font-size:14px;background:var(--paper);border-radius:6px;overflow:hidden}
+  table.compare th,table.compare td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--g200)}
+  table.compare th{background:var(--g100);font-weight:600;font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--g700)}
+  table.compare td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--slate);font-weight:500}
+  table.compare tr:last-child td{border-bottom:none}
+  table.compare tr.total td{font-weight:600;background:var(--oat)}
+
+  /* Cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+  @media (max-width:780px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--paper);border:1px solid var(--g200);border-radius:6px;padding:20px}
+  .card .ic{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--clay);text-transform:uppercase;margin-bottom:8px}
+  .card h3{margin-bottom:6px}
+  .card p{font-size:14px;margin:0}
+
+  /* Footer */
+  footer{margin-top:64px;padding-top:24px;border-top:1.5px solid var(--g300);display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--g500)}
+  footer .brand{font-family:var(--serif);font-style:italic;color:var(--slate);font-size:15px}
+
+  .pullquote{font-family:var(--serif);font-size:22px;line-height:1.4;color:var(--slate);border-left:3px solid var(--clay);padding:6px 0 6px 22px;margin:8px 0 20px;max-width:62ch}
+
+  @media print{
+    body{background:#fff}
+    .copy-btn,.scenarios{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Sisloc · Operação Autônoma no WhatsApp · Calculadora de impacto</div>
+      <h1>A <em>matemática</em> por trás do atendimento autônomo</h1>
+      <p class="lede">Use os controles ao lado para ajustar volume, deflexão e custo por atendente. Os números são atualizados em tempo real e refletem a operação Sisloc que mapeamos no discovery.</p>
+    </div>
+    <div class="tldr" aria-label="Resumo executivo">
+      <div class="label">Resumo · números base</div>
+      <div class="stat"><span class="k">Chamados Zendesk / mês</span><span class="v">~4.000</span></div>
+      <div class="stat"><span class="k">Atendentes N1</span><span class="v">~25</span></div>
+      <div class="stat"><span class="k">Custo carregado / atendente</span><span class="v">R$ 4.140</span></div>
+      <div class="stat"><span class="k">Operação atual / mês</span><span class="v">R$ 103.500</span></div>
+      <div class="stat"><span class="k">Custo médio por chamado</span><span class="v">R$ 26</span></div>
+      <div class="stat"><span class="k">Proposta encapsulada</span><span class="v">R$ 75.000 / mês</span></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-head"><h2>Calculadora interativa</h2><span class="num">01 · simulação</span></div>
+
+    <div class="calc">
+
+      <aside class="controls" aria-label="Controles da simulação">
+        <div class="control">
+          <div class="row"><label for="volume">Volume mensal de chamados</label><span class="val" id="volume-v">4.000</span></div>
+          <input type="range" id="volume" min="1500" max="8000" step="100" value="4000">
+          <div class="hint">Base atual Sisloc: 4.000 chamados/mês no Zendesk.</div>
+        </div>
+
+        <div class="control">
+          <div class="row"><label for="deflex">Taxa de deflexão pela IA</label><span class="val" id="deflex-v">70%</span></div>
+          <input type="range" id="deflex" min="40" max="90" step="1" value="70">
+          <div class="hint">Estimativa realista para os 10 maiores motivos de chamado (NF-e, NFS-e, acesso, ficha locação…).</div>
+        </div>
+
+        <div class="control">
+          <div class="row"><label for="loaded">Custo carregado por atendente (R$/mês)</label><span class="val" id="loaded-v">R$ 4.140</span></div>
+          <input type="range" id="loaded" min="3000" max="6000" step="60" value="4140">
+          <div class="hint">Salário CLT + encargos + benefícios + supervisão (alocação proporcional).</div>
+        </div>
+
+        <div class="control">
+          <div class="row"><label for="agents">Atendentes N1 hoje</label><span class="val" id="agents-v">25</span></div>
+          <input type="range" id="agents" min="10" max="40" step="1" value="25">
+          <div class="hint">Time atual dedicado a chamados N1 no Zendesk.</div>
+        </div>
+
+        <div class="control">
+          <div class="row"><label for="aiprice">Mensalidade encapsulada da IA (R$)</label><span class="val" id="aiprice-v">R$ 75.000</span></div>
+          <input type="range" id="aiprice" min="50000" max="95000" step="500" value="75000">
+          <div class="hint">Proposta v1.0: R$ 75.000/mês com fair-use de 6.000 conv/mês. O slider existe só para você testar sensibilidade.</div>
+        </div>
+
+        <div class="control">
+          <div class="row"><label for="setup">Investimento de setup (R$)</label><span class="val" id="setup-v">R$ 60.000</span></div>
+          <input type="range" id="setup" min="40000" max="80000" step="1000" value="60000">
+          <div class="hint">Proposta v1.0: R$ 60.000 (50% kickoff + 50% POC validado).</div>
+        </div>
+
+        <div class="scenarios" role="group" aria-label="Cenários pré-definidos">
+          <button class="scn" data-deflex="55" data-name="Conservador" data-sub="55% deflexão"><span class="scn-name">Conservador</span><div class="scn-sub">55% deflexão</div></button>
+          <button class="scn picked" data-deflex="70" data-name="Realista" data-sub="70% deflexão"><span class="scn-name">Realista</span><div class="scn-sub">70% deflexão</div></button>
+          <button class="scn" data-deflex="82" data-name="Otimista" data-sub="82% deflexão"><span class="scn-name">Otimista</span><div class="scn-sub">82% deflexão</div></button>
+        </div>
+      </aside>
+
+      <div class="results" aria-live="polite">
+        <div class="res-head"><span class="title">Resultado em tempo real</span><span id="verdict" class="pill">Economiza</span></div>
+
+        <div class="res-grid">
+          <div class="res"><div class="lbl">Operação atual</div><div class="num cost" id="r-current">R$ 103.500</div><div class="sub">/ mês</div></div>
+          <div class="res"><div class="lbl">Chamados deflectados</div><div class="num" id="r-deflected">2.800</div><div class="sub">/ mês</div></div>
+          <div class="res"><div class="lbl">Economia bruta da IA</div><div class="num savings" id="r-gross">R$ 72.450</div><div class="sub">deflexão × custo/chamado</div></div>
+          <div class="res"><div class="lbl">Custo da IA</div><div class="num cost" id="r-aicost">R$ 75.000</div><div class="sub">mensal encapsulado</div></div>
+          <div class="res"><div class="lbl">Custo por chamado · IA</div><div class="num" id="r-newcost">R$ 18,75</div><div class="sub">R$ 26 hoje</div></div>
+          <div class="res"><div class="lbl">Payback do setup</div><div class="num" id="r-payback">3,5 meses</div><div class="sub">break-even do kickoff</div></div>
+          <div class="res"><div class="lbl">Economia líquida anual</div><div class="num big savings" id="r-annual">R$ 209.400</div><div class="sub">após mensalidade da IA</div></div>
+          <div class="res"><div class="lbl">Capacidade liberada</div><div class="num" id="r-cap">17 FTEs</div><div class="sub">redirecionáveis a maior valor</div></div>
+        </div>
+
+        <div class="chart-wrap" aria-hidden="true">
+          <svg viewBox="0 0 600 180" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="gradCurrent" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#B5462C" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#B5462C" stop-opacity="0.6"/>
+              </linearGradient>
+              <linearGradient id="gradAI" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#1F5FAE" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#1F5FAE" stop-opacity="0.6"/>
+              </linearGradient>
+            </defs>
+            <text x="20" y="22" font-family="ui-monospace,monospace" font-size="11" fill="#7C8896" letter-spacing="1">CUSTO MENSAL · HOJE vs COM IA</text>
+            <g id="bars">
+              <rect id="bar-now" x="60" y="40" width="120" height="110" fill="url(#gradCurrent)" rx="3"/>
+              <text id="bar-now-l" x="120" y="170" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#3A4856">Hoje</text>
+              <text id="bar-now-v" x="120" y="34" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#3A4856" font-weight="600">R$ 103.500</text>
+
+              <rect id="bar-ai" x="240" y="100" width="120" height="50" fill="url(#gradAI)" rx="3"/>
+              <text id="bar-ai-l" x="300" y="170" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#3A4856">Com IA</text>
+              <text id="bar-ai-v" x="300" y="94" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#3A4856" font-weight="600">R$ 75.000</text>
+
+              <rect id="bar-save" x="420" y="120" width="120" height="30" fill="#3B7A57" rx="3"/>
+              <text id="bar-save-l" x="480" y="170" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#3A4856">Economia líq.</text>
+              <text id="bar-save-v" x="480" y="114" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#3A4856" font-weight="600">R$ 17.450</text>
+            </g>
+            <line x1="40" y1="150" x2="560" y2="150" stroke="#BFCBD8" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="summary-strip">
+      <div class="line" id="summary-line">Com <em>70% de deflexão</em> a IA processa 2.800 dos 4.000 chamados mensais. Economia líquida de <em>R$ 17.450/mês</em> · payback do setup em <em>3,5 meses</em> · economia anual de <em>R$ 209.400</em>.</div>
+      <button class="copy-btn" id="copy-btn">Copiar termos para proposta</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>O que está por trás dos números</h2><span class="num">02 · verificação</span></div>
+
+    <div class="pullquote">Os 10 maiores motivos respondem por 45% do volume — e são exatamente os que a IA resolve no Document360 sem precisar abrir ticket.</div>
+
+    <table class="compare">
+      <thead><tr><th>Motivo de chamado</th><th>Vol. mês</th><th>% do total</th><th>Deflexão esperada</th></tr></thead>
+      <tbody>
+        <tr><td>NF-e</td><td class="num">301</td><td class="num">7,5%</td><td class="num">Alta</td></tr>
+        <tr><td>NFS-e</td><td class="num">289</td><td class="num">7,2%</td><td class="num">Alta</td></tr>
+        <tr><td>Sem acesso ao ambiente</td><td class="num">268</td><td class="num">6,7%</td><td class="num">Alta</td></tr>
+        <tr><td>Ficha de Locação</td><td class="num">146</td><td class="num">3,7%</td><td class="num">Média</td></tr>
+        <tr><td>Ordem de Manutenção</td><td class="num">129</td><td class="num">3,2%</td><td class="num">Média</td></tr>
+        <tr><td>Propostas FV</td><td class="num">122</td><td class="num">3,1%</td><td class="num">Média</td></tr>
+        <tr><td>Faturamento Locação</td><td class="num">112</td><td class="num">2,8%</td><td class="num">Média</td></tr>
+        <tr><td>Gerador Notificações</td><td class="num">99</td><td class="num">2,5%</td><td class="num">Alta</td></tr>
+        <tr><td>Integração Bancária CAR</td><td class="num">98</td><td class="num">2,4%</td><td class="num">Média</td></tr>
+        <tr class="total"><td>Top 10 — subtotal</td><td class="num">1.795</td><td class="num">45%</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:16px;font-size:13.5px;color:var(--g500)">Fontes: dashboard Zendesk fornecido pela Sisloc no discovery (2026-05-07). Vetor crítico de deflexão = tributário/fiscal (NF-e + NFS-e + acesso + faturamento = 28,2% do volume isoladamente).</p>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Como a economia se materializa</h2><span class="num">03 · mecânica</span></div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="ic">Tier 1 · sem ticket</div>
+        <h3>IA resolve no WhatsApp e fecha</h3>
+        <p>Cliente envia a dúvida, IA consulta o Document360 e responde com o passo-a-passo certo. Sem abrir chamado no Zendesk, sem fila de atendente. Custo marginal próximo de zero.</p>
+      </div>
+      <div class="card">
+        <div class="ic">Tier 2 · ticket criado</div>
+        <h3>Quando precisa, escala com contexto</h3>
+        <p>Se a IA não resolve ou o cliente pede atendente, ela valida o e-mail no Zendesk, cria o ticket já classificado e roteado para o núcleo correto (BackOffice / Rental / Fiscal), com transcrição completa.</p>
+      </div>
+      <div class="card">
+        <div class="ic">Capacidade liberada</div>
+        <h3>Atendentes viram analistas</h3>
+        <p>Em vez de demitir, redistribuir: a equipe N1 atual sobe para casos complexos, retenção, success — onde o ROI por hora é maior do que responder "como gero a NF-e?" pela 200ª vez no mês.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Pressupostos e ressalvas</h2><span class="num">04 · honestidade</span></div>
+    <ul style="margin:0;padding-left:18px;color:var(--g700);font-size:14.5px;line-height:1.7">
+      <li><strong>Deflexão realista, não teórica.</strong> Os 70% do cenário base são consistentes com benchmarks de IA + KB bem curada em help-desks B2B. O Tier 2 (cadastro + ticket) é incluído como "deflectado de atendente" mesmo quando vira ticket — a IA fez o trabalho pesado.</li>
+      <li><strong>CSAT atual de 98% é o piso.</strong> A IA precisa manter ou superar. Sem deflexão a qualquer custo: melhor escalar do que adivinhar.</li>
+      <li><strong>Capacidade liberada ≠ demissão garantida.</strong> O cálculo de FTE é a equivalência matemática — a Sisloc decide se redeploya, contrata menos no futuro ou redimensiona.</li>
+      <li><strong>Mensalidade encapsulada.</strong> Os R$ 75.000 já incluem Anthropic, WhatsApp Cloud API, VPS, monitoramento e manutenção. Sisloc vê uma única fatura.</li>
+      <li><strong>POC obrigatório antes da produção.</strong> Validamos os números acima em ambiente sandbox com amostra real do Document360 antes de tocar a operação ao vivo.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Próximos passos</h2><span class="num">05 · execução</span></div>
+    <p>Se os números acima fazem sentido para Sisloc, o caminho mais rápido é um POC controlado de 4-6 semanas em ambiente isolado, com amostra real do Document360 e 5-10 fluxos do top 10. Demonstração ao vivo com Aline e decisores antes de qualquer integração em produção.</p>
+    <p style="margin-top:10px">Conversa direta com <strong>Paulo Ovídio</strong> · <a href="mailto:paulo.ovidio@gmail.com">paulo.ovidio@gmail.com</a></p>
+  </section>
+
+  <footer>
+    <span class="brand">Superclawman · Operações de Atendimento Autônomo</span>
+    <span>Calculadora interativa · valores em R$ · ajustáveis em tempo real</span>
+  </footer>
+
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const fmt = n => "R$ " + Math.round(n).toLocaleString("pt-BR");
+  const fmtFloat = n => "R$ " + n.toLocaleString("pt-BR", {minimumFractionDigits:2,maximumFractionDigits:2});
+  const fmtInt = n => Math.round(n).toLocaleString("pt-BR");
+
+  const inputs = {
+    volume: $("volume"), deflex: $("deflex"), loaded: $("loaded"),
+    agents: $("agents"), aiprice: $("aiprice"), setup: $("setup")
+  };
+  const vals = {
+    volume: $("volume-v"), deflex: $("deflex-v"), loaded: $("loaded-v"),
+    agents: $("agents-v"), aiprice: $("aiprice-v"), setup: $("setup-v")
+  };
+
+  function compute(){
+    const volume  = +inputs.volume.value;
+    const deflex  = +inputs.deflex.value / 100;
+    const loaded  = +inputs.loaded.value;
+    const agents  = +inputs.agents.value;
+    const aiprice = +inputs.aiprice.value;
+    const setup   = +inputs.setup.value;
+
+    const currentMonthly = loaded * agents;
+    const deflected      = volume * deflex;
+    const costPerTicket  = currentMonthly / volume;
+    const grossSavings   = deflected * costPerTicket;
+    const netSavings     = grossSavings - aiprice;
+    const annualNet      = netSavings * 12;
+    const newCostPerTicket = aiprice / volume;
+    const payback        = netSavings > 0 ? (setup / netSavings) : Infinity;
+    const ftesFreed      = Math.max(0, (grossSavings / loaded));
+
+    return { volume, deflex, loaded, agents, aiprice, setup,
+             currentMonthly, deflected, costPerTicket, grossSavings,
+             netSavings, annualNet, newCostPerTicket, payback, ftesFreed };
+  }
+
+  function render(){
+    const r = compute();
+    vals.volume.textContent  = fmtInt(r.volume);
+    vals.deflex.textContent  = Math.round(r.deflex*100) + "%";
+    vals.loaded.textContent  = fmt(r.loaded);
+    vals.agents.textContent  = r.agents;
+    vals.aiprice.textContent = fmt(r.aiprice);
+    vals.setup.textContent   = fmt(r.setup);
+
+    $("r-current").textContent  = fmt(r.currentMonthly);
+    $("r-deflected").textContent= fmtInt(r.deflected);
+    $("r-gross").textContent    = fmt(r.grossSavings);
+    $("r-aicost").textContent   = fmt(r.aiprice);
+    $("r-newcost").textContent  = fmtFloat(r.newCostPerTicket);
+    $("r-payback").textContent  = isFinite(r.payback) ? r.payback.toFixed(1).replace(".",",") + " meses" : "—";
+    $("r-annual").textContent   = fmt(r.annualNet);
+    $("r-cap").textContent      = r.ftesFreed.toFixed(1).replace(".",",") + " FTEs";
+
+    const verdict = $("verdict");
+    if (r.netSavings > 0) { verdict.textContent = "Economiza"; verdict.classList.remove("warn"); }
+    else { verdict.textContent = "Atenção · revisar"; verdict.classList.add("warn"); }
+
+    // Bar chart scale
+    const maxVal = Math.max(r.currentMonthly, r.aiprice, Math.max(r.netSavings, 1));
+    const baseY = 150, maxH = 110;
+    const hNow  = Math.max(8, (r.currentMonthly / maxVal) * maxH);
+    const hAi   = Math.max(8, (r.aiprice       / maxVal) * maxH);
+    const hSav  = Math.max(8, (Math.abs(r.netSavings) / maxVal) * maxH);
+    $("bar-now").setAttribute("y", baseY - hNow); $("bar-now").setAttribute("height", hNow);
+    $("bar-now-v").setAttribute("y", baseY - hNow - 6); $("bar-now-v").textContent = fmt(r.currentMonthly);
+    $("bar-ai").setAttribute("y",  baseY - hAi);  $("bar-ai").setAttribute("height", hAi);
+    $("bar-ai-v").setAttribute("y", baseY - hAi - 6); $("bar-ai-v").textContent  = fmt(r.aiprice);
+    $("bar-save").setAttribute("y",baseY - hSav); $("bar-save").setAttribute("height", hSav);
+    $("bar-save-v").setAttribute("y", baseY - hSav - 6); $("bar-save-v").textContent= fmt(r.netSavings);
+    $("bar-save").setAttribute("fill", r.netSavings >= 0 ? "#3B7A57" : "#B5462C");
+
+    // Summary line
+    const pctTxt = Math.round(r.deflex*100) + "%";
+    const sumLine = `Com <em>${pctTxt} de deflexão</em> a IA processa ${fmtInt(r.deflected)} dos ${fmtInt(r.volume)} chamados mensais. ` +
+      (r.netSavings >= 0
+        ? `Economia líquida de <em>${fmt(r.netSavings)}/mês</em> · payback do setup em <em>${isFinite(r.payback) ? r.payback.toFixed(1).replace(".",",") + " meses" : "—"}</em> · economia anual de <em>${fmt(r.annualNet)}</em>.`
+        : `Mensalidade da IA fica <em>${fmt(-r.netSavings)}/mês acima</em> da economia bruta. Reavaliar deflexão ou escopo.`);
+    $("summary-line").innerHTML = sumLine;
+  }
+
+  Object.values(inputs).forEach(el => el.addEventListener("input", render));
+  document.querySelectorAll(".scn").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll(".scn").forEach(x => x.classList.remove("picked"));
+    b.classList.add("picked");
+    inputs.deflex.value = b.dataset.deflex;
+    render();
+  }));
+
+  // Copy as proposal terms
+  const copyBtn = $("copy-btn");
+  copyBtn.addEventListener("click", () => {
+    const r = compute();
+    const lines = [
+      "SISLOC — OPERAÇÃO AUTÔNOMA NO WHATSAPP",
+      "Resumo de impacto (gerado a partir da calculadora)",
+      "",
+      "Premissas:",
+      `  • Volume mensal de chamados: ${fmtInt(r.volume)}`,
+      `  • Taxa de deflexão pela IA:  ${Math.round(r.deflex*100)}%`,
+      `  • Custo carregado/atendente: ${fmt(r.loaded)}/mês`,
+      `  • Atendentes N1 hoje:        ${r.agents}`,
+      `  • Mensalidade IA encapsul.:  ${fmt(r.aiprice)}`,
+      `  • Setup one-time:            ${fmt(r.setup)}`,
+      "",
+      "Resultado:",
+      `  • Custo operacional atual:   ${fmt(r.currentMonthly)}/mês`,
+      `  • Chamados deflectados:      ${fmtInt(r.deflected)}/mês`,
+      `  • Custo por chamado hoje:    ${fmtFloat(r.costPerTicket)}`,
+      `  • Custo por chamado com IA:  ${fmtFloat(r.newCostPerTicket)}`,
+      `  • Economia bruta da IA:      ${fmt(r.grossSavings)}/mês`,
+      `  • Economia líquida mensal:   ${fmt(r.netSavings)}/mês`,
+      `  • Economia anual:            ${fmt(r.annualNet)}`,
+      `  • Payback do setup:          ${isFinite(r.payback) ? r.payback.toFixed(1).replace(".",",") + " meses" : "—"}`,
+      `  • Capacidade liberada:       ${r.ftesFreed.toFixed(1).replace(".",",")} FTEs equivalentes`,
+      "",
+      "Próximos passos sugeridos:",
+      "  1) POC controlado 4-6 semanas em ambiente isolado (sandbox)",
+      "  2) Amostra real do Document360 + 5-10 fluxos do top 10 de chamados",
+      "  3) Demonstração ao vivo com Aline + decisores",
+      "  4) Kickoff condicional à aprovação técnica e comercial do POC",
+      "",
+      "Contato: Paulo Ovídio · paulo.ovidio@gmail.com",
+      "Superclawman · Operações de Atendimento Autônomo"
+    ];
+    const txt = lines.join("\n");
+    navigator.clipboard.writeText(txt).then(() => {
+      copyBtn.textContent = "✓ Copiado";
+      copyBtn.classList.add("copied");
+      setTimeout(() => {
+        copyBtn.textContent = "Copiar termos para proposta";
+        copyBtn.classList.remove("copied");
+      }, 2200);
+    });
+  });
+
+  render();
+</script>
+</body>
+</html>

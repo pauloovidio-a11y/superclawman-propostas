@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Younit Health — Atendimento Inteligente no WhatsApp</title>
+<meta name="description" content="Como a inteligência artificial pode receber pacientes pelo WhatsApp da Younit Health, agendar consultas no Feegow e dar suporte à equipe — mantendo o mesmo número, o mesmo histórico e a sua assistente humana sempre no controle.">
+<style>
+  :root{
+    --ivory:#F7FAFB; --paper:#FFFFFF; --slate:#0F1F2A;
+    --clay:#2A8F8A; --clay-d:#1F706C; --oat:#D7E6E5; --olive:#5E8F5A;
+    --rose:#C66A6A;
+    --g100:#EEF3F4; --g200:#DDE6E8; --g300:#BFCED2; --g500:#7B8A8E; --g700:#3B4A4E;
+    --serif: ui-serif, Georgia, "Times New Roman", serif;
+    --sans:  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --mono:  ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--ivory);color:var(--slate);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--clay);text-decoration:none;border-bottom:1px solid var(--oat)}
+  a:hover{color:var(--clay-d)}
+  .wrap{max-width:1140px;margin:0 auto;padding:48px 32px 80px}
+  @media (max-width:720px){.wrap{padding:32px 20px 64px}}
+
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--g700);display:inline-flex;align-items:center;gap:14px;margin-bottom:18px}
+  .eyebrow::before{content:"";display:inline-block;width:24px;height:2px;background:var(--clay);border-radius:2px}
+
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(38px,5.4vw,60px);line-height:1.07;letter-spacing:-0.018em;margin:0 0 18px;color:var(--slate)}
+  h1 em{font-style:italic;color:var(--clay)}
+  h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,2.6vw,32px);line-height:1.2;letter-spacing:-0.012em;margin:0 0 14px;color:var(--slate)}
+  h3{font-family:var(--sans);font-weight:600;font-size:17px;letter-spacing:-0.005em;margin:0 0 10px;color:var(--slate)}
+  p{margin:0 0 14px;color:var(--g700)}
+  p.lede{font-size:19px;line-height:1.6;color:var(--g700);max-width:62ch}
+
+  .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:end;padding-bottom:48px;border-bottom:1.5px solid var(--g300)}
+  @media (max-width:880px){.hero{grid-template-columns:1fr;gap:24px}}
+
+  .tldr{background:var(--paper);border:1px solid var(--g200);border-left:3px solid var(--clay);border-radius:6px;padding:22px 24px;margin-top:8px}
+  .tldr .label{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--clay);margin-bottom:10px}
+  .tldr .stat{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--g200);font-variant-numeric:tabular-nums}
+  .tldr .stat:last-child{border-bottom:none}
+  .tldr .stat .k{font-size:13.5px;color:var(--g700)}
+  .tldr .stat .v{font-family:var(--mono);font-size:14px;color:var(--slate);font-weight:600}
+
+  section{padding:56px 0;border-bottom:1.5px solid var(--g300)}
+  section:last-of-type{border-bottom:none}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:28px;flex-wrap:wrap}
+  .section-head .num{font-family:var(--mono);font-size:11.5px;letter-spacing:0.12em;color:var(--clay);text-transform:uppercase}
+
+  .pullquote{font-family:var(--serif);font-size:22px;line-height:1.45;color:var(--slate);border-left:3px solid var(--clay);padding:6px 0 6px 22px;margin:8px 0 24px;max-width:64ch}
+  .pullquote em{font-style:italic;color:var(--clay)}
+
+  /* Flow diagram container */
+  .flow{background:var(--paper);border:1px solid var(--g200);border-radius:8px;padding:28px 22px;margin:6px 0 8px}
+  .flow svg{width:100%;height:auto;display:block;max-width:980px;margin:0 auto}
+  .flow-caption{font-family:var(--mono);font-size:11.5px;color:var(--g500);text-align:center;margin-top:14px;letter-spacing:0.04em}
+
+  /* Cards / grids */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media (max-width:780px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--paper);border:1px solid var(--g200);border-radius:6px;padding:22px}
+  .card .ic{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--clay);text-transform:uppercase;margin-bottom:8px}
+  .card h3{margin-bottom:6px}
+  .card p{font-size:14px;margin:0;color:var(--g700)}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+  @media (max-width:780px){.two-col{grid-template-columns:1fr}}
+
+  /* Capability matrix */
+  table.cap{width:100%;border-collapse:collapse;font-size:14px;background:var(--paper);border:1px solid var(--g200);border-radius:6px;overflow:hidden}
+  table.cap th, table.cap td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--g200);vertical-align:top}
+  table.cap th{background:var(--g100);font-weight:600;font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--g700)}
+  table.cap tr:last-child td{border-bottom:none}
+  table.cap td.tag{font-family:var(--mono);font-size:12px;color:var(--clay);white-space:nowrap}
+  table.cap td.tag.warn{color:var(--rose)}
+  table.cap td .check{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--olive);color:#fff;text-align:center;line-height:14px;font-size:10px;margin-right:6px;vertical-align:middle}
+
+  /* Guardrails */
+  .guard{background:#FFF8F5;border:1px solid #F2D9CC;border-left:3px solid var(--rose);border-radius:6px;padding:20px 22px}
+  .guard h3{color:var(--rose)}
+  .guard ul{margin:8px 0 0;padding-left:18px;color:var(--g700);font-size:14px;line-height:1.7}
+  .guard li{margin-bottom:6px}
+
+  /* Pricing */
+  .pricing{background:var(--paper);border:1px solid var(--g200);border-radius:8px;padding:24px 26px}
+  .pricing .price{font-family:var(--serif);font-size:42px;color:var(--clay);line-height:1.05;letter-spacing:-0.02em;margin:6px 0 0}
+  .pricing .price small{font-family:var(--mono);font-size:13px;color:var(--g500);letter-spacing:0.04em;text-transform:uppercase;margin-left:6px}
+  .pricing ul{margin:14px 0 0;padding-left:18px;color:var(--g700);font-size:14px;line-height:1.7}
+  .pricing li::marker{color:var(--clay)}
+
+  .compare-clt{background:var(--paper);border:1px solid var(--g200);border-radius:8px;padding:24px 26px}
+  .compare-clt table{width:100%;border-collapse:collapse;font-size:14px}
+  .compare-clt td{padding:8px 0;border-bottom:1px dashed var(--g200)}
+  .compare-clt td:last-child{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--slate);font-weight:600}
+  .compare-clt tr:last-child td{border-bottom:none;padding-top:14px;font-weight:600;color:var(--clay);font-family:var(--serif);font-size:16px}
+
+  /* Footer */
+  footer{margin-top:64px;padding-top:24px;border-top:1.5px solid var(--g300);display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--g500)}
+  footer .brand{font-family:var(--serif);font-style:italic;color:var(--slate);font-size:15px}
+
+  @media print{
+    body{background:#fff}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Younit Health · WhatsApp inteligente · Itaim Bibi</div>
+      <h1>Sua assistente <em>digital</em> no WhatsApp da clínica</h1>
+      <p class="lede">Uma inteligência artificial que recebe os pacientes pelo mesmo número que vocês já usam, conversa em português, agenda direto no Feegow, transcreve áudios e escala para a sua equipe quando precisa. A assistente humana continua no controle — a IA tira do colo dela tudo o que é repetitivo.</p>
+    </div>
+    <div class="tldr" aria-label="Resumo do projeto">
+      <div class="label">Resumo · proposta inicial</div>
+      <div class="stat"><span class="k">Médicos atendidos</span><span class="v">15</span></div>
+      <div class="stat"><span class="k">Número do WhatsApp</span><span class="v">o mesmo</span></div>
+      <div class="stat"><span class="k">Sistema de agenda</span><span class="v">Feegow</span></div>
+      <div class="stat"><span class="k">Idioma de atendimento</span><span class="v">pt-BR + áudio</span></div>
+      <div class="stat"><span class="k">Mensalidade encapsulada</span><span class="v">R$ 5.000 / mês</span></div>
+      <div class="stat"><span class="k">Disponibilidade</span><span class="v">24×7</span></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-head"><h2>O que muda no dia a dia</h2><span class="num">01 · panorama</span></div>
+
+    <div class="pullquote">Hoje a sua assistente humana faz <em>tudo</em>: responde, agenda, remarca, recebe exames, transcreve áudio, lembra paciente. A IA assume o repetitivo e libera ela para o que pede julgamento humano.</div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="ic">Antes</div>
+        <h3>Uma pessoa, uma jornada</h3>
+        <p>A assistente lê cada mensagem, abre o Feegow, busca o horário, responde, marca. Em picos, fila. Fora do horário, ninguém. Áudios precisam ser ouvidos um a um.</p>
+      </div>
+      <div class="card">
+        <div class="ic">Depois</div>
+        <h3>Triagem inteligente, escalada quando necessário</h3>
+        <p>A IA recebe a mensagem, identifica a intenção, resolve o que é administrativo (agendar, remarcar, lembrar, receber exame) e escala para a assistente quando algo exige toque humano.</p>
+      </div>
+      <div class="card">
+        <div class="ic">Sempre</div>
+        <h3>Você mantém o número e o histórico</h3>
+        <p>Nada de migrar de WhatsApp. O número segue o mesmo. O histórico das conversas é preservado (até 6 meses). A assistente continua acessando o app normalmente.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Como funciona — o fluxo</h2><span class="num">02 · arquitetura</span></div>
+
+    <div class="flow" aria-label="Diagrama de fluxo do atendimento">
+      <svg viewBox="0 0 980 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Paciente envia mensagem no WhatsApp; o WhatsApp Cloud API entrega para a IA; a IA conversa em português, transcreve áudios e fala com o Feegow para ler agenda, marcar consulta e subir exames; a IA responde ao paciente e, quando necessário, escala para a assistente humana.">
+        <defs>
+          <linearGradient id="card" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="100%" stop-color="#F4F8F9"/>
+          </linearGradient>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#2A8F8A"/>
+          </marker>
+          <marker id="arrow-light" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#7B8A8E"/>
+          </marker>
+        </defs>
+
+        <!-- Patient -->
+        <g>
+          <rect x="20" y="140" width="160" height="80" rx="8" fill="url(#card)" stroke="#BFCED2"/>
+          <text x="100" y="170" text-anchor="middle" font-family="ui-serif,serif" font-size="16" fill="#0F1F2A" font-weight="500">Paciente</text>
+          <text x="100" y="192" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10.5" fill="#7B8A8E" letter-spacing="0.06em">WHATSAPP · TEXTO + ÁUDIO</text>
+        </g>
+
+        <!-- WhatsApp Cloud API -->
+        <g>
+          <rect x="220" y="140" width="180" height="80" rx="8" fill="url(#card)" stroke="#BFCED2"/>
+          <text x="310" y="167" text-anchor="middle" font-family="ui-serif,serif" font-size="15" fill="#0F1F2A" font-weight="500">WhatsApp Cloud API</text>
+          <text x="310" y="186" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10.5" fill="#7B8A8E">Coexistence · Meta 2025-05</text>
+          <text x="310" y="202" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#2A8F8A">mesmo número da clínica</text>
+        </g>
+
+        <!-- AI Agent -->
+        <g>
+          <rect x="440" y="100" width="190" height="160" rx="8" fill="#0F1F2A" stroke="#0F1F2A"/>
+          <text x="535" y="132" text-anchor="middle" font-family="ui-serif,serif" font-size="17" fill="#FFFFFF" font-weight="500">Assistente IA</text>
+          <text x="535" y="152" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#D7E6E5" letter-spacing="0.06em">CLAUDE · PT-BR</text>
+          <line x1="460" y1="166" x2="610" y2="166" stroke="#2A8F8A" stroke-width="1" opacity="0.5"/>
+          <text x="535" y="184" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#FFFFFF">• reconhece intenção</text>
+          <text x="535" y="202" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#FFFFFF">• transcreve áudio</text>
+          <text x="535" y="220" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#FFFFFF">• consulta Feegow</text>
+          <text x="535" y="238" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#FFFFFF">• escala para humano</text>
+        </g>
+
+        <!-- Feegow -->
+        <g>
+          <rect x="670" y="40" width="190" height="100" rx="8" fill="url(#card)" stroke="#BFCED2"/>
+          <text x="765" y="70" text-anchor="middle" font-family="ui-serif,serif" font-size="16" fill="#0F1F2A" font-weight="500">Feegow</text>
+          <text x="765" y="90" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10.5" fill="#7B8A8E">API oficial</text>
+          <text x="765" y="108" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#2A8F8A">agenda · pacientes · exames</text>
+          <text x="765" y="124" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#2A8F8A">retorno em segundos</text>
+        </g>
+
+        <!-- Human assistant -->
+        <g>
+          <rect x="670" y="220" width="190" height="100" rx="8" fill="url(#card)" stroke="#BFCED2"/>
+          <text x="765" y="250" text-anchor="middle" font-family="ui-serif,serif" font-size="16" fill="#0F1F2A" font-weight="500">Assistente humana</text>
+          <text x="765" y="270" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10.5" fill="#7B8A8E">no app de sempre</text>
+          <text x="765" y="290" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#2A8F8A">recebe contexto completo</text>
+          <text x="765" y="306" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="#2A8F8A">decide casos sensíveis</text>
+        </g>
+
+        <!-- Arrows -->
+        <line x1="180" y1="180" x2="220" y2="180" stroke="#2A8F8A" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="400" y1="180" x2="440" y2="180" stroke="#2A8F8A" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="630" y1="150" x2="670" y2="100" stroke="#2A8F8A" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="670" y1="100" x2="630" y2="150" stroke="#7B8A8E" stroke-width="1.2" marker-end="url(#arrow-light)" opacity="0.7"/>
+        <line x1="630" y1="220" x2="670" y2="260" stroke="#7B8A8E" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow-light)"/>
+
+        <!-- Reverse path: response back -->
+        <path d="M 440 240 Q 300 320 100 230" fill="none" stroke="#5E8F5A" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+        <text x="270" y="312" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10.5" fill="#5E8F5A" letter-spacing="0.05em">RESPOSTA AO PACIENTE</text>
+
+        <!-- Side labels -->
+        <text x="645" y="78" font-family="ui-monospace,monospace" font-size="9.5" fill="#2A8F8A" letter-spacing="0.05em">lê / escreve</text>
+        <text x="640" y="245" font-family="ui-monospace,monospace" font-size="9.5" fill="#7B8A8E" letter-spacing="0.05em">escala quando precisa</text>
+      </svg>
+      <div class="flow-caption">A IA é a camada do meio · Feegow é a fonte da verdade · a assistente humana é a rede de segurança</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>O mesmo número, o mesmo app</h2><span class="num">03 · coexistence</span></div>
+
+    <div class="two-col">
+      <div>
+        <h3>O que a Meta liberou em maio</h3>
+        <p>A Meta lançou o <strong>WhatsApp Coexistence</strong>: a IA pode rodar via Cloud API <em>no mesmo número</em> que vocês já usam no app do WhatsApp Business — sem migrar o número, sem perder o histórico. Até 6 meses de conversas anteriores são preservados.</p>
+        <p>A assistente humana continua usando o app normalmente — quando ela quer pegar uma conversa, é só responder; quando deixa pra IA, a IA assume. As duas trabalham juntas no mesmo número.</p>
+      </div>
+      <div>
+        <h3>O que vocês precisam ter</h3>
+        <ul style="margin:0;padding-left:18px;color:var(--g700);font-size:14.5px;line-height:1.7">
+          <li>WhatsApp Business app na versão 2.24.17 ou superior</li>
+          <li>Página do Facebook conectada ao número</li>
+          <li>Meta Business Manager verificada</li>
+          <li>API Pública do Feegow ligada (configuração em <em>Outras Configurações</em>)</li>
+        </ul>
+        <p style="margin-top:14px;font-size:13.5px;color:var(--g500)">Nós cuidamos do resto — verificação Meta, aprovação de templates de mensagem, prompt engineering, integração técnica.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:18px;font-size:13.5px;color:var(--g500)"><strong>O que se perde tecnicamente</strong> (geralmente sem impacto em clínica): grupos, mensagens temporárias, "ver uma vez", broadcast com resposta, edição de mensagens, catálogo no app, respostas rápidas e etiquetas internas. Validamos com vocês antes do go-live se algum desses é usado hoje.</p>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>O que a IA faz no Feegow</h2><span class="num">04 · capacidades</span></div>
+
+    <table class="cap">
+      <thead>
+        <tr><th style="width:34%">Capacidade</th><th>O que isso significa pro paciente</th><th class="tag" style="width:18%">Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="check">✓</span>Listar horários disponíveis</td><td>"Tem horário com a Dra. Mariana nessa quinta de manhã?" — a IA consulta a agenda real e responde com slots verdadeiros.</td><td class="tag">verificado</td></tr>
+        <tr><td><span class="check">✓</span>Agendar consulta</td><td>O paciente escolhe um horário e a IA marca direto no Feegow, gera a confirmação, envia o lembrete.</td><td class="tag">verificado</td></tr>
+        <tr><td><span class="check">✓</span>Reagendar / cancelar</td><td>"Preciso mudar minha consulta de amanhã." A IA encontra, oferece novos horários e remarca.</td><td class="tag">verificado</td></tr>
+        <tr><td><span class="check">✓</span>Cadastrar paciente novo</td><td>Coleta nome completo, CPF, data de nascimento, convênio — cria o cadastro no Feegow antes de agendar.</td><td class="tag">verificado</td></tr>
+        <tr><td><span class="check">✓</span>Receber exames</td><td>O paciente manda PDF/foto pelo WhatsApp, a IA sobe direto no prontuário do Feegow via <em>file-upload</em>.</td><td class="tag">verificado</td></tr>
+        <tr><td><span class="check">✓</span>Listar médicos e especialidades</td><td>"Quem atende endocrinologia infantil?" — a IA puxa do Feegow a lista correta.</td><td class="tag">verificado</td></tr>
+        <tr><td><span class="check">✓</span>Transcrever áudio pt-BR</td><td>Áudios viram texto antes da IA processar. Se o sentido for ambíguo, ela confirma com o paciente antes de agir.</td><td class="tag">verificado</td></tr>
+        <tr><td>Notificações automáticas de mudança no Feegow</td><td>Se a agenda mudar no sistema, a IA precisa saber rápido. O Feegow não envia webhook hoje — fazemos polling a cada 60-120s.</td><td class="tag warn">contornado</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:16px;font-size:13px;color:var(--g500)">Endpoints utilizados: <code style="font-family:var(--mono);background:var(--g100);padding:1px 6px;border-radius:3px">/appoints/available-schedule</code> · <code style="font-family:var(--mono);background:var(--g100);padding:1px 6px;border-radius:3px">/appoints/new-appoint</code> · <code style="font-family:var(--mono);background:var(--g100);padding:1px 6px;border-radius:3px">/patient/file-upload</code> · <code style="font-family:var(--mono);background:var(--g100);padding:1px 6px;border-radius:3px">/professional/list</code> · entre outros. Documentação confirmada em <em>docs.feegow.com</em>.</p>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>O que a IA <em>não</em> faz — por desenho</h2><span class="num">05 · segurança</span></div>
+
+    <div class="guard">
+      <h3>Limites de escopo · saúde não admite improviso</h3>
+      <ul>
+        <li><strong>Sem diagnóstico, sem aconselhamento médico.</strong> A IA não interpreta exame, não sugere medicamento, não opina sobre sintoma. Toda mensagem clínica é encaminhada à equipe humana.</li>
+        <li><strong>Mensagem de sintoma agudo</strong> (dor forte, sangramento, falta de ar, mal-estar grave) dispara automaticamente: orientação ao SAMU 192 / pronto-socorro + escalada imediata à assistente humana.</li>
+        <li><strong>Sem inventar horário.</strong> Toda agenda é lida e escrita por chamada determinística ao Feegow — a IA nunca "chuta" um slot que não existe.</li>
+        <li><strong>Verificação de identidade</strong> quando um telefone está vinculado a mais de um paciente (filho na conta da mãe, telefone compartilhado): a IA pede nome completo + data de nascimento antes de qualquer ação.</li>
+        <li><strong>Exames vão pro Feegow, ponto.</strong> O prontuário oficial é o único destino. Backup criptografado no servidor só se o upload falhar.</li>
+        <li><strong>LGPD e CFM.</strong> Termo de consentimento na primeira interação, DPA assinado com a clínica antes do go-live, conformidade com a Res. CFM 2.454/2026 (favorável ao nosso escopo administrativo, mas seguimos as exigências de documentação e governança).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Investimento</h2><span class="num">06 · comercial</span></div>
+
+    <div class="two-col">
+      <div class="pricing">
+        <h3 style="margin-bottom:0">Mensalidade encapsulada</h3>
+        <div class="price">R$ 5.000<small>/ mês</small></div>
+        <ul>
+          <li>Inteligência artificial Claude (Anthropic)</li>
+          <li>WhatsApp Cloud API (taxas Meta inclusas)</li>
+          <li>Integração e manutenção do Feegow</li>
+          <li>Transcrição de áudio pt-BR</li>
+          <li>Servidor, monitoramento e segurança</li>
+          <li>Suporte técnico e ajustes mensais</li>
+        </ul>
+        <p style="margin-top:14px;font-size:13px;color:var(--g500)"><em>Uma fatura. A Younit não vê custos separados de Meta, Anthropic ou infraestrutura — tudo encapsulado.</em></p>
+      </div>
+
+      <div class="compare-clt">
+        <h3>Comparativo · secretária CLT vs IA</h3>
+        <table>
+          <tr><td>Salário base CLT</td><td>R$ 3.500 – 5.500</td></tr>
+          <tr><td>Encargos (~70-80%)</td><td>+ R$ 2.500 – 4.500</td></tr>
+          <tr><td>Disponibilidade</td><td>8h × 5 dias</td></tr>
+          <tr><td>Cobertura férias / licença</td><td>responsabilidade da clínica</td></tr>
+          <tr><td>Picos de demanda</td><td>limitada</td></tr>
+          <tr><td>Áudios em pt-BR</td><td>requer escutar um a um</td></tr>
+          <tr><td><strong>Custo total carregado</strong></td><td>R$ 6.000 – 10.000 / mês</td></tr>
+        </table>
+        <p style="margin-top:16px;font-size:13.5px;color:var(--g700)">A IA não substitui a assistente humana — <strong>libera ela</strong> para o que pede julgamento. Em capacidade prática, custa o equivalente a uma fração de uma CLT, com cobertura 24×7 e sem variação por feriado, férias ou pico.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Caminho até o go-live</h2><span class="num">07 · execução</span></div>
+
+    <ol style="margin:0;padding-left:18px;color:var(--g700);font-size:15px;line-height:1.8">
+      <li><strong>Discovery (atual).</strong> Coletamos amostra anonimizada de conversas, volume diário, picos, e dados Feegow + Meta. Sem custo, sem compromisso.</li>
+      <li><strong>Blueprint finalizado.</strong> Travamos escopo, métricas de sucesso, fluxos prioritários, plano LGPD.</li>
+      <li><strong>Demo em ambiente isolado.</strong> Mostramos a IA funcionando com mock do Feegow e dados sintéticos — vocês validam a experiência antes de qualquer integração com a clínica.</li>
+      <li><strong>Piloto supervisionado (30 dias).</strong> 3 médicos · IA responde mas a assistente humana aprova cada ação antes de executar. Calibragem de tom, vocabulário e fluxos.</li>
+      <li><strong>Rollout autônomo.</strong> IA opera com escalada apenas em casos sensíveis. Relatório semanal de qualidade, CSAT e ajustes contínuos.</li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>O que precisamos da Younit para avançar</h2><span class="num">08 · próximos passos</span></div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="ic">Conversas</div>
+        <h3>20–30 conversas anonimizadas</h3>
+        <p>Amostra real de WhatsApp dos últimos 30 dias (com dados pessoais removidos) — calibra o tom e os fluxos.</p>
+      </div>
+      <div class="card">
+        <div class="ic">Volume</div>
+        <h3>Volume diário + semanal</h3>
+        <p>Mensagens recebidas/dia, agendamentos/semana, horários de pico, % de áudios, % de exames anexados.</p>
+      </div>
+      <div class="card">
+        <div class="ic">Acesso</div>
+        <h3>Token Feegow + status Meta</h3>
+        <p>Geração do token de API Pública do Feegow (admin da clínica), confirmação do status da Meta Business Manager, URL do site da Younit.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:24px;font-size:14.5px">Conversa direta com <strong>Paulo Ovídio</strong> · <a href="mailto:paulo.ovidio@gmail.com">paulo.ovidio@gmail.com</a> · WhatsApp da Superclawman será informado no fechamento do escopo.</p>
+  </section>
+
+  <footer>
+    <span class="brand">Superclawman · Atendimento Inteligente em Saúde</span>
+    <span>Documento de proposta · Younit Health · Itaim Bibi, SP</span>
+  </footer>
+
+</div>
+</body>
+</html>
