@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Younit Health — Brand Book (cortesia Superclawman)</title>
+<style>
+  :root {
+    --primary:    #658280;
+    --secondary:  #c2aaa6;
+    --tertiary:   #99726d;
+    --primary-dk: #4f6664;
+    --warn:       #ffc107;
+
+    --bg:         #ffffff;
+    --surface:    #f9fafb;
+    --surface-2:  #f0ece9;
+    --border:     #dee2e6;
+    --text:       #212529;
+    --text-dim:   #41464b;
+    --muted:      #6c757d;
+
+    --body-font:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --serif-font: 'Times New Roman', 'Georgia', serif;
+    --mono-font:  'SF Mono', Menlo, Monaco, 'Courier New', monospace;
+  }
+
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .page {
+    width: 210mm; height: 297mm;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body-font);
+    padding: 14mm 14mm 11mm;
+    display: flex; flex-direction: column;
+    gap: 6mm;
+    position: relative;
+  }
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 0% 0%, rgba(101, 130, 128, 0.05), transparent 50%),
+      radial-gradient(ellipse at 100% 100%, rgba(194, 170, 166, 0.05), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .page > * { position: relative; z-index: 1; }
+
+  /* ============ HEAD ============ */
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10mm;
+    padding-bottom: 5mm;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+  }
+  .brand-lockup .mark {
+    width: 38px; height: 38px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: var(--serif-font);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: -0.04em;
+  }
+  .brand-lockup .wordmark {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .brand-lockup .wordmark .name {
+    font-family: var(--serif-font);
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--text);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .brand-lockup .wordmark .name .health {
+    font-family: var(--body-font);
+    font-weight: 300;
+    color: var(--primary);
+    margin-left: 4px;
+    letter-spacing: 0.04em;
+  }
+  .brand-lockup .wordmark .sub {
+    font-family: var(--mono-font);
+    font-size: 8.5px;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .head-meta {
+    text-align: right;
+    font-family: var(--mono-font);
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .head-meta .tag {
+    font-family: var(--serif-font);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--text);
+    letter-spacing: 0;
+    text-transform: none;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .head-meta .tag em { color: var(--primary); font-style: italic; }
+
+  /* ============ section label ============ */
+  .section-label {
+    font-family: var(--mono-font);
+    font-size: 8.5px;
+    letter-spacing: 0.22em;
+    color: var(--primary);
+    text-transform: uppercase;
+    margin-bottom: 3mm;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+  }
+  .section-label::before {
+    content: '';
+    width: 16px; height: 1px;
+    background: var(--primary);
+  }
+
+  /* ============ COLOR HIERARCHY ============ */
+  .colors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+  }
+  .swatch {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .swatch .fill { height: 22mm; }
+  .swatch .meta {
+    padding: 8px 10px 10px;
+  }
+  .swatch .tier {
+    font-family: var(--mono-font);
+    font-size: 8.5px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    font-weight: 600;
+  }
+  .swatch .name {
+    font-family: var(--serif-font);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--text);
+    margin-top: 3px;
+    display: block;
+  }
+  .swatch .hex {
+    font-family: var(--mono-font);
+    font-size: 9px;
+    color: var(--tertiary);
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+    display: block;
+  }
+  .swatch .use {
+    font-family: var(--body-font);
+    font-weight: 400;
+    font-size: 8.5px;
+    color: var(--text-dim);
+    line-height: 1.45;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ============ EXTENDED PALETTE ============ */
+  .ext-palette {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 3mm;
+  }
+  .chip {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .chip .fill { height: 14mm; }
+  .chip .meta { padding: 5px 7px 7px; }
+  .chip .lab {
+    font-family: var(--mono-font);
+    font-size: 7.5px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .chip .hex {
+    font-family: var(--mono-font);
+    font-size: 8px;
+    color: var(--text);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ============ TWO-COL: TYPE + PILARES ============ */
+  .twocol {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 4mm;
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 5mm 5mm;
+    background: var(--surface);
+  }
+
+  /* TYPE */
+  .type-card .ladder {
+    display: flex;
+    align-items: baseline;
+    gap: 4mm;
+    margin-bottom: 3mm;
+  }
+  .type-card .ladder .aa-disp {
+    font-family: var(--serif-font);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 1;
+    color: var(--text);
+  }
+  .type-card .ladder .aa-body {
+    font-family: var(--body-font);
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--text);
+  }
+  .type-card .ladder .aa-mono {
+    font-family: var(--mono-font);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 0.06em;
+  }
+  .type-card .stacks {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5mm;
+    font-size: 8px;
+  }
+  .type-card .stack-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 3mm;
+    padding: 1mm 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .type-card .stack-row:last-child { border-bottom: none; }
+  .type-card .stack-row .k {
+    font-family: var(--mono-font);
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .type-card .stack-row .v {
+    font-family: var(--body-font);
+    font-size: 9px;
+    color: var(--text);
+  }
+  .type-card .stack-row .v.serif { font-family: var(--serif-font); font-style: italic; font-size: 10px; }
+  .type-card .stack-row .v.mono  { font-family: var(--mono-font); font-size: 8px; }
+  .type-card .note {
+    font-family: var(--body-font);
+    font-size: 8px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 3mm;
+    line-height: 1.4;
+  }
+
+  /* PILARES */
+  .pilares-card ol {
+    margin: 0; padding: 0;
+    counter-reset: pilar;
+    list-style: none;
+  }
+  .pilares-card li {
+    counter-increment: pilar;
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 2mm;
+    padding: 1.5mm 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .pilares-card li:last-child { border-bottom: none; }
+  .pilares-card li::before {
+    content: counter(pilar, decimal-leading-zero);
+    font-family: var(--mono-font);
+    font-size: 8.5px;
+    color: var(--primary);
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+  .pilares-card li strong {
+    display: block;
+    font-family: var(--serif-font);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12.5px;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .pilares-card li .desc {
+    font-family: var(--body-font);
+    font-weight: 400;
+    font-size: 8.5px;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-top: 1px;
+    display: block;
+  }
+
+  /* ============ COMPONENTS ============ */
+  .components {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 5mm;
+    background: var(--surface);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 5mm;
+  }
+  .components .lab {
+    font-family: var(--mono-font);
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 2mm;
+    font-weight: 600;
+    display: block;
+  }
+  .btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block;
+    padding: 5px 14px;
+    background: var(--primary);
+    color: #fff;
+    font-family: var(--body-font);
+    font-weight: 500;
+    font-size: 9px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+  .btn-secondary {
+    display: inline-block;
+    padding: 5px 14px;
+    background: var(--secondary);
+    color: var(--tertiary);
+    font-family: var(--body-font);
+    font-weight: 600;
+    font-size: 9px;
+    border-radius: 100px;
+  }
+  .btn-ghost {
+    display: inline-block;
+    padding: 4px 13px;
+    background: transparent;
+    color: var(--primary);
+    font-family: var(--body-font);
+    font-weight: 500;
+    font-size: 9px;
+    border: 1px solid var(--primary);
+    border-radius: 100px;
+  }
+  .badge-row { display: flex; gap: 4px; flex-wrap: wrap; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-family: var(--mono-font);
+    font-size: 7.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .badge.primary { color: var(--primary); background: rgba(101, 130, 128, 0.12); }
+  .badge.secondary { color: var(--tertiary); background: rgba(194, 170, 166, 0.18); }
+  .badge.muted { color: var(--muted); background: rgba(108, 117, 125, 0.1); }
+
+  /* ============ DOCTOR badge ============ */
+  .doctor-row {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 5mm;
+    background: var(--surface-2);
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr;
+    align-items: center;
+    gap: 5mm;
+  }
+  .doctor-mark {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: var(--serif-font);
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .doctor-row .k {
+    font-family: var(--mono-font);
+    font-size: 7.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    display: block;
+  }
+  .doctor-row .v {
+    font-family: var(--serif-font);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+  .doctor-row .v.body {
+    font-family: var(--body-font);
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--text);
+    font-style: normal;
+  }
+
+  /* ============ WORDMARKS ============ */
+  .wordmarks {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+  }
+  .wm {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 5mm;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3mm;
+    min-height: 26mm;
+  }
+  .wm .lockup {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    justify-content: center;
+    flex: 1;
+  }
+  .wm-1 .mark {
+    width: 26px; height: 26px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: var(--serif-font);
+    font-style: italic;
+    font-size: 15px;
+  }
+  .wm-1 .text {
+    font-family: var(--serif-font);
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--text);
+  }
+  .wm-1 .text .health {
+    font-family: var(--body-font);
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--primary);
+    margin-left: 3px;
+    letter-spacing: 0.04em;
+  }
+  .wm-2 .text {
+    font-family: var(--serif-font);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--text);
+    text-align: center;
+  }
+  .wm-2 .text .accent { color: var(--primary); }
+  .wm-3 .text {
+    font-family: var(--body-font);
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--text);
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .wm-3 .text .strong { font-weight: 700; color: var(--primary); }
+  .wm .label {
+    font-family: var(--mono-font);
+    font-size: 7.5px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    margin-top: auto;
+    padding-top: 4mm;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono-font);
+    font-size: 7.5px;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .footer .left strong { color: var(--primary); }
+  .footer .right .crab {
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+    margin-right: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEAD -->
+  <div class="head">
+    <div class="brand-lockup">
+      <div class="mark">Y</div>
+      <div class="wordmark">
+        <div class="name">Younit<span class="health">health</span></div>
+        <div class="sub">Brand Book · v1.0 · cortesia</div>
+      </div>
+    </div>
+    <div class="head-meta">
+      <span class="tag">Seu corpo merece <em>cuidados</em>.</span>
+      <div>2026-05-13 · younithealth.com.br</div>
+      <div>Extraído publicamente</div>
+    </div>
+  </div>
+
+  <!-- COLOR HIERARCHY -->
+  <section>
+    <div class="section-label">Color Hierarchy · Identidade visual</div>
+    <div class="colors">
+      <div class="swatch">
+        <div class="fill" style="background: #658280;"></div>
+        <div class="meta">
+          <span class="tier">Primary</span>
+          <span class="name">Sage Calm</span>
+          <span class="hex">#658280</span>
+          <span class="use">Cor institucional. Navegação, marcas, headings principais. Verde-acinzentado calmante, sinal clínico de cuidado.</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background: #c2aaa6;"></div>
+        <div class="meta">
+          <span class="tier">Secondary</span>
+          <span class="name">Soft Mauve</span>
+          <span class="hex">#C2AAA6</span>
+          <span class="use">Acento humano e acolhedor. Superfícies suaves, CTAs secundários, detalhes editoriais. Aproxima o paciente.</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background: #99726d;"></div>
+        <div class="meta">
+          <span class="tier">Tertiary</span>
+          <span class="name">Deep Mauve</span>
+          <span class="hex">#99726D</span>
+          <span class="use">Profundidade do mauve. Estados de hover, texto de destaque sobre tons claros, sinalização editorial.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXTENDED PALETTE -->
+  <section>
+    <div class="section-label">Extended Palette · Neutros e estados</div>
+    <div class="ext-palette">
+      <div class="chip"><div class="fill" style="background: #ffffff; border-bottom: 1px solid var(--border);"></div><div class="meta"><div class="lab">Bg</div><div class="hex">#FFFFFF</div></div></div>
+      <div class="chip"><div class="fill" style="background: #f9fafb; border-bottom: 1px solid var(--border);"></div><div class="meta"><div class="lab">Surface</div><div class="hex">#F9FAFB</div></div></div>
+      <div class="chip"><div class="fill" style="background: #f0ece9; border-bottom: 1px solid var(--border);"></div><div class="meta"><div class="lab">Surface-2</div><div class="hex">#F0ECE9</div></div></div>
+      <div class="chip"><div class="fill" style="background: #dee2e6;"></div><div class="meta"><div class="lab">Border</div><div class="hex">#DEE2E6</div></div></div>
+      <div class="chip"><div class="fill" style="background: #212529;"></div><div class="meta"><div class="lab">Text</div><div class="hex">#212529</div></div></div>
+      <div class="chip"><div class="fill" style="background: #ffc107;"></div><div class="meta"><div class="lab">Warn</div><div class="hex">#FFC107</div></div></div>
+    </div>
+  </section>
+
+  <!-- TWO-COL: TYPE + PILARES -->
+  <div class="twocol">
+    <div class="card type-card">
+      <div class="section-label">Typography</div>
+      <div class="ladder">
+        <span class="aa-disp">Aa</span>
+        <span class="aa-body">Aa</span>
+        <span class="aa-mono">Aa</span>
+      </div>
+      <div class="stacks">
+        <div class="stack-row"><span class="k">Display / Editorial</span><span class="v serif">Serif (Times / Georgia stack)</span></div>
+        <div class="stack-row"><span class="k">Body</span><span class="v">System sans-serif · 300 / 400 / 600</span></div>
+        <div class="stack-row"><span class="k">Mono</span><span class="v mono">SF Mono · Menlo</span></div>
+        <div class="stack-row"><span class="k">Voice</span><span class="v">pt-BR · cuidadoso, clínico, acolhedor</span></div>
+      </div>
+      <div class="note">A clínica não declara família tipográfica em seu CSS público. Stack sugerida com serif editorial para títulos (postura premium-clínica) — confirmar com a equipe Younit antes de materiais impressos.</div>
+    </div>
+
+    <div class="card pilares-card">
+      <div class="section-label">Pilares · Valores publicados</div>
+      <ol>
+        <li><div><strong>Cuidado personalizado.</strong><span class="desc">Atendimento centrado no indivíduo, não em protocolos genéricos.</span></div></li>
+        <li><div><strong>Equipe multidisciplinar.</strong><span class="desc">Endocrinologia, nutrologia e especialidades complementares trabalhando em conjunto.</span></div></li>
+        <li><div><strong>Ética e comprometimento.</strong><span class="desc">Postura profissional explícita em toda interação com o paciente.</span></div></li>
+        <li><div><strong>Qualidade de vida e bem-estar.</strong><span class="desc">Resultado final é o estado do paciente, não o procedimento isolado.</span></div></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- DOCTOR -->
+  <section>
+    <div class="section-label">Liderança clínica</div>
+    <div class="doctor-row">
+      <div class="doctor-mark">M</div>
+      <div>
+        <div class="k">Médica</div>
+        <div class="v">Dra. Mariana Toledo</div>
+      </div>
+      <div>
+        <div class="k">Especialidades</div>
+        <div class="v body">Endocrinologia · Nutrologia</div>
+      </div>
+      <div>
+        <div class="k">Localização</div>
+        <div class="v body">Itaim Bibi · São Paulo</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section>
+    <div class="section-label">Components · Vocabulário em uso</div>
+    <div class="components">
+      <div>
+        <span class="lab">Botões</span>
+        <div class="btn-row">
+          <span class="btn-primary">Agende sua consulta</span>
+          <span class="btn-secondary">Conheça as especialidades</span>
+          <span class="btn-ghost">Saiba mais</span>
+        </div>
+      </div>
+      <div>
+        <span class="lab">Badges</span>
+        <div class="badge-row">
+          <span class="badge primary">Especialidade</span>
+          <span class="badge secondary">Bem-estar</span>
+          <span class="badge muted">Equipe</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORDMARKS -->
+  <section>
+    <div class="section-label">Wordmarks · Lockups</div>
+    <div class="wordmarks">
+      <div class="wm wm-1">
+        <div class="lockup">
+          <div class="mark">Y</div>
+          <div class="text">Younit<span class="health">health</span></div>
+        </div>
+        <div class="label">Mark + wordmark · canonical</div>
+      </div>
+      <div class="wm wm-2">
+        <div class="lockup">
+          <div class="text">Younit <span class="accent">Health</span></div>
+        </div>
+        <div class="label">Wordmark editorial · institucional</div>
+      </div>
+      <div class="wm wm-3">
+        <div class="lockup">
+          <div class="text"><span class="strong">YOUNIT</span> HEALTH</div>
+        </div>
+        <div class="label">Wordmark espaçado · capa / impresso</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="left">Younit Health · <strong>Brand Book v1.0</strong></span>
+    <span class="right"><span class="crab">🦀</span>Compilado por Superclawman · 2026-05-13 · cortesia comercial</span>
+  </div>
+
+</div>
+</body>
+</html>
