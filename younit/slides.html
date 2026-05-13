@@ -1353,7 +1353,6 @@ h2.scene-title em { font-style: italic; color: var(--primary); font-weight: 500;
         <a class="ch" href="https://wa.me/5511994917618" target="_blank" rel="noopener"><span class="ico">📱</span><span>WhatsApp · Paulo</span></a>
         <a class="ch" href="mailto:paulo.ovidio@superclawman.ai"><span class="ico">✉️</span><span>paulo.ovidio@superclawman.ai</span></a>
         <a class="ch" href="index.html" target="_blank"><span class="ico">📑</span><span>Proposta completa</span></a>
-        <a class="ch" href="brand/brand-book-a4.pdf" target="_blank"><span class="ico">🎨</span><span>Brand book</span></a>
       </div>
     </div>
   </div>
@@ -1390,54 +1389,56 @@ h2.scene-title em { font-style: italic; color: var(--primary); font-weight: 500;
     slides[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // Visibility — IntersectionObserver is the reliable tool for this with scroll-snap.
-  // Once a slide is .visible we KEEP it visible (no flicker scrolling back).
-  if ('IntersectionObserver' in window) {
-    const visObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.15 });
-    slides.forEach(s => visObserver.observe(s));
-  } else {
-    // Fallback: show everything immediately on legacy browsers.
-    slides.forEach(s => s.classList.add('visible'));
-  }
-  // Safety backstop — if for any reason IO doesn't fire (unlikely), reveal everything after 1.5s.
-  setTimeout(() => slides.forEach(s => s.classList.add('visible')), 1500);
-
-  function update() {
-    // find slide nearest to viewport center → drives nav state, NOT visibility
-    const viewport = window.innerHeight / 2;
-    let bestIdx = 0;
-    let bestDist = Infinity;
-    slides.forEach((s, i) => {
-      const r = s.getBoundingClientRect();
-      const center = r.top + r.height / 2;
-      const dist = Math.abs(center - viewport);
-      if (dist < bestDist) { bestDist = dist; bestIdx = i; }
-    });
-    if (bestIdx !== currentIndex) {
-      currentIndex = bestIdx;
-      dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
-      slideCurr.textContent = String(currentIndex + 1).padStart(2, '0');
-    }
-    const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
-    const ratio = scrollMax > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollMax)) : 0;
-    progBar.style.transform = `scaleX(${ratio})`;
+  function setActive(idx) {
+    if (idx < 0 || idx >= total) return;
+    currentIndex = idx;
+    dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+    slideCurr.textContent = String(currentIndex + 1).padStart(2, '0');
     navPrev.disabled = currentIndex === 0;
     navNext.disabled = currentIndex === total - 1;
   }
 
+  // Single IntersectionObserver drives BOTH visibility (latched) AND active slide.
+  // Tracks each slide's current ratio so we can pick the most-visible as active.
+  const ratios = new Array(total).fill(0);
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const idx = slides.indexOf(entry.target);
+        if (idx < 0) return;
+        ratios[idx] = entry.intersectionRatio;
+        if (entry.isIntersecting) entry.target.classList.add('visible'); // latched
+      });
+      // pick the slide with the largest intersection ratio
+      let bestIdx = 0, bestRatio = -1;
+      for (let i = 0; i < total; i++) {
+        if (ratios[i] > bestRatio) { bestRatio = ratios[i]; bestIdx = i; }
+      }
+      if (bestRatio > 0 && bestIdx !== currentIndex) setActive(bestIdx);
+    }, { threshold: [0, 0.15, 0.3, 0.5, 0.7, 0.9, 1.0] });
+    slides.forEach(s => obs.observe(s));
+  } else {
+    slides.forEach(s => s.classList.add('visible'));
+  }
+  // Safety backstop — reveal everything after 1.5s in case IO ever fails.
+  setTimeout(() => slides.forEach(s => s.classList.add('visible')), 1500);
+
+  // Scroll handler now only updates the progress bar (light + cheap).
+  function updateProgress() {
+    const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = scrollMax > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollMax)) : 0;
+    progBar.style.transform = `scaleX(${ratio})`;
+  }
   let ticking = false;
   window.addEventListener('scroll', () => {
     if (!ticking) {
-      requestAnimationFrame(() => { update(); ticking = false; });
+      requestAnimationFrame(() => { updateProgress(); ticking = false; });
       ticking = true;
     }
   }, { passive: true });
-  window.addEventListener('resize', update);
-  update();
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+  setActive(0); // ensure initial nav state is set
 
   // keyboard nav
   document.addEventListener('keydown', (e) => {
