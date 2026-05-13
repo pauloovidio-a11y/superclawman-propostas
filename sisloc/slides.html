@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sisloc · Operação de Atendimento Autônoma no WhatsApp — Superclawman</title>
+
+<!-- Brand favicon · Superclawman crab -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A6%80%3C/text%3E%3C/svg%3E">
+
+<!-- Fonts · paper style default -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+
+<style>
+/* ================================================================
+   SUPERCLAWMAN PALETTE SELECTOR · pick ONE block below
+   ================================================================
+   sales-warm   — default · generic prospects · internal polish docs
+   clinical     — Younit Health and other medical / health prospects
+   corporate    — Sisloc Zendesk and other B2B SaaS / enterprise prospects
+
+   To switch palette: uncomment the desired :root block below and
+   comment out the others. Everything else inherits via --accent +
+   --accent-rgb. Brand identity (🧠⚡🦀🤘 + Superclawman) is constant.
+   ================================================================ */
+
+/* ---- PALETTE · sales-warm (DEFAULT) ----
+:root {
+  --accent: #ff6b1a;
+  --accent-rgb: 255, 107, 26;
+}
+*/
+
+/* ---- PALETTE · clinical (Younit Health · soft teal) ----
+:root {
+  --accent: #2dd4bf;
+  --accent-rgb: 45, 212, 191;
+}
+*/
+
+/* ---- PALETTE · corporate (Sisloc · deep teal · ACTIVE) ---- */
+:root {
+  --accent: #14b8a6;
+  --accent-rgb: 20, 184, 166;
+}
+
+/* ================================================================
+   THEME TOKENS · everything else inherits from the palette above
+   ================================================================ */
+:root {
+  --bg: #000;
+  --bg-elev: #0a0a0a;
+  --surface: #111;
+  --border: #1a1a1a;
+  --border-hover: #333;
+  --text: #e0e0e0;
+  --text-paper: #f1ece0;
+  --text-dim: #888;
+  --muted: #555;
+  --accent-hl: rgba(var(--accent-rgb), 0.28);
+  --accent-hl-strong: rgba(var(--accent-rgb), 0.55);
+  --accent-glow: rgba(var(--accent-rgb), 0.3);
+  --teal: #50e3c2;
+  --teal-glow: rgba(80, 227, 194, 0.28);
+  --amber: #f5a623;
+  --violet: #8b5cf6;
+  --cyan: #22d3ee;
+
+  --font-display: 'Instrument Serif', serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --title-size: clamp(2.6rem, 8vw, 7rem);
+  --h2-size: clamp(1.3rem, 2.8vw, 2.4rem);
+  --h3-size: clamp(0.7rem, 1.1vw, 0.95rem);
+  --body-size: clamp(0.95rem, 1.4vw, 1.2rem);
+  --small-size: clamp(0.72rem, 0.95vw, 0.85rem);
+  --slide-padding: clamp(2rem, 6vw, 6rem);
+  --content-gap: clamp(1rem, 2.2vw, 2rem);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 0.9s;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+.slide {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.slide-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 100%;
+  overflow: hidden;
+  padding: var(--slide-padding);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(var(--accent-rgb), 0.045), transparent 55%),
+    radial-gradient(ellipse at 20% 110%, rgba(80, 227, 194, 0.02), transparent 50%);
+}
+
+/* ===== Hexagon mesh canvas ===== */
+#hexBg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== Scattered pixel-agent decorations ===== */
+.pixel-agent {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  image-rendering: pixelated;
+}
+
+/* ===== Cursor glow follow ===== */
+.cursor-glow {
+  position: fixed;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+}
+
+.slide > * { position: relative; z-index: 1; }
+
+/* Per-slide radial spotlight that fades in on .visible */
+.slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at var(--spot-x, 25%) var(--spot-y, 30%), rgba(var(--accent-rgb), 0.04), transparent 50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.5s var(--ease);
+  z-index: 0;
+}
+.slide.visible::after { opacity: 1; }
+.slide:nth-child(2n)::after { --spot-x: 75%; --spot-y: 70%; }
+.slide:nth-child(3n)::after { --spot-x: 50%; --spot-y: 85%; }
+
+/* ================================================================
+   TYPOGRAPHY · paper style (LOCKED)
+   ================================================================ */
+h1.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--title-size);
+  line-height: 1.02;
+  letter-spacing: -0.018em;
+  color: var(--text-paper);
+  max-width: 14ch;
+}
+
+h1.display em,
+h1.display .italic {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* Animated orange highlight sweep — triggers on slide enter */
+h1.display .hl, .hl {
+  background: linear-gradient(90deg, var(--accent-hl) 0%, var(--accent-hl-strong) 100%);
+  background-size: 0% 70%;
+  background-repeat: no-repeat;
+  background-position: 0 82%;
+  padding: 0 8px;
+  animation: hlSweep 5s ease infinite;
+  animation-play-state: paused;
+}
+.slide.visible .hl { animation-play-state: running; }
+@keyframes hlSweep {
+  0% { background-size: 0% 70%; }
+  40%, 80% { background-size: 100% 70%; }
+  100% { background-size: 0% 70%; }
+}
+
+.hl-static {
+  background: linear-gradient(90deg, transparent 0%, var(--accent-hl) 10%, var(--accent-hl) 90%, transparent 100%);
+  background-size: 100% 65%;
+  background-repeat: no-repeat;
+  background-position: 0 85%;
+  padding: 0 6px;
+}
+
+/* Teal variant for evergreen/success semantics */
+.hl.teal-hl {
+  background: linear-gradient(90deg, rgba(80, 227, 194, 0.22) 0%, rgba(80, 227, 194, 0.5) 100%);
+}
+h1.display .teal {
+  font-style: italic;
+  color: var(--teal);
+  text-shadow: 0 0 30px var(--teal-glow);
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--h2-size);
+  line-height: 1.35;
+  color: #a8a296;
+  letter-spacing: 0;
+  max-width: 36ch;
+  margin-inline: auto;
+}
+
+h3.kicker {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--h3-size);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  margin-bottom: clamp(1.2rem, 2vw, 2rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+h3.kicker::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+
+h3.section-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--h3-size);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  margin-bottom: clamp(1rem, 1.6vw, 1.5rem);
+}
+
+strong, .accent { color: var(--accent); font-weight: inherit; }
+
+/* ================================================================
+   SLIDE VARIANTS
+   ================================================================ */
+.lead .slide-content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.lead h1.display { max-width: 16ch; }
+.lead h2 { margin-top: clamp(1.2rem, 2.4vw, 2rem); }
+
+/* Iso slide — two column: text + 3D scene */
+.iso-slide .slide-content {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: clamp(24px, 4vw, 80px);
+  align-items: center;
+  padding: clamp(2rem, 5vw, 5rem) var(--slide-padding);
+}
+@media (max-width: 960px) {
+  .iso-slide .slide-content { grid-template-columns: 1fr; gap: 32px; }
+}
+.iso-text h2.scene-title {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(2rem, 4.6vw, 4.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--text-paper);
+  max-width: 16ch;
+  margin: 0 0 clamp(1rem, 1.8vw, 1.4rem);
+}
+.iso-text h2.scene-title em { font-style: italic; color: var(--accent); }
+.iso-text .body-text {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  color: var(--text-dim);
+  line-height: 1.6;
+  max-width: 42ch;
+}
+.iso-text .fine-list {
+  list-style: none;
+  margin-top: clamp(1.2rem, 2vw, 1.8rem);
+  border-top: 1px solid var(--border);
+}
+.iso-text .fine-list li {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-dim);
+}
+.iso-text .fine-list li .k { color: var(--muted); }
+.iso-text .fine-list li .v { color: var(--accent); font-weight: 600; }
+.iso-text .fine-list li.teal .v { color: var(--teal); }
+
+.iso-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 560px;
+  max-height: 60vh;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================================================================
+   COMPONENTS · reusable
+   ================================================================ */
+.bullets {
+  list-style: none;
+  margin: clamp(1.6rem, 3vw, 2.5rem) 0;
+  max-width: min(85vw, 680px);
+}
+.bullets li {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+  color: #b8b2a4;
+  line-height: 1.5;
+  margin-bottom: clamp(0.8rem, 1.6vw, 1.2rem);
+  padding-left: clamp(1.6rem, 2.5vw, 2.2rem);
+  position: relative;
+}
+.bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: clamp(14px, 1.4vw, 20px);
+  height: 1px;
+  background: var(--accent);
+}
+.bullets li strong {
+  color: var(--text-paper);
+  font-weight: 400;
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.logos-row {
+  display: flex;
+  gap: clamp(0.8rem, 1.6vw, 1.4rem);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  max-width: 90vw;
+}
+.logo-pill {
+  padding: clamp(0.7rem, 1.2vw, 1rem) clamp(1.2rem, 2vw, 1.6rem);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(0.78rem, 1vw, 0.95rem);
+  color: var(--text-dim);
+  background: var(--bg-elev);
+  letter-spacing: 0.04em;
+  transition: all 0.3s var(--ease);
+}
+.logo-pill:hover {
+  color: var(--text-paper);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.fine {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+/* ================================================================
+   REVEAL ANIMATIONS
+   ================================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  filter: blur(4px);
+  transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease), filter var(--duration) var(--ease);
+}
+.slide.visible .reveal {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+.slide.visible .reveal:nth-child(1) { transition-delay: 0.1s; }
+.slide.visible .reveal:nth-child(2) { transition-delay: 0.25s; }
+.slide.visible .reveal:nth-child(3) { transition-delay: 0.4s; }
+.slide.visible .reveal:nth-child(4) { transition-delay: 0.55s; }
+.slide.visible .reveal:nth-child(5) { transition-delay: 0.7s; }
+.slide.visible h1.reveal { transition-duration: 1.2s; }
+
+.bullets li {
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+.slide.visible .bullets li { opacity: 1; transform: translateX(0); }
+.slide.visible .bullets li:nth-child(1) { transition-delay: 0.35s; }
+.slide.visible .bullets li:nth-child(2) { transition-delay: 0.48s; }
+.slide.visible .bullets li:nth-child(3) { transition-delay: 0.61s; }
+.slide.visible .bullets li:nth-child(4) { transition-delay: 0.74s; }
+
+.logos-row .logo-pill {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.55s var(--ease);
+}
+.slide.visible .logos-row .logo-pill { opacity: 1; transform: translateY(0); }
+.slide.visible .logos-row .logo-pill:nth-child(1) { transition-delay: 0.25s; }
+.slide.visible .logos-row .logo-pill:nth-child(2) { transition-delay: 0.34s; }
+.slide.visible .logos-row .logo-pill:nth-child(3) { transition-delay: 0.43s; }
+.slide.visible .logos-row .logo-pill:nth-child(4) { transition-delay: 0.52s; }
+.slide.visible .logos-row .logo-pill:nth-child(5) { transition-delay: 0.61s; }
+.slide.visible .logos-row .logo-pill:nth-child(6) { transition-delay: 0.7s; }
+
+/* ================================================================
+   FIXED UI · progress / nav / watermark / brand
+   ================================================================ */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #ffb07c);
+  z-index: 1000;
+  transition: width 0.3s var(--ease);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+.nav-dots {
+  position: fixed;
+  right: clamp(12px, 1.8vw, 28px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(7px, 0.8vw, 12px);
+  z-index: 1000;
+}
+.nav-dots button {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--text-dim);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s var(--ease);
+}
+.nav-dots button:hover { border-color: var(--accent); transform: scale(1.3); }
+.nav-dots button.active { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+
+.slide-number {
+  position: fixed;
+  bottom: clamp(14px, 2vw, 26px);
+  right: clamp(18px, 2.4vw, 32px);
+  z-index: 1000;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+}
+.slide-number .curr { color: var(--text-paper); }
+
+/* ===== Brand watermark · customize the label + svg below ===== */
+.watermark {
+  position: fixed;
+  bottom: clamp(14px, 2vw, 26px);
+  left: clamp(18px, 2.4vw, 32px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.watermark svg { color: var(--accent); flex-shrink: 0; }
+.watermark .bar { width: 14px; height: 1px; background: var(--muted); }
+
+/* ===== Prev/Next arrows · bottom center ===== */
+.nav-arrows {
+  position: fixed;
+  bottom: clamp(14px, 2vw, 26px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+}
+.nav-arrow {
+  width: 42px; height: 42px;
+  border: 1px solid var(--border);
+  background: rgba(10, 10, 10, 0.75);
+  backdrop-filter: blur(8px);
+  border-radius: 100px;
+  color: var(--text-dim);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s var(--ease);
+  padding: 0;
+}
+.nav-arrow:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+  transform: scale(1.08);
+}
+.nav-arrow:active { transform: scale(0.95); }
+.nav-arrow svg { width: 18px; height: 18px; }
+.nav-arrow:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-arrow:disabled:hover { border-color: var(--border); color: var(--text-dim); box-shadow: none; transform: none; }
+
+/* Brand block — use on title slide when appropriate */
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.2vw, 14px);
+  margin-top: clamp(1.8rem, 3vw, 2.6rem);
+  padding-top: clamp(1.4rem, 2.4vw, 2rem);
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s var(--ease) 0.9s, transform 0.8s var(--ease) 0.9s;
+}
+.slide.visible .brand-block { opacity: 1; transform: translateY(0); }
+.brand-block .mark { color: var(--accent); flex-shrink: 0; }
+.brand-block .mark.emoji-row {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(2px, 0.3vw, 6px);
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
+.brand-block .mark.emoji-row span { display: inline-block; }
+.watermark .brand-emoji {
+  font-size: 14px;
+  line-height: 1;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
+.brand-block .text { text-align: left; line-height: 1.3; }
+.brand-block .title-line {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  color: var(--text-paper);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+.brand-block .title-line strong {
+  font-weight: 800;
+  color: var(--text-paper);
+}
+.brand-block .title-line .thin {
+  font-weight: 200;
+  color: var(--text-paper);
+}
+.brand-block .title-line .mc {
+  color: var(--text-dim);
+  font-weight: 500;
+  margin-left: 8px;
+}
+.brand-block .tag-line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.78rem, 0.95vw, 0.88rem);
+  color: var(--muted);
+  letter-spacing: 0;
+  text-transform: none;
+  margin-top: 2px;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-height: 700px) {
+  :root { --slide-padding: clamp(1rem, 4vw, 3rem); --title-size: clamp(1.9rem, 6vw, 4.4rem); }
+}
+@media (max-height: 600px) {
+  :root { --title-size: clamp(1.6rem, 5vw, 3.2rem); --body-size: clamp(0.8rem, 1.2vw, 1rem); }
+  .nav-dots { display: none; }
+}
+@media (max-width: 800px) {
+  .logos-row { gap: 0.5rem; }
+  .nav-dots { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ================================================================
+   PER-SLIDE GRAPHIC STYLES · M1
+   ================================================================ */
+
+/* ─── shared iso-cube primitives ─── */
+.iso-cube {
+  position: absolute;
+  width: 50px; height: 50px;
+  transform-style: preserve-3d;
+  transform: rotateX(54.7deg) rotateZ(45deg);
+}
+.iso-cube .face {
+  position: absolute;
+  width: 50px; height: 50px;
+}
+.iso-cube .face.top { transform: translateZ(25px); }
+.iso-cube .face.left { transform: rotateX(90deg) translateZ(25px); }
+.iso-cube .face.right { transform: rotateX(-90deg) translateZ(25px); }
+.iso-cube.orange .face.top { background: #ff8c4a; }
+.iso-cube.orange .face.left { background: #d85715; }
+.iso-cube.orange .face.right { background: #b3440c; }
+.iso-cube.gray .face.top { background: #2a2a36; }
+.iso-cube.gray .face.left { background: #1a1a24; }
+.iso-cube.gray .face.right { background: #111119; }
+
+/* ─── Scene 01 · Stacked Tower (ref: iso-grid card-01) ─── */
+.scene-tower {
+  position: relative;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at 50% 40%, #1a1a26 0%, #0c0c14 70%);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.scene-tower .iso-cube { left: calc(50% - 25px); top: 50%; }
+.scene-tower .iso-cube.t1 { transform: translate(0, 60px) rotateX(54.7deg) rotateZ(45deg); }
+.scene-tower .iso-cube.t2 { transform: translate(0, 30px) rotateX(54.7deg) rotateZ(45deg); }
+.scene-tower .iso-cube.t3 { transform: translate(0, 0) rotateX(54.7deg) rotateZ(45deg); }
+.scene-tower .iso-cube.t4 { animation: towerLift 3.6s ease infinite; }
+@keyframes towerLift {
+  0%, 100% { transform: translate(0, -30px) rotateX(54.7deg) rotateZ(45deg); }
+  50% { transform: translate(0, -55px) rotateX(54.7deg) rotateZ(45deg); }
+}
+.scene-tower .shadow {
+  position: absolute;
+  bottom: 48px; left: 50%; transform: translateX(-50%);
+  width: 70px; height: 10px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0,0,0,.5), transparent 70%);
+  filter: blur(4px);
+  animation: towerShadow 3.6s ease infinite;
+}
+@keyframes towerShadow {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(.7); opacity: .7; }
+}
+.scene-tower .tower-labels {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; flex-direction: column;
+  gap: 4px; padding-left: 180px;
+  font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.scene-tower .tower-labels span { white-space: nowrap; padding: 2px 0; }
+.scene-tower .tower-labels span.accent { color: var(--accent); }
+
+/* ─── Scene 02 · Orbiting Rings (ref: iso-machine card-06) ─── */
+.scene-orbit {
+  position: relative;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 50%, #150a0a 0%, #0a0a0f 70%);
+  perspective: 600px;
+  transform-style: preserve-3d;
+}
+.scene-orbit .orb-core {
+  position: relative;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffa26b, #b3440c);
+  box-shadow: 0 0 24px var(--accent-glow);
+  z-index: 4;
+}
+.scene-orbit .ring {
+  position: absolute;
+  left: 50%; top: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.45);
+  transform-style: preserve-3d;
+}
+.scene-orbit .ring.r1 {
+  width: 100px; height: 100px;
+  margin: -50px 0 0 -50px;
+  transform: rotateX(70deg);
+  animation: ringSpin1 8s linear infinite;
+}
+.scene-orbit .ring.r2 {
+  width: 150px; height: 150px;
+  margin: -75px 0 0 -75px;
+  transform: rotateX(70deg) rotateY(45deg);
+  animation: ringSpin2 12s linear infinite;
+  border-color: rgba(162, 107, 255, 0.4);
+}
+.scene-orbit .ring.r3 {
+  width: 200px; height: 200px;
+  margin: -100px 0 0 -100px;
+  transform: rotateX(70deg) rotateY(-45deg);
+  animation: ringSpin1 16s linear infinite;
+  border-color: rgba(94, 208, 197, 0.35);
+}
+@keyframes ringSpin1 { to { transform: rotateX(70deg) rotateZ(360deg); } }
+@keyframes ringSpin2 { to { transform: rotateX(70deg) rotateY(45deg) rotateZ(360deg); } }
+.scene-orbit .sat {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  top: -5px;
+  left: calc(50% - 5px);
+}
+.scene-orbit .ring-label {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.scene-orbit .rl-observe { top: 12%; left: 50%; transform: translateX(-50%); color: var(--accent); }
+.scene-orbit .rl-think { top: 50%; right: 8%; transform: translateY(-50%); }
+.scene-orbit .rl-act { bottom: 12%; left: 50%; transform: translateX(-50%); }
+.scene-orbit .rl-repeat { top: 50%; left: 8%; transform: translateY(-50%); }
+
+/* ─── Scene 03 · Hub + Spoke (ref: feature-grid card-05) ─── */
+.scene-hub {
+  position: relative;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 50%, #1a0e05 0%, #0a0a0f 70%);
+}
+.scene-hub svg.lines {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.scene-hub .hub-line {
+  stroke: #2a2a36;
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+  fill: none;
+  animation: hubFlow 2.8s linear infinite;
+}
+.scene-hub .hub-line:nth-child(1) { animation-delay: 0s; }
+.scene-hub .hub-line:nth-child(2) { animation-delay: 0.3s; }
+.scene-hub .hub-line:nth-child(3) { animation-delay: 0.6s; }
+.scene-hub .hub-line:nth-child(4) { animation-delay: 0.9s; }
+.scene-hub .hub-line:nth-child(5) { animation-delay: 1.2s; }
+.scene-hub .hub-line:nth-child(6) { animation-delay: 1.5s; }
+@keyframes hubFlow {
+  0%, 100% { stroke-dashoffset: 14; stroke: #2a2a36; opacity: 0.5; }
+  50% { stroke-dashoffset: 0; stroke: rgba(var(--accent-rgb), 0.65); opacity: 1; }
+}
+.scene-hub .hub-center {
+  position: relative;
+  width: 54px; height: 54px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--amber));
+  display: flex; align-items: center; justify-content: center;
+  z-index: 3;
+  box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0.14), 0 0 40px rgba(var(--accent-rgb), 0.45);
+  animation: hubPulse 2.8s ease infinite;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #0a0a0f;
+}
+@keyframes hubPulse {
+  0%, 100% { box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0.14), 0 0 40px rgba(var(--accent-rgb), 0.45); }
+  50% { box-shadow: 0 0 0 10px rgba(var(--accent-rgb), 0.2), 0 0 56px rgba(var(--accent-rgb), 0.6); }
+}
+.scene-hub .hub-node {
+  position: absolute;
+  padding: 8px 12px;
+  background: #15151d;
+  border: 1px solid #2a2a36;
+  border-radius: 8px;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  transition: all 0.4s;
+  white-space: nowrap;
+}
+.scene-hub .hub-node.lit {
+  border-color: rgba(var(--accent-rgb), 0.5);
+  background: rgba(var(--accent-rgb), 0.08);
+  color: var(--accent);
+  box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.3);
+}
+.scene-hub .hub-node.p1 { left: 10%; top: 18%; }
+.scene-hub .hub-node.p2 { right: 10%; top: 18%; }
+.scene-hub .hub-node.p3 { left: 3%; top: 50%; transform: translateY(-50%); }
+.scene-hub .hub-node.p4 { right: 3%; top: 50%; transform: translateY(-50%); }
+.scene-hub .hub-node.p5 { left: 10%; bottom: 18%; }
+.scene-hub .hub-node.p6 { right: 10%; bottom: 18%; }
+
+/* ─── Subtle per-slide motion · every slide gets at least one dynamic element ─── */
+
+/* Title brand mark · gentle float */
+.brand-block .mark {
+  animation: brandFloat 4s ease-in-out infinite;
+}
+@keyframes brandFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Lead slide accent words · subtle glow pulse */
+.slide.lead.visible h1.display em,
+.slide.lead.visible h1.display .italic,
+.slide.lead.visible h1.display .teal {
+  animation: accentGlow 3.5s ease-in-out infinite;
+}
+@keyframes accentGlow {
+  0%, 100% { text-shadow: 0 0 0 transparent; }
+  50% { text-shadow: 0 0 22px var(--accent-glow); }
+}
+.slide.lead.visible h1.display .teal {
+  animation-name: tealGlow;
+}
+@keyframes tealGlow {
+  0%, 100% { text-shadow: 0 0 0 transparent; }
+  50% { text-shadow: 0 0 24px var(--teal-glow); }
+}
+
+/* Logo pills · subtle float stagger */
+.logos-row .logo-pill {
+  animation-name: pillFloat;
+  animation-duration: 5s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-delay: calc(var(--i, 0) * 0.4s);
+}
+@keyframes pillFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Bullets in content slides · subtle pen-strike on marker */
+.bullets li::before {
+  animation: markerPulse 3s ease-in-out infinite;
+}
+@keyframes markerPulse {
+  0%, 100% { opacity: 0.55; transform: scaleX(1); }
+  50% { opacity: 1; transform: scaleX(1.35); }
+}
+
+/* ─── CLAUDE.md live mock (slide 05) ─── */
+.claude-mock {
+  width: 100%;
+  max-width: 420px;
+  margin: clamp(1.2rem, 2vw, 1.6rem) auto 0;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-align: left;
+  position: relative;
+}
+.claude-mock::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scanBar 2.4s linear infinite;
+}
+@keyframes scanBar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.claude-mock .cm-head {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.claude-mock .cm-head .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: dotBlink 1.4s ease-in-out infinite;
+}
+@keyframes dotBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.claude-mock .cm-row {
+  display: flex; gap: 10px; padding: 5px 0;
+  color: var(--text-dim);
+}
+.claude-mock .cm-row .k {
+  color: var(--accent);
+  font-weight: 600;
+  min-width: 68px;
+}
+.claude-mock .cm-row .v { color: var(--text-paper); }
+.claude-mock .cm-row .cur {
+  display: inline-block;
+  width: 1px; height: 10px;
+  background: var(--accent);
+  margin-left: 2px;
+  animation: curBlink 0.6s step-end infinite;
+}
+@keyframes curBlink { 50% { opacity: 0; } }
+
+/* ─── Self-modifying animation (slide 10) ─── */
+.self-mod-stage {
+  position: relative;
+  width: 300px; height: 180px;
+  margin: clamp(1.2rem, 2vw, 1.8rem) auto 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.self-mod-stage .file-box {
+  width: 140px; height: 130px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.self-mod-stage .file-box .title {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.self-mod-stage .file-box .line {
+  height: 3px;
+  background: var(--border-hover);
+  border-radius: 2px;
+  margin-bottom: 6px;
+  opacity: 0.5;
+}
+.self-mod-stage .file-box .line.w1 { width: 80%; }
+.self-mod-stage .file-box .line.w2 { width: 60%; }
+.self-mod-stage .file-box .line.w3 { width: 75%; }
+.self-mod-stage .file-box .line.new {
+  background: var(--accent);
+  opacity: 0;
+  animation: newRule 3.5s ease infinite;
+}
+@keyframes newRule {
+  0%, 40% { opacity: 0; width: 0%; }
+  55% { opacity: 1; width: 85%; }
+  85% { opacity: 1; width: 85%; }
+  100% { opacity: 0; width: 85%; }
+}
+.self-mod-stage svg.loop {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+}
+.self-mod-stage svg.loop path {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  fill: none;
+  stroke-dasharray: 5 5;
+  animation: loopDraw 3.5s linear infinite;
+}
+@keyframes loopDraw {
+  to { stroke-dashoffset: -40; }
+}
+
+/* ─── Agent pixel lineup (for slides that introduce the team) ─── */
+.agent-lineup {
+  display: flex;
+  gap: clamp(14px, 1.6vw, 22px);
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+}
+.agent-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.3s var(--ease);
+}
+.agent-badge:hover { transform: translateY(-4px); }
+.agent-badge canvas { image-rendering: pixelated; }
+.agent-badge .name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-paper);
+}
+.agent-badge .role {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+/* Orbit active-step cue (for The Loop scene) */
+.scene-orbit .orb-core {
+  animation: coreBreathe 2s ease-in-out infinite;
+}
+@keyframes coreBreathe {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 24px var(--accent-glow); }
+  50% { transform: scale(1.15); box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.55); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Hex mesh + cursor glow bg -->
+<canvas id="hexBg"></canvas>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- Fixed UI · do not remove -->
+<div class="progress-bar" id="progressBar"></div>
+<nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+<div class="slide-number"><span class="curr" id="slideCurr">01</span> / <span id="slideTotal">14</span></div>
+
+<!-- Prev / Next arrows -->
+<div class="nav-arrows">
+  <button class="nav-arrow" id="navPrev" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="nav-arrow" id="navNext" aria-label="Next slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</div>
+
+<!-- Brand watermark · Superclawman · present on every slide -->
+<div class="watermark" aria-label="Superclawman">
+  <span class="brand-emoji" aria-hidden="true">🦀</span>
+  <span class="bar"></span>
+  <span>SUPERCLAWMAN</span>
+</div>
+
+
+<!-- ==================================================================
+   SLIDES GO HERE · replace everything between these comments
+   with brief-driven slides. Each slide MUST have `data-title="..."`.
+   See examples/m1-reference.html for a full worked deck.
+   ================================================================== -->
+
+<!-- Scoped CSS for Sisloc-specific slide components -->
+<style>
+/* metric tiles */
+.metric-row {
+  display: flex;
+  gap: clamp(16px, 2.4vw, 36px);
+  margin-top: clamp(2rem, 4vw, 3.2rem);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.metric-tile {
+  flex: 1 1 200px;
+  min-width: 180px;
+  max-width: 280px;
+  padding: clamp(1.2rem, 2vw, 1.8rem);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.04), transparent);
+  text-align: center;
+}
+.metric-tile .num {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.8vw, 3.8rem);
+  line-height: 1;
+  color: var(--text-paper);
+  display: block;
+}
+.metric-tile .num em { font-style: italic; color: var(--accent); }
+.metric-tile .unit {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 6px;
+  display: block;
+}
+.metric-tile .lbl {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin-top: 10px;
+  line-height: 1.3;
+}
+
+/* top-10 fila list (horizontal bars) */
+.fila-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: clamp(1.4rem, 2.4vw, 2rem);
+  max-width: min(90vw, 820px);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+.fila-row {
+  display: grid;
+  grid-template-columns: 22px minmax(140px, 1.4fr) 4fr 60px;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 1vw, 0.84rem);
+}
+.fila-row .rk {
+  color: var(--text-dim);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+.fila-row .nm {
+  color: var(--text-paper);
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.fila-row .bartrack {
+  height: 6px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.fila-row .bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0.4));
+  border-radius: 4px;
+  width: 0;
+  transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+.slide.visible .fila-row .bar { width: var(--w, 50%); }
+.fila-row .ct {
+  text-align: right;
+  color: var(--text);
+  letter-spacing: 0.06em;
+}
+.fila-footnote {
+  margin-top: clamp(1rem, 1.6vw, 1.4rem);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* dual-tier flow diagram (slide 5) */
+.tier-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%; height: 100%;
+  padding: clamp(14px, 2vw, 22px);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(var(--accent-rgb), 0.05) 0%, #0a0a0f 70%);
+  justify-content: center;
+}
+.tier-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(10,10,10,0.4);
+}
+.tier-flow .tlabel {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  width: 52px;
+}
+.tier-flow.t2 .tlabel { color: var(--violet); }
+.tier-flow .nodes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+.tier-node {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 5px 9px;
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  border-radius: 100px;
+  color: var(--text-paper);
+  background: rgba(var(--accent-rgb), 0.06);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.tier-flow.t2 .tier-node {
+  border-color: rgba(139, 92, 246, 0.5);
+  background: rgba(139, 92, 246, 0.06);
+}
+.tier-node.end { color: var(--teal); border-color: rgba(80, 227, 194, 0.5); background: rgba(80, 227, 194, 0.06); }
+.tier-arrow {
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+.tier-meta {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-left: 8px;
+}
+
+/* cost comparison (slide 7 hero) */
+.cost-row {
+  display: flex;
+  gap: clamp(14px, 2vw, 28px);
+  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+.cost-card {
+  flex: 1 1 280px;
+  max-width: 380px;
+  padding: clamp(1.4rem, 2.4vw, 2rem);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  position: relative;
+}
+.cost-card.now {
+  border-color: rgba(245, 166, 35, 0.35);
+  background: linear-gradient(180deg, rgba(245, 166, 35, 0.06), transparent);
+}
+.cost-card.sc {
+  border-color: rgba(var(--accent-rgb), 0.5);
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.08), transparent);
+  box-shadow: 0 0 32px rgba(var(--accent-rgb), 0.08);
+}
+.cost-card .ck {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.cost-card.now .ck { color: var(--amber); }
+.cost-card.sc .ck { color: var(--accent); }
+.cost-card .price {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4.2vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--text-paper);
+  margin-top: 10px;
+}
+.cost-card .price small {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  margin-left: 4px;
+}
+.cost-card ul {
+  list-style: none;
+  margin-top: clamp(1.2rem, 2vw, 1.6rem);
+  padding: 0;
+}
+.cost-card ul li {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--text);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.cost-card ul li:last-child { border-bottom: none; }
+.cost-card ul li span:first-child { color: var(--text-dim); font-size: 0.78rem; letter-spacing: 0.06em; }
+.cost-callout {
+  margin-top: clamp(1rem, 2vw, 1.4rem);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.cost-callout strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* simple investment-detail block */
+.invest-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: clamp(1.8rem, 3vw, 2.4rem);
+  max-width: min(94vw, 920px);
+  margin-left: auto;
+  margin-right: auto;
+}
+.invest-item {
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(10,10,10,0.5);
+}
+.invest-item .k {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.invest-item .v {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+  font-weight: 400;
+  color: var(--text-paper);
+  margin-top: 4px;
+}
+.invest-item .v em { font-style: italic; color: var(--accent); }
+.invest-item .note {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* timeline (slide 10) */
+.timeline {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  max-width: min(94vw, 980px);
+  margin-left: auto;
+  margin-right: auto;
+}
+.tl-step {
+  flex: 1;
+  padding: clamp(1.2rem, 2vw, 1.6rem) clamp(1rem, 1.6vw, 1.4rem);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  position: relative;
+  background: rgba(10,10,10,0.4);
+}
+.tl-step + .tl-step { margin-left: -1px; border-left: 1px solid transparent; }
+.tl-step .ph {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tl-step .ph .num {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  text-align: center;
+  line-height: 20px;
+  font-size: 0.62rem;
+  margin-right: 8px;
+  color: var(--accent);
+}
+.tl-step .tt {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+  color: var(--text-paper);
+  margin-top: 8px;
+}
+.tl-step .desc {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.86rem;
+  color: var(--text);
+  margin-top: 8px;
+  line-height: 1.45;
+}
+.tl-step .meta {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 10px;
+}
+
+/* stability stat-row (slide 9) */
+.stability-row {
+  display: flex;
+  gap: clamp(16px, 2.4vw, 32px);
+  margin-top: clamp(2rem, 4vw, 3rem);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.stability-tile {
+  flex: 1 1 220px;
+  max-width: 280px;
+  padding: clamp(1.2rem, 2vw, 1.6rem);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(80, 227, 194, 0.04), transparent);
+}
+.stability-tile .k {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.stability-tile .v {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  color: var(--text-paper);
+  margin-top: 6px;
+  line-height: 1;
+}
+.stability-tile .d {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.84rem;
+  color: var(--text);
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+/* CTA softer / outro (slide 11) */
+.cta-card {
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+  max-width: min(90vw, 720px);
+  padding: clamp(1.6rem, 3vw, 2.4rem);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.05), transparent);
+  text-align: center;
+}
+.cta-card .who {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.cta-card .who strong { color: var(--accent); font-weight: 600; }
+.cta-card .ask {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  color: var(--text-paper);
+  margin-top: 14px;
+  line-height: 1.3;
+}
+.cta-card .channels {
+  margin-top: clamp(1.2rem, 2vw, 1.6rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.cta-card .channels .ch {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text);
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: rgba(10,10,10,0.5);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: border-color 0.25s var(--ease), color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  cursor: pointer;
+}
+.cta-card .channels .ch:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.25);
+}
+.cta-card .channels .ch .ico {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+</style>
+
+<!-- ============================================================
+     SISLOC PITCH · 11 slides · corporate palette · Maio 2026
+     Audience: CEO + Gerente Financeiro + Aline (Suporte)
+     ============================================================ -->
+
+<!-- 01 · TITLE -->
+<section class="slide lead" data-title="Capa">
+  <div class="slide-content">
+    <h3 class="kicker reveal">Proposta · Maio 2026 · Sisloc Softwares</h3>
+    <h1 class="display reveal">Operação de atendimento <em>autônoma</em> no WhatsApp.</h1>
+    <h2 class="reveal">N1 sem fila, sem fricção · IA pt-BR + Document360 + Zendesk.</h2>
+
+    <div class="brand-block">
+      <div class="mark emoji-row" aria-hidden="true">
+        <span>🧠</span><span>⚡</span><span>🦀</span><span>🤘</span>
+      </div>
+      <div class="text">
+        <div class="title-line"><strong>SUPER</strong><span class="thin">CLAWMAN</span></div>
+        <div class="tag-line">The Unique Resident WhatsApp AI Assistant.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · O CONTEXTO · today's pain in 3 numbers -->
+<section class="slide" data-title="Contexto">
+  <div class="slide-content" style="justify-content: center;">
+    <h3 class="section-label reveal" style="text-align: center;">O cenário atual</h3>
+    <h1 class="display reveal" style="font-size: clamp(1.7rem, 4.2vw, 3.2rem); text-align: center; max-width: 28ch; margin: 0 auto;">A operação de suporte hoje custa <span class="hl"><em>R$ 103,5 mil</em></span> por mês — para responder, em grande parte, o que poderia <em>se resolver sozinho</em>.</h1>
+    <div class="metric-row reveal">
+      <div class="metric-tile">
+        <span class="num"><em>4.000</em></span>
+        <span class="unit">chamados / mês</span>
+        <div class="lbl">Volume Zendesk N1 atual.</div>
+      </div>
+      <div class="metric-tile">
+        <span class="num"><em>25</em></span>
+        <span class="unit">atendentes</span>
+        <div class="lbl">Equipe N1 dedicada em Belo Horizonte.</div>
+      </div>
+      <div class="metric-tile">
+        <span class="num"><em>R$ 26</em></span>
+        <span class="unit">por chamado</span>
+        <div class="lbl">Custo médio loaded · base atual.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 · A OPORTUNIDADE · the reframe -->
+<section class="slide lead" data-title="Oportunidade">
+  <div class="slide-content">
+    <h3 class="section-label reveal">A oportunidade</h3>
+    <h1 class="display reveal"><em>70%</em> da fila pode <span class="hl">resolver-se sozinha</span>.</h1>
+    <h2 class="reveal">Dúvidas fiscais, acessos, fichas — IA + Document360 fecham o ciclo no próprio WhatsApp, sem abrir ticket.</h2>
+  </div>
+</section>
+
+<!-- 04 · TOP 10 DA FILA · data slide with bars -->
+<section class="slide" data-title="Top 10">
+  <div class="slide-content" style="justify-content: center;">
+    <h3 class="section-label reveal" style="text-align: center;">Onde mora 45% do volume</h3>
+    <h1 class="display reveal" style="font-size: clamp(1.6rem, 3.8vw, 2.8rem); text-align: center; max-width: 26ch; margin: 0 auto;">10 perguntas concentram <em>1.795 chamados</em> por mês.</h1>
+    <div class="fila-list reveal">
+      <div class="fila-row"><span class="rk">01</span><span class="nm">NF-e</span><span class="bartrack"><span class="bar" style="--w: 100%"></span></span><span class="ct">301</span></div>
+      <div class="fila-row"><span class="rk">02</span><span class="nm">NFS-e</span><span class="bartrack"><span class="bar" style="--w: 96%"></span></span><span class="ct">289</span></div>
+      <div class="fila-row"><span class="rk">03</span><span class="nm">Sem acesso ao ambiente</span><span class="bartrack"><span class="bar" style="--w: 89%"></span></span><span class="ct">268</span></div>
+      <div class="fila-row"><span class="rk">04</span><span class="nm">Ficha de Locação</span><span class="bartrack"><span class="bar" style="--w: 48%"></span></span><span class="ct">146</span></div>
+      <div class="fila-row"><span class="rk">05</span><span class="nm">Ordem de Manutenção</span><span class="bartrack"><span class="bar" style="--w: 43%"></span></span><span class="ct">129</span></div>
+      <div class="fila-row"><span class="rk">06</span><span class="nm">Propostas FV</span><span class="bartrack"><span class="bar" style="--w: 40%"></span></span><span class="ct">122</span></div>
+      <div class="fila-row"><span class="rk">07</span><span class="nm">Faturamento Locação</span><span class="bartrack"><span class="bar" style="--w: 37%"></span></span><span class="ct">112</span></div>
+      <div class="fila-row"><span class="rk">08</span><span class="nm">Gerador de Notificações</span><span class="bartrack"><span class="bar" style="--w: 33%"></span></span><span class="ct">99</span></div>
+      <div class="fila-row"><span class="rk">09</span><span class="nm">Integração Bancária CAR</span><span class="bartrack"><span class="bar" style="--w: 33%"></span></span><span class="ct">98</span></div>
+    </div>
+    <div class="fila-footnote reveal">Eixo crítico de deflexão · tributário + fiscal + acesso</div>
+  </div>
+</section>
+
+<!-- 05 · COMO FUNCIONA · dual-tier flow -->
+<section class="slide iso-slide" data-title="Como funciona">
+  <div class="slide-content">
+    <div class="iso-text">
+      <h3 class="kicker reveal">Fig. 01 · Operação</h3>
+      <h2 class="scene-title reveal">Duas camadas, <em>uma porta</em> de entrada.</h2>
+      <p class="body-text reveal">O cliente fala com um único número de WhatsApp. A IA decide o caminho.</p>
+      <ul class="fine-list reveal">
+        <li><span class="k">Tier 1</span><span class="v">Resolve sem ticket</span></li>
+        <li><span class="k">Tier 2</span><span class="v">Valida e-mail · cria ticket</span></li>
+        <li><span class="k">Regra dura</span><span class="v">Só cadastrado abre ticket</span></li>
+      </ul>
+    </div>
+    <div class="iso-stage reveal">
+      <div class="tier-stage">
+        <div class="tier-flow t1">
+          <span class="tlabel">Tier 1</span>
+          <div class="nodes">
+            <span class="tier-node">WhatsApp</span>
+            <span class="tier-arrow">→</span>
+            <span class="tier-node">IA + Document360</span>
+            <span class="tier-arrow">→</span>
+            <span class="tier-node end">Resolve</span>
+            <span class="tier-meta">sem ticket</span>
+          </div>
+        </div>
+        <div class="tier-flow t2">
+          <span class="tlabel">Tier 2</span>
+          <div class="nodes">
+            <span class="tier-node">WhatsApp</span>
+            <span class="tier-arrow">→</span>
+            <span class="tier-node">Pede e-mail</span>
+            <span class="tier-arrow">→</span>
+            <span class="tier-node">Valida Zendesk</span>
+            <span class="tier-arrow">→</span>
+            <span class="tier-node end">Ticket + SLA 5h</span>
+          </div>
+        </div>
+        <div class="tier-flow t2">
+          <span class="tlabel">Roteia</span>
+          <div class="nodes">
+            <span class="tier-node">BackOffice</span>
+            <span class="tier-node">Rental</span>
+            <span class="tier-node">Fiscal</span>
+            <span class="tier-meta">classificação automática</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 · A EQUIPE SUPERCLAWMAN -->
+<section class="slide lead" data-title="A equipe">
+  <div class="slide-content">
+    <h3 class="section-label reveal">A equipe que opera o caso Sisloc</h3>
+    <h1 class="display reveal" style="font-size: clamp(1.8rem, 4.4vw, 3.4rem); max-width: 22ch;">Um <em>time inteiro</em> trabalhando atrás de um número de WhatsApp.</h1>
+    <div class="agent-lineup reveal" style="margin-top: clamp(1.6rem, 3vw, 2.4rem);">
+      <div class="agent-badge"><canvas data-agent="superclawman" width="56" height="56" style="width:44px;height:44px;"></canvas><span class="name">Superclawman</span><span class="role">Assistente residente</span></div>
+      <div class="agent-badge"><canvas data-agent="superclawman-jr" width="56" height="56" style="width:44px;height:44px;"></canvas><span class="name">Jr</span><span class="role">Resposta rápida</span></div>
+      <div class="agent-badge"><canvas data-agent="watchdog" width="56" height="56" style="width:44px;height:44px;"></canvas><span class="name">Watchdog</span><span class="role">Sentinela · alertas</span></div>
+      <div class="agent-badge"><canvas data-agent="heimdall" width="56" height="56" style="width:44px;height:44px;"></canvas><span class="name">Heimdall</span><span class="role">Observabilidade</span></div>
+      <div class="agent-badge"><canvas data-agent="openclaw" width="56" height="56" style="width:44px;height:44px;"></canvas><span class="name">OpenClaw</span><span class="role">Integração APIs</span></div>
+      <div class="agent-badge"><canvas data-agent="sandmanpo" width="56" height="56" style="width:44px;height:44px;"></canvas><span class="name">Sandmanpo</span><span class="role">Backend 24×7</span></div>
+    </div>
+    <h2 class="reveal" style="margin-top: clamp(1.6rem, 2.6vw, 2rem); max-width: 60ch; font-size: clamp(0.95rem, 1.4vw, 1.1rem); color: var(--text-dim);">Não é um chatbot. É uma plataforma multi-agente — encapsulada em uma única fatura mensal.</h2>
+  </div>
+</section>
+
+<!-- 07 · A MATEMÁTICA · hero cost comparison -->
+<section class="slide" data-title="Matemática">
+  <div class="slide-content" style="justify-content: center;">
+    <h3 class="section-label reveal" style="text-align: center;">A matemática</h3>
+    <h1 class="display reveal" style="font-size: clamp(1.7rem, 4vw, 2.8rem); text-align: center; max-width: 28ch; margin: 0 auto;">Mesma fatura. <em>Dez vezes</em> a capacidade. <span class="hl"><em>R$ 28,5 mil</em></span> de fôlego por mês.</h1>
+    <div class="cost-row reveal">
+      <div class="cost-card now">
+        <div class="ck">Hoje</div>
+        <div class="price">R$ 103,5K<small>/mês</small></div>
+        <ul>
+          <li><span>Equipe</span><span>25 atendentes</span></li>
+          <li><span>TMR</span><span>1–3 h</span></li>
+          <li><span>Capacidade</span><span>fixa</span></li>
+          <li><span>Horário</span><span>seg–sex 8h–18h</span></li>
+          <li><span>Escala</span><span>+contratação</span></li>
+        </ul>
+      </div>
+      <div class="cost-card sc">
+        <div class="ck">Com Superclawman</div>
+        <div class="price">R$ 75K<small>/mês</small></div>
+        <ul>
+          <li><span>Equipe</span><span>IA + 6 agentes</span></li>
+          <li><span>TMR Tier 1</span><span>&lt; 1 min</span></li>
+          <li><span>Capacidade</span><span>elástica · 10×</span></li>
+          <li><span>Horário</span><span>seg–sex 8h–18h*</span></li>
+          <li><span>Escala</span><span>sem nova fatura</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="cost-callout reveal">Diferença direta · <strong>R$ 28,5 mil/mês</strong> · R$ 342K/ano · sem reduzir headcount</div>
+  </div>
+</section>
+
+<!-- 08 · INVESTIMENTO ENCAPSULADO -->
+<section class="slide" data-title="Investimento">
+  <div class="slide-content" style="justify-content: center;">
+    <h3 class="section-label reveal" style="text-align: center;">Investimento</h3>
+    <h1 class="display reveal" style="font-size: clamp(1.7rem, 4vw, 2.8rem); text-align: center; max-width: 26ch; margin: 0 auto;">Uma <em>única fatura</em>. Anthropic, WhatsApp, infra e operação <span class="hl">já dentro</span>.</h1>
+    <div class="invest-list reveal">
+      <div class="invest-item">
+        <div class="k">Setup one-time</div>
+        <div class="v"><em>R$ 60K</em></div>
+        <div class="note">50% kickoff · 50% POC validado</div>
+      </div>
+      <div class="invest-item">
+        <div class="k">Mensalidade</div>
+        <div class="v"><em>R$ 75K</em><small style="font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; color: var(--text-dim); margin-left: 4px;">/mês</small></div>
+        <div class="note">Anthropic + WA + VPS + manutenção · encapsulada</div>
+      </div>
+      <div class="invest-item">
+        <div class="k">Contrato</div>
+        <div class="v">12 meses</div>
+        <div class="note">IPCA · multa 30% saldo</div>
+      </div>
+      <div class="invest-item">
+        <div class="k">Fair-use</div>
+        <div class="v">6.000<small style="font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; color: var(--text-dim); margin-left: 4px;">conversas/mês</small></div>
+        <div class="note">Excedente R$ 4 / conversa</div>
+      </div>
+      <div class="invest-item">
+        <div class="k">Ano 1</div>
+        <div class="v"><em>R$ 960K</em></div>
+        <div class="note">Setup + 12 mensalidades</div>
+      </div>
+      <div class="invest-item">
+        <div class="k">SLA</div>
+        <div class="v">≥ 99,5%</div>
+        <div class="note">Disponibilidade · CSAT IA ≥ 95%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · ESTABILIDADE -->
+<section class="slide" data-title="Estabilidade">
+  <div class="slide-content" style="justify-content: center;">
+    <h3 class="section-label reveal" style="text-align: center; color: var(--teal);">A operação não pode piorar</h3>
+    <h1 class="display reveal" style="font-size: clamp(1.7rem, 4vw, 2.8rem); text-align: center; max-width: 26ch; margin: 0 auto;">CSAT <em>98%</em> da Sisloc é o piso, <span class="teal">não a meta</span>.</h1>
+    <div class="stability-row reveal">
+      <div class="stability-tile">
+        <div class="k">Disponibilidade</div>
+        <div class="v">99,5%</div>
+        <div class="d">Uptime contratual com monitoração ativa e plano de contingência.</div>
+      </div>
+      <div class="stability-tile">
+        <div class="k">Qualidade IA</div>
+        <div class="v">≥ 95%</div>
+        <div class="d">CSAT mínimo da camada de IA · evals contínuos sobre amostras reais.</div>
+      </div>
+      <div class="stability-tile">
+        <div class="k">Compliance</div>
+        <div class="v">LGPD</div>
+        <div class="d">DPA assinado antes do go-live · dados em VPS isolada · audit log completo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · O CAMINHO · timeline -->
+<section class="slide" data-title="O caminho">
+  <div class="slide-content" style="justify-content: center;">
+    <h3 class="section-label reveal" style="text-align: center;">O caminho até produção</h3>
+    <h1 class="display reveal" style="font-size: clamp(1.7rem, 4vw, 2.8rem); text-align: center; max-width: 26ch; margin: 0 auto;">Faseado, <em>controlado</em>, com saída em cada porta.</h1>
+    <div class="timeline reveal">
+      <div class="tl-step">
+        <div class="ph"><span class="num">01</span>POC</div>
+        <div class="tt">Prova em ambiente isolado</div>
+        <div class="desc">Mock Zendesk + amostra Document360 real · 5–10 fluxos do top 10. Demo ao vivo com Aline + decisores.</div>
+        <div class="meta">~ 30 dias</div>
+      </div>
+      <div class="tl-step">
+        <div class="ph"><span class="num">02</span>Go-live</div>
+        <div class="tt">Produção gradual</div>
+        <div class="desc">NDA + DPA + acessos APIs · onboarding da equipe · rollout por núcleo (BackOffice, Rental, Fiscal).</div>
+        <div class="meta">Pós POC validado</div>
+      </div>
+      <div class="tl-step">
+        <div class="ph"><span class="num">03</span>Operação</div>
+        <div class="tt">Contínua + observada</div>
+        <div class="desc">Watchdog + Heimdall monitoram 24×7 · revisões mensais com Sisloc · expansões só com aprovação.</div>
+        <div class="meta">Contrato 12 meses</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · PRÓXIMOS PASSOS · soft CTA -->
+<section class="slide lead" data-title="Próximos passos">
+  <div class="slide-content">
+    <h3 class="kicker reveal">Próximo passo</h3>
+    <h1 class="display reveal">Qual a <em>sua leitura</em> sobre essa proposta?</h1>
+    <h2 class="reveal">Sem pressão — queremos entender onde fica o melhor encaixe.</h2>
+    <div class="cta-card reveal">
+      <div class="who">Para <strong>Aline Assis</strong> · Gerência Financeira · CEO</div>
+      <div class="ask">Se fizer sentido seguir para POC, montamos juntos o escopo dos 5–10 fluxos a validar.</div>
+      <div class="channels">
+        <a class="ch" href="https://wa.me/5511994917618" target="_blank" rel="noopener"><span class="ico">📱</span><span>WhatsApp · Paulo</span></a>
+        <a class="ch" href="mailto:paulo.ovidio@superclawman.ai"><span class="ico">✉️</span><span>paulo.ovidio@superclawman.ai</span></a>
+        <a class="ch" href="Sisloc_Blueprint_Tecnico_v1.0.pdf" target="_blank" rel="noopener"><span class="ico">📄</span><span>Blueprint v1.0 · PDF</span></a>
+        <a class="ch" href="Sisloc_Proposta_Comercial_v1.0.pdf" target="_blank" rel="noopener"><span class="ico">📄</span><span>Proposta v1.0 · PDF</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== END SLIDES SECTION =================== -->
+
+<script>
+/* ================================================================
+   SLIDE CONTROLLER · do not modify
+   Keyboard: ↑↓←→ / Space / PgUp/PgDn / j/k / Home/End
+   Touch swipe, click nav dots
+   ================================================================ */
+/* ================================================================
+   BG_CONFIG · tune background prominence here · no surgery needed
+   ---
+   Everything about the hex mesh + agent scatter + cursor glow
+   intensity lives in one place. Halve a value = half as loud.
+   ================================================================ */
+const BG_CONFIG = {
+  hexAlphaMax:       0.08,  // 0 (invisible) → 0.15 (loud) · halve for subtle bg
+  hexCellSize:       20,    // 12 (dense) → 40 (sparse) · bigger = sparser grid
+  hexLineWidth:      0.6,   // 0.3 (thin) → 1 (thick)
+  hexFadeExponent:   2,     // 1 (even) → 4 (sharp vignette) · higher = darker edges
+  hexRotationSpeed:  0.0001, // rads/frame
+  scatterCount:      12,    // 0 → 20 · how many agents to scatter
+  scatterOpacityMin: 0.04,
+  scatterOpacityMax: 0.08,
+  cursorGlowAlpha:   0.04,  // 0 → 0.1 · orange cursor halo intensity
+};
+
+class SlidePresentation {
+  constructor() {
+    this.slides = Array.from(document.querySelectorAll('.slide'));
+    this.navDots = document.getElementById('navDots');
+    this.progressBar = document.getElementById('progressBar');
+    this.currSpan = document.getElementById('slideCurr');
+    this.totalSpan = document.getElementById('slideTotal');
+    this.navPrev = document.getElementById('navPrev');
+    this.navNext = document.getElementById('navNext');
+    this.current = 0;
+    this.totalSpan.textContent = String(this.slides.length).padStart(2, '0');
+    this.buildNavDots();
+    this.attachObserver();
+    this.attachKeyboard();
+    this.attachTouch();
+    this.attachScroll();
+    this.attachArrows();
+  }
+
+  attachArrows() {
+    if (this.navPrev) this.navPrev.addEventListener('click', () => this.goTo(this.current - 1));
+    if (this.navNext) this.navNext.addEventListener('click', () => this.goTo(this.current + 1));
+  }
+
+  updateArrowState() {
+    if (this.navPrev) this.navPrev.disabled = this.current <= 0;
+    if (this.navNext) this.navNext.disabled = this.current >= this.slides.length - 1;
+  }
+
+  buildNavDots() {
+    this.navDots.innerHTML = '';
+    this.slides.forEach((slide, i) => {
+      const btn = document.createElement('button');
+      btn.setAttribute('aria-label', `Slide ${i + 1}: ${slide.dataset.title || ''}`);
+      btn.addEventListener('click', () => this.goTo(i));
+      this.navDots.appendChild(btn);
+    });
+  }
+
+  attachObserver() {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.intersectionRatio < 0.55) return;
+        entry.target.classList.add('visible');
+        const i = this.slides.indexOf(entry.target);
+        if (i !== -1) this.setCurrent(i);
+      });
+    }, { threshold: [0, 0.55, 0.9] });
+    this.slides.forEach((s) => io.observe(s));
+  }
+
+  setCurrent(i) {
+    this.current = i;
+    [...this.navDots.children].forEach((b, j) => b.classList.toggle('active', j === i));
+    this.currSpan.textContent = String(i + 1).padStart(2, '0');
+    this.progressBar.style.width = ((i + 1) / this.slides.length * 100) + '%';
+    this.updateArrowState();
+  }
+
+  goTo(i) {
+    if (i < 0 || i >= this.slides.length) return;
+    this.slides[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  attachKeyboard() {
+    document.addEventListener('keydown', (e) => {
+      if (e.target.matches('input, textarea')) return;
+      const keys = {
+        'ArrowDown': 1, 'ArrowRight': 1, 'PageDown': 1, ' ': 1, 'j': 1,
+        'ArrowUp': -1, 'ArrowLeft': -1, 'PageUp': -1, 'k': -1,
+        'Home': -Infinity, 'End': Infinity,
+      };
+      if (e.key in keys) {
+        e.preventDefault();
+        const delta = keys[e.key];
+        if (delta === -Infinity) this.goTo(0);
+        else if (delta === Infinity) this.goTo(this.slides.length - 1);
+        else this.goTo(this.current + delta);
+      }
+    });
+  }
+
+  attachTouch() {
+    let startY = 0;
+    document.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+      const diff = startY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) < 50) return;
+      this.goTo(this.current + (diff > 0 ? 1 : -1));
+    }, { passive: true });
+  }
+
+  attachScroll() {
+    let raf = null;
+    document.addEventListener('scroll', () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = null;
+        const sh = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = Math.max(0, Math.min(100, (window.scrollY / sh) * 100));
+        this.progressBar.style.width = pct + '%';
+      });
+    }, { passive: true });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  new SlidePresentation();
+  document.querySelector('.slide')?.classList.add('visible');
+  initAgentIcons();
+  initHexBg();
+  initAgentScatter();
+  initCursorGlow();
+});
+
+/* ================================================================
+   Agent pixel icon system · Superclawman canonical cast
+   (see agent-icons.md for the full cast doc + custom-persona rules)
+   ================================================================ */
+const PIXELS = {
+  'superclawman':    { color: '#ff6b1a', grid: [[1,0,0,1],[1,1,0,1],[0,1,1,1],[1,1,1,1],[1,0,1,1],[0,1,1,1],[1,1,0,1],[0,1,0,0]] },
+  'superclawman-jr': { color: '#f5a623', grid: [[0,0,0,0],[0,0,1,1],[0,1,1,1],[1,1,1,1],[1,0,1,1],[0,1,1,1],[0,1,0,1],[0,1,0,0]] },
+  'watchdog':        { color: '#ff6b6b', grid: [[1,1,0,0],[1,1,1,0],[0,1,1,1],[0,1,0,1],[1,1,1,1],[1,1,1,1],[0,1,0,1],[0,1,0,0]] },
+  'heimdall':        { color: '#22d3ee', grid: [[0,0,0,1],[0,0,1,1],[0,1,1,1],[1,1,1,1],[0,1,0,1],[0,1,1,1],[1,1,1,1],[1,0,0,1]] },
+  'openclaw':        { color: '#8b5cf6', grid: [[0,0,1,0],[1,0,1,1],[1,1,1,1],[0,1,1,1],[1,1,1,1],[1,0,1,1],[1,0,0,1],[1,0,0,0]] },
+  'sandmanpo':       { color: '#50e3c2', grid: [[0,1,1,1],[1,1,1,1],[0,0,1,1],[0,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1],[0,1,0,0]] },
+};
+
+function drawPixelAgent(canvas, agent, size, colorOverride) {
+  const data = PIXELS[agent];
+  if (!data) return;
+  const cols = 8, rows = data.grid.length;
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = colorOverride || data.color;
+  const px = size / cols, py = size / rows;
+  for (let r = 0; r < rows; r++) {
+    const row = data.grid[r];
+    for (let c = 0; c < 4; c++) {
+      if (row[c]) {
+        ctx.fillRect(Math.floor(c * px), Math.floor(r * py), Math.ceil(px), Math.ceil(py));
+        ctx.fillRect(Math.floor((cols - 1 - c) * px), Math.floor(r * py), Math.ceil(px), Math.ceil(py));
+      }
+    }
+  }
+}
+
+function initAgentIcons() {
+  document.querySelectorAll('canvas[data-agent]').forEach((c) => {
+    drawPixelAgent(c, c.dataset.agent, parseInt(c.getAttribute('width')) || 56);
+  });
+}
+
+/* ================================================================
+   Hex mesh bg
+   ================================================================ */
+function initHexBg() {
+  const hexCanvas = document.getElementById('hexBg');
+  if (!hexCanvas) return;
+  const hexCtx = hexCanvas.getContext('2d');
+  let hexAngle = 0;
+
+  function drawHexGrid() {
+    const W = hexCanvas.width = window.innerWidth;
+    const H = hexCanvas.height = window.innerHeight;
+    hexCtx.clearRect(0, 0, W, H);
+    hexCtx.save();
+    hexCtx.translate(W / 2, H / 2);
+    hexCtx.rotate(hexAngle);
+    hexCtx.translate(-W / 2, -H / 2);
+
+    const hexSize = BG_CONFIG.hexCellSize;
+    const hSpacing = hexSize * Math.sqrt(3);
+    const vSpacing = hexSize * 1.5;
+    const cx0 = W / 2, cy0 = H / 2;
+    const maxDist = Math.sqrt(cx0 * cx0 + cy0 * cy0);
+    const fadeExp = BG_CONFIG.hexFadeExponent;
+    const alphaMax = BG_CONFIG.hexAlphaMax;
+
+    for (let row = -1; row < H / vSpacing + 2; row++) {
+      for (let col = -1; col < W / hSpacing + 2; col++) {
+        const hx = col * hSpacing + (row % 2 ? hSpacing / 2 : 0);
+        const hy = row * vSpacing;
+        const dist = Math.sqrt((hx - cx0) * (hx - cx0) + (hy - cy0) * (hy - cy0));
+        let fade = Math.max(0, 1 - (dist / maxDist) * 0.6);
+        for (let f = 1; f < fadeExp; f++) fade *= fade;
+        const alpha = alphaMax * fade;
+        if (alpha < 0.005) continue;
+        hexCtx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const a = Math.PI / 3 * i - Math.PI / 6;
+          const px = hx + hexSize * Math.cos(a);
+          const py = hy + hexSize * Math.sin(a);
+          i === 0 ? hexCtx.moveTo(px, py) : hexCtx.lineTo(px, py);
+        }
+        hexCtx.closePath();
+        hexCtx.strokeStyle = 'rgba(255,255,255,' + alpha + ')';
+        hexCtx.lineWidth = BG_CONFIG.hexLineWidth;
+        hexCtx.stroke();
+      }
+    }
+    hexCtx.restore();
+  }
+
+  function animate() {
+    hexAngle += BG_CONFIG.hexRotationSpeed;
+    drawHexGrid();
+    requestAnimationFrame(animate);
+  }
+  drawHexGrid();
+  requestAnimationFrame(animate);
+  window.addEventListener('resize', drawHexGrid);
+}
+
+/* ================================================================
+   Scattered agent pixel decorations
+   ================================================================ */
+function initAgentScatter() {
+  const decos = [
+    { agent: 'superclawman',    top: '12%', left: '5%',  size: 48, opacity: 0.08, rotate: -12 },
+    { agent: 'heimdall',         top: '28%', right: '7%', size: 56, opacity: 0.07, rotate: 8 },
+    { agent: 'superclawman-jr',  top: '55%', left: '3%',  size: 40, opacity: 0.08, rotate: 15 },
+    { agent: 'openclaw',         top: '72%', right: '4%', size: 52, opacity: 0.06, rotate: -6 },
+    { agent: 'sandmanpo',        bottom: '15%', left: '8%', size: 44, opacity: 0.06, rotate: 22 },
+    { agent: 'watchdog',         top: '18%', left: '88%', size: 60, opacity: 0.07, rotate: -10 },
+    { agent: 'superclawman',     top: '42%', right: '10%', size: 44, opacity: 0.05, rotate: 5 },
+    { agent: 'heimdall',         top: '85%', left: '12%', size: 50, opacity: 0.06, rotate: -15 },
+    { agent: 'superclawman-jr',  top: '65%', left: '92%', size: 42, opacity: 0.08, rotate: 12 },
+    { agent: 'sandmanpo',        top: '8%',  left: '50%', size: 36, opacity: 0.05, rotate: -8 },
+    { agent: 'openclaw',         top: '48%', left: '6%',  size: 72, opacity: 0.04, rotate: 3 },
+    { agent: 'watchdog',         bottom: '25%', right: '15%', size: 80, opacity: 0.04, rotate: -3 }
+  ];
+
+  const limit = Math.min(BG_CONFIG.scatterCount, decos.length);
+  const opSpan = BG_CONFIG.scatterOpacityMax - BG_CONFIG.scatterOpacityMin;
+
+  decos.slice(0, limit).forEach((d, i) => {
+    const c = document.createElement('canvas');
+    c.className = 'pixel-agent';
+    if (d.top) c.style.top = d.top;
+    if (d.bottom) c.style.bottom = d.bottom;
+    if (d.left) c.style.left = d.left;
+    if (d.right) c.style.right = d.right;
+    c.style.width = d.size + 'px';
+    c.style.height = d.size + 'px';
+    c.style.opacity = (BG_CONFIG.scatterOpacityMin + (i % 5) / 4 * opSpan).toFixed(3);
+    c.style.transform = 'rotate(' + d.rotate + 'deg)';
+    document.body.appendChild(c);
+    const accentHex = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#ff6b1a';
+    drawPixelAgent(c, d.agent, d.size * 2, accentHex);
+  });
+}
+
+/* ================================================================
+   Cursor glow (gentle trailing highlight)
+   ================================================================ */
+function initCursorGlow() {
+  const glow = document.getElementById('cursorGlow');
+  if (!glow) return;
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let gx = mx, gy = my;
+  document.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+  (function tick() {
+    gx += (mx - gx) * 0.12;
+    gy += (my - gy) * 0.12;
+    glow.style.left = gx + 'px';
+    glow.style.top = gy + 'px';
+    requestAnimationFrame(tick);
+  })();
+}
+</script>
+</body>
+</html>
