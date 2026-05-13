@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Sisloc — Brand Book (cortesia Superclawman)</title>
+<style>
+  :root {
+    --primary:    #1d65a7;
+    --secondary:  #ff7e00;
+    --tertiary:   #464f6d;
+    --error:      #cf2e2e;
+
+    --bg:         #ffffff;
+    --surface:    #f7f7f9;
+    --surface-2:  #edeeed;
+    --border:     #cfcfcf;
+    --text:       #1f2124;
+    --text-dim:   #464f6d;
+    --muted:      #69727d;
+
+    --body-font:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono-font:  'SF Mono', Menlo, Monaco, 'Courier New', monospace;
+  }
+
+  @page { size: A4; margin: 0; }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .page {
+    width: 210mm; height: 297mm;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body-font);
+    padding: 14mm 14mm 11mm;
+    display: flex; flex-direction: column;
+    gap: 6mm;
+    position: relative;
+  }
+
+  /* ============ HEAD ============ */
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10mm;
+    padding-bottom: 5mm;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+  }
+  .brand-lockup .mark {
+    width: 38px; height: 38px;
+    background: var(--primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: var(--body-font);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.03em;
+  }
+  .brand-lockup .wordmark {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .brand-lockup .wordmark .name {
+    font-family: var(--body-font);
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .brand-lockup .wordmark .sub {
+    font-family: var(--mono-font);
+    font-size: 8.5px;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .head-meta {
+    text-align: right;
+    font-family: var(--mono-font);
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .head-meta .tag {
+    font-family: var(--body-font);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 0;
+    text-transform: none;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .head-meta .tag em { color: var(--primary); font-style: italic; font-weight: 600; }
+
+  /* ============ section label ============ */
+  .section-label {
+    font-family: var(--mono-font);
+    font-size: 8.5px;
+    letter-spacing: 0.22em;
+    color: var(--primary);
+    text-transform: uppercase;
+    margin-bottom: 3mm;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+  }
+  .section-label::before {
+    content: '';
+    width: 16px; height: 1px;
+    background: var(--primary);
+  }
+
+  /* ============ COLOR HIERARCHY ============ */
+  .colors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+  }
+  .swatch {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .swatch .fill { height: 22mm; }
+  .swatch .meta {
+    padding: 8px 10px 10px;
+  }
+  .swatch .tier {
+    font-family: var(--mono-font);
+    font-size: 8.5px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    font-weight: 600;
+  }
+  .swatch .name {
+    font-family: var(--body-font);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+    margin-top: 4px;
+    display: block;
+  }
+  .swatch .hex {
+    font-family: var(--mono-font);
+    font-size: 9px;
+    color: var(--tertiary);
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+    display: block;
+  }
+  .swatch .use {
+    font-family: var(--body-font);
+    font-weight: 400;
+    font-size: 8.5px;
+    color: var(--text-dim);
+    line-height: 1.45;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ============ EXTENDED PALETTE ============ */
+  .ext-palette {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 3mm;
+  }
+  .chip {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .chip .fill { height: 14mm; }
+  .chip .meta { padding: 5px 7px 7px; }
+  .chip .lab {
+    font-family: var(--mono-font);
+    font-size: 7.5px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .chip .hex {
+    font-family: var(--mono-font);
+    font-size: 8px;
+    color: var(--text);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ============ TWO-COL: TYPE + COMPONENTS ============ */
+  .twocol {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 4mm;
+  }
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5mm 5mm;
+    background: var(--surface);
+  }
+
+  /* TYPE */
+  .type-card .ladder {
+    display: flex;
+    align-items: baseline;
+    gap: 4mm;
+    margin-bottom: 3mm;
+  }
+  .type-card .ladder .aa-disp {
+    font-family: var(--body-font);
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .type-card .ladder .aa-body {
+    font-family: var(--body-font);
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--text);
+  }
+  .type-card .ladder .aa-mono {
+    font-family: var(--mono-font);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 0.06em;
+  }
+  .type-card .stacks {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5mm;
+    font-size: 8px;
+  }
+  .type-card .stack-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 3mm;
+    padding: 1mm 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .type-card .stack-row:last-child { border-bottom: none; }
+  .type-card .stack-row .k {
+    font-family: var(--mono-font);
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .type-card .stack-row .v {
+    font-family: var(--body-font);
+    font-size: 9px;
+    color: var(--text);
+  }
+  .type-card .stack-row .v.mono  { font-family: var(--mono-font); font-size: 8px; }
+  .type-card .note {
+    font-family: var(--body-font);
+    font-size: 8px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 3mm;
+    line-height: 1.4;
+  }
+
+  /* COMPONENTS */
+  .comp-card .lab {
+    font-family: var(--mono-font);
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 2mm;
+    font-weight: 600;
+    display: block;
+  }
+  .btn-row { display: flex; gap: 6px; margin-bottom: 4mm; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block;
+    padding: 5px 12px;
+    background: var(--primary);
+    color: #fff;
+    font-family: var(--body-font);
+    font-weight: 600;
+    font-size: 9px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+  }
+  .btn-secondary {
+    display: inline-block;
+    padding: 5px 12px;
+    background: var(--secondary);
+    color: #fff;
+    font-family: var(--body-font);
+    font-weight: 600;
+    font-size: 9px;
+    border-radius: 4px;
+  }
+  .btn-ghost {
+    display: inline-block;
+    padding: 4px 11px;
+    background: transparent;
+    color: var(--primary);
+    font-family: var(--body-font);
+    font-weight: 600;
+    font-size: 9px;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+  }
+  .badge-row { display: flex; gap: 4px; flex-wrap: wrap; }
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 100px;
+    font-family: var(--mono-font);
+    font-size: 7.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .badge.primary { color: var(--primary); background: rgba(29, 101, 167, 0.1); }
+  .badge.warn { color: var(--secondary); background: rgba(255, 126, 0, 0.12); }
+  .badge.err { color: var(--error); background: rgba(207, 46, 46, 0.1); }
+
+  /* ============ WORDMARKS ============ */
+  .wordmarks {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+  }
+  .wm {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5mm;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3mm;
+    min-height: 28mm;
+  }
+  .wm .lockup {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    justify-content: center;
+    flex: 1;
+  }
+  .wm-1 .mark {
+    width: 24px; height: 24px;
+    background: var(--primary);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: var(--body-font);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: -0.03em;
+  }
+  .wm-1 .text {
+    font-family: var(--body-font);
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .wm-2 .text {
+    font-family: var(--body-font);
+    font-size: 18px;
+    color: var(--text);
+  }
+  .wm-2 .text .strong { font-weight: 800; }
+  .wm-2 .text .erp { color: var(--primary); font-weight: 400; margin-left: 2px; }
+  .wm-3 .text {
+    font-family: var(--body-font);
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--text);
+    text-align: center;
+  }
+  .wm-3 .text .dot { color: var(--secondary); }
+  .wm .label {
+    font-family: var(--mono-font);
+    font-size: 7.5px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* ============ POSITIONING block ============ */
+  .positioning {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5mm;
+    background: var(--surface);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+  }
+  .positioning .pos-item .pos-k {
+    font-family: var(--mono-font);
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .positioning .pos-item .pos-v {
+    font-family: var(--body-font);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text);
+    margin-top: 3px;
+    line-height: 1.25;
+  }
+  .positioning .pos-item .pos-v em { color: var(--primary); font-style: normal; }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    margin-top: auto;
+    padding-top: 4mm;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono-font);
+    font-size: 7.5px;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .footer .left strong { color: var(--primary); }
+  .footer .right { color: var(--text-dim); }
+  .footer .right .crab {
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+    margin-right: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEAD -->
+  <div class="head">
+    <div class="brand-lockup">
+      <div class="mark">S</div>
+      <div class="wordmark">
+        <div class="name">Sisloc<span style="color: var(--primary); font-weight: 400; margin-left: 2px;">ERP</span></div>
+        <div class="sub">Brand Book · v1.0 · cortesia</div>
+      </div>
+    </div>
+    <div class="head-meta">
+      <span class="tag">O software <em>#1</em> para gestão de locadoras.</span>
+      <div>2026-05-13 · sisloc.com</div>
+      <div>Extraído publicamente</div>
+    </div>
+  </div>
+
+  <!-- COLOR HIERARCHY -->
+  <section>
+    <div class="section-label">Color Hierarchy · Identidade visual</div>
+    <div class="colors">
+      <div class="swatch">
+        <div class="fill" style="background: #1d65a7;"></div>
+        <div class="meta">
+          <span class="tier">Primary</span>
+          <span class="name">Sisloc Blue</span>
+          <span class="hex">#1D65A7</span>
+          <span class="use">Cor institucional. Navegação, CTAs principais, marcas-d'água, links. Define a presença da marca.</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background: #ff7e00;"></div>
+        <div class="meta">
+          <span class="tier">Secondary</span>
+          <span class="name">Action Orange</span>
+          <span class="hex">#FF7E00</span>
+          <span class="use">Acento de ação. Destaques, ofertas, badges de alerta. Usado com moderação para chamar atenção.</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background: #464f6d;"></div>
+        <div class="meta">
+          <span class="tier">Tertiary</span>
+          <span class="name">Slate</span>
+          <span class="hex">#464F6D</span>
+          <span class="use">Texto secundário, headings discretos, divisores, ícones. Profundidade sem peso.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXTENDED PALETTE -->
+  <section>
+    <div class="section-label">Extended Palette · Neutros e estados</div>
+    <div class="ext-palette">
+      <div class="chip"><div class="fill" style="background: #ffffff; border-bottom: 1px solid var(--border);"></div><div class="meta"><div class="lab">Bg</div><div class="hex">#FFFFFF</div></div></div>
+      <div class="chip"><div class="fill" style="background: #f7f7f9; border-bottom: 1px solid var(--border);"></div><div class="meta"><div class="lab">Surface</div><div class="hex">#F7F7F9</div></div></div>
+      <div class="chip"><div class="fill" style="background: #edeeed; border-bottom: 1px solid var(--border);"></div><div class="meta"><div class="lab">Surface-2</div><div class="hex">#EDEEED</div></div></div>
+      <div class="chip"><div class="fill" style="background: #cfcfcf;"></div><div class="meta"><div class="lab">Border</div><div class="hex">#CFCFCF</div></div></div>
+      <div class="chip"><div class="fill" style="background: #1f2124;"></div><div class="meta"><div class="lab">Text</div><div class="hex">#1F2124</div></div></div>
+      <div class="chip"><div class="fill" style="background: #cf2e2e;"></div><div class="meta"><div class="lab">Error</div><div class="hex">#CF2E2E</div></div></div>
+    </div>
+  </section>
+
+  <!-- TWO-COL: TYPE + COMPONENTS -->
+  <div class="twocol">
+    <div class="card type-card">
+      <div class="section-label">Typography</div>
+      <div class="ladder">
+        <span class="aa-disp">Aa</span>
+        <span class="aa-body">Aa</span>
+        <span class="aa-mono">Aa</span>
+      </div>
+      <div class="stacks">
+        <div class="stack-row"><span class="k">Display / Body</span><span class="v">System sans-serif · 400 / 600 / 700 / 800</span></div>
+        <div class="stack-row"><span class="k">Mono</span><span class="v mono">SF Mono · Menlo · Monaco</span></div>
+        <div class="stack-row"><span class="k">Voice</span><span class="v">pt-BR · corporativo, técnico</span></div>
+      </div>
+      <div class="note">Sisloc não declara família tipográfica em seu CSS público. Stack inferida do user-agent default — confirmar com a equipe de marca antes de imprimir materiais críticos.</div>
+    </div>
+
+    <div class="card comp-card">
+      <div class="section-label">Components</div>
+      <span class="lab">Botões</span>
+      <div class="btn-row">
+        <span class="btn-primary">Conheça o sistema</span>
+        <span class="btn-secondary">Demo grátis</span>
+        <span class="btn-ghost">Saiba mais</span>
+      </div>
+      <span class="lab">Badges</span>
+      <div class="badge-row">
+        <span class="badge primary">Novo</span>
+        <span class="badge warn">Em destaque</span>
+        <span class="badge err">Alerta</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSITIONING -->
+  <section>
+    <div class="section-label">Positioning · Quem a Sisloc atende</div>
+    <div class="positioning">
+      <div class="pos-item">
+        <div class="pos-k">Mercado</div>
+        <div class="pos-v">Locadoras de equipamentos · <em>todos os portes</em></div>
+      </div>
+      <div class="pos-item">
+        <div class="pos-k">Experiência</div>
+        <div class="pos-v"><em>34 anos</em> dedicados ao setor de locação</div>
+      </div>
+      <div class="pos-item">
+        <div class="pos-k">Alcance</div>
+        <div class="pos-v">Presente em <em>250+</em> cidades · 25+ categorias</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORDMARKS -->
+  <section>
+    <div class="section-label">Wordmarks · Lockups</div>
+    <div class="wordmarks">
+      <div class="wm wm-1">
+        <div class="lockup">
+          <div class="mark">S</div>
+          <div class="text">Sisloc</div>
+        </div>
+        <div class="label">Mark + wordmark · canonical</div>
+      </div>
+      <div class="wm wm-2">
+        <div class="lockup">
+          <div class="text"><span class="strong">Sisloc</span><span class="erp">ERP</span></div>
+        </div>
+        <div class="label">Wordmark + product · uso institucional</div>
+      </div>
+      <div class="wm wm-3">
+        <div class="lockup">
+          <div class="text">Sisloc<span class="dot">.</span></div>
+        </div>
+        <div class="label">Wordmark com ponto · digital</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="left">Sisloc ERP · <strong>Brand Book v1.0</strong></span>
+    <span class="right"><span class="crab">🦀</span>Compilado por Superclawman · 2026-05-13 · cortesia comercial</span>
+  </div>
+
+</div>
+</body>
+</html>
