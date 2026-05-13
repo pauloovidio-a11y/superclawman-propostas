@@ -1390,8 +1390,24 @@ h2.scene-title em { font-style: italic; color: var(--primary); font-weight: 500;
     slides[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  // Visibility — IntersectionObserver is the reliable tool for this with scroll-snap.
+  // Once a slide is .visible we KEEP it visible (no flicker scrolling back).
+  if ('IntersectionObserver' in window) {
+    const visObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+    slides.forEach(s => visObserver.observe(s));
+  } else {
+    // Fallback: show everything immediately on legacy browsers.
+    slides.forEach(s => s.classList.add('visible'));
+  }
+  // Safety backstop — if for any reason IO doesn't fire (unlikely), reveal everything after 1.5s.
+  setTimeout(() => slides.forEach(s => s.classList.add('visible')), 1500);
+
   function update() {
-    // find slide nearest to viewport center
+    // find slide nearest to viewport center → drives nav state, NOT visibility
     const viewport = window.innerHeight / 2;
     let bestIdx = 0;
     let bestDist = Infinity;
@@ -1406,16 +1422,9 @@ h2.scene-title em { font-style: italic; color: var(--primary); font-weight: 500;
       dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
       slideCurr.textContent = String(currentIndex + 1).padStart(2, '0');
     }
-    // visible class & progress
-    slides.forEach((s, i) => {
-      const r = s.getBoundingClientRect();
-      const visible = r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4;
-      s.classList.toggle('visible', visible);
-    });
     const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
     const ratio = scrollMax > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollMax)) : 0;
     progBar.style.transform = `scaleX(${ratio})`;
-    // arrow state
     navPrev.disabled = currentIndex === 0;
     navNext.disabled = currentIndex === total - 1;
   }
