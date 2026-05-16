@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jr HTML-it Publish Smoke Test</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+         max-width: 720px; margin: 60px auto; padding: 32px;
+         background: #fafaf9; color: #1c1917; line-height: 1.65; }
+  h1 { color: #c2410c; margin: 0 0 4px; font-weight: 700; font-size: 32px; }
+  .meta { color: #78716c; font-size: 14px; margin-bottom: 32px;
+          padding-bottom: 16px; border-bottom: 1px solid #e7e5e4; }
+  .badge { display: inline-block; background: #fed7aa; color: #9a3412;
+           padding: 4px 10px; border-radius: 999px; font-size: 12px;
+           font-weight: 600; }
+  code { background: #f5f5f4; padding: 2px 6px; border-radius: 3px;
+         font-size: 13px; color: #44403c; }
+  p { margin: 16px 0; }
+</style>
+</head>
+<body>
+<h1>HTML-it publish path · smoke test</h1>
+<div class="meta">
+  <span class="badge">SMOKE TEST</span>
+  · Jr · 2026-05-16 · palette: sales-warm
+</div>
+<p>If you can read this at <code>https://pauloovidio-a11y.github.io/superclawman-propostas/jr-publish-smoke/</code>, then Jr can autonomously generate and publish customer-facing HTML artifacts during a Superclawman outage.</p>
+<p>End-to-end path validated: Jr writes HTML → <code>jr-html-deliver.py --publish</code> → multipart upload to Telegram via <code>sendDocument</code> → <code>git push</code> to <code>pauloovidio-a11y/superclawman-propostas</code> via deploy key → GitHub Pages rebuilds → live URL Telegrammed back to operator.</p>
+<p style="color: #78716c; font-size: 13px; margin-top: 40px;">This page can be safely deleted from the repo after operator review — it's a one-time validation artifact, not a real proposal.</p>
+</body>
+</html>
