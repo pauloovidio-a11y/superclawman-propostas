@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jr Travel Runbook — Paulo's Reference</title>
+<style>
+  :root {
+    --bg: #0a0a14;
+    --panel: #131322;
+    --panel-2: #1a1a2e;
+    --text: #e8e8ed;
+    --muted: #8b8ba0;
+    --accent: #a78bfa;
+    --accent-warm: #f59e0b;
+    --ok: #4ade80;
+    --warn: #fbbf24;
+    --alarm: #f87171;
+    --border: #2a2a44;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif;
+    background: var(--bg); color: var(--text);
+    max-width: 880px; margin: 0 auto;
+    padding: 32px 24px 80px; line-height: 1.65;
+  }
+  header { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  h1 { font-size: 32px; margin: 0 0 6px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+  .subtitle { color: var(--muted); font-size: 15px; }
+  .meta { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  h2 { font-size: 22px; margin: 40px 0 14px; color: var(--text); font-weight: 600;
+       border-left: 3px solid var(--accent); padding-left: 12px; }
+  h3 { font-size: 17px; margin: 24px 0 10px; color: var(--accent-warm); font-weight: 600; }
+  p { margin: 12px 0; }
+  code { background: var(--panel-2); padding: 2px 7px; border-radius: 4px;
+         font-family: "SF Mono", Menlo, monospace; font-size: 13px; color: #c4b5fd; }
+  pre { background: var(--panel-2); padding: 14px 16px; border-radius: 6px;
+        overflow-x: auto; font-size: 13px; border: 1px solid var(--border);
+        color: #c4b5fd; }
+  .panel { background: var(--panel); border: 1px solid var(--border);
+           border-radius: 8px; padding: 18px 22px; margin: 18px 0; }
+  .alarm { border-left: 4px solid var(--alarm); }
+  .warn { border-left: 4px solid var(--warn); }
+  .ok { border-left: 4px solid var(--ok); }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--accent); font-weight: 600; font-size: 13px;
+       text-transform: uppercase; letter-spacing: 0.5px; }
+  td:first-child { white-space: nowrap; font-family: "SF Mono", monospace; font-size: 13px; }
+  ul { padding-left: 22px; }
+  li { margin: 6px 0; }
+  .tldr { background: linear-gradient(135deg, #1a1a2e 0%, #131322 100%);
+          border: 1px solid var(--accent); border-radius: 10px;
+          padding: 20px 24px; margin: 28px 0; }
+  .tldr h3 { margin-top: 0; color: var(--accent); }
+  .pill { display: inline-block; background: var(--panel-2);
+          padding: 2px 10px; border-radius: 999px; font-size: 12px;
+          color: var(--accent); margin-right: 4px; font-weight: 600; }
+  .quote { color: var(--muted); font-style: italic; padding-left: 14px;
+           border-left: 2px solid var(--border); margin: 12px 0; }
+  footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+           color: var(--muted); font-size: 12px; text-align: center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Jr Travel Runbook</h1>
+  <div class="subtitle">What Paulo should expect from Jr while traveling — and how to talk back.</div>
+  <div class="meta">
+    <span class="pill">v1.30</span>
+    <span class="pill">internal</span>
+    Generated 2026-05-16 · Jr at Hetzner VPS (100.100.127.69) ·
+    Telegram chat 8735701356
+  </div>
+</header>
+
+<div class="tldr">
+  <h3>TL;DR</h3>
+  <ul>
+    <li><strong>Jr handles real Mac outages autonomously</strong> — alerts you, runs the recovery dance when Mac comes back, replays any queued writes for your review.</li>
+    <li><strong>You'll get a daily 09:00 BRT digest</strong> while travel mode is active — "all systems green / here's what happened."</li>
+    <li><strong>Tell Jr about planned shutdowns</strong> (e.g. UPS battery swap) so it suppresses false alarms.</li>
+    <li><strong>Writes you ask for during an outage are QUEUED, not live</strong> — Jr replays them to Mac for your approval on recovery.</li>
+  </ul>
+</div>
+
+<h2>What Jr handles automatically (no action from you)</h2>
+
+<table>
+  <tr><th>Capability</th><th>How often</th><th>What you'll see</th></tr>
+  <tr><td>Mac watchdog</td><td>every 2 min</td><td>Silent unless state changes</td></tr>
+  <tr><td>Recovery dance on up-edge</td><td>2 min after Mac returns</td><td><code>[RECOVERY COMPLETE]</code> if writes queued; silent otherwise</td></tr>
+  <tr><td>Outage write queue (Gmail/Calendar/Drive)</td><td>on demand</td><td>Queued intent; you approve on recovery</td></tr>
+  <tr><td>Daily backup to QNAP</td><td>23:00 BRT</td><td>Telegram status card from Jr</td></tr>
+  <tr><td>OAuth refresh (Google + Higgsfield)</td><td>45min / 50min</td><td>Silent (you only see if it fails)</td></tr>
+  <tr><td>WhatsApp re-pair via pairing-code</td><td>on demand</td><td><code>[PAIRING CODE READY]</code> — enter 8-char code in WA app</td></tr>
+  <tr><td>Daily status digest</td><td>09:00 BRT (travel mode)</td><td>Haiku-composed "all systems green" check-in</td></tr>
+</table>
+
+<h2>When Jr will message you on Telegram</h2>
+
+<table>
+  <tr><th>Header</th><th>What it means</th><th>What to do</th></tr>
+  <tr><td>🚨 <code>[PRIMARY DOWN]</code></td><td>Mac unreachable for &gt;6 min</td><td>Nothing immediate; Jr will handle recovery. If it's overnight at home, check Tuya for power outage.</td></tr>
+  <tr><td>🔌 <code>[STILL DOWN]</code></td><td>Outage past 60min; cadence 90min, cap 99 in travel mode</td><td>Reassurance only; no action.</td></tr>
+  <tr><td>✅ <code>[PRIMARY UP]</code></td><td>Mac came back; recovery dance starting</td><td>Wait for follow-up.</td></tr>
+  <tr><td>🛠️ <code>[MAINTENANCE COMPLETE]</code></td><td>Planned outage ended (you'd told Jr in advance)</td><td>Confirmation only.</td></tr>
+  <tr><td>🔑 <code>[PAIRING CODE READY]</code></td><td>WA needs re-pair after outage; Jr generated 8-char code</td><td><strong>Open WA → Settings → Linked Devices → Link with phone number instead → enter +5511994917618 → enter code.</strong> Expires in ~60s.</td></tr>
+  <tr><td>⏳ <code>[PAIRING TIMED OUT]</code></td><td>You missed the 60s window</td><td>Run the literal command Jr sends, OR wait — Jr will retry on next up-edge.</td></tr>
+  <tr><td>✅ <code>[RECOVERY COMPLETE]</code></td><td>Recovery dance succeeded; X writes queued for review</td><td>Review <code>jr_recovery_pending.jsonl</code> on Mac when convenient.</td></tr>
+  <tr><td>⚠️ <code>[WA DEGRADED]</code></td><td>Mac up but WhatsApp degraded</td><td>Wait 5-30 min; Mac wa-watchdog auto-kickstarts. If persists, fresh re-pair on phone may be needed.</td></tr>
+  <tr><td>🌀 <code>[WA STORM]</code> / <code>[FLAPPING]</code></td><td>WhatsApp 440 conflicts (server-side stale session)</td><td>Usually self-resolves in 5-30 min. Jr's 60-min 440-aware back-off (v1.27) lets WA's server clear up.</td></tr>
+  <tr><td>📨 Daily digest @ 09:00 BRT</td><td>Travel-mode check-in</td><td>Skim for anomalies; no action needed if all green.</td></tr>
+  <tr><td>🛠️ Jr backup card @ 23:00 BRT</td><td>Nightly backup status</td><td>Skim. ⚠️/🚨 status = read details.</td></tr>
+</table>
+
+<h2>Things you can ask Jr from Telegram</h2>
+
+<div class="panel">
+<h3>Status + situational awareness</h3>
+<ul>
+  <li>"How are things?" / "Status?" / "Is Mac up?" — Jr enumerates Mac, WA, recent events</li>
+  <li>"What's queued for my review?" — pending writes count from outage queue</li>
+  <li>"What's the last recovery event?" — pulls from <code>recovery_step_history</code></li>
+  <li>"Show me the last backup card" — last QNAP backup result</li>
+</ul>
+
+<h3>Outage write queue (CAVEAT: queued, not live)</h3>
+<ul>
+  <li>"Draft an email to [contact] about [subject]" — queued; you approve on recovery</li>
+  <li>"Create a calendar event for [time] [title]" — queued</li>
+  <li>"Create a Drive file [name] with [content]" — queued</li>
+</ul>
+
+<h3>Calendar + Gmail (read, always live)</h3>
+<ul>
+  <li>"What's on my calendar today?" / "Tomorrow?" / "This week?"</li>
+  <li>"Show me recent emails from [contact]"</li>
+  <li>"Did [contact] reply to my last email?"</li>
+</ul>
+
+<h3>Research (live via Perplexity)</h3>
+<ul>
+  <li>"Quick research: [topic]"</li>
+  <li>"What's the weather in [city]?"</li>
+</ul>
+
+<h3>HTML-it artifacts (live via Jr; sends to your Telegram + Pages URL if external)</h3>
+<ul>
+  <li>"Make me a proposal for [customer]" — generated + published to <code>superclawman-propostas/{slug}/</code></li>
+  <li>"Render this as HTML internal" — Telegram doc only</li>
+</ul>
+</div>
+
+<h2>Telling Jr about a planned Mac shutdown (maintenance window)</h2>
+
+<div class="panel warn">
+<p>If you need to shut Mac down deliberately (UPS battery swap, firmware, etc.), <strong>tell Jr in Telegram first</strong> so it doesn't fire alarms:</p>
+
+<div class="quote">
+  "Jr, I'm shutting Mac down at 14:00 for ~2h to swap UPS batteries."
+</div>
+
+<p>Jr confirms + sets a maintenance window. During the window:</p>
+<ul>
+  <li><code>[PRIMARY DOWN]</code> alerts: <strong>suppressed</strong></li>
+  <li>Heartbeat-while-down pings: <strong>suppressed</strong></li>
+  <li>Recovery dance: <strong>still fires silently</strong> on up-edge (validates everything came back clean)</li>
+  <li>On Mac return: single <code>[MAINTENANCE COMPLETE]</code> message instead of the alarm sequence</li>
+  <li>If queued writes exist on recovery: <code>[MAINTENANCE REPLAY]</code> message with count</li>
+</ul>
+
+<p>If your shutdown takes longer than planned: "Jr, extend the maintenance window by another hour."</p>
+<p>If Mac comes back early: "Jr, clear the maintenance window."</p>
+</div>
+
+<h2>Critical caveats</h2>
+
+<div class="panel alarm">
+  <h3>⚠️ Writes are queued, not live</h3>
+  <p>When you ask Jr to draft an email, create a calendar event, or create a Drive file <strong>during an outage</strong>, Jr does <strong>NOT</strong> directly call the Google API. Instead it appends the intent to <code>jr_outage_log.jsonl</code>. On recovery, the queue replays to Mac as <code>jr_recovery_pending.jsonl</code> which you review + approve.</p>
+  <p>Don't assume "Jr drafted the email, done." You still need to approve on recovery before it materializes. Jr will tell you the queued count in <code>[RECOVERY COMPLETE]</code>.</p>
+</div>
+
+<div class="panel warn">
+  <h3>⚠️ Inbound WhatsApp messages stranded during outage</h3>
+  <p>If someone messages your WA number (+5511994917618) while Mac is down, those messages cache server-side at WhatsApp. They'll arrive when Mac is back. Jr has <strong>zero visibility</strong> into inbound WA during outage by design.</p>
+</div>
+
+<div class="panel">
+  <h3>📷 Jr's media memory (v1.26)</h3>
+  <p>When you send Jr a voice memo, it ALWAYS transcribes first then responds. When you send an image, Jr describes what it sees then responds. The transcript/description ends up in Jr's persistent memory. The audio/image binaries themselves don't persist (Phase 0d.4 multimodal, deferred).</p>
+</div>
+
+<h2>Manual fallbacks (rarely needed)</h2>
+
+<div class="panel">
+  <p><strong>If Jr itself dies</strong> (Hetzner outage, OAuth daemon crash, disk full, etc.) — extremely rare:</p>
+  <ul>
+    <li>Hetzner outage: outside our control; restores naturally within hours typically</li>
+    <li>Verify Jr health from any Mac on Tailscale: <code>ssh superclawman-jr 'systemctl list-timers openclaw-jr-*'</code> — all timers should show recent <code>LAST</code> and upcoming <code>NEXT</code></li>
+    <li>Verify OAuth daemons: <code>ssh superclawman-jr 'systemctl --user list-timers openclaw-jr-*-refresh@paulo.timer'</code></li>
+    <li>Manually trigger watchdog: <code>ssh superclawman-jr 'JR_TENANT_ID=paulo python3 /usr/local/lib/openclaw-jr/vps-watchdog.py'</code></li>
+  </ul>
+
+  <p><strong>If Mac stays offline beyond what's reasonable</strong> (e.g. >24h with no power coming back):</p>
+  <ul>
+    <li>The recovery dance can't run until Mac returns. Jr keeps watching.</li>
+    <li>Workflow needs to wait. No emergency procedure required.</li>
+  </ul>
+</div>
+
+<h2>Quick reference</h2>
+
+<table>
+  <tr><th>Resource</th><th>Address</th></tr>
+  <tr><td>Jr Telegram bot chat ID</td><td><code>8735701356</code></td></tr>
+  <tr><td>Jr Tailscale</td><td><code>superclawman-jr</code> · <code>100.100.127.69</code></td></tr>
+  <tr><td>Mac (Superclawman) Tailscale</td><td><code>paulos-mac-mini</code> · <code>100.97.232.76</code></td></tr>
+  <tr><td>QNAP Tailscale</td><td><code>qnapnas</code> · <code>100.119.89.42</code></td></tr>
+  <tr><td>Operator WA phone (re-pair)</td><td><code>+5511994917618</code></td></tr>
+  <tr><td>Jr backup destination on QNAP</td><td><code>/share/Clawman/backups/jr/</code></td></tr>
+  <tr><td>Mac (Superclawman) backup on QNAP</td><td><code>/share/Clawman/backups/</code></td></tr>
+  <tr><td>Recovery pending queue (Mac side)</td><td><code>~/.openclaw/workspace/clawman-bus/jr_recovery_pending.jsonl</code></td></tr>
+  <tr><td>Live Jr canonical (Notion)</td><td><a href="https://www.notion.so/362085df9ff881fdb44cde56469190c1" style="color: var(--accent);">Superclawman Watchdog v2 / Jr — v1.29+</a></td></tr>
+</table>
+
+<footer>
+  Jr Travel Runbook v1.30 · Single source of truth: workspace/SUPERCLAWMAN_WATCHDOG_JR_CANONICAL_v1.md ·
+  Regenerated daily during travel via <code>jr-html-deliver.py</code>
+</footer>
+
+</body>
+</html>
