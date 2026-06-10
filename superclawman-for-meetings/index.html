@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Superclawman for Meetings — system &amp; functionality</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#2a3344;
+    --ink:#e6edf3; --mut:#8b97a8; --acc:#f0883e; --acc2:#58a6ff; --ok:#3fb950;
+    --warn:#ffd9a8;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:40px 22px 90px}
+  a{color:var(--acc2);text-decoration:none}
+  .kicker{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);font-weight:700}
+  h1{font-size:clamp(30px,5vw,46px);line-height:1.08;margin:10px 0 8px;letter-spacing:-.02em}
+  .lede{font-size:18.5px;color:#cdd6e0;max-width:70ch;margin:0 0 22px}
+  .hero{border:1px solid var(--line);border-radius:20px;padding:34px 30px;
+    background:radial-gradient(120% 140% at 0% 0%,#22150c 0%,var(--panel2) 38%,var(--panel) 100%)}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .pill{font-size:12.5px;color:var(--ink);border:1px solid var(--line);border-radius:99px;
+    padding:6px 13px;background:#ffffff06}
+  .pill b{color:var(--acc)}
+  .pill.live b{color:var(--ok)}
+  h2{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:var(--acc2);
+    margin:54px 0 4px}
+  h2 + .sub{color:var(--mut);font-size:14px;margin:0 0 18px}
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:22px 0 6px}
+  .step{flex:1 1 150px;border:1px solid var(--line);border-radius:14px;background:var(--panel);
+    padding:15px 16px}
+  .step .n{font-size:11px;color:var(--acc);font-weight:700;letter-spacing:.1em}
+  .step h4{margin:7px 0 4px;font-size:15px}
+  .step p{margin:0;color:var(--mut);font-size:13px}
+  .arrow{align-self:center;color:var(--line);font-size:20px;flex:0 0 auto}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin-top:6px}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:20px 22px}
+  .card .ico{font-size:22px}
+  .card h3{margin:10px 0 6px;font-size:17px}
+  .card p{margin:0;color:#c2ccd8;font-size:14.5px}
+  .card .tag{display:inline-block;margin-top:12px;font-size:11.5px;color:var(--warn);
+    background:#2a2113;border:1px solid #4a3a1c;border-radius:99px;padding:3px 10px}
+  .stack{border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:6px}
+  .layer{display:flex;gap:14px;padding:15px 20px;border-top:1px solid var(--line);align-items:baseline}
+  .layer:first-child{border-top:none}
+  .layer .lbl{flex:0 0 132px;color:var(--acc);font-weight:700;font-size:13px}
+  .layer .desc{color:#c2ccd8;font-size:14px}
+  .layer .desc b{color:var(--ink)}
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  td code{background:#0b0f15;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12.5px;color:#cbd5e1}
+  .proof{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:6px}
+  .stat{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:18px 18px}
+  .stat .big{font-size:26px;font-weight:800;color:var(--ok);letter-spacing:-.02em}
+  .stat .lab{color:var(--mut);font-size:12.5px;margin-top:3px}
+  .callout{border:1px solid #2a3a26;background:#10180f;border-radius:14px;padding:16px 18px;margin-top:18px;color:#cfe6c8;font-size:14px}
+  .callout b{color:var(--ok)}
+  footer{margin-top:60px;border-top:1px solid var(--line);padding-top:18px;color:var(--mut);font-size:12.5px}
+  .sig{color:var(--ok);font-weight:700}
+  @media(max-width:560px){.layer .lbl{flex-basis:100px}}
+</style></head>
+<body><div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">🦀 Superclawman · product brief</div>
+    <h1>Superclawman for Meetings</h1>
+    <p class="lede">An AI that joins your Google Meet, Zoom, and Teams calls as a participant — helps you live by voice or chat, then turns every conversation into a brief, a memory, and the next deliverable. Automatically.</p>
+    <div class="pills">
+      <span class="pill live">Status <b>LIVE — proven in real calls</b></span>
+      <span class="pill">Voice + chat <b>EN &amp; PT-BR</b></span>
+      <span class="pill">Joins <b>Meet · Zoom · Teams</b></span>
+      <span class="pill">Post-call <b>fully autonomous</b></span>
+      <span class="pill"><b>www.superclawman.ai</b></span>
+    </div>
+  </div>
+
+  <h2>The loop</h2>
+  <p class="sub">From a calendar entry to a sent follow-up — with one human approval, not one human chore.</p>
+  <div class="flow">
+    <div class="step"><div class="n">01 · JOIN</div><h4>Dials itself in</h4><p>Watches your calendar; joins Meet/Zoom/Teams 2 min before start. Paste an invite and it joins ad-hoc too.</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">02 · ASSIST</div><h4>Helps live</h4><p>“Hey Superclawman, …” → answers the room by voice, or replies in chat. English or Portuguese.</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">03 · REMEMBER</div><h4>Saves everything</h4><p>The full call becomes a structured brief, filed by account, in shared memory.</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="n">04 · DELIVER</div><h4>Does the follow-up</h4><p>Recap + action items + a draft email to attendees, and a proposal on request — minutes after the call.</p></div>
+  </div>
+
+  <h2>What it does</h2>
+  <p class="sub">Six capabilities, all working today.</p>
+  <div class="grid">
+    <div class="card"><div class="ico">📅</div><h3>Auto-join from your calendar</h3><p>Reads your calendar and joins scheduled Meet, Zoom, and Teams calls on its own — no link to paste, no bot to launch. Recurring meetings handled; automated/system events skipped.</p></div>
+    <div class="card"><div class="ico">🎙️</div><h3>Live assist by voice or chat</h3><p>Address it out loud mid-call and it raises its hand and answers the room; or type in the chat for a quiet reply. It can search the web live and pull from prior meetings.</p></div>
+    <div class="card"><div class="ico">🌎</div><h3>Truly multilingual</h3><p>Its own speech recognition handles accents and Portuguese where generic captions collapse. Heard “hey Superclawman” clean while the platform captions rendered “super climbing.”</p></div>
+    <div class="card"><div class="ico">🧠</div><h3>Per-account memory</h3><p>Every call is filed by account into a searchable journal. It walks into the next meeting already briefed on the history — decisions, objections, commitments.</p></div>
+    <div class="card"><div class="ico">✉️</div><h3>Recap writes itself</h3><p>Within minutes of the call ending: summary, decisions, action items with owners, and a recap email drafted to the attendees it knows from the invite. You approve and send.</p></div>
+    <div class="card"><div class="ico">📄</div><h3>Call → proposal</h3><p>“Prepare the proposal from that meeting” → a draft grounded in what was actually said, ready to polish into a branded document. Days-to-minutes on the follow-up.</p></div>
+  </div>
+
+  <h2>How it works</h2>
+  <p class="sub">A clean separation: a transport pipe gets it into the room; our own models do all the thinking.</p>
+  <div class="stack">
+    <div class="layer"><div class="lbl">Transport</div><div class="desc"><b>Recall.ai</b> is the pipe only — joins the call, streams audio in/out, posts chat. It never reasons. Reaches us over a stable <b>Cloudflare named tunnel</b> (zero dropped sockets).</div></div>
+    <div class="layer"><div class="lbl">Live brain</div><div class="desc">Our <b>own speech-to-text</b> (multilingual) + a fast reflex model with live web search → answers in seconds → our <b>text-to-speech</b> speaks back to the room. Wake-word only; self-muting so it never talks over itself.</div></div>
+    <div class="layer"><div class="lbl">Deep brain</div><div class="desc">After the call, a frontier model writes the brief — summary, decisions, action items, and whether it’s a sales conversation worth a proposal.</div></div>
+    <div class="layer"><div class="lbl">Memory</div><div class="desc">A canonical record per meeting + a per-account journal in <b>shared storage you own</b>, synced across every device and assistant. Greppable, queryable, durable.</div></div>
+    <div class="layer"><div class="lbl">Control plane</div><div class="desc">From a terminal or a Telegram channel: <code>list</code> calls, <code>ask</code> a grounded question, <code>send-brief</code> to attendees, <code>proposal</code> from a call. The post-call work lives where the document tools live.</div></div>
+    <div class="layer"><div class="lbl">Always-on</div><div class="desc">Five self-healing background services run the join, the live loop, the auto-finalize, the calendar watch, and the stable endpoint — restart on failure, survive reboot.</div></div>
+  </div>
+
+  <h2>Proven, live</h2>
+  <p class="sub">Not a mockup — measured in real Google Meet calls during the build.</p>
+  <div class="proof">
+    <div class="stat"><div class="big">3 / 3</div><div class="lab">live voice exchanges answered to the room (EN + PT-BR)</div></div>
+    <div class="stat"><div class="big">~2 min</div><div class="lab">from call-end to a written brief + memory — no command</div></div>
+    <div class="stat"><div class="big">0</div><div class="lab">dropped connections on the stable tunnel</div></div>
+    <div class="stat"><div class="big">EN + PT</div><div class="lab">accent &amp; Portuguese transcribed clean where captions failed</div></div>
+  </div>
+  <div class="callout">A real example: in a discovery-style call, “<b>hey Superclawman, check the latest cost for nvidia GPUs</b>” → it raised its hand and spoke the current prices to the room; and “<b>Ei Superclawman, pesquise o valor dos chips da NVIDIA</b>” → it answered, in Portuguese, by voice.</div>
+
+  <h2>Trust &amp; control</h2>
+  <p class="sub">Designed in, not bolted on — the part that makes it usable by a serious company.</p>
+  <table>
+    <tr><th>Concern</th><th>How it’s handled</th></tr>
+    <tr><td>Recording consent</td><td>The assistant <b>announces itself</b> when it joins. No silent recording.</td></tr>
+    <tr><td>Sending on your behalf</td><td>Recaps are <b>drafted, never auto-sent</b>. A human approves every message that leaves.</td></tr>
+    <tr><td>Data ownership</td><td>Meeting memory lives in <b>your own storage</b>, synced on your terms — not a vendor black box.</td></tr>
+    <tr><td>When it acts</td><td><b>Wake-word only</b> in the room; it stays silent unless directly addressed.</td></tr>
+  </table>
+
+  <h2>Where it runs</h2>
+  <table>
+    <tr><th>Service</th><th>Role</th></tr>
+    <tr><td><code>meeting-seat-calendar</code></td><td>Watches the calendar, auto-joins due meetings</td></tr>
+    <tr><td><code>meeting-seat-worker</code></td><td>Live loop: audio → our STT → reflex answer → voice/chat back</td></tr>
+    <tr><td><code>meeting-seat-tunnel</code></td><td>Stable public endpoint the call streams to</td></tr>
+    <tr><td><code>meeting-seat-watcher</code></td><td>Auto-finalize: brief + memory the moment a call ends</td></tr>
+    <tr><td>cc-cli / Kratos</td><td>On-demand: queries, recap-to-attendees, proposal building</td></tr>
+  </table>
+
+  <footer>
+    Superclawman for Meetings — built &amp; proven 2026-06-09. Live in real calls; autonomous post-call.<br>
+    <span class="sig">www.superclawman.ai</span> · 🦀⚡ Superclawman
+  </footer>
+
+</div></body></html>
