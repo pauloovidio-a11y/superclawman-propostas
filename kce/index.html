@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>KCE Logistics × Superclawman — SDR Outreach Engine · Discovery</title>
+<style>
+  :root{
+    --ivory:#F6F7F9; --paper:#FFFFFF; --slate:#11202E;
+    --clay:#1F5FAE; --clay-d:#16498A; --oat:#D9E2EE; --olive:#3B7A57;
+    --g100:#F0F2F5; --g200:#E4E8ED; --g300:#D0D6DE; --g500:#828A95; --g700:#3A434E;
+    --serif: ui-serif, Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ivory); color:var(--slate); font-family:var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  .wrap{max-width:1140px; margin:0 auto; padding:48px 32px 64px;}
+  @media(max-width:600px){.wrap{padding:32px 18px 48px;}}
+
+  .eyebrow{font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--clay-d); margin-bottom:14px;}
+  .eyebrow::before{content:""; width:24px; height:3px; background:var(--clay); display:inline-block; vertical-align:middle; margin-right:10px;}
+
+  h1{font-family:var(--serif); font-size:clamp(36px,5.2vw,58px); line-height:1.06; letter-spacing:-0.018em; font-weight:600;}
+  h1 em{font-style:italic; color:var(--clay);}
+  h2{font-family:var(--serif); font-size:clamp(26px,3.4vw,36px); line-height:1.12; letter-spacing:-0.012em; font-weight:600; margin-bottom:18px;}
+  h2 em{font-style:italic; color:var(--clay);}
+  h3{font-size:17px; font-weight:650; margin-bottom:8px;}
+  p.lede{font-size:19px; color:var(--g700); max-width:62ch; margin-top:18px;}
+  section{padding:56px 0; border-bottom:1.5px solid var(--g300);}
+  section:last-of-type{border-bottom:none;}
+  .muted{color:var(--g500);}
+  .small{font-size:13.5px;}
+
+  /* hero */
+  .hero{padding:24px 0 56px; border-bottom:1.5px solid var(--g300);}
+  .hero-grid{display:grid; grid-template-columns:1.2fr .8fr; gap:48px; align-items:center;}
+  @media(max-width:880px){.hero-grid{grid-template-columns:1fr;}}
+  .hero-meta{font-family:var(--mono); font-size:12.5px; color:var(--g500); margin-top:26px; display:flex; flex-wrap:wrap; gap:8px 22px;}
+
+  .card{background:var(--paper); border:1.5px solid var(--g200); border-radius:14px; padding:24px 26px;}
+  .tldr{border-left:4px solid var(--clay); margin-top:30px;}
+  .tldr strong{color:var(--clay-d);}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  .grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
+  @media(max-width:880px){.grid2,.grid3,.grid4{grid-template-columns:1fr;}}
+  @media(min-width:600px) and (max-width:880px){.grid4{grid-template-columns:1fr 1fr;}}
+
+  .kbadge{display:inline-block; font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; background:var(--oat); color:var(--clay-d); border-radius:5px; padding:3px 9px; margin-bottom:10px;}
+  .stat{font-family:var(--serif); font-size:34px; color:var(--clay-d); line-height:1;}
+  .statlabel{font-size:13.5px; color:var(--g500); margin-top:6px;}
+
+  ul.clean{list-style:none;}
+  ul.clean li{padding-left:24px; position:relative; margin-bottom:9px;}
+  ul.clean li::before{content:""; position:absolute; left:2px; top:9px; width:7px; height:7px; border-radius:50%; background:var(--clay);}
+  ul.clean li.ok::before{background:var(--olive);}
+
+  .chan{display:flex; flex-direction:column; gap:8px;}
+  .chan .ic{width:42px; height:42px; border-radius:10px; background:var(--g100); display:flex; align-items:center; justify-content:center; margin-bottom:4px;}
+  .chan .ic svg{width:22px; height:22px;}
+
+  /* pipeline svg */
+  .pipe{background:var(--paper); border:1.5px solid var(--g200); border-radius:14px; padding:18px; overflow-x:auto;}
+  .pipe svg{min-width:760px; width:100%; height:auto; display:block;}
+
+  /* discovery form */
+  .qgroup{background:var(--paper); border:1.5px solid var(--g200); border-radius:14px; padding:26px 28px; margin-bottom:20px;}
+  .qgroup h3{display:flex; align-items:center; gap:10px; font-size:18px; margin-bottom:4px;}
+  .qnum{font-family:var(--mono); font-size:12px; color:var(--paper); background:var(--clay); border-radius:6px; padding:2px 8px;}
+  .qgroup .why{font-size:13.5px; color:var(--g500); margin-bottom:18px;}
+  .q{margin-bottom:16px;}
+  .q label{display:block; font-size:14.5px; font-weight:600; margin-bottom:6px;}
+  .q textarea, .q input[type=text]{width:100%; font-family:var(--sans); font-size:14.5px; color:var(--slate); background:var(--ivory); border:1.5px solid var(--g300); border-radius:8px; padding:10px 12px; resize:vertical;}
+  .q textarea{min-height:54px;}
+  .q textarea:focus, .q input:focus{outline:none; border-color:var(--clay);}
+  .pills{display:flex; flex-wrap:wrap; gap:8px;}
+  .pill{font-size:13.5px; border:1.5px solid var(--g300); background:var(--paper); color:var(--g700); border-radius:999px; padding:6px 14px; cursor:pointer; user-select:none; transition:all .15s;}
+  .pill.picked{background:var(--clay); border-color:var(--clay); color:#fff;}
+
+  .btn{display:inline-block; font-family:var(--sans); font-size:15px; font-weight:600; border-radius:9px; padding:13px 26px; cursor:pointer; border:1.5px solid var(--clay); transition:all .15s; text-decoration:none;}
+  .btn.primary{background:var(--clay); color:#fff;}
+  .btn.primary:hover{background:var(--clay-d); border-color:var(--clay-d);}
+  .btn.ghost{background:transparent; color:var(--clay-d);}
+  .btn.ghost:hover{background:var(--oat);}
+  .btn.copied{background:var(--olive); border-color:var(--olive); color:#fff;}
+  .actions{display:flex; flex-wrap:wrap; gap:14px; margin-top:26px;}
+
+  table{width:100%; border-collapse:collapse; background:var(--paper); border:1.5px solid var(--g200); border-radius:14px; overflow:hidden; font-size:14.5px;}
+  th{font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--g500); text-align:left; padding:12px 16px; background:var(--g100); border-bottom:1.5px solid var(--g200);}
+  td{padding:13px 16px; border-bottom:1px solid var(--g200); vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td:first-child{font-weight:600; white-space:nowrap;}
+
+  .footer{padding:36px 0 12px; display:flex; flex-wrap:wrap; gap:10px 30px; justify-content:space-between; align-items:center; font-size:13.5px; color:var(--g500);}
+  .footer a{color:var(--clay-d); text-decoration:none;}
+  .sig{font-family:var(--serif); font-size:17px; color:var(--slate);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Superclawman · Discovery Brief · Prepared for Jae Yang, CEO — KCE Logistics</div>
+        <h1>An AI SDR engine that sells the way <em>freight</em> actually gets sold.</h1>
+        <p class="lede">Jae — you said you want an SDR campaign to bring more sales to KCE. This is what our outreach engine does, how it would run inside KCE's world (WhatsApp, iMessage, Slack, email), and the handful of questions we need answered to design the campaign and the infrastructure around it.</p>
+        <div class="hero-meta">
+          <span>From: Paulo Ovídio · Superclawman</span>
+          <span>June 12, 2026</span>
+          <span>Status: Discovery — no commitments yet</span>
+        </div>
+      </div>
+      <div class="card tldr">
+        <div class="kbadge">TL;DR</div>
+        <p><strong>What we're proposing to scope:</strong> a multi-channel AI SDR that researches prospects, opens conversations in their channel of choice, follows up with discipline, and hands warm replies to your team — with a human approving every outbound message until you tell it otherwise.</p>
+        <p style="margin-top:12px;"><strong>What we need from you:</strong> ~15 minutes on the questions at the bottom of this page. Answer inline and hit "Send my answers" — it goes straight back to me.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- WHAT WE SAW -->
+  <section>
+    <div class="eyebrow">01 · We did our homework</div>
+    <h2>What we already know about <em>KCE</em></h2>
+    <div class="grid4" style="margin-top:26px;">
+      <div class="card"><div class="stat">20+</div><div class="statlabel">years in international freight forwarding & fulfillment</div></div>
+      <div class="card"><div class="stat">Inc. 5000</div><div class="statlabel">2023 honoree — one of America's fastest-growing companies</div></div>
+      <div class="card"><div class="stat">Miami</div><div class="statlabel">warehouse + HQ, gateway to the Americas trade lanes</div></div>
+      <div class="card"><div class="stat">3 lines</div><div class="statlabel">freight forwarding · warehousing & fulfillment · specialized cargo</div></div>
+    </div>
+    <div class="card" style="margin-top:18px;">
+      <p>Your site leads with <strong>technology and transparency</strong> — real-time tracking, automated dimensioning, an integrated customer portal — and with <strong>"real specialists, no bots."</strong> That positioning matters for how we build this: the SDR engine works the same way. AI does the research, the drafting, and the follow-up discipline; <strong>people stay in the loop on every conversation that matters.</strong> Nothing we deploy will make KCE feel automated to a prospect.</p>
+      <p style="margin-top:12px;" class="muted small">Sources: kcelogistics.com (Home, About, Solutions), Inc. 5000 profile, LinkedIn.</p>
+    </div>
+  </section>
+
+  <!-- WHAT THE ENGINE DOES -->
+  <section>
+    <div class="eyebrow">02 · The engine</div>
+    <h2>What the Superclawman outreach engine <em>does</em></h2>
+    <p class="lede" style="margin-top:0; margin-bottom:30px;">This isn't a mail-merge tool. It's an autonomous SDR that runs on our agent infrastructure and plugs into yours. Already running live campaigns today — here's the capability set, in plain terms.</p>
+    <div class="grid3">
+      <div class="card">
+        <div class="kbadge">Prospecting</div>
+        <h3>Finds and qualifies your buyers</h3>
+        <ul class="clean small">
+          <li>Builds target lists by industry, geography, role (e.g. importers/exporters shipping into Miami, e-commerce brands needing 3PL)</li>
+          <li>Enriches each lead: verified email, phone, company context, recent signals</li>
+          <li>Scores fit before anyone gets contacted — no spray and pray</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="kbadge">Personalization</div>
+        <h3>Writes like a person who did research</h3>
+        <ul class="clean small">
+          <li>Every first touch references the prospect's actual business — their lanes, products, pain</li>
+          <li>Speaks KCE's language and offer, in English, Spanish, or Portuguese per prospect</li>
+          <li>Per-contact memory: it remembers every prior exchange before it writes the next line</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="kbadge">Persistence</div>
+        <h3>Follows up so your team doesn't have to</h3>
+        <ul class="clean small">
+          <li>Multi-touch sequences across channels, spaced and capped to stay welcome</li>
+          <li>Reply triage: interested → handoff; question → answered; objection → handled; not now → scheduled for later</li>
+          <li>Stops instantly on opt-out — suppression is permanent and automatic</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="kbadge">Human control</div>
+        <h3>Approval before anything sends</h3>
+        <ul class="clean li ok">
+          <li class="ok">Draft cards go to your phone (or Slack) — approve, edit, or veto in one tap</li>
+          <li class="ok">Coach it in plain language ("be less formal", "always mention the portal") — it learns the directive permanently</li>
+          <li class="ok">Autonomy is a dial, not a switch: start fully supervised, loosen as trust builds</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="kbadge">Visibility</div>
+        <h3>You see everything</h3>
+        <ul class="clean small">
+          <li>Every conversation logged and synced to your CRM (or a simple shared sheet if you don't run one)</li>
+          <li>Weekly digest: touches, replies, meetings booked, pipeline created</li>
+          <li>Slack alerts the moment a hot reply lands, with full thread context</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="kbadge">Learning loop</div>
+        <h3>Gets better every week</h3>
+        <ul class="clean small">
+          <li>Tracks which messages, channels, and angles convert</li>
+          <li>Feeds wins back into the playbook automatically</li>
+          <li>Your team's edits become training signal — the engine converges on KCE's voice</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHANNELS -->
+  <section>
+    <div class="eyebrow">03 · Channels</div>
+    <h2>Four channels, one <em>conversation</em></h2>
+    <p class="lede" style="margin-top:0; margin-bottom:30px;">You mentioned WhatsApp, iMessage, Slack, and email. Here's the role each one plays — and the engine keeps a single memory per contact across all of them, so a prospect who answers an email on WhatsApp never gets asked the same question twice.</p>
+    <div class="grid4">
+      <div class="card chan">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1F5FAE" stroke-width="1.8"><path d="M12 3a9 9 0 1 0-7.6 13.7L3 21l4.5-1.3A9 9 0 1 0 12 3z"/><path d="M8.5 9.5c.5 2.5 3.5 5.5 6 6l1.5-1.5-2-1.5-1 .5c-1-.5-2-1.5-2.5-2.5l.5-1-1.5-2-1 2z" fill="#1F5FAE" stroke="none"/></svg></div>
+        <h3>WhatsApp</h3>
+        <p class="small">The workhorse for Americas trade. Importers, exporters, and LatAm shippers live here. First touches, follow-ups, and full back-and-forth conversations — this is where our engine is most battle-tested.</p>
+      </div>
+      <div class="card chan">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1F5FAE" stroke-width="1.8"><path d="M12 4c-5 0-9 3.1-9 7 0 2.2 1.3 4.2 3.4 5.5-.1.9-.5 2-1.4 2.9 1.6-.2 3-.8 3.9-1.5.98.27 2 .4 3.1.4 5 0 9-3.1 9-7s-4-7.3-9-7.3z"/></svg></div>
+        <h3>iMessage</h3>
+        <p class="small">For US-based contacts where a blue bubble reads as a peer, not a vendor. Lighter volume, higher intimacy — great for warm follow-ups and referral-based intros.</p>
+      </div>
+      <div class="card chan">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1F5FAE" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+        <h3>Email</h3>
+        <p class="small">The formal channel: first contact for colder segments, proposals, recap documents. Sent from a properly warmed KCE sales identity with correct SPF/DKIM so deliverability stays clean.</p>
+      </div>
+      <div class="card chan">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1F5FAE" stroke-width="1.8"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></div>
+        <h3>Slack</h3>
+        <p class="small">KCE-internal: the engine's control room. Hot-reply alerts, approval cards, daily digests, and "@sdr what happened with prospect X?" on demand — inside the workspace your team already uses.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section>
+    <div class="eyebrow">04 · How a campaign runs</div>
+    <h2>From lead list to <em>booked call</em></h2>
+    <div class="pipe" style="margin-top:26px;">
+      <svg viewBox="0 0 980 230" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,-apple-system,sans-serif">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#828A95"/></marker>
+        </defs>
+        <!-- stage boxes -->
+        <g>
+          <rect x="10" y="60" width="150" height="78" rx="10" fill="#F0F2F5" stroke="#D0D6DE" stroke-width="1.5"/>
+          <text x="85" y="88" text-anchor="middle" font-size="13.5" font-weight="600" fill="#11202E">1 · Source</text>
+          <text x="85" y="107" text-anchor="middle" font-size="11" fill="#828A95">build + enrich the</text>
+          <text x="85" y="121" text-anchor="middle" font-size="11" fill="#828A95">target list, score fit</text>
+
+          <rect x="212" y="60" width="150" height="78" rx="10" fill="#F0F2F5" stroke="#D0D6DE" stroke-width="1.5"/>
+          <text x="287" y="88" text-anchor="middle" font-size="13.5" font-weight="600" fill="#11202E">2 · Personalize</text>
+          <text x="287" y="107" text-anchor="middle" font-size="11" fill="#828A95">research each prospect,</text>
+          <text x="287" y="121" text-anchor="middle" font-size="11" fill="#828A95">draft the first touch</text>
+
+          <rect x="414" y="60" width="150" height="78" rx="10" fill="#D9E2EE" stroke="#1F5FAE" stroke-width="1.5"/>
+          <text x="489" y="83" text-anchor="middle" font-size="13.5" font-weight="600" fill="#16498A">3 · Approve</text>
+          <text x="489" y="102" text-anchor="middle" font-size="11" fill="#16498A">human reviews the card</text>
+          <text x="489" y="116" text-anchor="middle" font-size="11" fill="#16498A">— tap to send, edit,</text>
+          <text x="489" y="130" text-anchor="middle" font-size="11" fill="#16498A">or veto</text>
+
+          <rect x="616" y="60" width="150" height="78" rx="10" fill="#F0F2F5" stroke="#D0D6DE" stroke-width="1.5"/>
+          <text x="691" y="88" text-anchor="middle" font-size="13.5" font-weight="600" fill="#11202E">4 · Engage</text>
+          <text x="691" y="107" text-anchor="middle" font-size="11" fill="#828A95">send, follow up, answer,</text>
+          <text x="691" y="121" text-anchor="middle" font-size="11" fill="#828A95">handle objections</text>
+
+          <rect x="818" y="60" width="150" height="78" rx="10" fill="#E7F0E9" stroke="#3B7A57" stroke-width="1.5"/>
+          <text x="893" y="88" text-anchor="middle" font-size="13.5" font-weight="600" fill="#3B7A57">5 · Hand off</text>
+          <text x="893" y="107" text-anchor="middle" font-size="11" fill="#3B7A57">warm reply → your team,</text>
+          <text x="893" y="121" text-anchor="middle" font-size="11" fill="#3B7A57">with full context</text>
+        </g>
+        <!-- arrows -->
+        <line x1="160" y1="99" x2="206" y2="99" stroke="#828A95" stroke-width="1.6" marker-end="url(#arr)"/>
+        <line x1="362" y1="99" x2="408" y2="99" stroke="#828A95" stroke-width="1.6" marker-end="url(#arr)"/>
+        <line x1="564" y1="99" x2="610" y2="99" stroke="#828A95" stroke-width="1.6" marker-end="url(#arr)"/>
+        <line x1="766" y1="99" x2="812" y2="99" stroke="#828A95" stroke-width="1.6" marker-end="url(#arr)"/>
+        <!-- learning loop -->
+        <path d="M 893 142 Q 893 200 489 200 Q 85 200 85 142" fill="none" stroke="#1F5FAE" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+        <text x="489" y="190" text-anchor="middle" font-size="11.5" fill="#16498A" font-style="italic">learning loop — what converts feeds back into sourcing and messaging, every week</text>
+        <!-- channels strip -->
+        <text x="489" y="30" text-anchor="middle" font-size="12" fill="#828A95">WhatsApp · iMessage · Email — one shared memory per contact &nbsp;·&nbsp; Slack = your control room</text>
+      </svg>
+    </div>
+    <div class="card" style="margin-top:18px;">
+      <p class="small"><strong>Safety is structural, not aspirational:</strong> rate caps per day and per contact, business-hours sending windows per timezone, no group blasts, permanent opt-out suppression, and an audit log of every message. The autonomy dial starts at "approve everything" and only moves when you move it.</p>
+    </div>
+  </section>
+
+  <!-- DISCOVERY FORM -->
+  <section id="discovery">
+    <div class="eyebrow">05 · Over to you</div>
+    <h2>The <em>discovery</em> questions</h2>
+    <p class="lede" style="margin-top:0; margin-bottom:8px;">Answer what you can — rough answers are fine, "I don't know yet" is a valid answer. This is what lets us design the campaign and the exact infrastructure plan with real numbers instead of guesses.</p>
+    <p class="small muted" style="margin-bottom:30px;">Fill inline and hit <strong>Send my answers</strong> at the bottom — it opens an email back to Paulo with everything you typed. Or just reply on WhatsApp; whatever's easier.</p>
+
+    <div class="qgroup">
+      <h3><span class="qnum">A</span> Who are we hunting?</h3>
+      <p class="why">Defines the target list the engine builds and scores.</p>
+      <div class="q"><label>Describe your ideal customer. (Industry, size, where they ship from/to, who signs the deal.)</label><textarea data-k="A1 Ideal customer" placeholder="e.g. e-commerce brands importing from Asia that need Miami 3PL; LatAm exporters into the US; freight from Brazil…"></textarea></div>
+      <div class="q"><label>Which service line should the campaign push first?</label>
+        <div class="pills" data-k="A2 Priority service" data-multi="1">
+          <span class="pill">Freight forwarding</span><span class="pill">Warehousing & fulfillment</span><span class="pill">Specialized cargo</span><span class="pill">All / bundled</span>
+        </div>
+      </div>
+      <div class="q"><label>Your best 3 current customers — what do they have in common? (We'll clone them.)</label><textarea data-k="A3 Best-customer pattern" placeholder="No names needed — just the pattern."></textarea></div>
+      <div class="q"><label>Anyone we should NOT contact? (Existing customers, partners, competitors, specific companies.)</label><textarea data-k="A4 Do-not-contact" placeholder="We'll build the suppression list before the first message goes out."></textarea></div>
+    </div>
+
+    <div class="qgroup">
+      <h3><span class="qnum">B</span> What do you run today?</h3>
+      <p class="why">Tells us what we integrate with vs. what we stand up for you.</p>
+      <div class="q"><label>CRM or pipeline tracking? (HubSpot, Salesforce, spreadsheet, "it's in my head" — all valid.)</label><input type="text" data-k="B1 CRM"></div>
+      <div class="q"><label>Where do today's leads come from, and roughly how many new ones per month?</label><textarea data-k="B2 Current lead flow" placeholder="Referrals, website quote requests, trade shows, cold calls…"></textarea></div>
+      <div class="q"><label>Who works sales today? (How many people, and who would receive the warm handoffs?)</label><textarea data-k="B3 Sales team" placeholder="e.g. me + 2 account managers; handoffs should go to…"></textarea></div>
+      <div class="q"><label>Does KCE already use Slack? Which channels/workspace would the engine report into?</label><input type="text" data-k="B4 Slack"></div>
+    </div>
+
+    <div class="qgroup">
+      <h3><span class="qnum">C</span> Channels & identity</h3>
+      <p class="why">The engine sends as KCE, not as a stranger — this defines the sending identities we set up.</p>
+      <div class="q"><label>WhatsApp: is there a KCE business number we can use, or do we provision a dedicated US number for the campaign?</label><input type="text" data-k="C1 WhatsApp number"></div>
+      <div class="q"><label>Email: can we create a dedicated sending address on your domain (e.g. growth@kcelogistics.com)? Who manages your domain/Google Workspace?</label><input type="text" data-k="C2 Email identity"></div>
+      <div class="q"><label>iMessage: is there a Mac/Apple ID in the company we could dedicate to this, or should we scope that as phase 2?</label><input type="text" data-k="C3 iMessage"></div>
+      <div class="q"><label>Languages your prospects expect:</label>
+        <div class="pills" data-k="C4 Languages" data-multi="1">
+          <span class="pill">English</span><span class="pill">Spanish</span><span class="pill">Portuguese</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qgroup">
+      <h3><span class="qnum">D</span> Volume, voice & guardrails</h3>
+      <p class="why">Sets the autonomy dial and the sending limits on day one.</p>
+      <div class="q"><label>Comfortable starting volume?</label>
+        <div class="pills" data-k="D1 Starting volume">
+          <span class="pill">Conservative — ~10/day</span><span class="pill">Moderate — ~25/day</span><span class="pill">Aggressive — 50+/day</span><span class="pill">You tell me</span>
+        </div>
+      </div>
+      <div class="q"><label>Approval mode to start?</label>
+        <div class="pills" data-k="D2 Approval mode">
+          <span class="pill">I approve every message</span><span class="pill">Approve first touches only</span><span class="pill">Weekly review, engine runs</span>
+        </div>
+      </div>
+      <div class="q"><label>How should KCE sound in outreach? Anything the engine should never say or promise?</label><textarea data-k="D3 Voice & red lines" placeholder="e.g. friendly but expert; never quote rates without a human; never bash competitors…"></textarea></div>
+    </div>
+
+    <div class="qgroup">
+      <h3><span class="qnum">E</span> What does winning look like?</h3>
+      <p class="why">So the weekly report measures what you actually care about.</p>
+      <div class="q"><label>The metric that matters most in 90 days:</label>
+        <div class="pills" data-k="E1 Success metric">
+          <span class="pill">Booked discovery calls</span><span class="pill">Qualified quote requests</span><span class="pill">New accounts shipping</span><span class="pill">Revenue pipeline $</span>
+        </div>
+      </div>
+      <div class="q"><label>Roughly what is one new average customer worth to KCE per year? (Even a wide range helps us size the math.)</label><input type="text" data-k="E2 Customer value"></div>
+      <div class="q"><label>Anything else we should know before we draft the proposal?</label><textarea data-k="E3 Anything else"></textarea></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" id="sendBtn">Send my answers to Paulo</button>
+      <button class="btn ghost" id="copyBtn">Copy answers as text</button>
+    </div>
+    <p class="small muted" style="margin-top:10px;">"Send" opens a pre-filled email to paulo.ovidio@superclawman.ai — nothing is submitted anywhere else; this page stores nothing.</p>
+  </section>
+
+  <!-- NEXT STEPS -->
+  <section>
+    <div class="eyebrow">06 · Next steps</div>
+    <h2>Where this <em>goes</em></h2>
+    <table style="margin-top:24px;">
+      <tr><th style="width:140px;">Step</th><th>What happens</th><th style="width:160px;">Owner</th></tr>
+      <tr><td>1 · Discovery</td><td>You send back the answers above (or we do them live on a 30-minute call — your pick).</td><td>Jae</td></tr>
+      <tr><td>2 · Proposal</td><td>We come back with the full campaign design: target segments, message angles per channel, sending infrastructure, autonomy plan, timeline, and pricing.</td><td>Paulo</td></tr>
+      <tr><td>3 · Setup</td><td>Sending identities provisioned and warmed, suppression list loaded, Slack control room connected, first target list built and scored for your sign-off.</td><td>Superclawman</td></tr>
+      <tr><td>4 · Pilot</td><td>First campaign runs supervised — you approve everything, we tune the voice together, weekly results review.</td><td>Both</td></tr>
+    </table>
+  </section>
+
+  <footer class="footer">
+    <div>
+      <div class="sig">Paulo Ovídio</div>
+      <div>Founder · Superclawman — <a href="https://superclawman.ai">superclawman.ai</a></div>
+    </div>
+    <div>
+      <a href="mailto:paulo.ovidio@superclawman.ai">paulo.ovidio@superclawman.ai</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // pill pickers — single or multi per group
+  document.querySelectorAll('.pills').forEach(group => {
+    const multi = group.dataset.multi === '1';
+    group.querySelectorAll('.pill').forEach(p => {
+      p.addEventListener('click', () => {
+        if (!multi) group.querySelectorAll('.pill').forEach(o => { if(o!==p) o.classList.remove('picked'); });
+        p.classList.toggle('picked');
+      });
+    });
+  });
+
+  function buildExport(){
+    const lines = ['KCE Logistics x Superclawman — discovery answers from Jae', ''];
+    document.querySelectorAll('#discovery .qgroup').forEach(g => {
+      const title = g.querySelector('h3').textContent.trim();
+      lines.push('== ' + title + ' ==');
+      g.querySelectorAll('[data-k]').forEach(el => {
+        const k = el.dataset.k;
+        let v = '';
+        if (el.classList.contains('pills')) {
+          v = [...el.querySelectorAll('.pill.picked')].map(p => p.textContent.trim()).join(', ');
+        } else {
+          v = el.value.trim();
+        }
+        if (v) lines.push(k + ': ' + v);
+      });
+      lines.push('');
+    });
+    return lines.join('\n');
+  }
+
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    navigator.clipboard.writeText(buildExport()).then(() => {
+      this.textContent = '✓ Copied';
+      this.classList.add('copied');
+      setTimeout(() => { this.textContent = 'Copy answers as text'; this.classList.remove('copied'); }, 2000);
+    });
+  });
+
+  document.getElementById('sendBtn').addEventListener('click', function(){
+    const body = buildExport();
+    const url = 'mailto:paulo.ovidio@superclawman.ai?subject=' +
+      encodeURIComponent('KCE x Superclawman — discovery answers') +
+      '&body=' + encodeURIComponent(body);
+    window.location.href = url;
+  });
+</script>
+</body>
+</html>
