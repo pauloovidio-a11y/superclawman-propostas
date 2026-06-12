@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>360 Labors × Superclawman — Your AI-Run Back Office</title>
+<style>
+  :root{
+    --bg:#faf7f2; --card:#ffffff; --line:#e9e2d7; --ink:#1d1a16; --mut:#6b6358;
+    --acc:#c2562e; --acc-soft:#f6e3d9; --blue:#2d5d8f; --ok:#3a7d44; --gold:#b07d2b;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:42px 22px 90px}
+  .kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:800}
+  h1{font-size:clamp(30px,5.2vw,46px);line-height:1.07;margin:10px 0 10px;letter-spacing:-.02em}
+  .lede{font-size:18.5px;color:#4d463d;max-width:64ch}
+  .hero{background:linear-gradient(155deg,#fff 0%,#fdf3ec 70%,#fbe9dd 100%);
+    border:1px solid var(--line);border-radius:22px;padding:38px 34px}
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .pill{font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 13px;color:#4d463d}
+  .pill b{color:var(--acc)}
+  h2{font-size:13.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);margin:56px 0 6px}
+  h2 + .sub{color:var(--mut);font-size:15px;margin:0 0 20px;max-width:70ch}
+  .today{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
+  .pain{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;padding:16px 18px}
+  .pain b{display:block;margin-bottom:4px}
+  .pain p{margin:0;color:var(--mut);font-size:13.5px}
+  .vision{background:#10312b;color:#eef6ef;border-radius:18px;padding:30px 32px;margin-top:8px}
+  .vision h3{margin:0 0 8px;font-size:21px;color:#fff}
+  .vision p{margin:0;color:#cfe2d2;font-size:16px;max-width:68ch}
+  .streams{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}
+  .stream{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;position:relative}
+  .stream .n{position:absolute;top:16px;right:18px;font-size:24px;font-weight:800;color:var(--acc-soft)}
+  .stream .ico{font-size:21px}
+  .stream h3{margin:8px 0 6px;font-size:16.5px}
+  .stream p{margin:0;color:#574f44;font-size:14px}
+  .stream .from{margin-top:10px;font-size:12px;color:var(--ok);font-weight:600}
+  .platform{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .platform .row{display:flex;gap:16px;padding:16px 22px;border-top:1px solid var(--line);align-items:baseline}
+  .platform .row:first-child{border-top:none}
+  .platform .lbl{flex:0 0 150px;font-weight:700;color:var(--acc);font-size:13.5px}
+  .platform .desc{color:#574f44;font-size:14.5px}
+  .platform .desc b{color:var(--ink)}
+  .phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}
+  .phase{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px}
+  .phase .tag{font-size:11px;font-weight:800;letter-spacing:.08em;color:#fff;background:var(--blue);border-radius:99px;padding:3px 10px}
+  .phase h4{margin:10px 0 6px;font-size:15.5px}
+  .phase p{margin:0;color:var(--mut);font-size:13px}
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14.5px}
+  th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;background:#fdfaf6}
+  tr:last-child td{border-bottom:none}
+  .quote{border-left:4px solid var(--gold);background:#fbf6ec;border-radius:0 12px 12px 0;padding:14px 18px;margin:18px 0;color:#5c4d2e;font-size:15px}
+  .cta{background:linear-gradient(150deg,#c2562e,#a8431f);color:#fff;border-radius:18px;padding:30px 32px;margin-top:54px}
+  .cta h3{margin:0 0 8px;font-size:21px}
+  .cta p{margin:0 0 4px;color:#ffe3d4;font-size:15.5px}
+  footer{margin-top:56px;border-top:1px solid var(--line);padding-top:18px;color:var(--mut);font-size:12.5px}
+  .sig{color:var(--acc);font-weight:700}
+  @media(max-width:560px){.platform .lbl{flex-basis:110px}}
+</style></head>
+<body><div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">360 Labors × Superclawman.ai</div>
+    <h1>Run a 220-person staffing operation.<br>Without running the back office.</h1>
+    <p class="lede">An end-to-end automation partnership: your own private AI operator that takes over the manual work — timesheets, QuickBooks, payments, reconciliation, staff communication — so your time goes where it grows the business: clients.</p>
+    <div class="pills">
+      <span class="pill">Prepared for <b>Dilson Caputo · 360 Labors</b></span>
+      <span class="pill">Hospitality staffing · <b>Southeast US</b></span>
+      <span class="pill">By <b>superclawman.ai</b></span>
+    </div>
+  </div>
+
+  <h2>Where the day goes today</h2>
+  <p class="sub">From our conversation — every one of these is a manual step that scales with headcount, which means every new client adds office work instead of margin.</p>
+  <div class="today">
+    <div class="pain"><b>Hours arrive raw</b><p>Clients send worked hours as Excel sheets and photos of tickets — each one read and retyped by hand.</p></div>
+    <div class="pain"><b>Manual QuickBooks entry</b><p>Every invoice, every payment, every adjustment typed in one at a time.</p></div>
+    <div class="pain"><b>~220 hand-written checks</b><p>Staff payments produced by hand, week after week.</p></div>
+    <div class="pain"><b>Chasing &amp; reconciling</b><p>Payment follow-ups, bank reconciliation, and financial reports — all on you.</p></div>
+  </div>
+  <div class="quote">The bottleneck isn't demand — hospitality clients and seasonal peaks are there. The bottleneck is that the owner is the back office.</div>
+
+  <div class="vision">
+    <h3>The goal, in one line</h3>
+    <p>Free your week from operations so you can sell — while an AI operator runs the paperwork with bank-grade discipline: nothing paid, sent, or filed without your one-tap approval.</p>
+  </div>
+
+  <h2>The eight automation streams</h2>
+  <p class="sub">One integrated system, delivered in phases — each stream removes a manual job you do today.</p>
+  <div class="streams">
+    <div class="stream"><span class="n">01</span><div class="ico">📥</div><h3>Timesheet intake</h3><p>Excel sheets and ticket photos are read automatically (OCR + AI) into clean, validated hours per client per worker. Discrepancies flagged, not silently accepted.</p><div class="from">replaces: retyping hours by hand</div></div>
+    <div class="stream"><span class="n">02</span><div class="ico">📒</div><h3>QuickBooks automation</h3><p>Validated hours become invoices and entries in QuickBooks automatically. We keep QuickBooks — your accountant's world doesn't change; the typing disappears.</p><div class="from">replaces: manual data entry</div></div>
+    <div class="stream"><span class="n">03</span><div class="ico">💸</div><h3>Digital payments</h3><p>Hand-written checks replaced by Stripe/ACH batch payouts — prepared automatically, released only on your approval, with digital receipts sent to each worker by SMS/WhatsApp.</p><div class="from">replaces: ~220 checks by hand</div></div>
+    <div class="stream"><span class="n">04</span><div class="ico">🏦</div><h3>Reconciliation &amp; collections</h3><p>Bank reconciliation runs continuously; client invoices are chased politely and persistently by the AI until paid — you see a queue, not a chore.</p><div class="from">replaces: follow-ups &amp; recon</div></div>
+    <div class="stream"><span class="n">05</span><div class="ico">💬</div><h3>Staff communication hub</h3><p>One AI-managed channel over SMS / WhatsApp / iMessage (your workers' preference, English-first): schedules, confirmations, documents, payday notices — with every conversation logged.</p><div class="from">replaces: one-by-one texting</div></div>
+    <div class="stream"><span class="n">06</span><div class="ico">🧲</div><h3>Recruiting pipeline</h3><p>Job postings, candidate intake, screening questions, document collection and onboarding checklists — run by the AI, reviewed by you. Built for seasonal surge hiring.</p><div class="from">replaces: ad-hoc recruiting</div></div>
+    <div class="stream"><span class="n">07</span><div class="ico">📊</div><h3>Cash flow &amp; daily brief</h3><p>A Monday brief and a daily pulse: cash position, who owes what, payroll ahead, margins per client — delivered to your phone, written in plain language.</p><div class="from">replaces: end-of-month surprises</div></div>
+    <div class="stream"><span class="n">08</span><div class="ico">🌐</div><h3>Website &amp; lead capture</h3><p>A professional rebuild of 360labors.com — sharp positioning, employer lead forms feeding directly into your pipeline, SEO fixed so Florida hospitality searches find you.</p><div class="from">replaces: a site that doesn't sell</div></div>
+  </div>
+
+  <h2>You already met the ninth</h2>
+  <p class="sub">The meeting assistant that joined our call — recorded it, briefed it, and turned it into this document — is part of the same platform. Your client meetings get the same treatment: auto-join, live help, briefs, follow-ups.</p>
+
+  <h2>The platform: a private AI office, in your office</h2>
+  <p class="sub">Your data — payroll, banking, client contracts — never lives in a stranger's cloud. The AI runs on hardware you own, on your desk, watched 24/7 by our fleet.</p>
+  <div class="platform">
+    <div class="row"><div class="lbl">The brain</div><div class="desc"><b>Mac mini</b> — small, silent, reliable. Runs the AI operator and every automation stream locally.</div></div>
+    <div class="row"><div class="lbl">Always on</div><div class="desc"><b>UPS battery</b> + <b>dual-WAN router</b> (two internet providers) — power blips and ISP outages don't stop payroll.</div></div>
+    <div class="row"><div class="lbl">Your records</div><div class="desc"><b>Local NAS storage</b> — every document, conversation, and report stored in your office, with encrypted off-site backup for disaster recovery.</div></div>
+    <div class="row"><div class="lbl">Watched 24/7</div><div class="desc">Monitored remotely by the superclawman.ai fleet — if anything degrades, we usually fix it before you notice.</div></div>
+    <div class="row"><div class="lbl">Yours</div><div class="desc">The hardware is <b>purchased by 360 Labors</b> — a business asset on your books (talk to your accountant about depreciation), not a rental you never own.</div></div>
+  </div>
+
+  <h2>Trust, control, and the approval rule</h2>
+  <table>
+    <tr><th>Concern</th><th>How it works</th></tr>
+    <tr><td>Money movement</td><td><b>Nothing is ever paid automatically.</b> The AI prepares payment batches; you approve with one tap. Every cent is logged.</td></tr>
+    <tr><td>Messages to staff &amp; clients</td><td>Routine notices flow automatically; anything sensitive is drafted for your approval first.</td></tr>
+    <tr><td>Your data</td><td>Lives on your hardware, in your office. We administer it; you own it.</td></tr>
+    <tr><td>Mistakes</td><td>Every action is reversible and audited. Discrepancies are flagged to you, never papered over.</td></tr>
+  </table>
+
+  <h2>Roadmap</h2>
+  <p class="sub">Phased so value lands early — the first phase alone returns hours every week.</p>
+  <div class="phases">
+    <div class="phase"><span class="tag">PHASE 0</span><h4>Map the operation</h4><p>1–2 sessions: we document your flow end-to-end — hours in, checks out — using your real examples (Excel sheets, ticket photos).</p></div>
+    <div class="phase"><span class="tag">PHASE 1</span><h4>Money quick wins</h4><p>Timesheet intake + QuickBooks entry + Stripe/ACH payouts with receipts. The hand-written checks end here.</p></div>
+    <div class="phase"><span class="tag">PHASE 2</span><h4>Communication</h4><p>Staff hub (SMS/WhatsApp/iMessage), invoice chasing, recruiting pipeline, daily cash brief.</p></div>
+    <div class="phase"><span class="tag">PHASE 3</span><h4>Grow</h4><p>New website + lead capture live; meeting assistant on your sales calls; the office runs itself while you add clients.</p></div>
+  </div>
+
+  <h2>Commercial structure</h2>
+  <p class="sub">Simple and aligned with your growth — detailed together after Phase 0, when we've sized the real volumes.</p>
+  <table>
+    <tr><th>Component</th><th>Shape</th></tr>
+    <tr><td>Setup</td><td>One-time implementation fee covering hardware (owned by 360 Labors) and the build of Phases 0–1.</td></tr>
+    <tr><td>Partnership</td><td>A usage-based fee that scales with your operation — you pay more only when you're earning more. No seats, no per-user licenses.</td></tr>
+    <tr><td>Alignment</td><td>We win when you grow. Our incentive is to automate well enough that you can take on more clients without adding office work.</td></tr>
+  </table>
+
+  <div class="cta">
+    <h3>Next step — already on the calendar</h3>
+    <p>1. You send a few real examples: a client hours spreadsheet, a ticket photo, a typical week of payments.</p>
+    <p>2. We map your operation end-to-end (Phase 0) and put numbers on the time you get back.</p>
+    <p>3. We agree the commercial details and start Phase 1.</p>
+  </div>
+
+  <footer>
+    Prepared by Paulo Ovídio · superclawman.ai · June 2026 — based on our conversation of June 11.<br>
+    <span class="sig">www.superclawman.ai</span> · The meeting that produced this document was recorded, briefed, and turned into this proposal by the same AI platform described above.
+  </footer>
+
+</div></body></html>
