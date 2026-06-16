@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Caso Sisloc — Operação de Suporte N1 Autônoma · Superclawman.ai</title>
+<style>
+  :root{--ink:#13202b;--mut:#5b6b78;--line:#e2e8ee;--bg:#f6f8fa;--card:#fff;--acc:#0a7d6b;--acc2:#0f5e8c;--warn:#b9772a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:860px;margin:0 auto;padding:48px 22px 80px}
+  .kick{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);font-weight:700}
+  h1{font-size:clamp(26px,4.6vw,38px);line-height:1.1;letter-spacing:-.02em;margin:10px 0 10px}
+  .lede{font-size:18px;color:var(--mut);max-width:64ch;margin-bottom:8px}
+  .tag{display:inline-block;margin-top:14px;font-size:12.5px;color:var(--warn);border:1px solid #ecd9c0;background:#fdf6ec;border-radius:99px;padding:4px 12px}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--acc2);margin:46px 0 6px}
+  h2+.sub{color:var(--mut);font-size:14.5px;margin-bottom:16px}
+  p{margin:0 0 14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:6px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .stat .b{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--acc)}
+  .stat .l{color:var(--mut);font-size:13px;margin-top:3px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-top:6px}
+  ul{margin:6px 0 0 20px}li{margin:6px 0}
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+  .node{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13.5px;flex:1 1 150px}
+  .node b{display:block;color:var(--acc2);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+  .arrow{color:var(--line);font-size:20px}
+  .mut{color:var(--mut);font-size:14px}
+  footer{margin-top:54px;border-top:1px solid var(--line);padding-top:16px;color:var(--mut);font-size:12.5px}
+  .sig{color:var(--acc);font-weight:700}
+</style></head>
+<body><div class="wrap">
+
+  <div class="kick">🦀 Superclawman.ai · Caso de referência</div>
+  <h1>Sisloc — N1 autônomo no canal do usuário</h1>
+  <p class="lede">Como desenhamos uma operação de suporte de nível 1 que resolve o repetitivo sozinha — integrada ao Zendesk e à base de conhecimento que a empresa já usava, sem trocar de plataforma.</p>
+  <span class="tag">Referência de arquitetura · números operacionais e comerciais omitidos por confidencialidade</span>
+
+  <h2>O contexto</h2>
+  <p class="sub">Sisloc Softwares — software de gestão para locação, ERP fiscal e financeiro.</p>
+  <div class="grid">
+    <div class="stat"><div class="b">25</div><div class="l">atendentes N1 dedicados (Belo Horizonte)</div></div>
+    <div class="stat"><div class="b">~4.000</div><div class="l">chamados / mês no Zendesk</div></div>
+    <div class="stat"><div class="b">~70%</div><div class="l">da fila é repetitiva e pode resolver-se sozinha</div></div>
+    <div class="stat"><div class="b">10</div><div class="l">perguntas concentram ~45% do volume</div></div>
+  </div>
+  <p class="mut" style="margin-top:14px">O grosso do volume não é problema novo — é a mesma dúvida fiscal, de acesso ou cadastral, repetida milhares de vezes (NF-e, NFS-e, "sem acesso ao ambiente", ficha de locação, faturamento). Tudo respondido manualmente, abrindo ticket.</p>
+
+  <h2>O que desenhamos</h2>
+  <p class="sub">Uma porta de entrada, duas camadas — sem trocar o ITSM nem a base de conhecimento.</p>
+  <div class="card">
+    <div class="flow">
+      <div class="node"><b>Canal</b>Um único WhatsApp — o cliente fala onde já está</div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Camada de IA</b>Raciocínio em pt-BR + base de conhecimento (Document360) decidem o caminho</div>
+      <span class="arrow">→</span>
+      <div class="node"><b>Resolve ou roteia</b>Tier 1 fecha sem ticket · Tier 2 valida e abre ticket no Zendesk com SLA</div>
+    </div>
+    <ul style="margin-top:16px">
+      <li><b>Tier 1 — resolve sem ticket:</b> a dúvida repetitiva é respondida no próprio WhatsApp, puxando da base de conhecimento. Nada de fila, nada de ticket.</li>
+      <li><b>Tier 2 — valida e escala:</b> o que precisa de gente é classificado automaticamente (fiscal · locação · back-office), validado contra o cadastro e aberto como ticket no Zendesk com SLA — só usuário cadastrado abre ticket.</li>
+      <li><b>Integração, não substituição:</b> o Zendesk continua sendo o sistema de registro; a base Document360 continua sendo a fonte de conhecimento. A IA opera <i>sobre</i> o que já existe.</li>
+    </ul>
+  </div>
+
+  <h2>Por que importa para a Petrobras</h2>
+  <p class="sub">O padrão se transfere — trocando Zendesk por ServiceNow.</p>
+  <div class="card">
+    <p>A mecânica é a mesma de qualquer operação N1 madura: a maior parte do volume é repetitiva e deflexionável; o valioso é escalar para a equipe só o que realmente precisa de gente — e fazer isso <b>dentro das ferramentas que você já roda</b>. No caso da Petrobras, o sistema de registro é o ServiceNow e o controle de máquina é o Bomgar. A camada de IA se encaixa por cima, não no lugar.</p>
+    <p class="mut" style="margin-bottom:0">Detalhamos esse encaixe — e a pergunta sobre a API do Bomgar que levantamos na call — no documento de continuidade que acompanha esta referência.</p>
+  </div>
+
+  <footer>
+    Superclawman.ai — caso de referência preparado para a conversa com a Petrobras · jun/2026.<br>
+    <span class="sig">www.superclawman.ai</span> · 🦀⚡ Superclawman
+  </footer>
+</div></body></html>
