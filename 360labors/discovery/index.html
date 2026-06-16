@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>360 Labors × Superclawman — Discovery</title>
+<style>
+  :root{
+    --ivory:#FAF7F2; --paper:#FFFFFF; --slate:#1d1a16;
+    --clay:#C2562E; --clay-d:#A8431F; --oat:#F6E3D9; --olive:#3A7D44;
+    --g100:#F4EFE9; --g200:#EAE2D8; --g300:#DCD3C6; --g500:#8a7f70; --g700:#4d463d;
+    --serif: ui-serif, Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ivory); color:var(--slate); font-family:var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  .wrap{max-width:920px; margin:0 auto; padding:48px 32px 64px;}
+  @media(max-width:600px){.wrap{padding:32px 18px 48px;}}
+  .eyebrow{font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--clay-d); margin-bottom:14px;}
+  .eyebrow::before{content:""; width:24px; height:3px; background:var(--clay); display:inline-block; vertical-align:middle; margin-right:10px;}
+  h1{font-family:var(--serif); font-size:clamp(32px,5vw,50px); line-height:1.07; letter-spacing:-0.018em; font-weight:600;}
+  h1 em{font-style:italic; color:var(--clay);}
+  h2{font-family:var(--serif); font-size:clamp(24px,3.2vw,32px); line-height:1.12; font-weight:600; margin-bottom:16px;}
+  h2 em{font-style:italic; color:var(--clay);}
+  p.lede{font-size:18.5px; color:var(--g700); max-width:62ch; margin-top:18px;}
+  section{padding:48px 0; border-bottom:1.5px solid var(--g300);}
+  section:last-of-type{border-bottom:none;}
+  .muted{color:var(--g500);} .small{font-size:13.5px;}
+  .hero{padding:8px 0 44px; border-bottom:1.5px solid var(--g300);}
+  .hero-meta{font-family:var(--mono); font-size:12.5px; color:var(--g500); margin-top:24px; display:flex; flex-wrap:wrap; gap:8px 22px;}
+  .tldr{background:var(--paper); border:1.5px solid var(--g200); border-left:4px solid var(--clay); border-radius:14px; padding:22px 24px; margin-top:30px;}
+  .tldr strong{color:var(--clay-d);}
+  .qgroup{background:var(--paper); border:1.5px solid var(--g200); border-radius:14px; padding:26px 28px; margin-bottom:20px;}
+  .qgroup h3{display:flex; align-items:center; gap:10px; font-size:18px; margin-bottom:4px;}
+  .qnum{font-family:var(--mono); font-size:12px; color:var(--paper); background:var(--clay); border-radius:6px; padding:2px 8px;}
+  .qgroup .why{font-size:13.5px; color:var(--g500); margin-bottom:18px;}
+  .q{margin-bottom:16px;}
+  .q label{display:block; font-size:14.5px; font-weight:600; margin-bottom:6px;}
+  .q textarea, .q input[type=text]{width:100%; font-family:var(--sans); font-size:14.5px; color:var(--slate); background:var(--ivory); border:1.5px solid var(--g300); border-radius:8px; padding:10px 12px; resize:vertical;}
+  .q textarea{min-height:54px;}
+  .q textarea:focus, .q input:focus{outline:none; border-color:var(--clay);}
+  .pills{display:flex; flex-wrap:wrap; gap:8px; margin-top:2px;}
+  .pill{font-size:13.5px; border:1.5px solid var(--g300); background:var(--paper); color:var(--g700); border-radius:999px; padding:6px 14px; cursor:pointer; user-select:none; transition:all .15s;}
+  .pill.picked{background:var(--clay); border-color:var(--clay); color:#fff;}
+  .btn{display:inline-block; font-family:var(--sans); font-size:15px; font-weight:600; border-radius:9px; padding:13px 26px; cursor:pointer; border:1.5px solid var(--clay); transition:all .15s; text-decoration:none;}
+  .btn.primary{background:var(--clay); color:#fff;} .btn.primary:hover{background:var(--clay-d); border-color:var(--clay-d);}
+  .btn.ghost{background:transparent; color:var(--clay-d);} .btn.ghost:hover{background:var(--oat);}
+  .btn.copied{background:var(--olive); border-color:var(--olive); color:#fff;}
+  .actions{display:flex; flex-wrap:wrap; gap:14px; margin-top:26px;}
+  table{width:100%; border-collapse:collapse; background:var(--paper); border:1.5px solid var(--g200); border-radius:14px; overflow:hidden; font-size:14.5px;}
+  th{font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--g500); text-align:left; padding:12px 16px; background:var(--g100); border-bottom:1.5px solid var(--g200);}
+  td{padding:13px 16px; border-bottom:1px solid var(--g200); vertical-align:top;}
+  tr:last-child td{border-bottom:none;} td:first-child{font-weight:600; white-space:nowrap;}
+  .footer{padding:36px 0 12px; display:flex; flex-wrap:wrap; gap:10px 30px; justify-content:space-between; align-items:center; font-size:13.5px; color:var(--g500);}
+  .footer a{color:var(--clay-d); text-decoration:none;}
+  .sig{font-family:var(--serif); font-size:17px; color:var(--slate);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Superclawman · Discovery · Prepared for Dilson Caputo — 360 Labors</div>
+    <h1>A few questions, and we build your <em>proposal</em> — and a working proof.</h1>
+    <p class="lede">Dilson — thanks for the conversation. To design the automation that fits 360 Labors (and to build a small working proof-of-concept on one of your real workflows), we need a clearer picture of how the operation runs today. Answer what you can, skip what you can't — even rough numbers help. It takes about ten minutes.</p>
+    <div class="tldr small">
+      <strong>How this works:</strong> fill in the boxes below, then hit <strong>"Send my answers to Paulo"</strong> — it opens a pre-filled email to me, nothing is submitted anywhere else and this page stores nothing. With your answers, we come back with the full proposal and a proof-of-concept built on your real data.
+    </div>
+    <div class="hero-meta">
+      <span>From: Paulo Ovídio · Superclawman</span>
+      <span>superclawman.ai</span>
+      <span>The proposal you saw: superclawman.ai/360labors</span>
+    </div>
+  </header>
+
+  <section id="discovery">
+
+    <div class="qgroup">
+      <h3><span class="qnum">01</span> Your operation today</h3>
+      <p class="why">The basic numbers let us size everything correctly.</p>
+      <div class="q"><label>How many client companies do you staff for right now?</label><input type="text" data-k="A1 Number of clients"></div>
+      <div class="q"><label>How many workers do you pay in a typical week?</label><input type="text" data-k="A2 Workers per week" placeholder="roughly is fine"></div>
+      <div class="q"><label>How often do you run payroll?</label><div class="pills" data-k="A3 Pay frequency"><span class="pill">Weekly</span><span class="pill">Bi-weekly</span><span class="pill">Monthly</span><span class="pill">It varies</span></div></div>
+      <div class="q"><label>How do your clients send you the worked hours? (pick all that apply)</label><div class="pills" data-multi="1" data-k="A4 How hours arrive"><span class="pill">Excel / spreadsheet</span><span class="pill">Photos of paper tickets</span><span class="pill">Email</span><span class="pill">Text / WhatsApp</span><span class="pill">Each client is different</span></div></div>
+      <div class="q"><label>Describe the messiest / most time-consuming one to process.</label><textarea data-k="A5 Messiest intake" placeholder="e.g. one client sends blurry photos of handwritten tickets every Friday night…"></textarea></div>
+    </div>
+
+    <div class="qgroup">
+      <h3><span class="qnum">02</span> Invoicing &amp; paying — the money flow</h3>
+      <p class="why">This is the heart of what we'd automate, so a little detail here goes a long way.</p>
+      <div class="q"><label>Which QuickBooks do you use?</label><div class="pills" data-k="B1 QuickBooks version"><span class="pill">QuickBooks Online</span><span class="pill">QuickBooks Desktop</span><span class="pill">Not sure</span><span class="pill">Something else</span></div></div>
+      <div class="q"><label>Today you pay workers by printed check. Would your workers accept a digital payment instead? (pick all you think they'd take)</label><div class="pills" data-multi="1" data-k="B2 Worker payment methods"><span class="pill">Direct deposit / ACH</span><span class="pill">Zelle</span><span class="pill">PayPal / Venmo / CashApp</span><span class="pill">Most still want a check</span><span class="pill">Not sure</span></div></div>
+      <div class="q"><label>Any reason checks are hard to replace? (e.g. workers without bank accounts, client requirements, cash preference)</label><textarea data-k="B3 Check constraints"></textarea></div>
+      <div class="q"><label>Who reviews and approves payments before they go out today?</label><input type="text" data-k="B4 Payment approver" placeholder="just you, a bookkeeper, an accountant…"></div>
+      <div class="q"><label>How do your clients pay you, and how often do you have to chase late payments?</label><textarea data-k="B5 Client payment & collections"></textarea></div>
+      <div class="q"><label>Which bank does 360 Labors use for payroll? (helps us scope direct-deposit setup)</label><input type="text" data-k="B6 Payroll bank"></div>
+    </div>
+
+    <div class="qgroup">
+      <h3><span class="qnum">03</span> Talking to workers &amp; finding new ones</h3>
+      <p class="why">So the assistant communicates the way your people already do.</p>
+      <div class="q"><label>How do you talk to your workers today? (pick all that apply)</label><div class="pills" data-multi="1" data-k="C1 Worker channels"><span class="pill">SMS / text</span><span class="pill">iMessage</span><span class="pill">WhatsApp</span><span class="pill">Phone calls</span><span class="pill">Email</span></div></div>
+      <div class="q"><label>What language do most of your workers prefer?</label><div class="pills" data-multi="1" data-k="C2 Worker language"><span class="pill">English</span><span class="pill">Spanish</span><span class="pill">Portuguese</span><span class="pill">Mixed</span></div></div>
+      <div class="q"><label>How do you find and bring on new workers today?</label><textarea data-k="C3 Recruiting today" placeholder="referrals, Facebook groups, walk-ins, agencies…"></textarea></div>
+      <div class="q"><label>What documents do you collect from a new worker before they start?</label><textarea data-k="C4 Onboarding docs" placeholder="e.g. I-9, W-9 / 1099, photo ID, work authorization…"></textarea></div>
+    </div>
+
+    <div class="qgroup">
+      <h3><span class="qnum">04</span> Your tools &amp; setup</h3>
+      <p class="why">This tells us what the assistant plugs into — and where it lives.</p>
+      <div class="q"><label>Besides QuickBooks, what other software or tools do you use to run the business?</label><textarea data-k="D1 Other tools" placeholder="Excel, a scheduling app, a payroll service, nothing else…"></textarea></div>
+      <div class="q"><label>For email &amp; calendar, do you use Google (Gmail/Workspace) or Microsoft 365?</label><div class="pills" data-k="D2 Email platform"><span class="pill">Google / Gmail</span><span class="pill">Microsoft 365 / Outlook</span><span class="pill">Both</span><span class="pill">Not sure</span></div></div>
+      <div class="q"><label>Your website (360labors.com) — who manages it, and do you have login access?</label><input type="text" data-k="D3 Website access"></div>
+      <div class="q"><label>Is there a computer in your office that stays on all day, or would this be the first one?</label><textarea data-k="D4 Office computer" placeholder="We can place a small dedicated machine in your office — just want to know the starting point."></textarea></div>
+    </div>
+
+    <div class="qgroup">
+      <h3><span class="qnum">05</span> Priorities &amp; the proof-of-concept</h3>
+      <p class="why">This decides what we build <em>first</em> and prove on your real data.</p>
+      <div class="q"><label>If we could automate ONE thing first to free your time, which should it be?</label><div class="pills" data-k="E1 First priority"><span class="pill">Timesheets → QuickBooks</span><span class="pill">Paying the workers</span><span class="pill">Chasing client payments</span><span class="pill">Messaging workers</span><span class="pill">Recruiting</span></div></div>
+      <div class="q"><label>Roughly how many hours a week do you (or your team) spend on this back-office paperwork?</label><input type="text" data-k="E2 Hours on back office"></div>
+      <div class="q"><label>What worries you most about handing parts of this to an AI assistant?</label><textarea data-k="E3 Concerns" placeholder="Totally fair to be cautious — tell us, so we design around it."></textarea></div>
+      <div class="q"><label>Anything we should NOT touch or change?</label><textarea data-k="E4 Do-not-touch"></textarea></div>
+      <div class="q"><label>Anything else we should know before we build your proposal and proof-of-concept?</label><textarea data-k="E5 Anything else"></textarea></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" id="sendBtn">Send my answers to Paulo</button>
+      <button class="btn ghost" id="copyBtn">Copy answers as text</button>
+    </div>
+    <p class="small muted" style="margin-top:10px;">"Send" opens a pre-filled email to paulo.ovidio@superclawman.ai — nothing is submitted anywhere else; this page stores nothing.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Next steps</div>
+    <h2>Where this <em>goes</em></h2>
+    <table style="margin-top:22px;">
+      <tr><th style="width:130px;">Step</th><th>What happens</th><th style="width:150px;">Owner</th></tr>
+      <tr><td>1 · Discovery</td><td>You send back the answers above (or we do them live on a short call — your pick).</td><td>Dilson</td></tr>
+      <tr><td>2 · Proposal</td><td>We come back with the full plan grounded in your reality: which workflows, in what order, the platform, timeline, and pricing.</td><td>Paulo</td></tr>
+      <tr><td>3 · Proof-of-concept</td><td>We build a small working demo on one of your real workflows (e.g. a real timesheet → QuickBooks entry → a sample payout) so you see it work before committing.</td><td>Superclawman</td></tr>
+      <tr><td>4 · Pilot</td><td>First workflow goes live, supervised — you approve everything, we tune it together, then expand.</td><td>Both</td></tr>
+    </table>
+  </section>
+
+  <footer class="footer">
+    <div>
+      <div class="sig">Paulo Ovídio</div>
+      <div>Founder · Superclawman — <a href="https://superclawman.ai">superclawman.ai</a></div>
+    </div>
+    <div><a href="mailto:paulo.ovidio@superclawman.ai">paulo.ovidio@superclawman.ai</a></div>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.pills').forEach(group => {
+    const multi = group.dataset.multi === '1';
+    group.querySelectorAll('.pill').forEach(p => {
+      p.addEventListener('click', () => {
+        if (!multi) group.querySelectorAll('.pill').forEach(o => { if(o!==p) o.classList.remove('picked'); });
+        p.classList.toggle('picked');
+      });
+    });
+  });
+
+  function buildExport(){
+    const lines = ['360 Labors x Superclawman — discovery answers from Dilson Caputo', ''];
+    document.querySelectorAll('#discovery .qgroup').forEach(g => {
+      const title = g.querySelector('h3').textContent.trim();
+      lines.push('== ' + title + ' ==');
+      g.querySelectorAll('[data-k]').forEach(el => {
+        const k = el.dataset.k;
+        let v = '';
+        if (el.classList.contains('pills')) {
+          v = [...el.querySelectorAll('.pill.picked')].map(p => p.textContent.trim()).join(', ');
+        } else {
+          v = el.value.trim();
+        }
+        if (v) lines.push(k + ': ' + v);
+      });
+      lines.push('');
+    });
+    return lines.join('\n');
+  }
+
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    navigator.clipboard.writeText(buildExport()).then(() => {
+      this.textContent = '✓ Copied'; this.classList.add('copied');
+      setTimeout(() => { this.textContent = 'Copy answers as text'; this.classList.remove('copied'); }, 2000);
+    });
+  });
+
+  document.getElementById('sendBtn').addEventListener('click', function(){
+    const body = buildExport();
+    const url = 'mailto:paulo.ovidio@superclawman.ai?subject=' +
+      encodeURIComponent('360 Labors x Superclawman — discovery answers') +
+      '&body=' + encodeURIComponent(body);
+    window.location.href = url;
+  });
+</script>
+</body>
+</html>
