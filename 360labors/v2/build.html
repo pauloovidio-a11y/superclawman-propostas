@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="robots" content="noindex,nofollow" />
+<title>360 Labors × Superclawman — Build Plan: architecture, flow, requirements & hardware</title>
+<style>
+  :root{--bg:#0e1116;--panel:#161b22;--panel2:#1b2230;--line:#2a3344;--ink:#eef2f7;--mut:#97a3b4;--acc:#f0883e;--acc2:#5aa9ff;--ok:#46c46a;--warn:#ffd9a8;--purp:#b48cff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px;margin:0 auto;padding:40px 22px 90px}
+  .kick{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);font-weight:700}
+  h1{font-size:clamp(26px,4.6vw,40px);line-height:1.08;letter-spacing:-.02em;margin:10px 0 10px}
+  .lede{font-size:18px;color:#d4dbe4;max-width:66ch}
+  .hero{border:1px solid var(--line);border-radius:20px;padding:30px 28px;background:radial-gradient(120% 140% at 0% 0%,#241608 0%,var(--panel2) 40%,var(--panel) 100%)}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .toc a{font-size:12.5px;color:var(--ink);border:1px solid var(--line);border-radius:99px;padding:6px 13px;background:#ffffff06;text-decoration:none}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--acc2);margin:52px 0 6px;scroll-margin-top:20px}
+  h2 .num{color:var(--acc);margin-right:8px}
+  h2+.sub{color:var(--mut);font-size:14.5px;margin-bottom:16px}
+  p{margin:0 0 14px}
+  .card{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:20px 22px;margin-top:6px}
+  ul{margin:8px 0 0 20px}li{margin:7px 0;color:#d4dbe4}
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);background:#0d1218}
+  td:first-child{font-weight:700;color:var(--ink)}
+  td.ok{color:var(--ok);font-weight:700}td.mid{color:var(--warn);font-weight:700}
+  .req{display:grid;grid-template-columns:1fr;gap:10px;margin-top:6px}
+  .reqcard{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px}
+  .reqcard h4{font-size:14px;color:var(--acc);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+  .reqcard ul{margin:0 0 0 18px}
+  /* architecture diagram */
+  .arch{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:22px;margin-top:6px}
+  .layer{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;justify-content:center;margin:8px 0}
+  .box{border:1px solid var(--line);border-radius:12px;background:#0e141c;padding:12px 14px;font-size:13px;flex:1 1 150px;min-width:140px;text-align:center}
+  .box b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+  .box.core{border-color:#5a3a1c;background:#1d1610}.box.core b{color:var(--acc)}
+  .box.ext b{color:var(--acc2)}.box.you b{color:var(--ok)}
+  .vsep{text-align:center;color:var(--line);font-size:18px;margin:2px 0}
+  .lab{text-align:center;font-size:11.5px;color:var(--mut);letter-spacing:.08em;text-transform:uppercase;margin-top:14px}
+  /* flow */
+  .steps{counter-reset:s;margin-top:6px}
+  .step{display:flex;gap:14px;padding:15px 0;border-top:1px solid var(--line)}
+  .step:first-child{border-top:none}
+  .step .n{flex:0 0 30px;height:30px;border-radius:50%;background:var(--acc);color:#1a0f04;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px}
+  .step h4{margin:2px 0 3px;font-size:15px}
+  .step p{margin:0;color:var(--mut);font-size:14px}
+  .step .ex{display:block;margin-top:6px;font-size:13px;color:#9fb0c2;border-left:2px solid var(--line);padding-left:10px}
+  .callout{border:1px solid #2a3a26;background:#10180f;border-radius:14px;padding:15px 17px;margin-top:16px;color:#cfe6c8;font-size:14px}
+  .callout b{color:var(--ok)}
+  .total{font-size:22px;font-weight:800;color:var(--acc)}
+  .note{color:var(--mut);font-size:13px}
+  a{color:var(--acc2)}
+  footer{margin-top:56px;border-top:1px solid var(--line);padding-top:18px;color:var(--mut);font-size:12.5px}
+  .sig{color:var(--acc);font-weight:700}
+</style></head>
+<body><div class="wrap">
+
+  <div class="hero">
+    <div class="kick">🦀 360 Labors × Superclawman.ai · Build Plan</div>
+    <h1>How it gets built — and what it costs to stand up.</h1>
+    <p class="lede">The companion to the proposal: exactly what the system looks like, how a payroll week flows through it, what we need from you to start, how we connect to QuickBooks / your bank / your tools, and the one-time hardware bill — with real prices.</p>
+    <div class="toc">
+      <a href="#need">① What we need from you</a>
+      <a href="#arch">② How it looks</a>
+      <a href="#flow">③ The week, by example</a>
+      <a href="#apis">④ Integrations &amp; APIs</a>
+      <a href="#hw">⑤ The hardware &amp; cost</a>
+      <a href="#start">⑥ Phase 0</a>
+    </div>
+  </div>
+
+  <h2 id="need"><span class="num">①</span> What we need from you</h2>
+  <p class="sub">To scope the POC precisely and connect to your world. Most of this is "show us what you already do."</p>
+  <div class="req">
+    <div class="reqcard"><h4>Sample data (the big one)</h4><ul>
+      <li>3–5 clients' <b>actual hours files</b> as they really arrive — the Excel sheets, the emailed ones, photos of texted/WhatsApp hours. The messier the better.</li>
+      <li>One <b>recent pay run</b> end to end: the hours that went in, and the checks/ACH that came out.</li>
+      <li>A <b>sample check</b> (voided is fine) so we mirror the memo exactly — hours, range, tips, deductions.</li>
+    </ul></div>
+    <div class="reqcard"><h4>QuickBooks &amp; accounting</h4><ul>
+      <li>Your <b>QuickBooks Desktop</b> version/year, and whether your bookkeeper is open to us connecting to it (we never change how you use QB).</li>
+      <li>The name of the <b>alternative system your bookkeeper mentioned</b> ("starts with P") — so we weigh it before committing to a path.</li>
+    </ul></div>
+    <div class="reqcard"><h4>Money rails</h4><ul>
+      <li>How workers get paid today by share: <b>ACH/direct deposit</b> vs <b>PayPal / Venmo / CashApp</b> (and which business accounts you hold).</li>
+      <li>Your <b>Regions Bank</b> online setup — whether ACH origination / bill-pay is already enabled.</li>
+    </ul></div>
+    <div class="reqcard"><h4>Access &amp; environment</h4><ul>
+      <li><b>Microsoft 365 / Outlook</b> admin OK to let an agent read the mailbox where hours arrive (read-scoped).</li>
+      <li>Your <b>internet speed test</b> result (the home/office line), so we size the setup and decide on Starlink backup.</li>
+      <li>Confirmation the <b>office machine stays on</b> (you said it does) — that's where the platform lives.</li>
+    </ul></div>
+  </div>
+  <p class="note" style="margin-top:12px">That's it. No new software for you to learn, no change to how clients send hours or how your accountant works.</p>
+
+  <h2 id="arch"><span class="num">②</span> How it looks</h2>
+  <p class="sub">One small box in your office runs the agents. Everything connects to the tools you already use.</p>
+  <div class="arch">
+    <div class="lab">Where hours come in &amp; people get reached</div>
+    <div class="layer">
+      <div class="box you"><b>Clients</b>Excel · Email · Text · WhatsApp</div>
+      <div class="box you"><b>Workers</b>SMS · iMessage · WhatsApp (EN/ES)</div>
+    </div>
+    <div class="vsep">↓ ↑</div>
+    <div class="lab">The platform — in your office, owned by you</div>
+    <div class="layer">
+      <div class="box core"><b>Mac mini</b>The brain — runs the AI operator &amp; every agent locally</div>
+      <div class="box core"><b>NAS</b>The agents' memory — every client quirk, every run, stored in-office</div>
+      <div class="box core"><b>UPS</b>Battery — payroll doesn't stop on a power blip</div>
+    </div>
+    <div class="vsep">↓ ↑</div>
+    <div class="lab">Your systems of record — unchanged</div>
+    <div class="layer">
+      <div class="box ext"><b>QuickBooks</b>Desktop — entries prepared, not retyped</div>
+      <div class="box ext"><b>Regions Bank</b>+ PayPal/Venmo/CashApp — payouts</div>
+      <div class="box ext"><b>Microsoft 365</b>Outlook — read the hours mailbox</div>
+    </div>
+    <div class="callout"><b>You sit on top.</b> Every payment and every message that leaves waits for your one-tap approval. The agents prepare; you decide.</div>
+  </div>
+
+  <h2 id="flow"><span class="num">③</span> The week, by example</h2>
+  <p class="sub">A real payroll week — say 200 workers across 35 clients — flowing through the system.</p>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><h4>Hours arrive — however they come</h4><p>Through the week, clients send hours their own way. The agent watches the Outlook mailbox + WhatsApp and picks them up automatically.</p><span class="ex">e.g. Client A: Excel attached to email · Client B: a photo of a handwritten ticket via text · Client C: hours typed in WhatsApp. The agent reads all three into one clean table.</span></div></div>
+    <div class="step"><div class="n">2</div><div><h4>Validate &amp; normalize</h4><p>OCR + rules turn every format into the same structure: worker, client, date, hours, rate, tips, deductions — flagging anything odd (missing rate, a 90-hour day, a name it doesn't recognize).</p><span class="ex">e.g. "J. Garcia — 8.0h Mon, 8.0h Tue… ✓ · 'M. Silva — 18h Wed' ⚠ flagged: unusually long shift, confirm?"</span></div></div>
+    <div class="step"><div class="n">3</div><div><h4>Reconcile — hours ⇄ pay <span style="color:var(--acc)">(your #1 concern)</span></h4><p>Before anything moves, the agent matches each worker's validated hours to what the check/ACH will be, and surfaces every mismatch to you — never silently.</p><span class="ex">e.g. "37 workers reconciled clean · 2 need you: Garcia's hours don't match last week's rate; Silva has hours from two clients — combine?"</span></div></div>
+    <div class="step"><div class="n">4</div><div><h4>You approve</h4><p>You see the clean batch and the short list of flags on your phone. One tap approves; flags wait for your call. Nothing pays without this.</p></div></div>
+    <div class="step"><div class="n">5</div><div><h4>Into QuickBooks + payouts go out</h4><p>Approved hours become QuickBooks Desktop entries (no retyping), and payouts run on the rails you already use — ACH/direct deposit and PayPal/Venmo/CashApp — with the check memo built your way.</p><span class="ex">e.g. 198 ACH + 2 PayPal sent · QB updated · digital receipts texted to each worker in their language.</span></div></div>
+    <div class="step"><div class="n">6</div><div><h4>Collections + the brief</h4><p>Client invoices go out on their NET terms; late ones get chased politely and automatically. Monday morning you get a one-screen brief: who owes what, payroll ahead, margin per client.</p></div></div>
+  </div>
+
+  <h2 id="apis"><span class="num">④</span> Integrations &amp; APIs — straight answers</h2>
+  <p class="sub">What connects cleanly today, and the one that needs a decision in Phase 0.</p>
+  <table>
+    <tr><th>System</th><th>How we connect</th><th>What we need</th><th>Status</th></tr>
+    <tr><td>Microsoft 365 / Outlook</td><td>Microsoft Graph API (read-scoped on the hours mailbox)</td><td>Admin consent</td><td class="ok">Clean</td></tr>
+    <tr><td>Timesheet intake (Excel/photos/text)</td><td>Our own document &amp; vision models (OCR) on the local Mac</td><td>Sample files</td><td class="ok">Clean</td></tr>
+    <tr><td>Worker comms — SMS / WhatsApp</td><td>WhatsApp Business API + SMS provider; <b>iMessage runs natively on the in-office Mac</b></td><td>Your numbers/accounts</td><td class="ok">Clean</td></tr>
+    <tr><td>PayPal / Venmo / CashApp</td><td>PayPal Payouts API (covers Venmo); CashApp via assisted flow where no API</td><td>Business accounts</td><td class="mid">Mostly API</td></tr>
+    <tr><td>ACH / direct deposit (Regions)</td><td>Bank ACH origination or an ACH processor; prepared for your approval</td><td>Regions ACH setup</td><td class="mid">Confirm in P0</td></tr>
+    <tr><td><b>QuickBooks Desktop</b></td><td>QuickBooks Web Connector (official SDK) <i>or</i> a secure bridge (e.g. Conductor/Rutter) running on the QB machine</td><td>QB version + bookkeeper OK</td><td class="mid">Path set in P0</td></tr>
+  </table>
+  <div class="callout"><b>The one honest caveat:</b> QuickBooks <i>Desktop</i> has no modern web API the way QuickBooks Online does. We connect through Intuit's official Web Connector or a secure bridge that sits on the same machine — your accountant keeps working exactly as today. In Phase 0 we confirm the cleanest path (and weigh the "starts-with-P" system your bookkeeper prefers, and whether QB Online ever makes sense). No surprises later.</div>
+
+  <h2 id="hw"><span class="num">⑤</span> The hardware &amp; cost</h2>
+  <p class="sub">A one-time setup you <b>own</b> — a business asset on your books, not a rental. Current US retail prices.</p>
+  <table>
+    <tr><th>Item</th><th>Spec &amp; why</th><th>Approx. cost</th></tr>
+    <tr><td>Mac mini (M4)</td><td>16GB / 512GB — the brain; runs the agents + iMessage natively, silent, low-power</td><td>~$799</td></tr>
+    <tr><td>Synology DS224+ NAS</td><td>2-bay + 2×4TB drives — the agents' memory &amp; document store, in your office</td><td>~$520</td></tr>
+    <tr><td>APC Back-UPS (850VA)</td><td>Battery + surge — payroll rides out blips &amp; safe shutdown</td><td>~$140</td></tr>
+    <tr><td>Networking</td><td>Use your existing router, or a small managed router for reliability (optional)</td><td>$0–130</td></tr>
+    <tr><td><b>Core setup, one-time</b></td><td>Everything above — yours to keep</td><td><span class="total">~$1,500</span></td></tr>
+    <tr><td>Starlink backup <span class="note">(optional)</span></td><td>Internet redundancy so payroll never stops — only if your line needs it (pending your speed test)</td><td>$349 kit + ~$120/mo</td></tr>
+  </table>
+  <p class="note" style="margin-top:12px">Talk to your accountant about depreciating it. We monitor the box 24/7 from the Superclawman fleet and keep an encrypted off-site backup — the hardware sits with you, the watching is on us. <b>The Superclawman service fee is separate and not shown here</b> — we'll scope it to the POC once the streams are agreed.</p>
+
+  <h2 id="start"><span class="num">⑥</span> Phase 0 — where we begin</h2>
+  <p class="sub">Fast, low-commitment, and it de-risks everything above.</p>
+  <div class="card">
+    <ul>
+      <li><b>1–2 working sessions</b> on your real data (the samples above) — we map the flow end to end and lock the QuickBooks + payment paths.</li>
+      <li>You get back a <b>confirmed POC scope</b> for the pay-workers engine, the exact integration plan, and a firm setup checklist — no guesswork.</li>
+      <li>Then Phase 1 builds the "hours → check" reconciliation on a slice of your clients. The manual entry and the accuracy worry go away first.</li>
+    </ul>
+    <p style="margin-bottom:0;color:var(--mut)">Send the sample files whenever you're ready and we'll book Phase 0.</p>
+  </div>
+
+  <footer>
+    360 Labors × Superclawman — build plan, companion to the v2 proposal · jun/2026. Confidential, by link. Hardware prices are current US retail estimates and may vary.<br>
+    <span class="sig">www.superclawman.ai</span> · 🦀⚡ Superclawman · Paulo Ovídio
+  </footer>
+</div></body></html>
