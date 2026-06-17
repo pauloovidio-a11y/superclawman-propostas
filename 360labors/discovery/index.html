@@ -193,12 +193,46 @@
     });
   });
 
-  document.getElementById('sendBtn').addEventListener('click', function(){
-    const body = buildExport();
-    const url = 'mailto:paulo.ovidio@superclawman.ai?subject=' +
-      encodeURIComponent('360 Labors x Superclawman — discovery answers') +
-      '&body=' + encodeURIComponent(body);
-    window.location.href = url;
+  function buildPayload(){
+    const p = { form: '360labors-discovery' };
+    document.querySelectorAll('#discovery .qgroup [data-k]').forEach(el => {
+      const k = el.dataset.k;
+      let v = el.classList.contains('pills')
+        ? [...el.querySelectorAll('.pill.picked')].map(x => x.textContent.trim()).join(', ')
+        : el.value.trim();
+      if (v) p[k] = v;
+    });
+    return p;
+  }
+
+  document.getElementById('sendBtn').addEventListener('click', async function(){
+    const btn = this, original = btn.textContent;
+    const payload = buildPayload();
+    if (Object.keys(payload).length <= 1){
+      btn.textContent = 'Please fill in at least one answer';
+      setTimeout(() => { btn.textContent = original; }, 2500);
+      return;
+    }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      const r = await fetch('https://hooks.superclawman.ai/lead', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.ok) throw new Error(j.error || ('HTTP ' + r.status));
+      btn.textContent = '✓ Sent — Paulo has your answers';
+      btn.classList.add('copied');
+    } catch (e) {
+      // Fail-safe: never lose the answers — fall back to email draft.
+      btn.textContent = '⚠ Couldn’t send — opening email instead';
+      const url = 'mailto:paulo.ovidio@superclawman.ai?subject=' +
+        encodeURIComponent('360 Labors x Superclawman — discovery answers') +
+        '&body=' + encodeURIComponent(buildExport());
+      setTimeout(() => { window.location.href = url; }, 800);
+    } finally {
+      setTimeout(() => { btn.disabled = false; if (!btn.classList.contains('copied')) btn.textContent = original; }, 4000);
+    }
   });
 </script>
 </body>

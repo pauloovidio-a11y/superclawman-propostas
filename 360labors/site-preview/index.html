@@ -220,11 +220,16 @@
 </div></footer>
 
 <script>
-  document.getElementById('lead-form').addEventListener('submit',function(e){
+  document.getElementById('lead-form').addEventListener('submit',async function(e){
     e.preventDefault();
     var f=this, ok=document.getElementById('lead-ok');
     if(!f.name.value||!f.email.value){return;}
+    var payload={form:'360labors-site-demo',name:f.name.value,company:f.company.value,
+      phone:f.phone.value,email:f.email.value,need:f.need.value};
+    // Show success immediately; the capture is best-effort (this is a live demo).
     f.style.display='none'; ok.style.display='block'; ok.scrollIntoView({behavior:'smooth',block:'center'});
+    try{ await fetch('https://hooks.superclawman.ai/lead',{method:'POST',
+      headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}); }catch(_){ }
   });
 </script>
 </body></html>
