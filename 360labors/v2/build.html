@@ -149,19 +149,24 @@
   <div class="callout"><b>The one honest caveat:</b> QuickBooks <i>Desktop</i> has no modern web API the way QuickBooks Online does. We connect through Intuit's official Web Connector or a secure bridge that sits on the same machine — your accountant keeps working exactly as today. In Phase 0 we confirm the cleanest path (and weigh the "starts-with-P" system your bookkeeper prefers, and whether QB Online ever makes sense). No surprises later.</div>
 
   <h2 id="hw"><span class="num">⑤</span> The hardware &amp; cost</h2>
-  <p class="sub">A one-time setup you <b>own</b> — a business asset on your books, not a rental. Current US retail prices.</p>
+  <p class="sub">A one-time platform you <b>own</b> — a business asset on your books, not a rental. Manufacturer list prices (MSRP), shipped to your office, with Florida sales tax. No labor or setup is buried in here — installation is a separate, flat fee.</p>
   <table>
-    <tr><th>Item</th><th>Spec &amp; why</th><th>Approx. cost</th></tr>
-    <tr><td>Mac mini (M4)</td><td>16GB / 512GB — the brain; runs the agents + iMessage natively, silent, low-power</td><td>~$799</td></tr>
-    <tr><td>QNAP TS-264 NAS</td><td>2-bay, 8GB, 2.5GbE — the agents' memory &amp; document store, in your office</td><td>~$450</td></tr>
-    <tr><td>2 × 8TB NAS drives</td><td>Mirrored (RAID-1) — 8TB usable, one drive can fail with no data loss</td><td>~$400</td></tr>
-    <tr><td>UniFi Cloud Gateway</td><td>Managed router with LAN ports + dual-WAN — we administer it remotely with the rest of the stack</td><td>~$129</td></tr>
-    <tr><td>1500VA UPS</td><td>Battery + surge sized for the whole stack (mini + NAS + router) — payroll rides out outages</td><td>~$200</td></tr>
-    <tr><td><b>Core setup, one-time</b></td><td>Everything above — yours to keep, a business asset on your books</td><td><span class="total">~$1,980</span></td></tr>
+    <tr><th>Item</th><th>Spec &amp; why</th><th>Price</th></tr>
+    <tr><td>Mac mini (M4)</td><td><b>24GB / 1TB</b> — the brain; runs every agent + iMessage natively, silent and low-power. Sized with headroom to grow from today's ~200 workers to <b>600+</b> without a hardware change.</td><td>$1,199.00</td></tr>
+    <tr><td>QNAP TS-264 NAS</td><td>2-bay, 8GB, dual 2.5GbE — the agents' memory &amp; document store, in your office. Business-grade: expandable RAM, M.2 cache slots, real backup software.</td><td>$542.80</td></tr>
+    <tr><td>2 × WD Red Plus 8TB</td><td>Mirrored (RAID-1) — 8TB usable; <b>a whole drive can fail with zero data loss</b>. NAS-rated for 24/7.</td><td>$459.98</td></tr>
+    <tr><td>UniFi Cloud Gateway Ultra</td><td>Managed router + firewall with LAN ports &amp; dual-WAN failover — we administer it remotely with the rest of the stack.</td><td>$129.00</td></tr>
+    <tr><td>CyberPower CP1500PFCLCD UPS</td><td>1500VA / 1000W pure-sine battery + surge for the whole stack. <b>~1.5 hours</b> of runtime at the platform's ~70W draw — payroll rides out outages, then shuts down cleanly on its own.</td><td>$274.95</td></tr>
+    <tr><td>Tuya smart plug (metered)</td><td>Puts the stack's power draw + outage state into the same dashboard we manage your home/office devices from — and lets us remote power-cycle the network gear without a truck roll.</td><td>$19.99</td></tr>
+    <tr><td colspan="2" style="text-align:right">Subtotal (MSRP)</td><td>$2,625.72</td></tr>
+    <tr><td colspan="2" style="text-align:right">Florida sales tax (~7%)</td><td>$183.80</td></tr>
+    <tr><td colspan="2" style="text-align:right">Shipping (Apple / B&amp;H / Amazon to FL)</td><td>Free</td></tr>
+    <tr><td><b>Total Core Price</b></td><td>Everything above — yours to keep, a deductible business asset</td><td><span class="total">$2,809.52</span></td></tr>
     <tr><td>Starlink backup <span class="note">(optional)</span></td><td>Second internet line so payroll never stops on an outage — pairs with the dual-WAN router; only if your line needs it (pending your speed test)</td><td>$349 kit + ~$120/mo</td></tr>
-    <tr><td>Website — hosted &amp; run for you</td><td>Your new 360labors.com on fast US cloud hosting, migrated off the Brazilian WordPress host — we keep it secure, updated, and make same-day changes; the lead form feeds your pipeline. Build &amp; migration are in the one-time setup.</td><td><b>Included — $0</b></td></tr>
+    <tr><td>Website — hosted &amp; run for you</td><td>Your new 360labors.com on fast US cloud hosting, migrated off the Brazilian WordPress host — secure, updated, same-day changes; the lead form feeds your pipeline.</td><td><b>Included — $0</b></td></tr>
   </table>
-  <p class="note" style="margin-top:12px">Talk to your accountant about depreciating it. We monitor the box 24/7 from the Superclawman fleet and keep an encrypted off-site backup — the hardware sits with you, the watching is on us. <b>The service pricing is on the proposal</b> (<a href="index.html#pricing">see "What it costs"</a>) — the hardware above is a separate one-time you own.</p>
+  <p class="note" style="margin-top:12px"><b>Room to grow to 600 workers:</b> the heavy lifting is cloud AI and message/transaction throughput, not local crunching — so scaling 3× is mostly more network and storage, which this box and NAS absorb comfortably. The agents' growing memory lives on the 8TB NAS, not the Mac; we'd add a second mirrored drive long before you'd ever outgrow the platform.</p>
+  <p class="note" style="margin-top:8px"><b>How we keep the power honest:</b> the UPS reports battery, load and runtime to our software over USB — so the system shuts itself down gracefully in a long outage and we get alerted — while the smart plug gives us the same remote view and power-cycle control we use across your devices. Talk to your accountant about depreciating the hardware. We monitor the box 24/7 from the Superclawman fleet with an encrypted off-site backup — the hardware sits with you, the watching is on us. <b>Service pricing is on the proposal</b> (<a href="index.html#pricing">see "What it costs"</a>); installation is the one-time setup fee there.</p>
 
   <h2 id="start"><span class="num">⑥</span> Phase 0 — where we begin</h2>
   <p class="sub">Fast, low-commitment, and it de-risks everything above.</p>
