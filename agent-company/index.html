@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SuperClawman — The Agent Company · How it works</title>
+<style>
+  :root{
+    --ivory:#FBF6EE; --paper:#FFFFFF; --slate:#2B2017;
+    --clay:#C9742B; --clay-d:#A85E1F; --oat:#EFE6D8; --olive:#5E7D4F;
+    --g100:#F3EADB; --g200:#EDE3D3; --g300:#E3D8C6; --g500:#8A7C68; --g700:#4A4236;
+    --red:#C0564C; --blue:#3F7BB0; --yellow:#B8902A; --purple:#7C5FB0; --teal:#2F8C82;
+    --serif: ui-serif, Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ivory);color:var(--slate);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1160px;margin:0 auto;padding:48px 32px 80px;}
+  .eyebrow{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:var(--clay);display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+  .eyebrow::before{content:"";width:24px;height:3px;background:var(--clay);display:inline-block;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(36px,5.4vw,62px);line-height:1.06;letter-spacing:-0.018em;margin:0 0 16px;}
+  h1 em{color:var(--clay);font-style:italic;}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3vw,34px);letter-spacing:-0.012em;margin:0 0 8px;}
+  h2 em{color:var(--clay);font-style:italic;}
+  h3{font-family:var(--sans);font-weight:650;font-size:17px;margin:0 0 8px;color:var(--g700);}
+  .lede{font-size:19px;color:var(--g700);max-width:800px;}
+  section{padding:52px 0;border-bottom:1.5px solid var(--g300);}
+  section:last-of-type{border-bottom:none;}
+  .sec-num{font-family:var(--mono);font-size:12px;color:var(--g500);letter-spacing:0.1em;margin-bottom:6px;}
+  p{max-width:840px;}
+  .card{background:var(--paper);border:1px solid var(--g300);border-radius:12px;padding:22px 24px;margin:16px 0;box-shadow:0 1px 2px rgba(43,32,23,0.04);}
+  .tldr{background:linear-gradient(160deg,rgba(201,116,43,0.08),var(--paper));border-color:rgba(201,116,43,0.30);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media(max-width:880px){.grid2,.grid3{grid-template-columns:1fr;}}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14.5px;}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--g300);vertical-align:top;}
+  th{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--g500);}
+  td code,p code,li code{font-family:var(--mono);font-size:0.86em;background:var(--g100);padding:1.5px 6px;border-radius:5px;color:var(--clay-d);}
+  .pill{display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 9px;border-radius:20px;border:1px solid var(--g300);color:var(--g700);white-space:nowrap;}
+  .pill.chief{color:var(--clay-d);border-color:rgba(201,116,43,0.5);}
+  .pill.team{color:var(--blue);border-color:rgba(63,123,176,0.4);}
+  .pill.orch{color:var(--purple);border-color:rgba(124,95,176,0.45);}
+  .pill.live{color:var(--olive);border-color:rgba(94,125,79,0.5);}
+  .pill.soak{color:var(--yellow);border-color:rgba(184,144,42,0.45);}
+  .pill.new{color:var(--teal);border-color:rgba(47,140,130,0.5);}
+  ul,ol{max-width:840px;padding-left:22px;}
+  li{margin:5px 0;}
+  .meta{font-family:var(--mono);font-size:12px;color:var(--g500);}
+  .dim{color:var(--g500);}
+  .callout{border-left:3px solid var(--clay);padding:4px 0 4px 18px;margin:18px 0;color:var(--g700);font-style:italic;max-width:840px;}
+  .role-card{position:relative;background:var(--paper);border:1px solid var(--g300);border-radius:12px;padding:22px 24px;margin:0;box-shadow:0 1px 2px rgba(43,32,23,0.04);}
+  .role-card .codename{position:absolute;top:18px;right:20px;font-family:var(--mono);font-size:10.5px;color:var(--g500);letter-spacing:0.06em;}
+  .role-card h3{font-family:var(--serif);font-size:21px;color:var(--slate);margin-bottom:2px;}
+  .role-card .title{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;}
+  .role-card ul{padding-left:18px;font-size:14px;color:var(--g700);margin:10px 0;}
+  .role-card .mml{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px dashed var(--g300);}
+  .mml span{font-family:var(--mono);font-size:10.5px;padding:3px 8px;border-radius:5px;background:var(--g100);color:var(--g500);}
+  .prod{margin-top:12px;padding:10px 12px;border:1px solid rgba(94,125,79,0.4);border-radius:8px;background:rgba(94,125,79,0.07);font-size:13px;color:var(--g700);}
+  .prod b{color:var(--olive);font-family:var(--mono);font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:3px;}
+  .phase{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--oat);}
+  .phase:last-child{border-bottom:none;}
+  .phase .n{font-family:var(--serif);font-size:26px;color:var(--clay);min-width:42px;line-height:1;}
+  .ribbon{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:18px 0;border:1px solid var(--g300);border-radius:12px;overflow:hidden;}
+  @media(max-width:880px){.ribbon{grid-template-columns:1fr;}}
+  .ribbon>div{padding:20px 22px;background:var(--paper);}
+  .ribbon>div+div{border-left:1px solid var(--g300);}
+  @media(max-width:880px){.ribbon>div+div{border-left:none;border-top:1px solid var(--g300);}}
+  .ribbon b{display:block;font-family:var(--serif);font-size:19px;margin-bottom:6px;}
+  .ribbon .k{font-family:var(--mono);font-size:11px;color:var(--clay);letter-spacing:0.1em;text-transform:uppercase;}
+  svg{max-width:100%;height:auto;}
+  .footer-note{font-family:var(--mono);font-size:12px;color:var(--g500);margin-top:40px;line-height:1.7;}
+  .lanes{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;}
+  .lane{flex:1;min-width:220px;border-radius:10px;padding:12px 14px;font-size:13.5px;}
+  .lane.g{border:1px solid rgba(94,125,79,0.45);background:rgba(94,125,79,0.07);}
+  .lane.y{border:1px solid rgba(184,144,42,0.4);background:rgba(184,144,42,0.07);}
+  .lane.r{border:1px solid rgba(192,86,76,0.4);background:rgba(192,86,76,0.07);}
+  .lane b{font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:4px;}
+  .lane.g b{color:var(--olive);} .lane.y b{color:var(--yellow);} .lane.r b{color:var(--red);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">superclawman.ai · the agent company · how it works</div>
+  <h1>The <em>Agent Company</em></h1>
+  <p class="lede">An <strong>Agents-as-a-Service company that is itself run by agents.</strong> One human owner sets direction; an orchestration layer builds, operates, and improves a roster of specialist agents; the roster presents, implements, and supports the services we sell — in any vertical, on any platform, under any brand.</p>
+
+  <div class="card tldr">
+    <div class="sec-num">IN ONE MINUTE</div>
+    <p style="margin-top:8px">SuperClawman is structured in three layers. <strong>Ownership</strong> — one human, who decides and approves. <strong>Orchestration</strong> — an <strong>Architect</strong> that designs and builds the agents, the proposals, and the integrations, and an <strong>Operator</strong> that runs the fleet around the clock, resolves incidents, and gates what ships. <strong>The roster</strong> — specialist agents that do the customer-facing work, led by a <strong>Chief of Staff</strong>. The front office is a deliberate two-seat design: <em>the Chief of Staff is the messaging transport and the brand's voice; the Architect is the brain behind it</em> — the context, the reasoning, and the systems that get the work done (calendar, email, ticketing, proposals, the website). Every agent has durable memory run as a measured, health-checked control loop, a self-learning loop with a human gate, and ships <strong>white-label by configuration</strong>. Proven live across <strong>seven verticals</strong> today — and the meetings seat is a packaged product you can buy self-serve.</p>
+  </div>
+
+  <!-- 01 THESIS -->
+  <section>
+    <div class="sec-num">01 — THE THESIS</div>
+    <h2>The company <em>is</em> the demo</h2>
+    <p>Most AI consultancies sell slideware about agents. We run on them. Our outreach is sent by an agent, our proposals are drafted by an agent, our meetings are attended by an agent, our social presence is published by an agent — and our infrastructure is healed at 3&nbsp;AM by an agent. The agents that do all of this were built, and are continuously improved, by our orchestrator agents. When a prospect asks "does this actually work?", the answer is: <em>you're already talking to it.</em></p>
+    <div class="ribbon">
+      <div><span class="k">Present</span><b>Sell the service</b>Prospecting, qualified outreach, live demos, meeting attendance with per-account memory, same-day branded proposals with ROI math, and an autonomous social series that markets the company itself.</div>
+      <div><span class="k">Implement</span><b>Build the service</b>The Architect assembles a vertical agent from proven patterns — channels, memory, guardrails, escalation — and soaks it in shadow mode on real traffic before it goes live.</div>
+      <div><span class="k">Support</span><b>Run the service</b>24/7 operation with self-healing, autonomous incident triage, human-coached improvement, and a daily/weekly evidence trail that the agent is staying healthy and getting better.</div>
+    </div>
+    <div class="callout">The product is not a chatbot. It is a managed digital employee: memory, judgment, channels, guardrails, and a company behind it that builds, watches, and improves it.</div>
+  </section>
+
+  <!-- 02 ORG -->
+  <section>
+    <div class="sec-num">02 — THE COMPANY</div>
+    <h2>Org &amp; hierarchy — <em>two</em> diagrams, not one</h2>
+    <p>The org chart says <strong>who directs whom</strong>: the owner sets direction; the Architect and the Operator are the orchestration layer that carries the owner's authority across the fleet; the Chief of Staff leads the roster and coordinates the other agents.</p>
+    <div class="card">
+      <svg viewBox="0 0 940 470" role="img" aria-label="Org chart: owner, orchestration layer, roster">
+        <defs><style>
+          .box{fill:var(--paper);stroke:var(--g300);stroke-width:1.5;}
+          .boss{stroke:var(--clay);stroke-width:2;}
+          .orchb{stroke:var(--purple);stroke-width:2;}
+          .lbl{font-family:var(--sans);font-weight:650;fill:var(--slate);font-size:15px;}
+          .rol{font-family:var(--mono);fill:var(--g500);font-size:10.5px;}
+          .ln{stroke:var(--g500);stroke-width:1.5;fill:none;}
+          .lnc{stroke:var(--clay);stroke-width:1.5;fill:none;}
+          .lnp{stroke:var(--purple);stroke-width:1.3;fill:none;stroke-dasharray:5 4;}
+          .band{font-family:var(--mono);fill:var(--g500);font-size:10px;letter-spacing:0.14em;}
+        </style></defs>
+        <text class="band" x="18" y="44">OWNERSHIP</text>
+        <text class="band" x="18" y="172">ORCHESTRATION</text>
+        <text class="band" x="18" y="318">ROSTER</text>
+        <rect class="box boss" x="380" y="14" width="180" height="56" rx="10"/>
+        <text class="lbl" x="470" y="38" text-anchor="middle">Owner</text>
+        <text class="rol" x="470" y="56" text-anchor="middle">direction · approvals</text>
+        <path class="lnc" d="M470 70 L470 100 M270 100 L680 100 M270 100 L270 130 M680 100 L680 130"/>
+        <rect class="box orchb" x="150" y="130" width="240" height="74" rx="10"/>
+        <text class="lbl" x="270" y="156" text-anchor="middle">🏗 The Architect</text>
+        <text class="rol" x="270" y="174" text-anchor="middle">engineering orchestrator · the brain</text>
+        <text class="rol" x="270" y="190" text-anchor="middle">builds agents · proposals · reasoning</text>
+        <rect class="box orchb" x="560" y="130" width="240" height="74" rx="10"/>
+        <text class="lbl" x="680" y="156" text-anchor="middle">⚡ The Operator</text>
+        <text class="rol" x="680" y="174" text-anchor="middle">24/7 ops orchestrator</text>
+        <text class="rol" x="680" y="190" text-anchor="middle">incidents · radars · ship-gate</text>
+        <path class="lnp" d="M390 167 L560 167"/>
+        <path class="ln" d="M270 204 L270 240 L470 240 M680 204 L680 240 L470 240 M470 240 L470 256"/>
+        <rect class="box boss" x="360" y="256" width="220" height="64" rx="10"/>
+        <text class="lbl" x="470" y="282" text-anchor="middle">🧠 The Chief of Staff</text>
+        <text class="rol" x="470" y="302" text-anchor="middle">front-office voice · roster chief</text>
+        <path class="ln" d="M470 320 L470 352 M130 352 L810 352 M130 352 L130 380 M356 352 L356 380 M583 352 L583 380 M810 352 L810 380"/>
+        <rect class="box" x="40" y="380" width="180" height="62" rx="10"/>
+        <text class="lbl" x="130" y="404" text-anchor="middle">💀 The Generalist</text>
+        <text class="rol" x="130" y="424" text-anchor="middle">daily ops · email intel</text>
+        <rect class="box" x="266" y="380" width="180" height="62" rx="10"/>
+        <text class="lbl" x="356" y="404" text-anchor="middle">🦞 The Closer</text>
+        <text class="rol" x="356" y="424" text-anchor="middle">outreach · campaigns</text>
+        <rect class="box" x="493" y="380" width="180" height="62" rx="10"/>
+        <text class="lbl" x="583" y="404" text-anchor="middle">💀🧠 The Watchdog</text>
+        <text class="rol" x="583" y="424" text-anchor="middle">night shift · failover</text>
+        <rect class="box" x="720" y="380" width="180" height="62" rx="10"/>
+        <text class="lbl" x="810" y="404" text-anchor="middle">🎙 The Meeting Seat</text>
+        <text class="rol" x="810" y="424" text-anchor="middle">calls · briefs · proposals</text>
+      </svg>
+    </div>
+
+    <p>The data-flow diagram says <strong>who thinks vs. who speaks</strong>. The front office is a <strong>two-agent job</strong>: the Chief of Staff is the <em>door and the voice</em> — it captures every inbound (text, audio, PDF, photo, document) and delivers the reply in the brand's own voice — while the Architect is the <em>brain</em>: it holds the context, makes the decision, writes the words, and drives the systems behind the conversation (calendar, email, ticketing, proposals, the website). The chief carries the message; the orchestrator thinks it.</p>
+    <div class="card">
+      <svg viewBox="0 0 940 280" role="img" aria-label="Messaging intelligence data flow: transport seat and brain seat">
+        <defs><style>
+          .fb{fill:var(--paper);stroke:var(--g300);stroke-width:1.5;}
+          .fchief{stroke:var(--clay);stroke-width:2;}
+          .fbrain{stroke:var(--purple);stroke-width:2;}
+          .fl{font-family:var(--sans);font-weight:650;fill:var(--slate);font-size:14px;}
+          .fs{font-family:var(--mono);fill:var(--g500);font-size:10px;}
+          .fk{font-family:var(--mono);fill:var(--clay);font-size:10px;letter-spacing:0.1em;}
+          .fkp{font-family:var(--mono);fill:var(--purple);font-size:10px;letter-spacing:0.1em;}
+          .fa{stroke:var(--g500);stroke-width:1.8;fill:none;marker-end:url(#fm);}
+        </style>
+        <marker id="fm" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="var(--g500)"/></marker></defs>
+        <rect class="fb" x="20" y="96" width="150" height="64" rx="10"/>
+        <text class="fl" x="95" y="124" text-anchor="middle">Customer</text>
+        <text class="fs" x="95" y="142" text-anchor="middle">messaging thread</text>
+        <rect class="fb fchief" x="220" y="84" width="190" height="88" rx="10"/>
+        <text class="fk" x="315" y="106" text-anchor="middle">TRANSPORT · VOICE</text>
+        <text class="fl" x="315" y="128" text-anchor="middle">🧠 Chief of Staff</text>
+        <text class="fs" x="315" y="146" text-anchor="middle">captures in · speaks out</text>
+        <text class="fs" x="315" y="160" text-anchor="middle">text · audio · PDF · photo</text>
+        <rect class="fb fbrain" x="470" y="64" width="270" height="128" rx="10"/>
+        <text class="fkp" x="605" y="86" text-anchor="middle">THE BRAIN</text>
+        <text class="fl" x="605" y="108" text-anchor="middle">🏗 The Architect</text>
+        <text class="fs" x="605" y="128" text-anchor="middle">context · reasoning · the chief's voice</text>
+        <text class="fs" x="605" y="146" text-anchor="middle">drives: calendar · email · ticketing</text>
+        <text class="fs" x="605" y="162" text-anchor="middle">proposals · the website · job modes</text>
+        <text class="fs" x="605" y="180" text-anchor="middle">premium model, judgment where it counts</text>
+        <path class="fa" d="M170 122 L216 122"/>
+        <path class="fa" d="M412 116 L466 116"/>
+        <path class="fa" d="M466 150 L412 150" />
+        <path class="fa" d="M216 150 L172 150"/>
+        <text class="fs" x="440" y="108" text-anchor="middle">inbound</text>
+        <text class="fs" x="440" y="172" text-anchor="middle">reply</text>
+        <rect class="fb" x="760" y="92" width="160" height="72" rx="10" style="stroke:var(--olive)"/>
+        <text class="fkp" x="840" y="114" text-anchor="middle" style="fill:var(--olive)">FAIL-SAFE</text>
+        <text class="fs" x="840" y="134" text-anchor="middle">one-flag kill switch</text>
+        <text class="fs" x="840" y="150" text-anchor="middle">falls back to the proven path</text>
+        <path class="fa" d="M742 128 L758 128" style="stroke:var(--olive)"/>
+      </svg>
+    </div>
+    <table>
+      <tr><th>Seat</th><th>Layer</th><th>Mandate</th></tr>
+      <tr><td><span class="pill orch">The Architect</span></td><td>Orchestration</td><td>Designs and builds agents, integrations, proposals, and research. <strong>Also the brain of the front office</strong> — owns the reasoning and the systems behind every conversation.</td></tr>
+      <tr><td><span class="pill orch">The Operator</span></td><td>Orchestration</td><td>Always-on command seat. Watches every agent, triages and auto-resolves incidents, runs market radars, and gates which self-learned behaviors ship.</td></tr>
+      <tr><td><span class="pill chief">The Chief of Staff</span></td><td>Roster chief</td><td>Front-office <strong>transport and voice</strong> (messaging-first); coordinates the rest of the roster; single synthesis point upward. Reasoning is supplied by the Architect's brain.</td></tr>
+      <tr><td><span class="pill team">The Generalist</span></td><td>Roster</td><td>Personal/operational assistant patterns: digests, email intelligence, logistics.</td></tr>
+      <tr><td><span class="pill team">The Closer</span></td><td>Roster</td><td>Outbound campaigns, autonomous prospect replies, multi-channel follow-up, campaign dispatch.</td></tr>
+      <tr><td><span class="pill team">The Watchdog</span></td><td>Roster</td><td>Night-shift failover and recovery — the two-node resilience design competitors don't have.</td></tr>
+      <tr><td><span class="pill team">The Meeting Seat</span></td><td>Roster</td><td>Joins Meet/Zoom/Teams, answers live, files briefs and per-account memory after every call.</td></tr>
+    </table>
+    <div class="callout">The agents also talk to <em>each other</em>: a full agent-to-agent mesh is live across the roster — they coordinate, hand off work, and probe each other's health without a human in the loop, with hard loop limits (turns/day, spend, quiet hours) and shared history as guardrails.</div>
+  </section>
+
+  <!-- 03 WHAT EACH SEAT CAN DO -->
+  <section>
+    <div class="sec-num">03 — THE ROSTER, BY CAPABILITY</div>
+    <h2>What each agent can <em>do</em></h2>
+    <p>Role names, because every one of these seats ships white-label. Each card lists proven capabilities — running in production today — then its memory, learning, and channel footprint.</p>
+
+    <div class="grid2">
+      <div class="role-card">
+        <span class="codename">orchestration</span>
+        <h3>🏗 The Architect</h3>
+        <div class="title" style="color:var(--purple)">Engineering Orchestrator · Front-Office Brain</div>
+        <ul>
+          <li><strong>The front-office brain</strong> — owns the reasoning behind every conversation: reads the full context, decides the reply, writes it in the chief's voice, and drives the systems behind the chat — calendar, email, ticketing, proposals, and the website. The chief carries the message; the Architect thinks it.</li>
+          <li><strong>Builds agents end-to-end</strong> — designs, codes, tests, and deploys new vertical agents from a proven pattern library.</li>
+          <li><strong>Same-day sales artifacts</strong> — branded interactive proposals, ROI calculators, brand books, full website redesigns.</li>
+          <li><strong>Deep research &amp; multi-agent workflows</strong> — adversarially-verified reports; fans out dozens of sub-agents for audits, migrations, and reviews.</li>
+          <li><strong>Security &amp; cost audits</strong> — attack-surface probes, credential rotation, provider-level usage control.</li>
+        </ul>
+        <div class="mml"><span>memory: work journal + knowledge base</span><span>learning: session→doctrine pipeline</span><span>channels: code · web · browser · desktop</span></div>
+      </div>
+
+      <div class="role-card">
+        <span class="codename">orchestration</span>
+        <h3>⚡ The Operator</h3>
+        <div class="title" style="color:var(--purple)">24/7 Ops Orchestrator</div>
+        <ul>
+          <li><strong>Autonomous incident resolution</strong> — investigates alerts, classifies fix/close/escalate, and executes safe fixes across all machines without waking anyone.</li>
+          <li><strong>Recommend→approve→execute loops</strong> — health fixes, monitoring proposals, and job handoffs, all governed by a standing doctrine.</li>
+          <li><strong>Command over chat</strong> — the owner manages the whole company from one mobile thread: restart services, query any agent, approve work.</li>
+          <li><strong>Ship-gate</strong> — the quality bar: self-learned behaviors reach production only after the Operator's curation gate passes them.</li>
+          <li><strong>Market radars + quote-to-act</strong> — scheduled monitors with scored, actionable alerts; reply "apply"/"book it" and the playbook runs.</li>
+        </ul>
+        <div class="mml"><span>memory: shared work journal + ledger</span><span>learning: escalation verdicts</span><span>channels: chat · servers · schedulers</span></div>
+      </div>
+
+      <div class="role-card">
+        <span class="codename">roster chief</span>
+        <h3>🧠 The Chief of Staff</h3>
+        <div class="title" style="color:var(--clay-d)">Front-Office Transport &amp; Voice</div>
+        <ul>
+          <li><strong>Secure messaging transport</strong> — the door of the front office: captures every inbound (text, audio, PDF, photo, document) and delivers the reply in the brand's own voice, faithfully.</li>
+          <li><strong>Job Autopilot</strong> — every inbound is classified and routed to the right job (logistics, appointment scheduling with calendar auto-confirm, supplier deal-scoring, work triage, relationship, manipulation defense) — with the Architect's brain reasoning behind each one.</li>
+          <li><strong>Manipulation defense at the door</strong> — detects social engineering and prompt injection and declines it autonomously, in character.</li>
+          <li><strong>Coachable in plain language</strong> — any outbound can be corrected in words; durable directives pin to the contact and shape all future replies.</li>
+          <li><strong>Roster chief</strong> — coordinates the other agents and is the single synthesis point upward to the owner.</li>
+        </ul>
+        <div class="mml"><span>memory: per-contact profiles + health-checked recall</span><span>learning: coaching + precedent</span><span>channels: WhatsApp · cards · brand voice</span></div>
+      </div>
+
+      <div class="role-card">
+        <span class="codename">roster</span>
+        <h3>🎙 The Meeting Seat</h3>
+        <div class="title" style="color:var(--blue)">Live Call Assistant <span class="pill new" style="margin-left:6px">PRODUCT</span></div>
+        <ul>
+          <li><strong>Joins any call</strong> — Google Meet, Zoom, and Microsoft Teams; from a calendar invite automatically or a pasted link on demand.</li>
+          <li><strong>Answers in-call</strong> — "what did we quote them last time?" → answers by voice or chat, grounded in account memory.</li>
+          <li><strong>Files the follow-up</strong> — auto-saves a brief after every call, drafts the recap to attendees, and can turn the call into a proposal draft.</li>
+          <li><strong>Per-account journal</strong> — accumulated memory per customer across every meeting ever held.</li>
+        </ul>
+        <div class="prod"><b>Available now</b>Self-serve: free trial (no card) → checkout → auto-provisioned welcome → the seat joins your next call. Brief and Full-Seat tiers, monthly or annual.</div>
+        <div class="mml"><span>memory: per-account journals + transcripts</span><span>learning: grounded Q&amp;A over history</span><span>channels: Meet · Zoom · Teams · email</span></div>
+      </div>
+
+      <div class="role-card">
+        <span class="codename">roster</span>
+        <h3>🦞 The Closer</h3>
+        <div class="title" style="color:var(--blue)">Outreach &amp; Pipeline</div>
+        <ul>
+          <li><strong>Full prospecting pipeline</strong> — scrape a niche, qualify visually, redesign the prospect's website, deploy it live, and open with "we already built your new site."</li>
+          <li><strong>Campaign dispatcher</strong> — drives outbound email + WhatsApp follow-up sequences at volume, with send-guards, group-target protection, and per-contact history.</li>
+          <li><strong>Autonomous reply handling</strong> — multi-branch reply policy on live campaigns; escalates only genuine edge cases.</li>
+          <li><strong>Cross-channel identity</strong> — recognizes the same prospect across email, WhatsApp, and web; one conversation, many channels.</li>
+        </ul>
+        <div class="mml"><span>memory: embed-once per-contact engine</span><span>learning: precedent matching on verdicts</span><span>channels: email · WhatsApp · web</span></div>
+      </div>
+
+      <div class="role-card">
+        <span class="codename">roster</span>
+        <h3>💀 The Generalist &nbsp;·&nbsp; 💀🧠 The Watchdog</h3>
+        <div class="title" style="color:var(--blue)">Daily Ops &amp; Resilience</div>
+        <ul>
+          <li><strong>Generalist:</strong> morning weather/news digests, email intelligence with per-sender reputation and purchase capture, deterministic location flows ("leave by 17:40 to make the meeting"), bills &amp; smart-home.</li>
+          <li><strong>Watchdog:</strong> night-shift monitor of the whole company; detects outages, runs recovery dances, alerts with a <em>characterized cause</em> — never a raw error dump.</li>
+          <li><strong>Two-node resilience</strong> — primary + watchdog pair means the service we sell survives a machine dying at 3 AM. A sales differentiator, not just ops hygiene.</li>
+          <li><strong>Ambient modes</strong> — owner-declared states (travel, maintenance) reshape every agent's behavior fleet-wide.</li>
+        </ul>
+        <div class="mml"><span>memory: lossless local stores</span><span>learning: feedback-looped digests</span><span>channels: WhatsApp · chat · email</span></div>
+      </div>
+    </div>
+    <div class="callout">Marketing is dogfooded too: an autonomous social series publishes simulated AI-assistant demos per vertical to the company's own channels — the company markets itself with the same agents it sells.</div>
+  </section>
+
+  <!-- 04 MEMORY -->
+  <section>
+    <div class="sec-num">04 — MEMORY</div>
+    <h2>Memory is a <em>measured control loop</em>, not a stack of boxes</h2>
+    <p>Every layer exists because a customer-facing failure taught us it had to — and we now <strong>measure</strong> whether it's actually working, instead of assuming a process that's alive is a process that's useful. The layers below mean an agent <em>never starts from zero</em>; the health band below them is why we can prove it.</p>
+    <div class="card">
+      <svg viewBox="0 0 920 392" role="img" aria-label="Memory layer stack with health band">
+        <defs><style>
+          .mb{fill:var(--g100);stroke:var(--g300);stroke-width:1.5;}
+          .ml{font-family:var(--sans);font-weight:650;fill:var(--slate);font-size:14px;}
+          .ms{font-family:var(--mono);fill:var(--g500);font-size:10.5px;}
+          .mk{font-family:var(--mono);fill:var(--clay-d);font-size:10px;letter-spacing:0.1em;}
+          .mh{fill:rgba(94,125,79,0.08);stroke:rgba(94,125,79,0.45);stroke-width:1.5;}
+          .mhk{font-family:var(--mono);fill:var(--olive);font-size:10px;letter-spacing:0.1em;}
+        </style></defs>
+        <rect class="mb" x="20" y="16" width="880" height="46" rx="8"/>
+        <text class="mk" x="36" y="44">L1</text><text class="ml" x="70" y="38">Per-contact / per-account memory</text>
+        <text class="ms" x="70" y="54">pinned directives, conversation history, preferences — the agent remembers the person</text>
+        <rect class="mb" x="20" y="72" width="880" height="46" rx="8"/>
+        <text class="mk" x="36" y="100">L2</text><text class="ml" x="70" y="94">Per-agent semantic memory + reranker</text>
+        <text class="ms" x="70" y="110">vector recall over a hosted re-ranker with a wide candidate pool; verdict-trained; auto-fallback to a local model</text>
+        <rect class="mb" x="20" y="128" width="880" height="46" rx="8"/>
+        <text class="mk" x="36" y="156">L3</text><text class="ml" x="70" y="150">Fleet work journal</text>
+        <text class="ms" x="70" y="166">cross-machine, cross-session task state on shared storage — any seat picks up where another left off</text>
+        <rect class="mb" x="20" y="184" width="880" height="46" rx="8"/>
+        <text class="mk" x="36" y="212">L4</text><text class="ml" x="70" y="206">Knowledge base — navigate-first</text>
+        <text class="ms" x="70" y="222">curated, sourced knowledge the agent reads on demand; the primary memory for the orchestrators</text>
+        <rect class="mb" x="20" y="240" width="880" height="46" rx="8"/>
+        <text class="mk" x="36" y="268">L5</text><text class="ml" x="70" y="262">Central auto-memory</text>
+        <text class="ms" x="70" y="278">facts and preferences captured automatically, synced fleet-wide — coach one agent, all agents learn it</text>
+        <rect class="mb" x="20" y="296" width="880" height="46" rx="8"/>
+        <text class="mk" x="36" y="324">L6</text><text class="ml" x="70" y="318">Contribution loop</text>
+        <text class="ms" x="70" y="334">what a roster agent learns flows up to the shared knowledge base nightly — knowledge compounds, it doesn't pool</text>
+        <rect class="mh" x="20" y="352" width="880" height="32" rx="8"/>
+        <text class="mhk" x="36" y="372">HEALTH</text><text class="ms" x="120" y="372" style="fill:var(--olive)">measured daily — recall &amp; answer-accuracy floors, ranking quality, staleness; remediate-or-revert, never silently degrade</text>
+      </svg>
+    </div>
+    <p>The reason this is framed as a control loop: recall quality can silently degrade as a knowledge corpus grows — and monitoring that only checks whether a store is <em>alive</em> will report healthy the whole time. We caught exactly that, restored quality with a hosted re-ranker over a wide candidate pool, wired a guarded remediation that re-benchmarks on live traffic and reverts if it doesn't actually help, and demoted "is it alive?" to a footnote behind "is it useful?"</p>
+    <div class="callout">What this means for you: "your agent will remember your customers, your rules, and your history — across channels, across restarts, across machines — and we can <em>show you the number</em> that proves its memory is healthy, every day."</div>
+  </section>
+
+  <!-- 05 SELF-LEARNING -->
+  <section>
+    <div class="sec-num">05 — SELF-LEARNING</div>
+    <h2>Agents that get better — <em>with one decider and an honest scoreboard</em></h2>
+    <p>Self-learning without curation is how agents drift. Ours runs a closed loop with a single, unambiguous decider: the Architect's radar <em>finds</em> candidate improvements, the Operator <em>gates and ships</em> them, and each roster agent <em>senses, measures, and tunes locally but never ships on its own</em>. Nothing reaches production without the gate, and the owner sees a growth report, not a black box.</p>
+    <div class="card">
+      <svg viewBox="0 0 920 170" role="img" aria-label="Self-learning loop">
+        <defs><style>
+          .sb{fill:var(--paper);stroke:var(--g300);stroke-width:1.5;}
+          .sl{font-family:var(--sans);fill:var(--slate);font-size:12.5px;font-weight:600;}
+          .ss{font-family:var(--mono);fill:var(--g500);font-size:9.5px;}
+          .sa{stroke:var(--clay);stroke-width:2;fill:none;marker-end:url(#sm);}
+          .sg{stroke:var(--olive);stroke-width:2;fill:none;marker-end:url(#sm2);}
+        </style>
+        <marker id="sm" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="var(--clay)"/></marker>
+        <marker id="sm2" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="var(--olive)"/></marker></defs>
+        <rect class="sb" x="14" y="50" width="150" height="62" rx="9"/>
+        <text class="sl" x="89" y="76" text-anchor="middle">Radar (Architect)</text>
+        <text class="ss" x="89" y="94" text-anchor="middle">finds candidates</text>
+        <path class="sa" d="M168 81 L208 81"/>
+        <rect class="sb" x="212" y="50" width="150" height="62" rx="9"/>
+        <text class="sl" x="287" y="76" text-anchor="middle">Shadow + verdicts</text>
+        <text class="ss" x="287" y="94" text-anchor="middle">runs silent · approve/edit/veto</text>
+        <path class="sa" d="M366 81 L406 81"/>
+        <rect class="sb" x="410" y="50" width="150" height="62" rx="9"/>
+        <text class="sl" x="485" y="76" text-anchor="middle">Measure vs. baseline</text>
+        <text class="ss" x="485" y="94" text-anchor="middle">real benefit · demand-gated</text>
+        <path class="sa" d="M564 81 L604 81"/>
+        <rect class="sb" x="608" y="50" width="150" height="62" rx="9" style="stroke:var(--purple);stroke-width:2"/>
+        <text class="sl" x="683" y="76" text-anchor="middle">Operator gate</text>
+        <text class="ss" x="683" y="94" text-anchor="middle">2nd-opinion concurrence</text>
+        <path class="sg" d="M762 81 L802 81"/>
+        <rect class="sb" x="806" y="50" width="104" height="62" rx="9" style="stroke:var(--olive);stroke-width:2"/>
+        <text class="sl" x="858" y="76" text-anchor="middle">Reflex</text>
+        <text class="ss" x="858" y="94" text-anchor="middle">live · auto-revert</text>
+        <path class="sa" d="M858 112 L858 144 L89 144 L89 116" style="stroke-dasharray:5 4"/>
+        <text class="ss" x="470" y="158" text-anchor="middle">growth report to the owner — every learned behavior is auditable, reversible, and attributed</text>
+      </svg>
+    </div>
+    <p>The Operator runs to a published red/yellow/green doctrine, so "what ships autonomously" is a contract, not a vibe:</p>
+    <div class="lanes">
+      <div class="lane g"><b>🟢 Green</b>Healthy — status only, no action.</div>
+      <div class="lane y"><b>🟡 Yellow</b>Auto-fix, then report. Reversible, no money/credentials/destructive surface.</div>
+      <div class="lane r"><b>🔴 Red</b>Diagnose, then escalate an approvable card with the exact fix. Execute only on the owner's reply, then confirm the result.</div>
+    </div>
+    <div class="grid3">
+      <div class="card"><h3>One decider</h3><p class="dim" style="margin:0">Exactly one path ships: radar finds → Operator gates → reflex goes live. Roster agents tune locally and feed learnings up, but never ship independently — no two systems fight over the same change.</p></div>
+      <div class="card"><h3>Second-opinion gate</h3><p class="dim" style="margin:0">Before anything goes hands-free, the primary judge and a second agent must concur. Anything touching customers, credentials, or another agent's surface is never hands-free — it always asks.</p></div>
+      <div class="card"><h3>Honest scoreboard</h3><p class="dim" style="margin:0">The loop is proven <em>safe and working</em>. We report what's measured plainly — including what isn't yet proven — rather than dress it up. Trust is built on receipts.</p></div>
+    </div>
+  </section>
+
+  <!-- 06 WHITE LABEL -->
+  <section>
+    <div class="sec-num">06 — WHITE-LABEL &amp; PLATFORM-AGNOSTIC</div>
+    <h2>Any brand, any vertical, any channel</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>White-label by configuration</h3>
+        <p class="dim" style="margin:0">A vertical profile — persona, language, operator contact, escalation targets, job modes — is configuration, not a fork. The same engine that runs our own front office becomes a clinic's scheduler or a distributor's sales desk by setting a profile. Multi-tenant is a day-one design constraint for everything we build, not a retrofit.</p>
+        <ul style="font-size:14px;margin-top:12px">
+          <li>Persona, tone, and language per tenant (pt-BR / EN proven)</li>
+          <li>Per-contact <strong>work-mode</strong> autonomy: answers business questions autonomously in the customer's language; escalates pricing/terms — proven live</li>
+          <li>Brand assets pipeline: avatar, palette, stickers, animated identity per agent</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Platform-agnostic by architecture</h3>
+        <p class="dim" style="margin:0">Agents live where the customer's customers are. Today, in production:</p>
+        <table style="font-size:13.5px">
+          <tr><th>Surface</th><th>Live use</th></tr>
+          <tr><td>WhatsApp</td><td>front office, autonomous job modes, coaching</td></tr>
+          <tr><td>Telegram</td><td>fleet command, radars, alerts</td></tr>
+          <tr><td>Email</td><td>outreach, intelligence, recaps, drafts</td></tr>
+          <tr><td>Meet / Zoom / Teams</td><td>live meeting assistant</td></tr>
+          <tr><td>LinkedIn / X / Instagram</td><td>autonomous content series, social selling</td></tr>
+          <tr><td>Web / browser</td><td>research, scraping, walled-site automation</td></tr>
+          <tr><td>Calendar / Notion / Drive</td><td>scheduling, docs, knowledge ops</td></tr>
+          <tr><td>Desktop / phone-out</td><td>native-app automation, computer use</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="callout">Model-agnostic too: routing matches model tier to task value — premium models only where judgment is worth paying for, with org-level cost observability across providers. Cost discipline is part of the product.</div>
+  </section>
+
+  <!-- 07 PROOF -->
+  <section>
+    <div class="sec-num">07 — PROOF IN PRODUCTION</div>
+    <h2>Verticals already running, today</h2>
+    <p>Not pilots on slides — live traffic, real counterparties, autonomous decisions with audit trails. Each maps directly to a sellable offer.</p>
+    <table>
+      <tr><th>Vertical pattern</th><th>What the agent does, live</th><th>Status</th><th>Sellable as</th></tr>
+      <tr><td><strong>Healthcare scheduling + insurer relay</strong></td><td>Reads clinic confirmations, checks the calendar, auto-confirms when free; and stages a one-tap, approval-gated relay of a complete exam requisition to the insurer with clinical framing.</td><td><span class="pill live">LIVE</span></td><td>Clinic front-desk + pre-authorization agent</td></tr>
+      <tr><td><strong>Supplier procurement</strong></td><td>Ingests price lists (file or live sheet), benchmarks vs. market, surfaces only genuine deals with % math; handles ordering and delivery-address replies.</td><td><span class="pill live">LIVE</span></td><td>Purchasing co-pilot for distributors / restaurants</td></tr>
+      <tr><td><strong>Concierge / logistics</strong></td><td>Coordinates package handling with building staff and couriers end-to-end, including order-confirmation echoes.</td><td><span class="pill live">LIVE</span></td><td>Property / residential ops agent</td></tr>
+      <tr><td><strong>Franchise ticketing automation</strong></td><td>Watches a franchisor portal with no API (browser-driven), digests new tickets to the owner, and acts on a reply — with a legal-hold guard that never touches threads under formal dispute.</td><td><span class="pill live">LIVE</span></td><td>Franchise / back-office ops agent</td></tr>
+      <tr><td><strong>Inbound triage + threat defense</strong></td><td>Classifies work / sensitive / personal / social / manipulation; answers what it should, declines social-engineering autonomously, escalates honestly.</td><td><span class="pill live">LIVE</span></td><td>Executive inbox/DM gatekeeper</td></tr>
+      <tr><td><strong>Local-business web revamp</strong></td><td>Finds businesses with weak websites, redesigns + deploys the new site, then opens outreach with the finished work attached.</td><td><span class="pill live">LIVE</span></td><td>Done-before-you-buy web agency motion</td></tr>
+      <tr><td><strong>Meetings &amp; account memory</strong></td><td>Attends sales calls (Meet/Zoom/Teams), answers in-call, files briefs, drafts recaps and proposals with full account history.</td><td><span class="pill new">PRODUCT</span></td><td>AE co-pilot / customer-success seat — now self-serve</td></tr>
+      <tr><td><strong>Market radars</strong></td><td>Watches jobs, events, fares, and award inventory; alerts with scored verdicts and one-reply action playbooks.</td><td><span class="pill live">LIVE</span></td><td>Vertical monitoring + act-on-alert service</td></tr>
+    </table>
+    <div class="callout">These are anonymized patterns from live engagements. One hardening day on live traffic caught and fixed ~9 silent-failure bugs in the messaging autopilot; that operational muscle — catch, fix, soak, observe — is exactly what customers buy in the <em>support</em> phase.</div>
+  </section>
+
+  <!-- 08 TRUST -->
+  <section>
+    <div class="sec-num">08 — TRUST, SAFETY &amp; OPERATIONS</div>
+    <h2>Why you can let this run</h2>
+    <div class="grid3">
+      <div class="card"><h3>Graduated autonomy</h3><p class="dim" style="margin:0">Every new behavior starts in shadow (drafts only), earns live-auto through verdict history, and keeps a one-flag kill switch. Clearly-safe = reversible, no money/credential/destructive surface, corroborated-benign; financial actions are always asked, never auto.</p></div>
+      <div class="card"><h3>Honest escalation</h3><p class="dim" style="margin:0">When an agent isn't sure, it says so — cards state what's known and unknown. Alerts always include a diagnosis and recommended action, never raw signal.</p></div>
+      <div class="card"><h3>Injection &amp; social-engineering defense</h3><p class="dim" style="margin:0">Inbound manipulation is a first-class message class — detected, declined in character, logged. Proven against live attempts.</p></div>
+      <div class="card"><h3>Mesh hygiene</h3><p class="dim" style="margin:0">Two guards keep the agent-to-agent network clean: a receiver-side filter drops infrastructure error noise before it can spawn phantom conversations, and a sender-side guard blocks it from ever leaving an agent.</p></div>
+      <div class="card"><h3>Self-healing observability</h3><p class="dim" style="margin:0">A watchdog probes every agent and self-heals in tiers; an agent-to-agent ping ring detects silent failures; tool-surface drift detection flags any silent change; a quality gate flags memory erosion before it reaches a customer.</p></div>
+      <div class="card"><h3>Security &amp; owner controls</h3><p class="dim" style="margin:0">Recurring attack-surface audits, credential inventory with single-point revocation, secrets vaulted and never committed. Phase-gated delivery, every destructive action confirmed, full audit trail — manageable like staff, inspectable like software.</p></div>
+    </div>
+  </section>
+
+  <!-- 09 FACTORY -->
+  <section>
+    <div class="sec-num">09 — THE FACTORY</div>
+    <h2>How a new vertical gets built — by agents</h2>
+    <p>This is the engagement lifecycle you experience, and the internal assembly line that powers it. The human owner appears exactly twice: approving the proposal and approving go-live.</p>
+    <div class="card">
+      <div class="phase"><div class="n">1</div><div><strong>Discover</strong> — the Closer and the Architect's research workflows find and qualify the prospect; the Meeting Seat attends discovery with full account memory. <span class="meta">agents: closer · architect · meeting seat</span></div></div>
+      <div class="phase"><div class="n">2</div><div><strong>Propose</strong> — same-day branded interactive proposal with ROI math, published as a private link. Owner approves the commercial terms. <span class="meta">agents: architect · 🧑 owner gate</span></div></div>
+      <div class="phase"><div class="n">3</div><div><strong>Assemble</strong> — the Architect composes the vertical agent from the pattern library: channels, persona profile, job modes, memory, guardrails, escalation map. Multi-tenant from day one. <span class="meta">agents: architect</span></div></div>
+      <div class="phase"><div class="n">4</div><div><strong>Shadow soak</strong> — the new agent runs on real traffic, drafts-only; you coach it in plain language; verdicts accumulate; a legal-hold guard fences off any thread under formal dispute. <span class="meta">agents: new agent · chief of staff · operator</span></div></div>
+      <div class="phase"><div class="n">5</div><div><strong>Go live</strong> — autonomy granted per job mode as verdict history earns it. Owner approves the flip. <span class="meta">agents: operator gate · 🧑 owner gate</span></div></div>
+      <div class="phase"><div class="n">6</div><div><strong>Support &amp; grow</strong> — 24/7 Operator coverage, watchdog self-healing, daily health + weekly growth reports, new learned behaviors shipped through the gate. <span class="meta">agents: operator · watchdog · the whole mesh</span></div></div>
+    </div>
+  </section>
+
+  <!-- 10 MANAGEMENT OS -->
+  <section>
+    <div class="sec-num">10 — THE MANAGEMENT OS</div>
+    <h2>Running agents like employees</h2>
+    <p>We run our own agents the way you'd run a team. Each agent self-authors a record — role &amp; mandate, current work, capabilities &amp; development, roadmap &amp; gaps, needs-from-owner, with infra vitals demoted to a footer — and that record drives a live reporting stack:</p>
+    <ul>
+      <li><strong>Daily health report</strong> — every morning the Operator sends the owner one digest: memory recall/quality verdict, auto-memory hygiene, knowledge-base freshness, and heartbeat age — diagnosis plus action, never raw signal.</li>
+      <li><strong>The morning pipeline</strong> — a fixed daily chain (knowledge consolidation → benchmark → quality gate → watchdog sweep → health report) lands on the owner's desk before work starts.</li>
+      <li><strong>On-demand reviews</strong> — "how's the team?" or a single agent's performance review, answered live from the records.</li>
+      <li><strong>Needs-you pings</strong> — the owner is interrupted only when an agent is blocked on a decision only a human can make; the Operator handles most "needs" autonomously first.</li>
+    </ul>
+    <p class="dim">The reporting line is short by design: the Operator handles most needs autonomously before they reach the owner, the watchdog relays judgment calls up, and the Architect turns roadmap gaps directly into build work.</p>
+  </section>
+
+  <!-- 11 ROADMAP -->
+  <section>
+    <div class="sec-num">11 — WHAT'S NEXT</div>
+    <h2>From running ourselves to running customers</h2>
+    <table>
+      <tr><th>Track</th><th>Now</th><th>Next</th></tr>
+      <tr><td><strong>Productization</strong></td><td>The meetings seat is a packaged product with self-serve trial + checkout and provisioning. White-label profiles proven on our own verticals; multi-tenant enforced on all new builds.</td><td>Package a second vertical (clinic scheduling or purchasing co-pilot — both live internally) for self-serve.</td></tr>
+      <tr><td><strong>Sales motion</strong></td><td>Outreach pipeline, meeting seat, same-day proposals, multi-platform social series all autonomous.</td><td>Tie them into one continuous loop: radar → outreach → meeting → proposal → factory, agent-handled end to end.</td></tr>
+      <tr><td><strong>Autonomy</strong></td><td>Live-auto on multiple job modes; work-mode per-contact autonomy; autonomous incident resolution on the primary seats.</td><td>Extend autonomous escalation to every seat; widen quote-to-act playbooks.</td></tr>
+      <tr><td><strong>Learning &amp; memory</strong></td><td>Single-decider self-learning with growth reports; memory run as a measured control loop with remediate-or-revert.</td><td>Customer-facing growth reports — show each tenant their agent improving, with receipts.</td></tr>
+      <tr><td><strong>Resilience</strong></td><td>Two-node watchdog design, watchdog probes, mesh hygiene guards.</td><td>Package the two-node design as the premium support tier — the differentiator competitors can't fake.</td></tr>
+    </table>
+    <div class="callout">The strategy in one line: <strong>everything we sell, we run on ourselves first</strong> — the company is the reference customer, the demo environment, and the proof.</div>
+  </section>
+
+  <div class="footer-note">
+    superclawman.ai · the agent company · how it works<br>
+    Built and run by agents. <a href="https://superclawman.ai" style="color:var(--clay-d)">superclawman.ai</a>
+  </div>
+
+</div>
+</body>
+</html>
