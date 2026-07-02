@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>superclawman.ai × Prodel Eventos — O que podemos fazer juntos</title>
+<style>
+:root{
+  --ivory:#FAF9F5; --paper:#FFFFFF; --slate:#141413;
+  --clay:#D97757; --clay-d:#B85C3E; --oat:#E3DACC; --olive:#788C5D;
+  --g100:#F0EEE6; --g200:#E6E3DA; --g300:#D1CFC5; --g500:#87867F; --g700:#3D3D3A;
+  --serif:ui-serif,Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ivory);color:var(--slate);font-family:var(--sans);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--clay-d);text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:48px 32px 64px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.11em;color:var(--g500);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:24px;height:3px;background:var(--clay)}
+h1{font-family:var(--serif);font-size:clamp(38px,5.4vw,60px);font-weight:600;line-height:1.06;letter-spacing:-.018em;margin:18px 0 20px;max-width:860px}
+h1 em{color:var(--clay-d)}
+.lead{font-size:19px;color:var(--g700);max-width:680px}
+section{padding:56px 0;border-bottom:1.5px solid var(--g300)}
+section:last-of-type{border-bottom:none}
+h2{font-family:var(--serif);font-size:clamp(26px,3.2vw,36px);font-weight:600;letter-spacing:-.015em;line-height:1.15}
+.sec-sub{color:var(--g500);margin-top:10px;max-width:640px}
+
+/* hero meta strip */
+.meta-strip{display:flex;gap:28px;flex-wrap:wrap;margin-top:36px;padding:20px 26px;background:var(--paper);border:1.5px solid var(--g200);border-radius:14px}
+.meta-strip div b{display:block;font-family:var(--serif);font-size:21px}
+.meta-strip div small{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--g500)}
+
+/* service blocks */
+.svc{display:grid;grid-template-columns:64px 1fr;gap:26px;background:var(--paper);border:1.5px solid var(--g200);border-radius:16px;padding:34px 34px;margin-top:22px;position:relative}
+.svc .num{font-family:var(--serif);font-size:34px;color:var(--clay);font-weight:600;line-height:1}
+.svc h3{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:-.01em;margin-bottom:10px}
+.svc>.body p{color:var(--g700);margin-bottom:12px}
+.svc ul{list-style:none;margin:14px 0 4px}
+.svc li{padding-left:26px;position:relative;margin-bottom:9px;color:var(--g700);font-size:15.5px}
+.svc li::before{content:"";position:absolute;left:2px;top:8px;width:13px;height:13px;border-radius:50%;background:var(--olive);opacity:.18}
+.svc li::after{content:"";position:absolute;left:5.5px;top:11.5px;width:6px;height:6px;border-radius:50%;background:var(--olive)}
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;padding:5px 12px;border-radius:100px;margin-bottom:14px}
+.tag.ready{background:#EAF0E4;color:#4C6B3C}
+.tag.core{background:#F7E8E1;color:var(--clay-d)}
+.tag.build{background:var(--g100);color:var(--g700)}
+.demo-btn{display:inline-flex;align-items:center;gap:8px;background:var(--clay);color:#fff;font-weight:600;font-size:15px;padding:12px 22px;border-radius:100px;margin-top:6px;transition:background .15s}
+.demo-btn:hover{background:var(--clay-d)}
+.hoje-amanha{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.ha{border-radius:12px;padding:18px 20px;font-size:14.5px}
+.ha b{display:block;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px}
+.ha.hoje{background:var(--g100);color:var(--g700)}
+.ha.hoje b{color:var(--g500)}
+.ha.amanha{background:#F3EFE6;border:1.5px solid var(--oat);color:var(--g700)}
+.ha.amanha b{color:var(--clay-d)}
+@media(max-width:720px){.svc{grid-template-columns:1fr;gap:12px}.hoje-amanha{grid-template-columns:1fr}}
+
+/* phases */
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.phase{background:var(--paper);border:1.5px solid var(--g200);border-radius:16px;padding:28px;position:relative}
+.phase .p-num{font-family:var(--mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--clay-d);display:block;margin-bottom:12px}
+.phase h3{font-family:var(--serif);font-size:20px;margin-bottom:10px}
+.phase p{font-size:14.5px;color:var(--g700)}
+.phase.hot{border-color:var(--clay);box-shadow:0 6px 24px rgba(217,119,87,.1)}
+@media(max-width:820px){.phases{grid-template-columns:1fr}}
+
+/* pull quote */
+.pull{border-left:4px solid var(--clay);padding:8px 0 8px 26px;margin:44px 0 8px;font-family:var(--serif);font-size:22px;line-height:1.45;color:var(--g700);max-width:760px}
+
+/* CTA */
+.cta{background:var(--slate);color:var(--ivory);border-radius:20px;padding:52px 48px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;margin-top:56px}
+.cta h2{color:var(--ivory);font-size:clamp(24px,3vw,32px)}
+.cta p{color:#B8B6AE;margin-top:8px;max-width:480px}
+.cta .demo-btn{background:var(--clay);font-size:16px;padding:15px 30px}
+footer{padding:28px 0 8px;font-size:13px;color:var(--g500);font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header style="padding-top:24px">
+  <span class="eyebrow">superclawman.ai × Prodel Eventos</span>
+  <h1>Um time de <em>agentes de IA</em> trabalhando pela Prodel — 24 horas por dia.</h1>
+  <p class="lead">Marcelo, isso aqui é um mapa simples de tudo que a superclawman.ai pode fazer pela Prodel: do site novo ao Instagram no piloto automático, de propostas impecáveis a um sistema de gestão feito sob medida — melhor que o Sisloc, do seu jeito.</p>
+  <div class="meta-strip">
+    <div><b>2</b><small>Amostras já prontas</small></div>
+    <div><b>5</b><small>Frentes de trabalho</small></div>
+    <div><b>3</b><small>Fases, sem big-bang</small></div>
+    <div><b>0</b><small>Risco: valida antes de avançar</small></div>
+  </div>
+</header>
+
+<section>
+  <span class="eyebrow">Frente 1 · já tem amostra</span>
+  <h2 style="margin-top:14px">Um site à altura de quem está no mercado desde 1968.</h2>
+  <div class="svc">
+    <div class="num">01</div>
+    <div class="body">
+      <span class="tag ready">✓ Amostra pronta — clique e veja</span>
+      <h3>Site novo da Prodel</h3>
+      <p>O site atual cumpre tabela. O novo posiciona a Prodel como ela é: a referência em audiovisual corporativo de BH. Visual de palco — escuro, com a laranja da marca acesa como um painel de LED.</p>
+      <ul>
+        <li>Design premium, rápido e impecável no celular (onde seus clientes estão)</li>
+        <li>História "O Divino Inferno do Som" contada como diferencial, não rodapé</li>
+        <li>Botão de WhatsApp em todo lugar — orçamento vira conversa em 1 clique</li>
+        <li>Preparado para o Google: cada serviço com sua página e endereço otimizado</li>
+      </ul>
+      <a class="demo-btn" href="https://pauloovidio-a11y.github.io/superclawman-propostas/prodel/" target="_blank" rel="noopener">Ver a amostra do site novo →</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Frente 2 · Instagram</span>
+  <h2 style="margin-top:14px">@prodeleventos no piloto automático — com a sua cara.</h2>
+  <p class="sec-sub">Hoje são 4.2 mil seguidores e 1.441 posts feitos na raça. A IA assume a rotina; vocês só aprovam.</p>
+  <div class="svc">
+    <div class="num">02</div>
+    <div class="body">
+      <span class="tag core">Operação contínua</span>
+      <h3>Instagram completo, sem esforço da equipe</h3>
+      <ul>
+        <li><b>Calendário editorial</b> planejado por IA: bastidores de montagem, cases de eventos, dicas para organizadores</li>
+        <li><b>Posts e legendas prontos</b> toda semana — você só dá o OK pelo WhatsApp antes de publicar</li>
+        <li><b>Respostas a comentários e directs</b> em minutos, no tom da Prodel, com escalação pra você quando é venda</li>
+        <li><b>Relatório mensal simples</b>: o que cresceu, o que engajou, o que virou orçamento</li>
+      </ul>
+      <div class="hoje-amanha">
+        <div class="ha hoje"><b>Hoje</b>Postar depende de alguém lembrar, ter tempo e ter ideia. Direct sem resposta é orçamento perdido.</div>
+        <div class="ha amanha"><b>Com a superclawman.ai</b>Presença constante e profissional, directs respondidos 24/7 — e o Instagram vira canal de vendas, não obrigação.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Frente 3 · Gestão</span>
+  <h2 style="margin-top:14px">Um sistema melhor que o Sisloc — feito do jeito Prodel.</h2>
+  <p class="sec-sub">Sistema genérico obriga a empresa a se adaptar a ele. Sistema sob medida se adapta à empresa.</p>
+  <div class="svc">
+    <div class="num">03</div>
+    <div class="body">
+      <span class="tag build">Projeto sob medida</span>
+      <h3>Gestão de locação e eventos, com IA dentro</h3>
+      <ul>
+        <li><b>Orçamento em minutos</b>: o cliente descreve o evento, a IA monta a cotação com os equipamentos certos</li>
+        <li><b>Agenda inteligente</b> de equipamentos e técnicos — avisa conflito de estoque antes de virar problema</li>
+        <li><b>Ordem de serviço e checklist</b> de montagem/desmontagem por evento, no celular da equipe</li>
+        <li><b>Faturamento e cobrança</b> acompanhados por agente: emitiu, lembrou, conciliou</li>
+        <li>Sem mensalidade por usuário, sem depender de fornecedor: o sistema é <b>seu</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Frente 4 · Vendas</span>
+  <h2 style="margin-top:14px">Propostas que impressionam — e follow-up que não deixa esfriar.</h2>
+  <div class="svc">
+    <div class="num">04</div>
+    <div class="body">
+      <span class="tag core">Onde o dinheiro aparece primeiro</span>
+      <h3>Propostas comerciais impecáveis</h3>
+      <ul>
+        <li>Modelo premium com a marca Prodel: o cliente recebe um <b>link bonito ou PDF</b>, não um anexo improvisado</li>
+        <li>Geradas em minutos a partir do pedido: equipamentos, valores, condições, fotos</li>
+        <li>Você fica sabendo <b>quando o cliente abriu</b> a proposta</li>
+      </ul>
+      <h3 style="margin-top:26px">Follow-up automático</h3>
+      <ul>
+        <li>Proposta enviada e sem resposta? O agente faz o acompanhamento certo, no tom certo, no dia certo</li>
+        <li>Nada esquece, nada esfria: cada proposta acompanhada até virar <b>sim ou não</b></li>
+        <li>Resumo semanal pra você: o que está aberto, o que está quente, o que precisa da sua atenção</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Frente 5 · Operação</span>
+  <h2 style="margin-top:14px">Agentes ajudando em todos os processos da empresa.</h2>
+  <div class="svc">
+    <div class="num">05</div>
+    <div class="body">
+      <span class="tag core">O escritório que não dorme</span>
+      <h3>IA nos bastidores do dia a dia</h3>
+      <ul>
+        <li><b>WhatsApp da empresa</b>: primeiro atendimento, qualificação do evento e agendamento de visita técnica</li>
+        <li><b>E-mail</b>: triagem, rascunhos de resposta e nada importante passando batido</li>
+        <li><b>Pós-evento</b>: pesquisa de satisfação automática + pedido de avaliação no Google (mais estrelas ★, mais clientes)</li>
+        <li><b>Rotinas internas</b>: lembretes de manutenção de equipamento, documentos, prazos e pendências</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Como funciona</span>
+  <h2 style="margin-top:14px">Começamos pequeno, provamos valor, e aí crescemos.</h2>
+  <p class="sec-sub">Nada de projeto gigante de 12 meses. Cada fase entrega algo funcionando — e só avançamos quando você validar.</p>
+  <div class="phases">
+    <div class="phase hot">
+      <span class="p-num">Fase 1 · Presença</span>
+      <h3>Site novo + Instagram</h3>
+      <p>Colocamos o site no ar e o Instagram em operação contínua. Resultado visível em semanas — é a vitrine da Prodel renovada.</p>
+    </div>
+    <div class="phase">
+      <span class="p-num">Fase 2 · Vendas</span>
+      <h3>Propostas + follow-up + WhatsApp</h3>
+      <p>Propostas premium, acompanhamento automático e primeiro atendimento inteligente. Mais orçamento virando contrato.</p>
+    </div>
+    <div class="phase">
+      <span class="p-num">Fase 3 · Gestão</span>
+      <h3>Sistema sob medida</h3>
+      <p>O substituto do Sisloc, construído em cima do que aprendemos nas fases 1 e 2 — do jeito que a Prodel trabalha.</p>
+    </div>
+  </div>
+  <div class="pull">"A ideia não é vender ferramenta. É colocar um time de IA operando dentro da Prodel — com você no comando, aprovando pelo WhatsApp."</div>
+</section>
+
+<div class="cta">
+  <div>
+    <h2>Gostou? Então vamos marcar uma conversa.</h2>
+    <p>Paulo te mostra tudo funcionando ao vivo — inclusive os agentes que já operam em outras empresas.</p>
+  </div>
+  <span class="demo-btn" style="cursor:default">É só responder aqui no WhatsApp 👍</span>
+</div>
+
+<footer>superclawman.ai · proposta preparada para Prodel Eventos · Belo Horizonte, julho de 2026</footer>
+
+</div>
+</body>
+</html>
