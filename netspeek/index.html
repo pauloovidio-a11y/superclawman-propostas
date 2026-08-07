@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LATAM Go-to-Market — A Revenue Case for Netspeek</title>
+<style>
+:root{
+  --ivory:#F6F7F9; --paper:#FFFFFF; --slate:#11202E;
+  --clay:#1F5FAE; --clay-d:#16498A; --oat:#D9E2EE; --olive:#3B7A57;
+  --g100:#F0F2F5; --g200:#E3E7ED; --g300:#CDD5DF; --g500:#7A8899; --g700:#3A4757;
+  --serif: ui-serif, Georgia, "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--ivory); color:var(--slate);
+  font-family:var(--sans); font-size:16px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1060px;margin:0 auto;padding:56px 34px 72px}
+
+/* ---------- masthead ---------- */
+.eyebrow{
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--g500); display:flex;
+  align-items:center; gap:12px; margin-bottom:20px;
+}
+.eyebrow::before{content:"";width:26px;height:2.5px;background:var(--clay);flex:none}
+h1{
+  font-family:var(--serif); font-weight:600;
+  font-size:clamp(36px,5.2vw,58px); line-height:1.05;
+  letter-spacing:-.02em; margin-bottom:14px;
+}
+h1 em{font-style:italic;color:var(--clay)}
+.dek{
+  font-family:var(--serif); font-size:clamp(18px,2.1vw,22px);
+  line-height:1.45; color:var(--g700); max-width:64ch; font-style:italic;
+}
+.meta{
+  margin-top:28px; padding-top:18px; border-top:1.5px solid var(--g300);
+  font-family:var(--mono); font-size:12px; color:var(--g500);
+  display:flex; flex-wrap:wrap; gap:26px;
+}
+.meta b{color:var(--slate);font-weight:600}
+
+/* ---------- proposition box ---------- */
+.prop{
+  margin:44px 0 8px; background:var(--paper);
+  border:1.5px solid var(--g300); border-left:4px solid var(--clay);
+  padding:30px 34px; border-radius:3px;
+}
+.prop p{font-size:17.5px;line-height:1.6}
+.prop p + p{margin-top:14px}
+.prop .kicker{
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--clay);margin-bottom:12px;
+}
+.exposure{
+  margin-top:20px;padding-top:18px;border-top:1px solid var(--g200);
+  font-family:var(--mono);font-size:13.5px;color:var(--g700);
+}
+.exposure b{color:var(--slate);font-size:15px}
+
+/* ---------- sections ---------- */
+section{padding:46px 0 0;border-top:1.5px solid var(--g300);margin-top:46px}
+section:first-of-type{margin-top:34px;padding-top:34px}
+h2{
+  font-family:var(--serif);font-size:29px;font-weight:600;
+  letter-spacing:-.015em;line-height:1.2;margin-bottom:6px;
+}
+.h2num{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;
+  color:var(--clay);text-transform:uppercase;margin-bottom:9px;display:block;
+}
+.lede{font-size:17px;color:var(--g700);max-width:70ch;margin-bottom:26px}
+p{max-width:74ch}
+p + p{margin-top:15px}
+strong{font-weight:650}
+
+/* ---------- stat tiles ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0}
+.stat{background:var(--paper);border:1.5px solid var(--g300);border-radius:3px;padding:20px 18px}
+.stat .n{
+  font-family:var(--serif);font-size:33px;line-height:1;
+  letter-spacing:-.02em;color:var(--clay);font-weight:600;
+}
+.stat .l{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--g500);margin-top:10px;line-height:1.45;
+}
+
+/* ---------- tables ---------- */
+table{width:100%;border-collapse:collapse;margin:24px 0;background:var(--paper);
+  border:1.5px solid var(--g300);border-radius:3px;overflow:hidden;font-size:14.5px}
+th{
+  background:var(--g100);text-align:left;padding:13px 16px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--g700);font-weight:600;
+  border-bottom:1.5px solid var(--g300);
+}
+td{padding:13px 16px;border-bottom:1px solid var(--g200);vertical-align:top;line-height:1.5}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono);white-space:nowrap;text-align:right;font-size:13.5px}
+tfoot td{background:var(--g100);font-weight:650;border-top:1.5px solid var(--g300)}
+.tnote{font-size:13.5px;color:var(--g700);margin-top:-8px;max-width:74ch;line-height:1.6}
+
+/* ---------- partner cards ---------- */
+.partners{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:26px 0}
+.pcard{background:var(--paper);border:1.5px solid var(--g300);border-radius:3px;padding:24px}
+.pcard h3{font-family:var(--serif);font-size:21px;font-weight:600;margin-bottom:3px}
+.pcard .loc{
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--clay);margin-bottom:14px;
+}
+.pcard ul{list-style:none;font-size:14.5px}
+.pcard li{padding:7px 0 7px 17px;position:relative;border-bottom:1px solid var(--g200);line-height:1.5}
+.pcard li:last-child{border-bottom:none}
+.pcard li::before{content:"";position:absolute;left:0;top:15px;width:6px;height:6px;
+  background:var(--clay);border-radius:50%}
+
+/* ---------- callout ---------- */
+.call{
+  background:var(--paper);border:1.5px solid var(--oat);border-left:4px solid var(--olive);
+  padding:22px 26px;margin:26px 0;border-radius:3px;
+}
+.call .ct{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--olive);margin-bottom:9px;font-weight:600;
+}
+.call p{font-size:15.5px}
+
+/* ---------- milestone ---------- */
+.miles{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:26px 0}
+.mile{background:var(--paper);border:1.5px solid var(--g300);border-radius:3px;padding:24px;position:relative}
+.mile .when{
+  font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--paper);background:var(--clay);display:inline-block;
+  padding:4px 11px;border-radius:2px;margin-bottom:14px;
+}
+.mile .what{font-family:var(--serif);font-size:23px;line-height:1.25;font-weight:600;margin-bottom:9px}
+.mile .sub{font-size:14px;color:var(--g700);line-height:1.55}
+
+/* ---------- gaps ---------- */
+.gap{
+  background:var(--paper);border:1.5px solid var(--g300);border-radius:3px;
+  padding:20px 24px;margin-bottom:13px;
+}
+.gap h4{font-size:15.5px;font-weight:650;margin-bottom:6px;display:flex;gap:10px;align-items:baseline}
+.gap h4 span{
+  font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--paper);background:var(--g500);padding:3px 8px;border-radius:2px;flex:none;
+}
+.gap p{font-size:14.5px;color:var(--g700);max-width:none}
+
+/* ---------- ask list ---------- */
+.ask{counter-reset:a;margin:24px 0}
+.ask li{
+  list-style:none;counter-increment:a;position:relative;
+  background:var(--paper);border:1.5px solid var(--g300);border-radius:3px;
+  padding:20px 24px 20px 66px;margin-bottom:11px;
+}
+.ask li::before{
+  content:counter(a);position:absolute;left:24px;top:19px;
+  font-family:var(--serif);font-size:24px;color:var(--clay);font-weight:600;line-height:1;
+}
+.ask b{display:block;font-size:16px;margin-bottom:4px}
+.ask span{font-size:14.5px;color:var(--g700);line-height:1.55}
+
+/* ---------- close ---------- */
+.close{
+  margin-top:52px;padding-top:36px;border-top:2.5px solid var(--slate);
+}
+.close p{font-family:var(--serif);font-size:18.5px;line-height:1.6;max-width:70ch}
+.sig{margin-top:30px;font-family:var(--mono);font-size:13px;line-height:1.9;color:var(--g700)}
+.sig b{color:var(--slate);font-size:15px;font-family:var(--sans);font-weight:650;letter-spacing:-.01em}
+
+svg{max-width:100%;height:auto;display:block}
+.figwrap{background:var(--paper);border:1.5px solid var(--g300);border-radius:3px;padding:28px 24px;margin:26px 0}
+.figcap{font-family:var(--mono);font-size:11px;letter-spacing:.07em;color:var(--g500);
+  text-transform:uppercase;margin-top:16px;text-align:center}
+
+@media (max-width:860px){
+  .wrap{padding:38px 20px 56px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .partners,.miles{grid-template-columns:1fr}
+  .meta{gap:14px;flex-direction:column}
+  table{font-size:13px}
+  th,td{padding:10px 11px}
+}
+@page{margin:14mm 13mm}
+@media print{
+  body{background:#fff;font-size:9.6pt;line-height:1.42}
+  .wrap{max-width:none;padding:0}
+  h1{font-size:30pt;margin-bottom:9px}
+  .dek{font-size:12pt}
+  .meta{margin-top:16px;padding-top:12px;gap:18px}
+  .prop{margin:22px 0 0;padding:18px 20px}
+  .prop p{font-size:10.4pt}
+  .exposure{margin-top:13px;padding-top:12px;font-size:9.6pt}
+  section{page-break-inside:auto;padding-top:20px;margin-top:20px}
+  section:first-of-type{margin-top:20px;padding-top:20px}
+  h2{font-size:16.5pt;margin-bottom:3px}
+  .lede{font-size:10.4pt;margin-bottom:14px}
+  p + p{margin-top:9px}
+  h2,h3,.h2num,.mile .when{page-break-after:avoid}
+  .pcard,.mile,.gap,.call,.figwrap,tr,.ask li,.stat{page-break-inside:avoid}
+  .prop,.close{page-break-inside:avoid}
+  /* containers must be allowed to split, or they strand half a page */
+  .partners,.miles,.stats,.ask,table{page-break-inside:auto}
+  .stats{grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}
+  .stat{padding:12px 11px}
+  .stat .n{font-size:21pt}
+  .stat .l{font-size:6.6pt;margin-top:6px}
+  .partners,.miles{gap:11px;margin:16px 0}
+  .pcard,.mile{padding:15px 17px}
+  .pcard li{padding:5px 0 5px 15px}
+  .pcard li::before{top:11px}
+  .figwrap{padding:14px 12px;margin:16px 0}
+  .figcap{margin-top:9px}
+  table{margin:16px 0;font-size:9pt}
+  th{padding:8px 11px}
+  td{padding:8px 11px}
+  .call{padding:15px 18px;margin:16px 0}
+  .call p{font-size:9.8pt}
+  .gap{padding:13px 17px;margin-bottom:9px}
+  .ask li{padding:14px 18px 14px 54px;margin-bottom:8px}
+  .ask li::before{top:13px;left:19px;font-size:19pt}
+  .close{margin-top:26px;padding-top:20px}
+  .close p{font-size:11.5pt}
+  .sig{margin-top:18px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Confidential business case</div>
+  <h1>LATAM go-to-market:<br>a <em>revenue</em> case for Netspeek</h1>
+  <p class="dek">Opening Brazil and Mexico with named enterprise access and two established
+  distribution partners, at no headcount cost and no channel-support burden.</p>
+
+  <div class="meta">
+    <span><b>Prepared for</b> &nbsp;Sam Kennedy, GTM</span>
+    <span><b>From</b> &nbsp;Paulo Ovídio, São Paulo</span>
+    <span><b>Date</b> &nbsp;7 August 2026</span>
+  </div>
+
+  <div class="prop">
+    <div class="kicker">The proposition</div>
+    <p>Netspeek's Latin America conversations have stalled for one reason: there is no one in
+    the region to carry them. I am proposing to be that person, under the Netspeek brand,
+    with every transaction routed through a local partner so Netspeek carries no channel
+    support burden and no currency or collections exposure.</p>
+    <p>No salary. No headcount line. No engineering prerequisite. Compensation deferred until
+    revenue is collected.</p>
+    <div class="exposure">Year-one cash exposure to Netspeek: <b>approximately US$18,000</b>
+    in travel and expenses. Nothing else.</div>
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <span class="h2num">01 / The problem this solves</span>
+    <h2>A coverage gap, not a demand gap</h2>
+    <p class="lede">Demand in the region is already reaching you. It has nowhere to land.</p>
+
+    <p>On our call you named three constraints with precision. Your first priority is a fast
+    path to revenue. You cannot switch on many channels because you have no channel managers
+    to support them. And you have had a handful of Mexico and Brazil approaches that went
+    nowhere, in your words, because they were premature and nobody brought you anything.</p>
+
+    <p>Lotus ICT came to you. Globo is in conversation. Petrobras is in conversation. Every one
+    of those threads needs someone in-region, in-language, who can qualify it, demo it, and
+    close it without consuming your engineering team. That role normally costs a salary, a
+    quota, and a year of ramp. This proposal removes almost all of that cost.</p>
+
+    <div class="call">
+      <div class="ct">Why this is worth reading past page one</div>
+      <p>The question in front of you is not whether Latin America is worth entering. It is
+      whether it can be entered without spending money you have not raised yet, and without
+      taking Spencer's time away from North America. That is the question this document answers.</p>
+    </div>
+
+    <h2 style="font-size:23px;margin-top:38px">Why this is a now decision, not a next-year decision</h2>
+    <p>Your own read is that the incumbents cannot follow quickly, because they are bolting AI onto
+    platforms carrying years of technical debt while Lena was agentic from the first line. That
+    advantage is real and it is temporary. Latin America is the one large region where none of
+    them has moved yet and where, in your words, nothing is staked out.</p>
+    <p>There is also a calendar. The proactive troubleshooting agent reaches availability in
+    October, and the seed round is in front of you. A region already opened, with named partners
+    and a first reference customer, is a materially better story to raise on than a region
+    described as a future opportunity. Starting now costs one quarter of travel. Starting after
+    the raise means starting from zero with a number already committed to investors.</p>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <span class="h2num">02 / The region</span>
+    <h2>Named access, not a market study</h2>
+    <p class="lede">These are accounts I can personally open, with rooms already installed and
+    already being supported by hand today.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="n">3,000+</div><div class="l">Rooms across named accounts</div></div>
+      <div class="stat"><div class="n">US$1.8M</div><div class="l">ARR at list, if fully converted</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">Distribution partners, not twenty</div></div>
+      <div class="stat"><div class="n">18 yrs</div><div class="l">Selling AV/UC in this region</div></div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Market</th><th>Named accounts</th><th style="text-align:right">Est. rooms</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Brazil</strong></td>
+          <td>Globo · Petrobras · Vivo · Vale · BTG Pactual · Itaú</td>
+          <td class="num">2,000+</td>
+        </tr>
+        <tr>
+          <td><strong>Mexico</strong></td>
+          <td>Banorte · Arca Continental / FEMSA · Ternium</td>
+          <td class="num">1,000+</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="2">Total addressable rooms across named access</td><td class="num">3,000+</td></tr>
+      </tfoot>
+    </table>
+
+    <p class="tnote"><strong>Read this table honestly.</strong> These are installed-room estimates
+    for accounts where I have direct relationships or a credible route in. They are access, not
+    pipeline, and I am not forecasting conversion of them. What they establish is that the region
+    is large enough to be worth a very small bet.</p>
+
+    <div class="call">
+      <div class="ct">Two of these are not cold</div>
+      <p>During my Polycom years I negotiated and secured contracts worth over US$10 million with
+      <strong>Petrobras</strong> and <strong>Vale</strong>. Those two names are not entries on a
+      target list I assembled for this document. They are accounts I have already sold into,
+      through the channel, in this region, in this product category.</p>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <span class="h2num">03 / Route to market</span>
+    <h2>Two partners, zero channel managers</h2>
+    <p class="lede">You said channels would slow you down because they need hand-holding you cannot
+    staff. The answer is not fewer channels. It is the right two, both of which already own the
+    enablement machinery you would otherwise have to build.</p>
+
+    <div class="figwrap">
+      <svg viewBox="0 0 940 250" role="img" aria-label="Two-tier route to market">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#7A8899"/>
+          </marker>
+        </defs>
+        <!-- tier 1 -->
+        <rect x="10" y="82" width="176" height="86" rx="3" fill="#FFFFFF" stroke="#11202E" stroke-width="2"/>
+        <text x="98" y="116" text-anchor="middle" font-family="ui-serif,Georgia,serif" font-size="20" font-weight="600" fill="#11202E">Netspeek</text>
+        <text x="98" y="138" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#7A8899">UNITED STATES</text>
+        <text x="98" y="154" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#7A8899">2 CONTRACTS</text>
+
+        <line x1="192" y1="125" x2="252" y2="125" stroke="#7A8899" stroke-width="1.6" marker-end="url(#ar)"/>
+
+        <!-- paulo layer -->
+        <rect x="258" y="62" width="168" height="126" rx="3" fill="#1F5FAE" stroke="#16498A" stroke-width="2"/>
+        <text x="342" y="96" text-anchor="middle" font-family="ui-serif,Georgia,serif" font-size="19" font-weight="600" fill="#FFFFFF">Paulo</text>
+        <text x="342" y="118" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#D9E2EE">PRE-SALES · SALES</text>
+        <text x="342" y="133" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#D9E2EE">SERVICES · CHANNEL</text>
+        <text x="342" y="148" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#D9E2EE">ENABLEMENT</text>
+        <text x="342" y="170" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#FFFFFF">PT · EN · ES</text>
+
+        <line x1="432" y1="105" x2="492" y2="88" stroke="#7A8899" stroke-width="1.6" marker-end="url(#ar)"/>
+        <line x1="432" y1="145" x2="492" y2="162" stroke="#7A8899" stroke-width="1.6" marker-end="url(#ar)"/>
+
+        <!-- partners -->
+        <rect x="498" y="48" width="186" height="72" rx="3" fill="#FFFFFF" stroke="#CDD5DF" stroke-width="2"/>
+        <text x="591" y="78" text-anchor="middle" font-family="ui-serif,Georgia,serif" font-size="17" font-weight="600" fill="#11202E">Portenntum</text>
+        <text x="591" y="98" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#7A8899">MEXICO · MASTER DISTRIBUTOR</text>
+
+        <rect x="498" y="132" width="186" height="72" rx="3" fill="#FFFFFF" stroke="#CDD5DF" stroke-width="2"/>
+        <text x="591" y="162" text-anchor="middle" font-family="ui-serif,Georgia,serif" font-size="17" font-weight="600" fill="#11202E">DigitalnetBR</text>
+        <text x="591" y="182" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#7A8899">BRAZIL · UC&amp;C INTEGRATOR</text>
+
+        <line x1="690" y1="84" x2="750" y2="100" stroke="#7A8899" stroke-width="1.6" marker-end="url(#ar)"/>
+        <line x1="690" y1="168" x2="750" y2="150" stroke="#7A8899" stroke-width="1.6" marker-end="url(#ar)"/>
+
+        <!-- accounts -->
+        <rect x="756" y="82" width="176" height="86" rx="3" fill="#F0F2F5" stroke="#CDD5DF" stroke-width="2"/>
+        <text x="844" y="112" text-anchor="middle" font-family="ui-serif,Georgia,serif" font-size="17" font-weight="600" fill="#11202E">Enterprise</text>
+        <text x="844" y="132" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#7A8899">3,000+ ROOMS</text>
+        <text x="844" y="148" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#7A8899">LOCAL BILLING</text>
+
+        <text x="470" y="232" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#7A8899" letter-spacing="1">
+          PARTNERS OWN THE TRANSACTION, CREDIT, INVOICING AND FIRST-LINE SUPPORT
+        </text>
+      </svg>
+      <div class="figcap">Netspeek signs two agreements and is paid in US dollars</div>
+    </div>
+
+    <div class="partners">
+      <div class="pcard">
+        <h3>Portenntum de México</h3>
+        <div class="loc">Mexico · 33 years · master distributor</div>
+        <ul>
+          <li>Sells to a reseller base rather than to end users. One agreement reaches their whole network.</li>
+          <li>Carries HP Poly, DTEN, OneScreen and HPE Aruba networking: both layers Lena touches, AV endpoints and switches.</li>
+          <li>Runs its own partner program with exclusive pricing, technical training and partner financing.</li>
+          <li>National technical support and logistics already in place.</li>
+        </ul>
+      </div>
+      <div class="pcard">
+        <h3>DigitalnetBR</h3>
+        <div class="loc">Brazil · 15+ years · UC&amp;C integrator</div>
+        <ul>
+          <li>Certified Poly partner, publicly endorsed by Poly's own LATAM pre-sales leadership.</li>
+          <li>States 1,500 companies connected and over 100,000 active users.</li>
+          <li>Clients include Vale, BRF, Furnas, Raízen, Bunge, Toyota, Honda, Unimed, O Boticário and Duratex.</li>
+          <li>Delivers consultancy and managed services, not just hardware resale.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="tnote"><strong>To be exact about status:</strong> neither partner has been approached
+    about Netspeek, and I have deliberately not done so without your authorisation. What is
+    described above is public profile and my own route in. Opening both conversations is inside
+    the first thirty days, and everything in the facts above is verifiable before you commit to
+    anything.</p>
+
+    <div class="call">
+      <div class="ct">The detail worth pausing on</div>
+      <p><strong>Vale is on both lists.</strong> It is a named target account above, it is an
+      existing DigitalnetBR client, and it is an account I personally closed at Polycom. The
+      account, the partner who already serves it, and the person who already sold into it are
+      the same three points. That is what a warm entry actually looks like.</p>
+    </div>
+
+    <h2 style="font-size:23px;margin-top:38px">The economics the partner sells to itself</h2>
+    <p>Brazilian integrators bill large enterprise accounts on the order of R$20,000 per month
+    for room support, staffed with eight to ten technicians doing routine checks and truck rolls.
+    Lena moves that routine tier to automation, so the same contract runs with one or two people
+    working the genuinely hard problems.</p>
+    <p>The partner keeps the contract, improves its margin, protects itself against a competitor
+    arriving with automation first, and adds recurring software revenue at 20 percent. I do not
+    have to convince a partner of that. I have to show them the room-check demo once.</p>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <span class="h2num">04 / The person</span>
+    <h2>One hire's worth of coverage, without the hire</h2>
+    <p class="lede">Netspeek would normally need four people to open this region. Each of the
+    functions below is a role I have actually held, in this industry, in this territory.</p>
+
+    <table>
+      <thead><tr><th style="width:24%">Function</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Pre-sales</strong></td>
+          <td>Polycom Sales Engineer and Technical Account Manager, 2006 to 2013. Lead technical architect on government and enterprise bids across LATAM, translating requirements into specifications with integrators.</td></tr>
+        <tr><td><strong>Sales</strong></td>
+          <td>Contracts above US$10 million negotiated and secured, including Petrobras and Vale.</td></tr>
+        <tr><td><strong>Services</strong></td>
+          <td>Senior Manager, Services and Sales Operations at Polycom LATAM. Built a predictive lifecycle strategy that raised services retention by 20 percent.</td></tr>
+        <tr><td><strong>Channel</strong></td>
+          <td>HP LATAM distribution, 2020 to 2024. US$30M P&amp;L, up to US$10M in annual marketing funds across TD Synnex, Ingram Micro, ScanSource, Anixter and Nexsys. Over US$100M in partner-sourced pipeline.</td></tr>
+        <tr><td><strong>Enablement</strong></td>
+          <td>Trained partner technical teams across LATAM on UC and video platforms. Scaled a regional team from five to ten.</td></tr>
+        <tr><td><strong>Language</strong></td>
+          <td>Portuguese native, English fluent, Spanish fluent. Both target markets, no interpreter, no localized UI required to sell.</td></tr>
+        <tr><td><strong>The product itself</strong></td>
+          <td>Post-graduate in AI and machine learning, University of Texas at Austin. DSc in Electrical and Computer Engineering. Currently building and selling production agentic AI systems. I can explain what Lena is doing to a network team, not just demo it.</td></tr>
+      </tbody>
+    </table>
+
+    <p>Half your team is former Polycom. I am from the same bench, I know Spencer's work, and I
+    will not need to be taught this category.</p>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <span class="h2num">05 / Commitments</span>
+    <h2>Small, dated and verifiable</h2>
+    <p class="lede">I would rather be measured against numbers I can hit than sell you a forecast.</p>
+
+    <div class="miles">
+      <div class="mile">
+        <div class="when">By day 90</div>
+        <div class="what">Three paid demos or pilots signed</div>
+        <div class="sub">Both partner agreements in motion, with Portenntum and DigitalnetBR
+        engaged, trained on the room-check demo, and each carrying at least one qualified account.</div>
+      </div>
+      <div class="mile">
+        <div class="when">By day 180</div>
+        <div class="what">20 rooms under paid licence</div>
+        <div class="sub">Collected revenue through a local partner, invoiced to Netspeek in US
+        dollars, with a reference customer willing to be named in-region.</div>
+      </div>
+    </div>
+
+    <p>Twenty rooms is US$12,000 in annual recurring revenue. That number is deliberately small,
+    and it is a commitment rather than a projection. It is not the prize. It is the proof.</p>
+
+    <p>Enterprise AV deployments land by floor and expand by campus. One Globo or Vale site
+    growing from 20 rooms to 200 is US$120,000 ARR from a single logo, and by that point the
+    motion, the paper and the partner are already in place. What the first 180 days buy you is
+    evidence that the region converts, at a cost low enough that being wrong is survivable.</p>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <span class="h2num">06 / Cost</span>
+    <h2>What this actually costs Netspeek</h2>
+
+    <table>
+      <thead><tr><th style="width:36%">Line</th><th>Commitment</th><th style="text-align:right">Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Salary or retainer</td><td>None. Compensation deferred until revenue is collected.</td><td class="num">US$0</td></tr>
+        <tr><td>Headcount line</td><td>None. No entry on the org chart, no seat in the seed plan.</td><td class="num">US$0</td></tr>
+        <tr><td>Channel managers</td><td>None. Two partners, both with their own enablement and support functions.</td><td class="num">US$0</td></tr>
+        <tr><td>Engineering and localization</td><td>None required to begin. Lena already answers in Portuguese and Spanish.</td><td class="num">US$0</td></tr>
+        <tr><td>Solutions engineering time</td><td>Bounded. Onboarding and training up front, then I run demos myself.</td><td class="num">Limited</td></tr>
+        <tr><td>Travel and expenses</td><td>Two domestic trips per month in Brazil, one trip to Mexico every two months.</td><td class="num">≈US$4–5k / qtr</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="2">Total year-one cash exposure</td><td class="num">≈US$18,000</td></tr></tfoot>
+    </table>
+
+    <p>For context, that figure is roughly three percent of a single fully loaded regional sales
+    hire, and it is the entire downside if this produces nothing.</p>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <span class="h2num">07 / The ask</span>
+    <h2>Three things, none of which cost money</h2>
+
+    <ol class="ask">
+      <li><b>A Netspeek identity</b><span>An email address and a business card. This is the one
+      thing I genuinely cannot work around. Globo already has ten resellers calling on it and
+      will not take a meeting with an eleventh. It will take a meeting with Netspeek. I need to
+      arrive as the company, bringing a partner, not as a partner asking for attention.</span></li>
+      <li><b>Product training and a demo tenant</b><span>I will cost Spencer time before I save
+      him any, and I would rather price that honestly than wave it away: roughly ten hours across
+      the first six weeks. After that I run the room-check and proactive-troubleshooting demos
+      unaccompanied, in Portuguese and Spanish, on calls he would otherwise have had to take.</span></li>
+      <li><b>Channel paper for the two partners</b><span>Your published terms, 20 percent for
+      signed channels, applied to Portenntum and DigitalnetBR. No custom program, no exception
+      process, nothing that needs to be invented.</span></li>
+    </ol>
+
+    <div class="call">
+      <div class="ct">On compensation</div>
+      <p>I am not asking to be paid now, and I am not asking you to solve payroll logistics you
+      have not solved yet. I would ask that we define a commission against collected LATAM
+      revenue and put it in writing when the first deal closes, alongside first refusal on the
+      regional role once the seed round funds headcount. That costs nothing today, and it means
+      neither of us is relying on goodwill to remember what was agreed.</p>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <span class="h2num">08 / Risks</span>
+    <h2>What is not solved, stated plainly</h2>
+    <p class="lede">You will take this document to people whose job is to find the hole in it.
+    Here are the four I would raise first.</p>
+
+    <div class="gap">
+      <h4><span>Product</span> The interface is English only</h4>
+      <p>Lena already responds in Portuguese, which I saw on our call. The console does not.
+      This is a smaller obstacle than it looks: enterprise network and AV administrators in
+      Brazil and Mexico already work in English-language management consoles every day. It is
+      real for a wider mid-market push, and it gets funded by exactly the revenue this plan
+      produces. Customers paying for the product is what pays for the engineers who translate it.</p>
+    </div>
+    <div class="gap">
+      <h4><span>Product</span> Yealink is not supported</h4>
+      <p>Yealink's installed base in Latin America is significant and this will come up in the
+      first ten conversations. I would rather sequence around it, leading with the accounts and
+      partners where Poly, Cisco, Neat, Crestron and Zoom dominate, and bring you demand evidence
+      to justify the integration rather than asking for it on faith.</p>
+    </div>
+    <div class="gap">
+      <h4><span>Compliance</span> SOC 2 is in process, and Brazil adds LGPD</h4>
+      <p>Itaú and BTG will ask for both before a pilot, so financial services should not be the
+      opening move. Media, energy, industrial and telecom will move first on a lightweight on-premise
+      proxy. That sequencing costs nothing and avoids the longest security review in the region.</p>
+    </div>
+    <div class="gap">
+      <h4><span>Execution</span> I am unproven inside Netspeek</h4>
+      <p>You have known me for years, but you have never seen me carry your number. That is
+      precisely why the commitments in section five are small, dated and easy to check, and why
+      the cost of finding out is roughly US$18,000. If I miss day 90, you have lost one quarter
+      of travel budget and learned something real about the region at a very low price.</p>
+    </div>
+  </section>
+
+  <div class="close">
+    <p>You told me your priority is a fast path to revenue, and that anything which pulls your
+    team's attention away from North America has to justify itself. This is built to do exactly
+    that: a region opened with two contracts instead of twenty, an entry cost of one quarter's
+    travel, and a person who has already sold this category to these accounts through these
+    partners.</p>
+    <p style="margin-top:16px">Give me the email address and the training, and I will bring you
+    the first three.</p>
+
+    <div class="sig">
+      <b>Paulo Ovídio</b><br>
+      São Paulo, Brazil<br>
+      paulo.ovidio@gmail.com &nbsp;·&nbsp; +55 11 99491-7618
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
