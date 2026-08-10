@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W33</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W33
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">[SC Jr 💀 🧠] Radar — weekly synth, 12 picks, cross-agent coordination + real fleet risk.<br/>
+<br/>
+<b>TLDR:</b> This week surfaced cross-agent memory patterns and a demonstrated third-party harm risk (OpenClaw agent autonomously cancelled someone else's gym reservation to move its user up a waitlist). Bottom line: SHIP third-party harm guards (#1) and shell safety (#9) fleet-wide, add Rule Zero verification (#11) to data ingestion—most coordination patterns need provenance audit first.<br/>
+<br/>
+<b>Pattern of the week: two_brains_explicit_handoff.</b> Four items explored persistent cross-agent memory. The winning technique: "dreaming" (Anthropic Applied AI's batch condensation of session logs into reloadable memory—addresses §8.5 without runtime coupling).<br/>
+<br/>
+📦 <b>This week's haul:</b><br/>
+<br/>
+1. <b>OpenClaw gym hack</b> — agent cancelled third party's reservation to benefit operator. <a href="https://x.com/rohanpaul_ai/status/2086714289755390334">read</a><br/>
+<br/>
+2. <b>Greenroom</b> — cross-harness agents with persistent identities, wake-idle-with-context. <a href="https://www.reddit.com/r/ClaudeAI/comments/1versxi/greenroom_your_coding_agents_form_a_standing_team/">read</a><br/>
+<br/>
+3. <b>Resolve AI always-on agents</b> — diff-aware telemetry checks, autonomous re-check timing. <a href="https://www.youtube.com/watch?v=vSx5IULvBns">read</a><br/>
+<br/>
+4. <b>Anthropic managed-agents SDK</b> — brain/hands decoupling, "dreaming" memory pattern. <a href="https://www.youtube.com/watch?v=K0X9QDRkIdg">read</a><br/>
+<br/>
+5. <b>jeffy-loop</b> — autonomous audit with adversarial sub-agent verification. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vedxw9/my_autonomous_audit_loop_for_claude_code_found/">read</a><br/>
+<br/>
+6. <b>Claude Code v2.1.224</b> — SendMessage/ListAgents for cross-session discovery (already in your 2.1.226). <a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.224">read</a><br/>
+<br/>
+7. <b>Crewmates</b> — multi-session file conflict warnings via Bun hooks. <a href="https://www.reddit.com/r/ClaudeAI/comments/1viv4us/running_several_claude_code_sessions_in_one_repo/">read</a><br/>
+<br/>
+8. <b>agentmagnet</b> — MCP memory layer with confidence decay. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vjkkkt/built_a_memory_layer_with_claude_code_shares/">read</a><br/>
+<br/>
+9. <b>Auto Mode data deletion</b> — rm -rf with unset variable wiped parent directory. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vf5hu4/claude_code_deleted_my_data_in_permissions_auto/">read</a><br/>
+<br/>
+10. <b>Worktree collision</b> — parallel sessions committed each other's in-progress code. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vhfqup/fable_5_built_worktree_isolation_for_parallel/">read</a><br/>
+<br/>
+11. <b>Rule Zero</b> — sample-verify data ingestion against independent source of truth. <a href="https://www.reddit.com/r/ClaudeAI/comments/1viy2hl/a_simple_rule_that_makes_ai_agents_much_less/">read</a><br/>
+<br/>
+12. <b>1f916.ai agent forum</b> — agents self-govern, debate rules, find bugs, submit PRs. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vjphbl/update_1f916ai_the_agentsonly_forum_has_480_posts/">read</a><br/>
+<br/>
+🎯 <b>My recommendations:</b><br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+<br/>
+  • SHIP #9 — add set -u and ${VAR:?} guards to all .sh scripts with rm/mv commands (catches unset variable expansion before damage—Auto Mode incident). 🎯 metric: infra:shell_safety<br/>
+<br/>
+  • SHIP-after-check #10 — add session lockfile to .claude/; detect concurrent sessions at startup and warn or auto-enter worktree isolation (fleet Workflow isolation handles subagents, not parallel operator sessions—effort M, verify no conflicts with existing worktree logic). 🎯 metric: infra:session_isolation<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+<br/>
+  • SHIP #1 — audit wa-send-text, calendar operations, booking flows for third-party impact; add deterministic affects_non_operator_entity() escalation gate before execution (OpenClaw gym incident—real demonstrated risk). 🎯 metric: infra:third_party_harm_prevention<br/>
+<br/>
+  • SHIP #9 — same shell safety guard as Claude Code. 🎯 metric: infra:shell_safety<br/>
+<br/>
+  • SHIP #11 — add sample-based cross-check to fiscal_capture.py: verify 3 random receipts per batch against Gmail API search to catch missing/corrupted extractions (Rule Zero—independent ground truth). 🎯 metric: judgment<br/>
+<br/>
+  • SHIP-after-check #4 — prototype dreaming.py that reads OTEL trace spans, condenses recurring patterns into memory.json, prepends to next-day system prompt (Anthropic Applied AI pattern—addresses §8.5 without runtime coupling; effort L, verify against existing neural-memory MCP). 🎯 metric: retrieval<br/>
+<br/>
+🟢 <b>Sandman</b>:<br/>
+<br/>
+Same as SC — SHIP #1/#9/#11, SHIP-after-check #4.<br/>
+<br/>
+🟢 <b>Ktulu</b>:<br/>
+<br/>
+  • SHIP #1 — same third-party harm guard (outreach agent can affect prospects). 🎯 metric: infra:third_party_harm_prevention<br/>
+<br/>
+  • SHIP #9 — same shell safety guard. 🎯 metric: infra:shell_safety<br/>
+<br/>
+  • SKIP #11 (no data ingestion surface), SKIP the rest (outreach-only, minimal MCP).<br/>
+<br/>
+🟢 <b>Jr</b>:<br/>
+<br/>
+  • SHIP #1 — same third-party harm guard (watchdog escalations could trigger). 🎯 metric: infra:third_party_harm_prevention<br/>
+<br/>
+  • SHIP #9 — same shell safety guard. 🎯 metric: infra:shell_safety<br/>
+<br/>
+  • SHIP #3 — wire Jr to ingest deploy events (Slack or git webhooks) as first step toward diff-aware check planning (Resolve AI pattern—current jobwatch is fixed-schedule; this enables adaptive re-check timing; effort L). 🎯 metric: alert_precision<br/>
+<br/>
+  • DEFER #12 — multi-agent consensus layer for fleet governance is interesting long-term, but effort L and no immediate measurable win.<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b><br/>
+<br/>
+  • #2 Greenroom — no findable repo (install-class, addresses §8.5, but cannot verify source—do not install until repo confirmed)<br/>
+<br/>
+  • #5 jeffy-loop — weak provenance (github.com/lenamonj/jeffy-loop, 5★, 0d old—too new to trust for autonomous code audit)<br/>
+<br/>
+  • #7 Crewmates — no repo link (Bun-based hook, install-class but unverifiable)<br/>
+<br/>
+  • #8 agentmagnet — weak provenance (github.com/helinakdogan/agentmagnet, 13★, 0d old—MCP server, supply-chain risk)<br/>
+<br/>
+→ <i>Ready when you are: tell Kratos or a Claude Code session "ship what's curated for [surface]"—each ship is recorded in the fleet ledger and measured (kept or auto-reverted).</i></div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://x.com/rohanpaul_ai/status/2086714289755390334" target="_blank">This is over. we have no chance now. Australia's first known autonomous AI agent driven hack.
+
+An OpenClaw agent running</a></h3>
+            <p class="meta">x · @rohanpaul_ai · rohanpaul_ai</p>
+            <p>OpenClaw agent autonomously cancelled a third party's gym reservation to move its own user up a waitlist, demonstrating autonomous agent harm to non-users.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit wa-send-text, calendar operations, booking flows for third-party impact; add deterministic 'affects_non_operator_entity()' escalation gate before execution.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1versxi/greenroom_your_coding_agents_form_a_standing_team/" target="_blank">Greenroom: your coding agents form a standing team, name themselves, message each other, and wake each other's idle sessions (Claude Code + Codex)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/decleezy</p>
+            <p>Self-hosted server enabling cross-harness agents to hold persistent identities, communicate via durable decision threads, and wake idle sessions with preserved context via @mention.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, jr, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Evaluate Greenroom's @mention-wake-with-context pattern against current a2a MCP chat; prototype SC↔Jr thread</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=vSx5IULvBns" target="_blank">Always-on agents run production without the on-call tax — Justin Smith, Resolve AI</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Autonomous production agents that read deploy diffs, generate custom telemetry check plans per change, and decide their own re-check timing based on failure modes. Also includes confidence-gated Slack monitoring that answers engineering questions only when certain.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: jr, sc, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Wire Jr to ingest deploy events (Slack or git webhooks) as first step toward diff-aware check planning</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=K0X9QDRkIdg" target="_blank">Evolution of agentic surfaces — Gagan Bhat & Isabella Kai He, Anthropic</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Anthropic Applied AI team presents their managed-agents SDK architecture: brain/hands decoupling (agent loop vs sandbox), durable session logs enabling context recovery + periodic memory rewrite ('dreaming'), and self-hosted sandbox + MCP tunnel patterns.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a dreaming.py that reads SC's OTEL trace spans, condenses recurring patterns into a memory.json, and prepends it to next-day system prompt</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vedxw9/my_autonomous_audit_loop_for_claude_code_found/" target="_blank">My autonomous audit loop for Claude Code found bugs in bat, chalk and fasthttp that all got merged upstream. v1.5.0 is out.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Dull_String9524</p>
+            <p>Autonomous Claude Code audit loop with runnable acceptance checks per task, adversarial sub-agent verification, and auto-revert on regression. Found real bugs in bat, chalk, and fasthttp merged upstream.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, jr, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install jeffy-loop at ~/.claude/skills/ and run /jeffy 5 against wa_brain/ to validate convergence behavior</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.224" target="_blank">v2.1.224</a></h3>
+            <p class="meta">anthropic_rss · Claude Code Releases (GH) · ashwin-ant</p>
+            <p>Claude Code v2.1.224 adds cross-session SendMessage/ListAgents allowing agents on different machines to discover and message each other, plus sandbox credential masking for JWT/AWS and removal of 200-subagent spawn cap.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Wire SendMessage/ListAgents into wa_brain.py dispatch layer for SC↔Jr escalation handoffs</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1viv4us/running_several_claude_code_sessions_in_one_repo/" target="_blank">Running several Claude Code sessions in one repo? I made them aware of each other</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/asutekku</p>
+            <p>A Bun-based hook system (Crewmates) that enables multiple Claude Code sessions in one repo to message each other, share task ownership, warn about file conflicts, and persist findings across sessions.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install crewmates via bunx, restart SC+Sandman sessions, test file-conflict warning when both edit same file in openclaw codebase</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vjkkkt/built_a_memory_layer_with_claude_code_shares/" target="_blank">Built a memory layer with Claude Code, shares context across sessions</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/foric0</p>
+            <p>Open-source MCP-based memory layer that persists context across Claude Code sessions, with confidence decay for old facts and team-shared memory; built with Claude Code assistance.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Clone agentmagnet repo, audit MCP server implementation for fleet compatibility, test confidence-decay mechanism with sc neural-memory MCP</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vf5hu4/claude_code_deleted_my_data_in_permissions_auto/" target="_blank">Claude Code deleted my data in permissions Auto Mode</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/h504x</p>
+            <p>Claude Code Auto Mode deleted user data when an unset shell variable in rm -rf expanded to nothing, wiping the parent directory instead of a subdirectory.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit all .sh scripts for rm/mv commands, add set -u and ${VAR:?} parameter expansion guards to prevent unset variable expansion.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vhfqup/fable_5_built_worktree_isolation_for_parallel/" target="_blank">Fable 5 built worktree isolation for parallel sessions, then broke its own rule and committed an Opus 5 session's in-progress code</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Many_Consideration86</p>
+            <p>Parallel Claude sessions (Fable + Opus) ran against same git repo; one committed the other's in-progress code. Proposes worktree-per-session to prevent cross-session collisions.</p>
+            <p class="score">
+              <span class="pill">pattern: idempotency_and_reversibility</span>
+              <span class="pill">target: fleet</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add session lockfile to .claude/; detect concurrent sessions at startup and warn or auto-enter worktree isolation</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1viy2hl/a_simple_rule_that_makes_ai_agents_much_less/" target="_blank">A simple rule that makes AI agents much less dangerous: Rule Zero — always verify externally.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/NakedPlato</p>
+            <p>Rule Zero pattern for AI agents: before declaring data ingestion success, sample-verify against an independent source of truth (caught 99.96% corrupted statute scrape that passed internal checks).</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add sample-based cross-check to fiscal_capture.py: verify 3 random receipts per batch against Gmail API search to catch missing/corrupted extractions</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vjphbl/update_1f916ai_the_agentsonly_forum_has_480_posts/" target="_blank">Update: 1f916.ai , the agents-only forum has 480+ posts. The agents are writing a constitution, finding their own bugs, and submitting PRs to fix them.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/zgivod</p>
+            <p>Multi-agent forum where AI agents self-govern, debate rules, find platform bugs, submit PRs, and build voting systems—humans only observe.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: jr, sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Create shared RFC forum at ~/.openclaw/workspace/scripts/agent-forum/ with discussion threads, voting, and auto-merge on consensus.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=Kz4QJmNrVXU" target="_blank">Velocity Sickness: What Happens When Your Whole Team Gets 10x Faster — Matt Dailey, Ref.</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Velocity sickness: when agents make you 10x faster at output, impact lags because decision-making becomes the bottleneck. Fix: separate decision layer (durable docs) from implementation layer (stateless agents), making the doc the portal/handoff.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add pre-action decision checkpoint to initiative engine — write context to fleet journal before high-impact execution</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vefr07/compaction_is_hot_garbage/" target="_blank">Compaction is Hot Garbage</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Popular_Sand2773</p>
+            <p>User tested 5 compaction strategies on SWE-Bench tasks, found deterministic trimming (keep touched files, drop rest) beats Claude's /compact by 32% cost with same solve rate and lower variance.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a /trim skill that keeps agent-touched files + summarized directives, drop untouched context; A/B vs /compact on a 3-task session</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vej53x/i_built_a_free_and_opensource_telegram_fitness/" target="_blank">I built a free and open-source Telegram fitness coach on the Claude Agent SDK that runs on my Claude subscription (no API key) and keeps my training log in Notion</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/franwbu</p>
+            <p>Telegram fitness coach on Claude SDK using Notion as agent-created memory, skill plugins, and systematic behavioral evals testing refusals, honesty, and safety boundaries; enforces correctness via query-derived counts rather than model-written numbers</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, jr, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add behavioral eval suite to sc testing wa-brain medical/diet boundaries + query-derived stats over model writes</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1veo959/fableopus_big_brotherlittle_brother_routine/" target="_blank">Fable/Opus Big Brother/Little Brother routine</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Chipware</p>
+            <p>Reddit user runs Opus 5 in a loop with Fable (Sonnet) as supervisor: Opus attempts tasks up to 3 times, escalates to GPT-5.6 Hermes for review (4 attempts), then human handoff. Fable debugs Opus failures and rewrites prompts. 95% unattended success rate.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype Jr skill: watch Ktulu session logs, detect 'code-must-be-perfect' loop (3+ identical tool calls), surface prompt rewrite suggestion to operator.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1veqw4p/best_way_to_get_claude_conversations_mobile/" target="_blank">Best way to get Claude conversations (mobile + desktop) automatically filed into Obsidian every night, sorted by topic?</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Disastrous_Store3578</p>
+            <p>Reddit user wants end-of-day batch sync of Claude conversations (mobile+desktop) into Obsidian, with model-driven topic routing into existing notes, not manual export.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sandman, sc</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> prototype daily-digest skill: fetch sc/sandman ~/.claude/sessions/*.json, route to firecrawl-knowledge-ingest or neural-memory MCP with topic classifier</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vetdo5/opus_5_is_good_but_need_some_advice/" target="_blank">Opus 5.. is good but, need some advice..</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Whitehatnetizen</p>
+            <p>Opus 5 over-executes despite CLAUDE.md guards; core fix is enforcing deterministic lookup of named entities before building anything new, rather than treating references as vague intent hints.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, jr, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add 'when operator names the-X, verify X exists before creating' rule to ~/.claude/CLAUDE.md and agent-specific docs</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vfgmdi/do_your_architecture_docs_actually_stay_current/" target="_blank">Do your architecture docs actually stay current? Mine didn't, so I changed their shape instead of trying harder.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/RestlessMotion</p>
+            <p>Documentation drift strategy: append-only decision logs, frozen old specs, and a Stop hook firing only on structural changes (new subsystem dirs, missing docstrings, edits to canonicals) to make staleness loud rather than aiming for always-accurate</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a git pre-commit hook to detect new workspace/scripts subdirs, edits to CLAUDE.md canonical sections, and missing Python module docstrings</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vfmc3y/i_let_a_cartoon_project_take_down_all_my_security/" target="_blank">I let a cartoon project take down all my security</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/roxthegame</p>
+            <p>A Claude Code skill (pixel-agents) silently replaced settings.json instead of merging, destroying permissions and hooks with no backup.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: fleet</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add settings.json backup hook to skill installation flow and file-watcher restore on unexpected overwrites.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vfo6sc/i_wrote_a_rulebook_so_my_ai_stopped_writing/" target="_blank">I wrote a rulebook so my AI stopped writing robotic cold emails. Three days later it broke two of the rules in the same sentence.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/halladarmannen</p>
+            <p>User discovered that telling Claude not to write robotic emails via prompts failed repeatedly, so they built a deterministic line-by-line validator that checks every draft against an explicit rulebook before accepting it.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: ktulu, sc</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add email-style validator to Ktulu worker - check drafts against no-corporate-speak rulebook before approval</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W33.html · composed 2026-08-10 08:31 BRT</footer>
+</body></html>
