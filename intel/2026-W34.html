@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W34</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W34
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">[SC Jr 💀 🧠] Radar — weekly synth, 12 picks<br/>
+<br/>
+<b>TLDR:</b> This week's pattern = agents checking their own work against ground truth. Bottom line: SHIP memory validation (#2), completion proofs (#5), workflow hardening (#4) — deterministic checks that close known gaps. Everything else defers for research.<br/>
+<br/>
+<b>Pattern of the week:</b> closed_loop_self_correction appeared 4x — but the sharper frame is <i>external validation</i>. Agents that trust their own output drift; agents that check output against external ground truth (live repo, real artifacts, rule engines) stay honest.<br/>
+<br/>
+📦 <b>The haul (12 items):</b><br/>
+<br/>
+1. <b>Session drift failures</b> — circular reasoning invisible turn-by-turn. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vl31yu/failure_modes_that_are_invisible_in_any_single/">read</a><br/>
+<br/>
+2. <b>mex memory validator</b> — persistent memory + deterministic check against live repo. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vnio9l/we_gave_coding_agents_persistent_project_memory/">read</a><br/>
+<br/>
+3. <b>Hard guards doctrine</b> — verify against external truth, not agent-derived state. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vn7i47/i_gave_claude_code_real_responsibility_at_work/">read</a><br/>
+<br/>
+4. <b>Workflow CI + question-gate</b> — remove AskUserQuestion, add frontmatter checks. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vogxp7/i_put_my_agent_plugin_in_ci_and_it_caught_two/">read</a><br/>
+<br/>
+5. <b>Completion proof requirement</b> — no task closes without checkable artifact. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vop2ik/our_agent_scheduler_reported_33949_successes_then/">read</a><br/>
+<br/>
+6. <b>Yu Su continual learning</b> — compress past episodes into reusable shortcuts. <a href="https://www.youtube.com/watch?v=I6aiEf3aEFQ">read</a><br/>
+<br/>
+7. <b>Dark Factory skill</b> — spec → code → validate → merge pipeline. <a href="https://www.youtube.com/watch?v=eecUhBpTz_g">read</a><br/>
+<br/>
+8. <b>Multi-model voting</b> — blind approval gates for medium-risk actions. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vpydx4/is_this_a_valid_workflow_pipeline_claude_gpt_grok/">read</a><br/>
+<br/>
+9. <b>fetchsandbox MCP</b> — test fixes in sandbox before merge. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vmw89p/agent_caught_its_own_broken_fix_before_it_merged/">read</a><br/>
+<br/>
+10. <b>Anthropic moderation cookbook</b> — extract once, rule engine vs LLM-per-decision. <a href="https://github.com/anthropics/claude-cookbooks/commit/5a2576e211ba6bb6a2698cd14989d4091398f441">read</a><br/>
+<br/>
+11. <b>Kery PR verifier</b> — browser-level test automation for agent changes. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vo1djd/claude_code_spent_1000_api_tokens_testing_my_pr/">read</a><br/>
+<br/>
+12. <b>MechFaber gate iteration</b> — structured rejection reasons feed agent retry loop. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vldtgw/mechfaber_ai_agent_that_designs_machines_real_cad/">read</a><br/>
+<br/>
+🎯 <b>My recommendations:</b><br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+<br/>
+  • SHIP-after-check #7 — install dark-factory skill (coleam00/skills, reputable provenance), pilot on one component like cost-watch auto-tuning — full autonomous code pipeline. Effort L, verify conflicts with calibrate/doctor-plus first. 🎯 metric: judgment<br/>
+<br/>
+  • DEFER #6 — episode retrieval is the right direction but needs design session before build<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+<br/>
+  • SHIP #2 — write validator that parses auto-memory + fleet journal, checks file/path/command refs against live repo, reports drift. Closes memory-goes-stale-after-refactor gap. Effort M. 🎯 metric: retrieval<br/>
+<br/>
+  • SHIP #4 — add frontmatter check to script-review.py: no workflow agent declares AskUserQuestion; audit .claude/settings.json allowlists fleet-wide for autonomous-run readiness. Effort M. 🎯 metric: uptime<br/>
+<br/>
+  • SHIP #5 — add artifact-return requirement to wa-escalation-flow.py card resolution + Workflow completion handlers — refuse string-only success, demand checkable proof (file hash, URL, post ID). Effort M. 🎯 metric: judgment<br/>
+<br/>
+  • SHIP #10 — read cookbook, compile WA harm policy to JSON rules, port harm gate from LLM-per-decision to extraction-once + rule-engine. Cheaper + auditable. Effort M. 🎯 metric: cost<br/>
+<br/>
+  • SHIP #12 — add structured rejection reasons to one existing guard (wa-send / email-draft / calendar-add) and wire agent retry loop. MechFaber proves gate-based iteration works. Effort M. 🎯 metric: judgment<br/>
+<br/>
+  • SHIP-after-check #11 — audit Kery repo (moderate provenance, 22★), then add as MCP or skill, wire into html-it + vercel-deploy verification — browser-level test for web changes. Effort M. 🎯 metric: judgment<br/>
+<br/>
+  • DEFER #1 — decisions ledger is interesting but overlaps with fleet journal; hold until we hit a concrete drift incident it would prevent<br/>
+<br/>
+  • DEFER #3 — "external ground truth" corollary is true but doc-only; no new capability<br/>
+<br/>
+  • DEFER #6 — same as Claude Code<br/>
+<br/>
+  • DEFER #8 — multi-model voting adds cost/latency; defer until medium-risk approval load justifies it<br/>
+<br/>
+🟢 <b>Sandman</b>:<br/>
+<br/>
+  • Same as SC — SHIP #2 #4 #5 #10 #12, SHIP-after-check #11, DEFER #1 #3 #6 #8. Memory validation + completion proofs are even higher value here (persistent context agent).<br/>
+<br/>
+🟢 <b>Ktulu</b>:<br/>
+<br/>
+  • SHIP #4 #5 #10 #12 — workflow hardening, completion proofs, harm-to-rule-engine, structured rejections. Same reasoning as SC.<br/>
+<br/>
+  • SKIP #2 — Ktulu has minimal memory surface (outbox only), validator less relevant.<br/>
+<br/>
+  • DEFER #8 — multi-model voting fits Ktulu's escalation layer but cost/latency not justified yet.<br/>
+<br/>
+  • SKIP #11 — Kery is web-verification, Ktulu is messaging/classification.<br/>
+<br/>
+🟡 <b>Jr</b>:<br/>
+<br/>
+  • SHIP #5 — completion proofs for watchdog alerts. Jr reports problems; artifact requirement prevents "said it alerted SC but didn't." Effort M. 🎯 metric: alert_precision<br/>
+<br/>
+  • DEFER #4 #12 — Jr doesn't author workflows or compose complex output; less relevant.<br/>
+<br/>
+  • SKIP #2 #10 #11 — memory validation, harm gates, browser tests not in Jr's lane.<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b><br/>
+<br/>
+  • #9 fetchsandbox MCP — no inspectable repo found, cannot verify supply-chain safety. Install-class item without provenance = do not install.<br/>
+<br/>
+→ <i>Ready when you are: tell Kratos or a Claude Code session "ship what's curated for [surface]" — each ship is recorded in the fleet ledger and measured (kept or auto-reverted).</i></div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vl31yu/failure_modes_that_are_invisible_in_any_single/" target="_blank">Failure modes that are invisible in any single turn: two weeks of notes from long-session work with Claude.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Rhyghen</p>
+            <p>A researcher documents systematic drift failures in multi-day Claude sessions: circular reasoning from definitions, discarded data reappearing as evidence, test criteria morphing into filters — all invisible turn-by-turn because Claude can't audit its own reasoning chain across sessions.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> build a session-scoped decisions ledger (append-only log: timestamp, decision, file refs, retraction flag) that the agent reads but cannot rewrite — checkable ground truth</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vnio9l/we_gave_coding_agents_persistent_project_memory/" target="_blank">We gave coding agents persistent project memory, then realized the real problem was keeping it trustworthy after hundreds of commits and refactors. I think that’s become one of mex’s strongest pieces.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/DJIRNMAN</p>
+            <p>mex provides coding agents with persistent Markdown memory in .mex/, plus a deterministic check command that validates memory claims (paths, dependencies, scripts) against the actual repo and a sync command that repairs drift with targeted LLM prompts.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write a validator that parses auto-memory files and checks file/path/command references against the live repo, report drift.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vn7i47/i_gave_claude_code_real_responsibility_at_work/" target="_blank">I gave Claude Code real responsibility at work for 3 months. Here's every way it failed, and the one pattern behind all of them.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/GoalDigger2312</p>
+            <p>Finance ops user ran Claude Code with ERP/GWorkspace admin for 3mo; every failure was checking agent-derived state vs external ground truth. Hard guards (hooks that block tool calls) never broke; prompt rules broke constantly.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add 'verify against external ground truth' corollary to deterministic_guards pattern in BLUEPRINT.md §2.1</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vogxp7/i_put_my_agent_plugin_in_ci_and_it_caught_two/" target="_blank">I put my agent plugin in CI and it caught two workflow phases that never ran Concrete bug, concrete catch. Attracts the people actually building plugins rather than drive-by readers. Lower volume, better replies.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/EquivalentGuitar7140</p>
+            <p>Production Claude Code plugin (18 agents, 4 workflows) that removes AskUserQuestion from workflow agent tools to prevent mid-run halts, replaces with question-recording + single-gate review, and runs CI checks on agent/workflow frontmatter to catch structural bugs (unused phases, missing agentTypes, etc.).</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add frontmatter check to script-review.py: no workflow agent declares AskUserQuestion; audit .claude/settings.json allowlists fleet-wide for autonomous-run readiness.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vop2ik/our_agent_scheduler_reported_33949_successes_then/" target="_blank">Our agent scheduler reported 33,949 successes. Then we checked the runs we already knew had failed.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/theagentdojo</p>
+            <p>Multi-agent scheduler accepted self-reported 'success' from agents; 11/15 real failures were marked success because completion signal ≠ actual work done. Now require checkable artifact (URL, file hash, post ID) before task can close.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, jr, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add artifact-return requirement to wa-escalation-flow.py card resolution and Workflow completion handlers — refuse string-only success.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=I6aiEf3aEFQ" target="_blank">Intelligence + Continual Learning = Expertise — Yu Su, NeoCognition</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Yu Su argues LLMs have intelligence (novel problem reasoning) but lack expertise (accumulated shortcuts); continual learning bridges the two by compressing past decisions into reusable patterns.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build retrieval layer that scores incoming tasks against past episodes and surfaces top 3 most-similar solved problems before reasoning.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=eecUhBpTz_g" target="_blank">How to Build the Most Powerful System for AI Coding (Full Breakdown)</a></h3>
+            <p class="meta">youtube · Cole Medin · Cole Medin</p>
+            <p>A repo setup where specs enter and working code emerges via 5 components: workflow engine, automation queue, blue-green deploy, guidance layer, and validation harness. Ships a skill that scaffolds this autonomous code-shipping pipeline.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install /build-dark-factory skill from coleam00/skills, run interview to pilot on one component (e.g., cost-watch.py auto-tuning)</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vpydx4/is_this_a_valid_workflow_pipeline_claude_gpt_grok/" target="_blank">Is this a valid workflow pipeline? (Claude + GPT + Grok using Ruflo and obsidian + graphify)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Minute_Pea_7056</p>
+            <p>Multi-LLM code-change pipeline with risk-tiered routing (triage → plan → write → vote), blind multi-model approval gates, and adaptive sampling before auto-merge</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add risk-audit + multi-model voting layer to escalation_classifier.py: blind Fable 5 + Grok on diff+spec before wa-agent-question.py</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vmw89p/agent_caught_its_own_broken_fix_before_it_merged/" target="_blank">agent caught its own broken fix before it merged, a gate that can actually say no</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Common_Dream9420</p>
+            <p>fetchsandbox MCP lets agents test fixes in isolated sandboxes before merging; example shows agent catching its own SQL-injection bug and self-correcting without human intervention</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add fetchsandbox MCP server to fleet MCP config, wire sandbox-test step into fix-verify loops</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://github.com/anthropics/claude-cookbooks/commit/5a2576e211ba6bb6a2698cd14989d4091398f441" target="_blank">Add content moderation cookbook</a></h3>
+            <p class="meta">github · anthropics/anthropic-cookbook · aravind-ant</p>
+            <p>Compile content policies to JSON rules with Claude, extract fields from content, then enforce via deterministic rule engine (not LLM judgment per item). Includes 3 domains + eval script.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read cookbook, compile WA harm policy to JSON rules, port harm gate to extraction + rule engine</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vo1djd/claude_code_spent_1000_api_tokens_testing_my_pr/" target="_blank">Claude code spent 1000$+ API tokens testing my PR verifier, this is what came out.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Particular-Face8868</p>
+            <p>PR verification tool that runs automated browser tests to verify agent-claimed changes actually work in the live app</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add Kery as an MCP server or skill, wire it into the html-it + vercel-deploy verification flow</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vldtgw/mechfaber_ai_agent_that_designs_machines_real_cad/" target="_blank">MechFaber — AI Agent That Designs Machines | Real CAD, real physics, real parts</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/SpeedyBrowser45</p>
+            <p>MechFaber: AI CAD agent using deterministic geometry kernel + validation gates instead of prompting model to reason about dimensions; agent proposes, kernel measures, gates refuse, agent iterates until valid.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add structured rejection reasons to one existing guard (wa-send, email-draft, or calendar-add) and wire an agent retry loop.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vllspz/i_made_whatsapp_for_claude_code_sessions_in_my/" target="_blank">I made Whatsapp for Claude Code sessions in my working team, and we don't talk eachother directly since then</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/plynx_mod</p>
+            <p>Serverless encrypted agent-to-agent chat for Claude Code sessions using GitHub as transport; enables work coordination between agents on different machines with 10-15s message latency</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Clone agent-link repo, test coordination between two CC sessions, compare GitHub transport architecture to fleet's a2a design</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vlo4nx/two_of_my_scheduled_claude_agents_silently_wiped/" target="_blank">Two of my scheduled Claude agents silently wiped four hours of each other's work</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Ok_Jackfruit3127</p>
+            <p>Scheduled agents sharing a JSON state file silently overwrote each other's work when one held a stale copy in context for hours. Fix: timestamp check before write (optimistic concurrency control).</p>
+            <p class="score">
+              <span class="pill">pattern: idempotency_and_reversibility</span>
+              <span class="pill">target: ktulu, jr, sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add timestamp-check-before-write to Ktulu worker state writes (dual-runner most exposed).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vn6e1f/i_got_curious_which_files_my_claude_code_sessions/" target="_blank">I got curious which files my Claude Code sessions actually read, so I built analytics over the session transcripts</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/worksfinelocally</p>
+            <p>Analytics tool that parses Claude Code session transcripts to show which files Claude reads (vs edits), plan-mode vs execution splits, and re-read patterns without edits</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Point code-pet at ~/.claude/projects/ transcripts to get file-access analytics; wire findings into fleet efficacy detection</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vo6gmv/i_built_an_mcp_server_that_catches_spacinggrid/" target="_blank">I built an MCP server that catches spacing/grid drift in AI-generated UIs</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/seomarlboro</p>
+            <p>MCP server that audits AI-generated UIs by rendering with Playwright, measuring actual computed spacing/grid values, and returning structured fix hints for consistency drift</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install via `claude mcp add gridproof`, add gridproof_audit call between html-it artifact generation and browser open</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vpavtd/i_built_a_spend_killswitch_for_the_cloud_commands/" target="_blank">I built a spend kill-switch for the cloud commands Claude Code runs — the aws ec2 run-instances, not the tokens</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Substantial-Fuel-519</p>
+            <p>PreToolUse hook for Claude Code that estimates cloud infrastructure costs (EC2, Terraform, GCP) from Bash commands before execution and blocks those exceeding per-action or session spend caps</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> npm i -g breakerbox && wire PreToolUse hook into each agent's settings.json with $50 session cap</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vkklzu/i_love_tom_n_jerry_man_used_the_analogy_and_built/" target="_blank">I love Tom n Jerry man. Used the analogy and built something for your agent harness.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/hrshx3o5o6</p>
+            <p>Pre-flight loop engine that runs YAGNI, git history, codebase search, and dependency checks before AI agents code, with session memory to learn patterns over time.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Clone Tom-n-Jerry repo, prototype a Claude Code skill wrapper for Jerry's 6-check loop, test opt-in on sc against WA gateway changes.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=SEI_qIW4o2c" target="_blank">Engineers… Your Software Factory NEEDS Agent Sandboxes to SCALE (exe.dev)</a></h3>
+            <p class="meta">youtube · IndyDevDan · IndyDevDan</p>
+            <p>VM-level agent sandboxing pattern: orchestrator spawns N isolated VMs (exe.dev), each runs full dev workflow with disposable API keys + spend caps, 'best of N' parallel execution picks winner</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Spike exe.dev sandbox API + disposable OpenRouter keys for one Workflow 'best of N' coding task</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=CvRngaQZQ3Y" target="_blank">Improving Agents is a Data Mining Problem — Vivek Trivedy, LangChain</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>LangChain argues agent improvement is trace mining: point agents at other agents' traces to find regressions, distill evals from traces, replace frontier models with finetuned open models for judging at 1-2 OOM lower cost, and treat observability as continual learning substrate.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Export OTEL spans to agent-readable format, write skill that loads recent traces and flags regressions against prior success patterns.</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W34.html · composed 2026-08-17 08:31 BRT</footer>
+</body></html>
