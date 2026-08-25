@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W35</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W35
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">```html<br/>
+[SC Jr 💀 🧠] Radar — Weekly Synth: 12 picks, 9 recommendations.<br/>
+<br/>
+<b>TLDR:</b> This week's pattern: <i>verify_by_running</i> — 4 items on forcing success-proof, not agent assertion. Bottom line: SHIP 5 for SC (rate limits, pre-verification sim, drift probe, cross-agent memory, acceptance criteria), 1 for Jr (close-on-success alerts), 1 for Claude Code (session → criteria). Everything else defers or holds.<br/>
+<br/>
+<b>Pattern of the week:</b> <i>verify_by_running</i> — close the loop on "fixed" vs measurably working. From Ufonia's adversarial sim (ship the evidence, not the model) to Reddit's "ticket closes on successful re-run" to drift probes catching autonomy creep with no config change — the theme is: don't trust the claim, run the test.<br/>
+<br/>
+📦 <b>This week's haul:</b><br/>
+<br/>
+1. <b>Budget Not Token</b> — Anthropic engineer: per-tool rate limits + trip wires instead of boolean scopes. <a href="https://www.youtube.com/watch?v=rbjWzZK2LU0">watch</a><br/>
+<br/>
+2. <b>Close on Success</b> — alerts close only on actual job re-run, not agent assertion. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vtbjwk/the_cleanest_definition_of_done_ive_seen_the/">read</a><br/>
+<br/>
+3. <b>31 Parallel Specialists</b> — Hippocratic AI orchestrator + 30 domain models, fast relevance check before expensive work. <a href="https://www.youtube.com/watch?v=AN65uc645mE">watch</a><br/>
+<br/>
+4. <b>Docker Sandboxes</b> — kernel-level filesystem/network isolation for agents. <a href="https://www.youtube.com/watch?v=erQnRkMrpls">watch</a><br/>
+<br/>
+5. <b>Ship Evidence Not Model</b> — Ufonia's adversarial sim for medical AI: one model plays patient vs hazards, judge scores dialogue. <a href="https://www.youtube.com/watch?v=McknwOzbmyg">watch</a><br/>
+<br/>
+6. <b>Claude-Code-Bridge</b> — daemon coordinating adversarial review sessions, forces proof of verification. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vswb5h/claudecodebridge/">read</a><br/>
+<br/>
+7. <b>Intent-Based Credentials</b> — Docker runtime scopes creds per task, refuses out-of-scope requests. <a href="https://www.youtube.com/watch?v=zaGyGgLW3SM">watch</a><br/>
+<br/>
+8. <b>Kill Code Review</b> — verify intent + acceptance criteria from session context, not just diff. <a href="https://www.youtube.com/watch?v=YgEv7IQzGdM">watch</a><br/>
+<br/>
+9. <b>AI Family Filing System</b> — 13-assistant persistent memory via file transport: identity docs, JSON queue, forward journals. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vse7jw/im_50_not_an_engineer_and_ive_spent_8_months/">read</a><br/>
+<br/>
+10. <b>Extended Gauntlet</b> — multi-agent loop with blind reviewers, Git task ledger, fresh context per iteration. <a href="https://www.reddit.com/r/ClaudeAI/comments/1vsr2qm/i_extended_matt_shumers_gauntlet_loop_so_it_works/">read</a><br/>
+<br/>
+11. <b>Drift Detection</b> — real failures of prompt-only control: agents leak data, shift tone, autonomy creep with no config change. <a href="https://x.com/aiDotEngineer/status/2090525024398750046">read</a><br/>
+<br/>
+12. <b>Six Skills</b> — notably dovetail for repo coherence (dead links, docs drift from code). <a href="https://www.reddit.com/r/ClaudeAI/comments/1vqqk5d/six_skills_i_built_for_claude_code_repo_coherence/">read</a><br/>
+<br/>
+🎯 <b>My recommendations:</b><br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+<br/>
+  • SHIP #8 — extract session decisions as acceptance criteria before testing (fleet journal → structured criteria registry improves all CC work) · 🎯 metric: judgment<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+<br/>
+  • SHIP #1 — add Redis rate-limit counters to wa_brain/opus_decision.py tool dispatch (WA gateway has unbounded send, needs per-tool trip wires) · 🎯 metric: infra:rate_limit_enforcement<br/>
+<br/>
+  • SHIP #5 — build patient_simulator.py + dialogue_judge.py for Einstein/health lanes, gate outbound on simulation pass (single failure before detection too expensive for clinic relay) · 🎯 metric: judgment<br/>
+<br/>
+  • SHIP #8 — capture fleet journal feedback_* themes into review criteria registry (the why + tradeoffs live only in transcripts today) · 🎯 metric: judgment<br/>
+<br/>
+  • SHIP #9 — prototype Jr→SC message queue: JSON envelope schema in ~/.superclawman/agent-mail/ (implements §8.5 cross-agent memory without runtime coupling) · 🎯 metric: retrieval<br/>
+<br/>
+  • SHIP #11 — add determinism probe to wa_brain: replay same inbound twice, diff drafts modulo timestamps, alert on behavioral drift (catches autonomy creep) · 🎯 metric: infra:behavioral_drift_detection<br/>
+<br/>
+  • DEFER #3 — parallel specialist dispatcher (Phase 8 router rewrite, big structural, defers until router rebuild on roadmap)<br/>
+<br/>
+  • DEFER #6 — adversarial review daemon (interesting but no current workflow need)<br/>
+<br/>
+  • DEFER #7 — intent-based MCP credential scoping (requires auth refactor, effort L, not the priority)<br/>
+<br/>
+  • DEFER #10 — extended gauntlet loop (gauntlet-loop skill already exists, blind review + Git ledger interesting but session poisoning defense already shipped)<br/>
+<br/>
+🟢 <b>Sandman</b>:<br/>
+<br/>
+Same as SC — SHIP #1/#5/#8/#9/#11, DEFER #3/#6/#7/#10.<br/>
+<br/>
+🟢 <b>Ktulu</b>:<br/>
+<br/>
+  • SHIP #1 — same rate-limit pattern as SC (different tool surface but same unbounded-send risk) · 🎯 metric: infra:rate_limit_enforcement<br/>
+<br/>
+  • SHIP #9 — same cross-agent memory queue (Ktulu learns from SC/Jr patterns) · 🎯 metric: retrieval<br/>
+<br/>
+  • SHIP #11 — same drift probe (observer-mode worker needs behavioral consistency check) · 🎯 metric: infra:behavioral_drift_detection<br/>
+<br/>
+  • SKIP #5/#8 — not health-focused, SC handles acceptance criteria<br/>
+<br/>
+🟢 <b>Jr</b> (VPS watchdog):<br/>
+<br/>
+  • SHIP #2 — audit Pushover alerts, close only on subsequent health probe success not assertion (improves alert precision) · 🎯 metric: alert_precision<br/>
+<br/>
+  • SHIP #9 — Jr→SC message queue for learned patterns (Jr can surface watchdog insights to fleet without runtime coupling) · 🎯 metric: retrieval<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b><br/>
+<br/>
+  • #4 Docker Sandboxes — stale repo (github.com/samwit/llm-tutorials last push 1168d ago)<br/>
+<br/>
+  • #12 Six Skills (dovetail) — no findable repo link<br/>
+<br/>
+→ <i>Ready when you are: tell Kratos or a Claude Code session "ship what's curated for [surface]" — each ship is recorded in the fleet ledger and measured (kept or auto-reverted).</i><br/>
+```</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=rbjWzZK2LU0" target="_blank">Give the Agent a Budget, Not a Token — Sachin Malhotra, Anthropic</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Anthropic engineer describes incident where agent deleted 200 workloads in 90s due to unbounded token; proposes per-tool budgets with four dimensions (rate limits, trip wires, asymmetric verbs, proxy-stamped identity) instead of boolean scopes.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, ktulu, jr, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit wa-send-text, wa-send-media, gcal-add-event.py, job-apply for asymmetric verbs, then add Redis rate-limit counters to wa_brain/opus_decision.py tool dispatch layer.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vtbjwk/the_cleanest_definition_of_done_ive_seen_the/" target="_blank">The cleanest "definition of done" I've seen: the ticket can only be closed by a successful run</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Frequent-Ad-836</p>
+            <p>Alerts/tasks should close only on actual successful re-run of the real job, not on agent assertion of 'fixed' — removes the actor's ability to claim success without independent verification.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: jr, sc, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> audit jr Pushover alerts - identify which clear on assertion vs subsequent health probe success</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=AN65uc645mE" target="_blank">200 Million Patient Interactions Later — Vivek Muppalla, Hippocratic AI</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Hippocratic AI runs 31 models in parallel on every patient call—one orchestrator and 30 domain specialists (labs, meds, scheduling)—each doing a fast relevance check before expensive work, with deterministic verifiers on tool calls and single-word answers.</p>
+            <p class="score">
+              <span class="pill">pattern: resilient_orchestrators</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype parallel specialist dispatcher: fork Phase 8 fleet-router to spawn payment/calendar/health specialists concurrently, merge verdicts in orchestrator layer.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=erQnRkMrpls" target="_blank">Docker Sandboxes - Building Safe Agents</a></h3>
+            <p class="meta">youtube · Sam Witteveen · Sam Witteveen</p>
+            <p>Docker Sandboxes provides kernel-level filesystem/network isolation for AI agents, preventing file deletion, key leakage, and unauthorized network calls through OS-enforced policies instead of prompt-based guardrails.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write Docker Sandbox policy for sc's openclaw runtime and test MCP server compatibility inside the sandbox</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=McknwOzbmyg" target="_blank">Shipping AI to a Million Patients Without an A/B Test — Jared Joselowitz, Ufonia</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Ufonia ships a medical-device voice AI to 200k patients using adversarial simulation instead of A/B tests: one model plays the patient against clinician-written hazards, a judge model scores every dialogue (validated against real clinicians), prompts optimized against a cost matrix, ship the evidence not the model.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build patient_simulator.py + dialogue_judge.py for Einstein/health lanes, validate judge against real clinic staff, gate outbound on simulation pass before wa-send-text.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vswb5h/claudecodebridge/" target="_blank">Claude-Code-Bridge</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/amdsyc</p>
+            <p>Python daemon coordinating two Claude Code sessions for adversarial review, forcing the reviewer to prove verification by naming specific files/functions the daemon then validates.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype verification daemon for SC tasks, starting with file-existence check on reviewer claims.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=zaGyGgLW3SM" target="_blank">Unlock Agent Autonomy: The Runtime for AI-Native Systems — Tushar Jain, Docker</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>A runtime layer for agents that scopes credentials per task and refuses out-of-scope requests, enforcing containment and intent-based access control rather than granting all permissions up front.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit all MCP auth mechanisms + openclaw tool grants; prototype intent-based credential injection for Gmail MCP as proof-of-concept.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=YgEv7IQzGdM" target="_blank">How to Kill the Code Review — Ankit Jain, Aviator</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Code review should verify intent and acceptance criteria from session context, not just diff correctness; proposes mining recurring review patterns into a registry and testing against structured criteria extracted from the AI session.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Extract recurring review themes from fleet memory feedback_* files to seed a review criteria registry, then add post-implementation step to capture key session decisions as acceptance criteria</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vse7jw/im_50_not_an_engineer_and_ive_spent_8_months/" target="_blank">I'm 50, not an engineer, and I've spent 8 months building a persistent "AI family" on top of Claude. The trick wasn't prompts — it was a filing system.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/__hymn</p>
+            <p>Non-engineer built 13-assistant persistent 'AI family' using file-based mechanisms: identity docs per assistant, JSON message queue for inter-agent comms, forward-written journals for session handoff.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: jr, sc, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype Jr→SC message queue: JSON envelope schema in ~/.superclawman/agent-mail/, Jr writes on digest completion, SC reads on next session.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vsr2qm/i_extended_matt_shumers_gauntlet_loop_so_it_works/" target="_blank">I extended Matt Shumer's gauntlet loop so it works for apps + CI + more on CC</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/viborci</p>
+            <p>Multi-agent gauntlet loop for autonomous app dev: builder + blind reviewers per task, Git task ledger with BLOCKED state, fresh context per iteration, agent can't edit governance files</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Create LOOP.md protocol in superclawman-blueprint, wire Git task ledger with BLOCKED state, spawn blind Workflow reviewers per diff</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/aiDotEngineer/status/2090525024398750046" target="_blank">What teaching the system actually looks like, from nine workflows:
+
+- A nightly report agent ran clean for weeks, then p</a></h3>
+            <p class="meta">x · @aiDotEngineer · aiDotEngineer</p>
+            <p>Real failure modes of prompt-only agent control: agents drift behavior (leaking private data, tone changes, autonomy creep, non-determinism) with no config change. Argues for deterministic enforcement layer, not just prompt instructions.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add determinism probe to wa_brain: replay same inbound twice, diff drafts modulo timestamps, alert on behavioral drift.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vqqk5d/six_skills_i_built_for_claude_code_repo_coherence/" target="_blank">Six skills I built for Claude Code - repo coherence, air-gapped debugging, and sorting my shopping list into aisle order</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/grinidx</p>
+            <p>Six Claude Code skills, most notably dovetail for automated repo coherence checking (dead links, docs drift from code, stated conventions) using deterministic Python fast enough to gate builds.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install dovetail skill, run against ~/.claude/ ~/.openclaw/ ~/Claude/second-brain/, surface drift report to fleet journal</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vtv3we/computer_use_skills_api_and_files_api_are_now_ga/" target="_blank">Computer use, Skills API, and Files API are now GA on the Claude Platform</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/ClaudeOfficial</p>
+            <p>Anthropic GA'd Computer Use (multi-action browser/app automation with 20-40% fewer round trips), Skills API (server-side skill versioning), and Files API (reusable file uploads, 500 RPM, 1TB storage).</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, ktulu, sandman, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Pilot Computer Use tool for one Browserbase task (LinkedIn reauth or form-fill); measure round-trip count and cost vs browse skill baseline.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vrosx5/3_agents_4_repos_6_branches_and_one_line_that/" target="_blank">3 agents, 4 repos, 6 branches, and one line that tells me which one died</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/diazoxide</p>
+            <p>Multi-agent orchestration status line that detects worker failures by measuring silence duration instead of trusting self-reported status, because broken workers cannot report their own broken state.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: jr, ktulu, sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add silence-duration sensors to nightwatch.py and ktulu worker monitor; deprecate trust in self-reported 'running' status.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=MkRYPFIMCSA" target="_blank">Security Firewall for Agents — Ryan Dahl, Deno</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Claw Patrol is a security proxy for agents with production write access that enforces HCL-based rules at the protocol level (not just HTTP), injects credentials, and routes dangerous actions to LLM/human approval before execution.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Evaluate github.com/denoland/claw-patrol for fleet-wide agent→tool proxy, prototype Jr routing through it with Telegram + Pushover rules</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vrxa28/the_context_tax_why_is_claude_using_model/" target="_blank">The Context Tax: why is Claude using model attention to discover what context it needs?</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/InfinriDev</p>
+            <p>Proposes replacing Claude Code's skill catalog (name+desc in system prompt → model picks → load full SKILL.md) with external indexing + event-driven retrieval that injects only relevant skill content based on observed work (file edits, tool calls).</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype event-driven skill injector using existing hooks + qmd skill index</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vs1ien/the_agent_shipped_the_integration_prod_found_the/" target="_blank">The agent shipped the integration. Prod found the bug.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Common_Dream9420</p>
+            <p>Agents generate multi-service integrations quickly but lack self-verification capability before shipping; verification gaps get discovered in prod instead of pre-deploy test harnesses.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build pre-ship verification skill — webhook replay + sandbox API testing before touching prod surfaces</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/hwchase17/status/2089755542931865901" target="_blank">@hwchase17 (Harrison Chase): 🚀Today we launched LangSmith Tuned Evaluators, starting with </a></h3>
+            <p class="meta">worth_it_watch · @hwchase17 · Harrison Chase</p>
+            <p>LangSmith launched Tuned Evaluators that run on production agent traces to detect undesirable behavior and surface feedback for improvement loops, starting with a Perceived Error classifier.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read LangSmith Tuned Evaluators docs, compare to fleet's escalation_classifier.py and wa-coaching-loop.py, pilot on SC OTEL traces.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/hwchase17/status/2090233856192569500" target="_blank">@hwchase17 (Harrison Chase): lots of observability &amp; evals platforms
+
+not a lot of pla</a></h3>
+            <p class="meta">worth_it_watch · @hwchase17 · Harrison Chase</p>
+            <p>Observability/evals platforms exist but few close the loop: suggest fixes automatically and add evals to prevent recurrence.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write ~/.openclaw/workspace/scripts/meta_fixer.py: consume OTEL traces from health-ledger, suggest code diffs, generate regression tests.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=nxokqOq1imY" target="_blank">Your Agent Evolved. Your Evals Didn't. — Ameya Bhatawdekar, Braintrust</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Agent architectures evolved through 5 generations driven by model capability; evals must evolve too, measuring pass@k for capability and trial success rate for reliability in modern agentic loops that produce varied trajectories.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, jr, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> pick one SC behavior (WA routing accuracy), build pass@5 eval, feed from production OTEL logs</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1vteyx8/my_ai_avatar_answered_a_question_i_never_recorded/" target="_blank">My AI avatar answered a question I never recorded an answer to, by reassembling things I said in unrelated sessions</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Emojinapp</p>
+            <p>EchoVault app demonstrates cross-session memory synthesis with strict grounding: answers reassemble fragments from unrelated sessions but refuse when no fragments exist, using deterministic guardrails to prevent hallucination.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, jr, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add fragment-sourcing layer to brain.js recall that scores provenance coverage and refuses low-confidence synthesis</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W35.html · composed 2026-08-24 08:31 BRT</footer>
+</body></html>
