@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal da Ester — Grupo Leilo</title>
+<style>
+  :root{
+    --ivory:#F6F7F9; --paper:#FFFFFF; --slate:#11202E;
+    --clay:#1F5FAE; --clay-d:#16498A; --oat:#D9E2EE; --olive:#3B7A57;
+    --g100:#F0F2F5; --g200:#E4E8EE; --g300:#D1D8E2; --g500:#7A879A; --g700:#39485C;
+    --serif: ui-serif, Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ivory);color:var(--slate);font-family:var(--sans);
+       line-height:1.62;font-size:16.5px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:48px 28px 72px}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+           color:var(--g500);display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .eyebrow::before{content:"";width:26px;height:2.5px;background:var(--clay);flex:none}
+  h1{font-family:var(--serif);font-size:clamp(36px,5.2vw,58px);line-height:1.06;
+     letter-spacing:-.018em;margin:0 0 14px;font-weight:600}
+  h1 em{font-style:italic;color:var(--clay)}
+  .lede{font-size:19px;color:var(--g700);max-width:62ch;margin:0 0 8px}
+  h2{font-family:var(--serif);font-size:27px;letter-spacing:-.012em;margin:0 0 6px;font-weight:600}
+  h3{font-size:16px;margin:0 0 4px;font-weight:650}
+  section{border-top:1.5px solid var(--g300);margin-top:52px;padding-top:34px}
+  .sub{color:var(--g500);font-size:15px;margin:0 0 22px;max-width:62ch}
+  p{max-width:66ch}
+  .card{background:var(--paper);border:1px solid var(--g200);border-radius:12px;padding:22px 24px}
+  .tldr{background:var(--paper);border:1px solid var(--oat);border-left:4px solid var(--clay);
+        border-radius:10px;padding:22px 26px;margin:30px 0 0;max-width:74ch}
+  .tldr b{color:var(--clay-d)}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));margin-top:20px}
+  .step{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+  .num{width:32px;height:32px;border-radius:50%;background:var(--clay);color:#fff;flex:none;
+       display:grid;place-items:center;font-weight:650;font-size:15px;font-family:var(--mono)}
+  table{border-collapse:collapse;width:100%;margin-top:18px;font-size:15.5px;background:var(--paper)}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--g200);vertical-align:top}
+  th{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
+     color:var(--g500);background:var(--g100);border-bottom:1.5px solid var(--g300)}
+  td:first-child{white-space:nowrap;font-weight:600}
+  .bt{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
+      background:var(--g100);border:1px solid var(--g200);font-size:15px;margin-right:8px;vertical-align:middle}
+  .aviso{background:#FFF8E8;border:1px solid #E8D7A8;border-left:4px solid #C9922B;
+         border-radius:10px;padding:20px 24px;margin-top:24px;max-width:74ch}
+  .aviso b{color:#8A6216}
+  .ok{color:var(--olive);font-weight:650}
+  .tick{color:var(--clay);letter-spacing:-2px;font-weight:700}
+  .zap{background:var(--paper);border:1px solid var(--g200);border-radius:12px;padding:18px 22px;
+       font-family:var(--mono);font-size:13.5px;color:var(--g700);white-space:pre-wrap;line-height:1.7}
+  footer{margin-top:64px;padding-top:22px;border-top:1.5px solid var(--g300);
+         font-size:13.5px;color:var(--g500)}
+  @media(max-width:640px){ .wrap{padding:34px 20px 56px} td:first-child{white-space:normal} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Grupo Leilo · Setembro de 2026</div>
+  <h1>O portal da <em>Ester</em></h1>
+  <p class="lede">A mesma Ester do seu WhatsApp, agora também no computador do trabalho —
+  para quando o assunto é planilha, extrato e relatório.</p>
+
+  <div class="tldr">
+    <b>Em uma frase:</b> é outra porta para a mesma pessoa. O que você falar no WhatsApp
+    a Ester sabe no portal, e o que você falar no portal ela sabe no WhatsApp. Uma memória só,
+    uma conversa só.
+  </div>
+
+  <section>
+    <h2>Entrar</h2>
+    <p class="sub">Leva dez segundos e não tem senha para decorar.</p>
+    <div class="step"><div class="num">1</div><div>
+      <h3>Abra <code style="font-family:var(--mono)">leilo.superclawman.ai</code></h3>
+      Funciona no Mac, no PC e no celular. Pode salvar nos favoritos.</div></div>
+    <div class="step"><div class="num">2</div><div>
+      <h3>Digite o seu PIN</h3>
+      Seis números, só seus. Ninguém mais tem o mesmo.</div></div>
+    <div class="step"><div class="num">3</div><div>
+      <h3>Pronto — é a conversa de sempre</h3>
+      Você continua de onde parou, inclusive do que falou pelo WhatsApp.</div></div>
+    <div class="aviso">
+      <b>Errou o PIN cinco vezes?</b> A entrada tranca por quinze minutos. Não é problema:
+      é o que impede que alguém fique tentando adivinhar. Se você esquecer o seu PIN, peça
+      um novo — leva um segundo e o antigo deixa de valer na hora.
+    </div>
+  </section>
+
+  <section>
+    <h2>Os botões</h2>
+    <p class="sub">São quatro, e todos ficam na linha de escrever.</p>
+    <table>
+      <thead><tr><th>Botão</th><th>Para quê</th><th>Quando usar</th></tr></thead>
+      <tbody>
+        <tr><td><span class="bt">＋</span>Anexo</td>
+            <td>Manda arquivo: extrato em PDF, planilha, relatório de vendas, print.</td>
+            <td>É o forte daqui. Arquivo grande sobe muito melhor que pelo celular — e você
+                também pode simplesmente <b>arrastar</b> o arquivo para cima da tela.</td></tr>
+        <tr><td><span class="bt">☺</span>Emoji</td>
+            <td>Abre os emojis.</td>
+            <td>Quando quiser. A Ester entende.</td></tr>
+        <tr><td><span class="bt">🎙</span>Microfone</td>
+            <td>Grava um áudio, igual ao WhatsApp.</td>
+            <td>Toque uma vez para gravar, toque de novo para enviar. Ela escuta e responde
+                — não precisa você escrever.</td></tr>
+        <tr><td><span class="bt">➤</span>Enviar</td>
+            <td>Manda a mensagem.</td>
+            <td><b>Enter</b> também manda. <b>Shift+Enter</b> pula linha sem enviar.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Citar e responder</h2>
+    <p class="sub">Igual ao WhatsApp: serve para dizer <i>de qual</i> coisa você está falando.</p>
+    <p><b>Toque em qualquer mensagem</b> — sua ou dela. Ela aparece citada em cima do campo de
+    escrever, você escreve a sua resposta e envia. A Ester recebe as duas coisas juntas: o que
+    ela disse antes e o que você está respondendo agora.</p>
+    <p>É o jeito mais rápido de corrigir um número no meio de uma lista longa, sem precisar
+    explicar qual linha.</p>
+  </section>
+
+  <section>
+    <h2>O que a tela te conta</h2>
+    <div class="grid">
+      <div class="card"><h3>A hora, em cada mensagem</h3>
+        Embaixo de cada balão, no horário de Brasília. Serve para você provar quando pediu.</div>
+      <div class="card"><h3><span class="tick">✓</span> e <span class="tick">✓✓</span></h3>
+        Um tique: saiu do seu computador. Dois tiques: a Ester pegou e começou a trabalhar.</div>
+      <div class="card"><h3>“digitando…”</h3>
+        Ela está pensando. Uma conta grande leva um minuto — o ponto pulando quer dizer que
+        está andando, não travado.</div>
+      <div class="card"><h3>“Vou ver isso agora”</h3>
+        Se demorar, ela avisa em vez de deixar você no vácuo. É a mesma coisa do WhatsApp.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>A sua equipe</h2>
+    <p class="sub">O portal foi feito para crescer com você.</p>
+    <p>Hoje o PIN é seu. Quando você quiser incluir alguém do Grupo Leilo, <b>essa pessoa ganha
+    o PIN dela</b> — nunca o seu. A Ester passa a saber com quem está falando, e cada pedido
+    fica registrado no nome de quem pediu.</p>
+    <p>Isso muda como ela trata cada um: <b>você é a dona</b> e manda nela. A equipe ela ajuda
+    no trabalho do leilão, mas <b>quem muda uma regra é você</b>.</p>
+    <div class="aviso">
+      <b>Uma regra que vale para todo mundo, inclusive para você.</b>
+      Não empreste o seu PIN. Um PIN diz que alguém <i>tem</i> o PIN — não prova quem é a pessoa.
+      Por isso a Ester nunca aceita pelo portal um pedido que mude uma regra, um preço, um acesso
+      ou o destino de um dinheiro, venha em nome de quem vier: ela faz o trabalho normal e
+      confirma com você no seu WhatsApp. É o que protege a sua conta se o computador ficar aberto.
+    </div>
+  </section>
+
+  <section>
+    <h2>WhatsApp ou portal?</h2>
+    <p class="sub">Não precisa escolher. Mas cada um é melhor numa coisa.</p>
+    <table>
+      <thead><tr><th></th><th>WhatsApp</th><th>Portal</th></tr></thead>
+      <tbody>
+        <tr><td>Pergunta rápida</td><td class="ok">melhor</td><td>funciona</td></tr>
+        <tr><td>Áudio no meio da rua</td><td class="ok">melhor</td><td>funciona</td></tr>
+        <tr><td>Mandar 4 extratos e uma planilha</td><td>funciona</td><td class="ok">melhor</td></tr>
+        <tr><td>Ler um relatório com muitos números</td><td>funciona</td><td class="ok">melhor</td></tr>
+        <tr><td>Receber a planilha pronta</td><td>funciona</td><td class="ok">melhor</td></tr>
+        <tr><td>A memória do que já foi dito</td><td colspan="2" class="ok">a mesma nos dois</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Para experimentar hoje</h2>
+    <p class="sub">Três coisas que mostram o que muda.</p>
+    <div class="zap">1.  Arraste o extrato do mês para cima da tela e escreva:
+    “confere se bateu com o plano de pagamentos”
+
+2.  Peça o arquivo, não só a resposta:
+    “me manda em planilha o fechamento por credor”
+
+3.  Toque numa resposta dela e cite:
+    “esse número aqui está com a data errada”</div>
+  </section>
+
+  <footer>
+    Portal do agente do Grupo Leilo · leilo.superclawman.ai · acesso por PIN individual.
+    Dúvida ou PIN novo: fale com o Paulo Ovídio.
+  </footer>
+
+</div>
+</body>
+</html>
