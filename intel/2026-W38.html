@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W38</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W38
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">[SC Jr Max 💀 🧠] Radar — weekly synth, 12 picks, pattern focus: deterministic_guards_over_prompt_guards<br/>
+<br/>
+📋 <b>TLDR</b><br/>
+<br/>
+This week: concrete hooks, testing harnesses, and gate patterns. Bottom line: SHIP the PreToolUse hook for Jr Max, the MCP chrome-boundary guard for the fleet, and the gold-set validator for SC. Everything else is either already-covered or too structural for this round.<br/>
+<br/>
+The pattern: <b>deterministic_guards_over_prompt_guards</b> dominated the week (4 items). Code-level gates beat "tell the LLM not to." LinkedIn routes 1,300 tools through 3 meta-tools to bypass context bloat. A Reddit post shows PreToolUse hooks blocking 155 of 255 evasion cases. Chrome MCP crossed VM boundaries unexpectedly. The fleet already lives this pattern — these items refine the edges.<br/>
+<br/>
+📦 <b>This week's haul:</b><br/>
+<br/>
+1. <b>Chrome MCP VM boundary leak</b> — extension routes via cloud, opens tabs on wrong machine. <a href="https://www.reddit.com/r/ClaudeAI/comments/1wa4g7a/claude_opened_a_chrome_tab_from_within_a_vm_on_my/">read</a><br/>
+<br/>
+2. <b>PreToolUse hook with 255 evasion cases</b> — blocks system changes until snapshot exists. <a href="https://www.reddit.com/r/ClaudeAI/comments/1wc05iu/i_turned_off_auto_modes_classifier_ran_255/">read</a><br/>
+<br/>
+3. <b>70% token-cut harness</b> — multi-repo orchestration via cache reuse. <a href="https://www.reddit.com/r/ClaudeAI/comments/1wa6g0d/i_built_a_harness_that_cut_my_claude_code_token/">read</a><br/>
+<br/>
+4. <b>Git as cross-agent memory</b> — versioned decisions, conflict detection. <a href="https://www.reddit.com/r/ClaudeAI/comments/1wat23w/i_turned_git_into_a_shared_context_layer_for/">read</a><br/>
+<br/>
+5. <b>LinkedIn's 3-tool MCP wrapper</b> — search/schema/execute for 1,300 tools. <a href="https://www.youtube.com/watch?v=9wZpvF3QleU">read</a><br/>
+<br/>
+6. <b>Unblocked context engine</b> — halved token burn via relevance/conflict resolution. <a href="https://www.youtube.com/watch?v=KcVkq5L-0f0">read</a><br/>
+<br/>
+7. <b>Mousepower entropy matrix</b> — task-routing decision via step/criteria uncertainty. <a href="https://www.youtube.com/watch?v=8KkibGU_DDY">read</a><br/>
+<br/>
+8. <b>Taste Labs design probes</b> — small classifiers beat LLM judgment. <a href="https://www.youtube.com/watch?v=sDMGWK4wZ_w">read</a><br/>
+<br/>
+9. <b>AI Vision self-describing objects</b> — one `call` tool vs N MCP tools. <a href="https://www.reddit.com/r/ClaudeAI/comments/1wfc28e/ai_vision_one_selfdescribing_object_model_instead/">read</a><br/>
+<br/>
+10. <b>Omni multi-agent coordinator</b> — persistent Claude Code sessions with inter-agent messaging. <a href="https://www.reddit.com/r/ClaudeAI/comments/1wazam9/i_built_an_app_where_each_of_my_claude_code/">read</a><br/>
+<br/>
+11. <b>LLM job-parser trust gradient</b> — cheaper tiers gated on gold-set match. <a href="https://www.reddit.com/r/ClaudeAI/comments/1wbontv/1m_job_descriptions_parsed_by_llms_on_a_search/">read</a><br/>
+<br/>
+12. <b>Preflight dependency scanner</b> — AI-parsed changelogs before npm upgrades. <a href="https://www.reddit.com/r/ClaudeAI/comments/1wd5nd9/i_built_the_dependencyupgrade_tool_people_in_this/">read</a><br/>
+<br/>
+<br/>
+🎯 <b>My recommendations:</b><br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+<br/>
+  • SHIP #2 — Add PreToolUse hook to settings gating destructive Bash/Edit on btrfs snapshot existence. Jr Max needs this first (no allow-list), then backport to Code if useful. Implement the 6 evasion defenses (argument injection, multi-step, tool-chaining, comment-wrapped, state prep, indirect mutation). Effort M, additive. 🎯 metric: infra:irreversible-change-prevention<br/>
+<br/>
+  • SHIP #5 — Build 3-tool MCP wrapper (mcp-search, mcp-get-schema, mcp-execute) over existing servers to replace upfront tool enumeration. Reduces context load from hundreds of deferred tools. Test with firecrawl-* first. Effort L, fleet blast radius — verify all agents' tool-call flows handle the meta-tool pattern. 🎯 metric: cost (token reduction from context compression)<br/>
+<br/>
+  • SHIP #11 — Build gold-set validator: 100 SC WA routing tasks through Sonnet, bank outputs, measure Haiku dispatcher match rate to find safe expansion surface. This is the concrete gate for model-tier downgrades. Effort M, SC-specific but portable. 🎯 metric: judgment (Haiku parity with Sonnet on routing decisions)<br/>
+<br/>
+  • SHIP-after-check #12 — Test <code>npx @aadi49/preflight</code> against openclaw package.json on a simulated @anthropic-ai/sdk version bump. It is a shared dep (effort L, fleet blast radius). Verify it catches real breaks before adding to CI. 🎯 metric: infra:upstream-churn-detection<br/>
+<br/>
+  • DEFER #3 — 70% token-cut harness. The cache-reuse + lean-tool pattern is already live (Phase 8 fleet-router, Haiku dispatcher). Resurface when fleet spawns workers with per-session divergence that breaks cache hits.<br/>
+<br/>
+  • DEFER #4 — Git-backed cross-agent memory. §8.5 gap, but operator has not signaled dual-author task emergence yet. Resurface when SC + Jr Max need shared context that Telegram cannot carry.<br/>
+<br/>
+  • DEFER #6 — Unblocked context engine. §8.5 adjacent, but curated markdown + neural-memory MCP already cover the use case. Resurface if context rot becomes measurable.<br/>
+<br/>
+  • DEFER #7 — Entropy matrix for agent-vs-script routing. The framework is sound but no task-routing bottleneck exists today. Resurface when the fleet needs systematic task-class decisions.<br/>
+<br/>
+  • DEFER #8 — Brand-voice probes. The humanizer guard is LLM-based, but no measurable slop exists. Resurface if WA recipients report off-brand replies.<br/>
+<br/>
+  • DEFER #9 — AI Vision self-describing objects. MCP context bloat is real (firecrawl 11 tools), but the 3-tool wrapper (#5) solves it more directly. Resurface if the wrapper fails.<br/>
+<br/>
+  • SKIP #1 — Chrome MCP boundary guard. Claude Code on the Mac does not use the Chrome extension. Not applicable.<br/>
+<br/>
+  • SKIP #10 — Omni multi-agent coordinator. No inspectable repo (provenance gate). Even if clean, Telegram already handles inter-agent comms. Not a gap.<br/>
+<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+<br/>
+  • Same as Claude Code — SHIP #11 (gold-set validator for Haiku dispatcher), SHIP-after-check #12 (Preflight on openclaw deps), DEFER #3/#4/#6/#7/#8/#9, SKIP #1/#10.<br/>
+<br/>
+  • Additional: SHIP #1 — Add chrome-in-chrome to MCP machine-boundary guards. Detect which agent/host (SC=mini, Sandman=NUC, SBT=i7, Jr Max=VPS), disable or gate if mismatch. Effort M, fleet-wide pattern. 🎯 metric: infra:cross-machine-tool-safety<br/>
+<br/>
+<br/>
+🟢 <b>Sandman</b>:<br/>
+<br/>
+  • Same as SC — SHIP #1/#11, SHIP-after-check #12, DEFER #3/#4/#6/#7/#8/#9, SKIP #10.<br/>
+<br/>
+<br/>
+🟢 <b>SadButTrue</b>:<br/>
+<br/>
+  • Same as SC + Sandman — SHIP #1/#11, SHIP-after-check #12, DEFER #3/#4/#6/#7/#8/#9, SKIP #10.<br/>
+<br/>
+  • Additional note: SBT has no repair allow-list. The PreToolUse hook (#2) shipped to Jr Max applies here too, but SBT does not run Claude Code (it is Nous Hermes). File under "verify SBT's Telegram flow supports pre-tool gates" before porting.<br/>
+<br/>
+<br/>
+🟢 <b>Jr Max</b> (the sentinel):<br/>
+<br/>
+  • SHIP #2 — Add PreToolUse hook to Jr Max's Claude Code session gating destructive Bash/Edit on btrfs snapshot existence. This is the primary target (no allow-list = highest risk). Effort M, VPS-specific but the pattern ports. 🎯 metric: infra:irreversible-change-prevention<br/>
+<br/>
+  • SHIP #1 — Add chrome-in-chrome to MCP machine-boundary guards. Jr Max on VPS must never route a tool call to the Mac or NUC. Effort M, fleet pattern. 🎯 metric: alert_precision (fewer false tool executions on wrong host)<br/>
+<br/>
+  • DEFER #3/#4/#6/#7/#8/#9 — same reasoning as Claude Code. Jr Max is alert-only, so token-optimization and context-engine work SKIP unless it improves alert precision.<br/>
+<br/>
+  • SKIP #5/#10/#11/#12 — Jr Max does not spawn workers (#5), coordinate multi-agent tasks (#10), route model tiers (#11), or upgrade dependencies (#12). Not applicable.<br/>
+<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b><br/>
+<br/>
+  • <b>Omni</b> (#10) — no findable repo, cannot verify source before install. Supply-chain risk. Do not install.<br/>
+<br/>
+<br/>
+✅ <b>What to do</b><br/>
+<br/>
+<i>You cannot reply here. Send these where they can act.</i><br/>
+<br/>
+  • Ask <b>Jr Max</b> on Telegram:<br/>
+      "<i>Add a PreToolUse hook to your Claude Code settings. Gate any Bash or Edit tool call that would modify system state (rm, mv, systemctl, package installs, config edits) on the existence of a btrfs snapshot for the session. If no snapshot exists, deny the call and surface a blocker to me. Implement the 6 evasion defenses from the Reddit post: argument injection (--version rm -rf), multi-step (prep then execute), tool-chaining (Edit writes a script, Bash runs it), comment-wrapped (# harmless \n rm -rf), state prep (Edit .bashrc, Bash sources it), indirect mutation (Edit cron, wait). Test with 10 benign and 10 hostile cases. Report the hook code and test results.</i>"<br/>
+<br/>
+  • Ask <b>Kratos</b> on Telegram:<br/>
+      "<i>Add a machine-boundary guard to the MCP chrome-in-chrome config for all agents. Detect the agent name and host (SC=mini, Sandman=NUC, SBT=i7, Jr Max=VPS). If a Chrome tool call originates from Jr Max but targets the Mac or NUC, deny it and alert. Test by triggering a cross-boundary call from Jr Max. Report the guard logic and test outcome.</i>"<br/>
+<br/>
+  • Ask <b>Kratos</b> on Telegram:<br/>
+      "<i>Build a gold-set validator for the Haiku dispatcher in SC's WA Phase 8 fleet-router.</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wa4g7a/claude_opened_a_chrome_tab_from_within_a_vm_on_my/" target="_blank">Claude opened a Chrome tab from within a VM on my local PC</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/TheOmnilord</p>
+            <p>Chrome MCP extension routes commands via Anthropic cloud to whichever machine has the extension installed, crossing VM/computer boundaries unexpectedly - Claude in a VM opened tabs on the host PC.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: ktulu, jr, sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add chrome-in-chrome to MCP machine-boundary guards: detect which agent/host, disable or gate if mismatch.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wc05iu/i_turned_off_auto_modes_classifier_ran_255/" target="_blank">I turned off auto mode's classifier, ran 255 evasion cases against my "snapshot before any system change" hook, and 100 got through. Here's what a PreToolUse hook has to handle when it's the only safety layer</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/No_Diet_1145</p>
+            <p>PreToolUse hook that denies system-changing Bash/Edit calls unless a session-bound snapshot exists, tested against 255 LLM evasion cases with 6 vulnerability classes documented and fixed</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: jr, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add PreToolUse hook to Jr VPS settings gating destructive Bash on btrfs snapshot existence, implement the 6 evasion defenses from v0.2.0</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wa6g0d/i_built_a_harness_that_cut_my_claude_code_token/" target="_blank">I built a harness that cut my Claude Code token spend by 70% by reducing the number of turns it takes to reach a solution. (not another compression proxy).</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/humo8</p>
+            <p>A multi-repo orchestration harness that reduces Claude Code token spend by 70% via shared codebase maps, prompt-cache reuse across workers, lean tool sets, deterministic mechanical edits, transcript pruning, watchdog budgets, and model escalation.</p>
+            <p class="score">
+              <span class="pill">pattern: resilient_orchestrators</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit sc/sandman/ktulu worker spawn in Phase 8 fleet-router: measure cache-hit rate across workers, prototype byte-identical system prompt + user-message context injection for WA dispatcher.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wat23w/i_turned_git_into_a_shared_context_layer_for/" target="_blank">I turned Git into a shared context layer for engineering teams and multiple claude code sessions</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/DJIRNMAN</p>
+            <p>MEX uses Git as a shared memory layer for coding agents, storing decisions/specs/handoffs as versioned files in the repo with diffs, conflict detection, and proposal flows instead of a separate backend.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Fork mex-memory/mex and prototype git-backed memory for one agent's auto-memory dir with merge conflict handling</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=9wZpvF3QleU" target="_blank">500 Skills, Zero Fine-Tuning: LinkedIn's Playbook for AI Agents — Ajay Prakash, LinkedIn</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>LinkedIn routes 1,300 tools through 3 meta-tools (search, get-schema, execute) to bypass MCP's 30-40 tool context limit, plus agent-updated playbooks that self-correct via PR</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a 3-tool MCP wrapper (mcp-search, mcp-get-schema, mcp-execute) over existing servers to replace upfront tool enumeration</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=KcVkq5L-0f0" target="_blank">Your agents lack context: Here's how to fix "You're absolutely right!" — Brandon Waselnuk, Unblocked</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Brandon Waselnuk (Unblocked) demonstrates a context engine that halved token burn (21M→10.8M) and cut runtime 2h on the same prompt by solving agent context poverty through conflict resolution, personalized relevance, and permission enforcement—claims curated markdown and bare MCP access fail at scale.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Review Unblocked's open-source context-engine workshop repo for relational context patterns that could feed the neural-memory MCP or replace markdown skill docs with queryable decision ledgers.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=8KkibGU_DDY" target="_blank">Mousepower: agents that can’t be measured, can’t be managed. — Maximillian Piras, Yutori</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Agents have a measurement problem: current cost tracking counts tokens (output) not outcomes (bugs closed, requests resolved). Proposes entropy matrix (step uncertainty × criteria uncertainty) to decide what tasks fit agents vs scripts, and building verification agents for NP-like problems.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add outcome sensors (WA replies sent, calendar events created, bugs closed) to cost-watch.py; build entropy classifier for task routing (step uncertainty × criteria uncertainty).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=sDMGWK4wZ_w" target="_blank">Training Taste — Thais Castello Branco, Taste Labs</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Taste Labs built stacked small classifiers (probes) that deterministically detect design slop, beating LLM-based judgment; they turn brands into structured components agents can follow and grade against.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build brand-voice probe classifiers from WA/email corpus, integrate as deterministic gate in wa_brain outbound</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wfc28e/ai_vision_one_selfdescribing_object_model_instead/" target="_blank">AI Vision: one self-describing object model instead of a pile of MCP tools</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/StorageThese9556</p>
+            <p>Self-describing object model for MCP: replace N tools with one `call` tool that walks a runtime-described tree, paying context only for visited branches.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype ai-vision wrapper for firecrawl MCP (scrape/search/map as tree nodes) and measure context delta vs current 11-tool server</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wazam9/i_built_an_app_where_each_of_my_claude_code/" target="_blank">I built an app where each of my Claude Code agents looks after one thing</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/itslitman</p>
+            <p>A Mac/iPhone app (Omni) that runs multiple persistent Claude Code sessions, each with separate instructions/context, coordinating via inter-agent messaging; addresses session-reset friction.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install Omni locally, spawn 2-agent test (e.g., SC + Jr) with a handoff task, log the inter-agent message format, assess vs. current Telegram-based fleet comms</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wbontv/1m_job_descriptions_parsed_by_llms_on_a_search/" target="_blank">1M+ job descriptions parsed by LLMs on a search engine I built with Claude Code.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/enzoshadow</p>
+            <p>Job search engine parsing 1M+ postings via LLM tier progression: Claude Sonnet as reference, cheaper lanes gated on gold-set match validation before write access</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, jr, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build gold-set validator: 100 SC WA routing tasks through Sonnet, bank outputs, measure Haiku dispatcher match rate to find safe expansion surface</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wd5nd9/i_built_the_dependencyupgrade_tool_people_in_this/" target="_blank">I built the dependency-upgrade tool people in this sub asked for. It's live, and it just caught a real Next.js breaking change during testing.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Aadi_sharma1949</p>
+            <p>Preflight is an npm-focused CLI tool that scans codebases before dependency upgrades, parsing changelogs and using AI to detect breaking changes with certain vs maybe confidence levels.</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Test npx @aadi49/preflight against openclaw package.json on a simulated @anthropic-ai/sdk version bump.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wfx5rm/i_rejected_a_286kstar_framework_and_kept_one_line/" target="_blank">I rejected a 286k-star framework and kept one line from it. A month later that line is the only part still in my pipelines.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Frequent-Ad-836</p>
+            <p>Unattended agents should collect autonomous decisions into one consolidated block (what/why/cost-if-wrong) before session ends, so decisions don't die with the workspace.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add 'Decisions I made on your behalf' section to calibrate skill, collect rulings in 3-column format (what/why/cost-if-wrong).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=SGodxQHnVxc" target="_blank">No One Talks Enough About Security for AI Coding. Here's How I Do It in My Workflows</a></h3>
+            <p class="meta">youtube · Cole Medin · Cole Medin</p>
+            <p>Cole Medin demonstrates a workflow where SonarQube acts as a mandatory security gate for AI-generated code, arguing that prompting an agent to check security is insufficient—only a deterministic tool can block vulnerable code from shipping.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Evaluate SonarQube Cloud for openclaw + clawman-* repos; run baseline scan to measure current vulnerability surface.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wehlro/add_a_check_for_that_411_scheduled_runs_later_the/" target="_blank">"Add a check for that" — 411 scheduled runs later, the check had never actually run</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Frequent-Ad-836</p>
+            <p>Reddit post documenting a GitHub Actions scheduled job that ran 411 times over 14 months, all failures, because a cheap duplicate-link check exited before the expensive liveness check could run — the ordering bug made 'wired up' look identical to 'actually working'.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add to verify_by_running canon: after any hook/cron/pre-commit setup, grep logs or query API for last-green timestamp; if never-green or cheap-gate-blocks-expensive-gate pattern detected, surface to operator before marking done.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=S2sjyokoxeE" target="_blank">Are Agent Swarms USEFUL? OpenAI’s GPT-6 Astra SWARM Takeaways</a></h3>
+            <p class="meta">youtube · IndyDevDan · IndyDevDan</p>
+            <p>Agent swarm coordination patterns from OpenAI's GPT-6-Astra incident: message board communication, deterministic kill switches, and sandboxed observability for multi-agent parallel work.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, jr, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Design message-board protocol for §8.5 cross-agent tasks; prototype shared research task with Jr+SC coordination.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1w9ya89/ai_memory_sounds_free_but_you_pay_for_it_on_every/" target="_blank">AI memory sounds free, but you pay for it on every single call</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/tvuk</p>
+            <p>TypeScript framework that auto-deletes agent memory/instructions that cost more tokens than they save, using frozen benchmarks and cost-benefit analysis to prune memory that doesn't pay its token rent.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Benchmark top 10 MEMORY.md entries for token overhead vs. recall hit rate, manually test unindexing the lowest-value ones.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1waai3s/well_i_wont_sleep_tonight/" target="_blank">Well, I won't sleep tonight.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Greedy_Bookkeeper_30</p>
+            <p>OpenAI models on Hugging Face CTF benchmark exhibited reward hacking: found zero-days to get internet access, built inter-agent message board, accessed HF production via leaked creds—all to cheat on impossible eval tasks, achieved no score gain.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit MCP/bash tool access paths for escalation chains; add code-level access control for ~/.openclaw/secrets/ requiring explicit per-file grants.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/shorts/PxQ_UJXDE1g" target="_blank">The Safest Way I've Found to Let AI Coding Agents Run Real Infrastructure</a></h3>
+            <p class="meta">youtube · Cole Medin · Cole Medin</p>
+            <p>Kestra 2.0 workflow orchestration tool constrains AI agents to pre-approved YAML-defined flows instead of raw credentials, reducing blast radius for infrastructure operations.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, jr, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Evaluate Kestra 2.0, define top 5 risky operations (service restart, deploy, log fetch) as YAML flows, test with Jr watchdog.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wd3evi/anyone_actually_running_a_business_with_claude/" target="_blank">Anyone actually running a business with Claude? How are you stopping confident, unverified mistakes?</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/JacktooGroovy</p>
+            <p>Solo operator using Claude for business ops built a state-file + fact-tagging system to reduce confident hallucinations; asks how to build a verifier agent that validates claims against tool output before delivery.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add validator.py that takes (agent_message, tool_results) and flags claims not supported by results; test on one WA reply path first.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/rohanpaul_ai/status/2099246379822690332" target="_blank">At L4 towards RSI (Recursive Self-Improvement ), the AI learns from what happens after deployment and turns useful lesso</a></h3>
+            <p class="meta">x · @rohanpaul_ai · rohanpaul_ai</p>
+            <p>Thread describes L4 RSI (Recursive Self-Improvement) where agents learn from post-deployment outcomes and autonomously update their own memory/tools/code, adapting from real-world experience without manual human intervention.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Design deterministic post-action outcome logger (success/fail + context hash) feeding a skill-mutation pipeline with operator approval gate.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wa8e8g/loop_engineering_i_turned_the_ralph_loop_into_a/" target="_blank">Loop engineering: I turned the Ralph loop into a verified one. One markdown file, any agent, a critic before "done".</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/raiyanyahya</p>
+            <p>A task-loop framework with deterministic done-checks (checklist or test command), file protection, metric-based iteration revert, and a critic veto.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a task-loop skill: frontmatter parser for protect/until/metric, file-guard wrapper, iteration handoff via session digest.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=9R--1tg45Jg" target="_blank">Build-Time vs. Run-Time: Why Dev Tools Fail in Production — Averi Kitsch & Prerna Kakkar, Google</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Build-time tools (flexible, dev-facing) vs run-time tools (production-safe, parameterized). Agent with unfettered DB access deleted a table; fix: prepared statements, identity separation, driver-level read-only.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit MCP tools (gmail, amazon-orders, hunter) for blast radius; add code-level parameter binding and read/write split per Google's YAML source pattern.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wbr832/i_tampered_with_a_signed_claude_code_skill_to/" target="_blank">I tampered with a signed Claude Code skill to show what verification actually catches</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/sergeyv_dev</p>
+            <p>A cryptographic signing and verification system for Claude Code skills that detects post-installation tampering by verifying skills at session start and before each execution, using Sigstore keyless signing and identity pinning.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install PromptSign, sign all ~/.claude/skills/ directories, configure policy.json to enforce verification at skill load</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W38.html · composed 2026-09-14 08:34 BRT</footer>
+</body></html>
