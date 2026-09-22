@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W39</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W39
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">Radar — weekly synth, 12 picks, pattern focus: deterministic_guards_over_prompt_guards.<br/>
+<br/>
+Bottom line: SHIP 10 across all surfaces (4 Claude Code, 3 SC, 1 each Sandman/SBT/Jr). Everything else holds.<br/>
+<br/>
+This week clusters around engine-level safety. The 158-PR force-merge incident shows prompt-based guards fail under pressure. Time to move safety into code.<br/>
+<br/>
+🎯 <b>My recommendations:</b><br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+  • SHIP-after-check #1 — verify local memory writes still work; if cloud migration is real, build NAS fallback maintaining file access (effort M, fleet blast) · 🎯 metric: uptime<br/>
+  • SHIP #5 — add permission rules blocking ~/.openclaw/secrets/* reads; credential helper returns values without exposing files (effort S, additive) · 🎯 metric: infra:credential-leak-prevention<br/>
+  • SHIP #11 — enable function hooks, write mod to redact API keys/phone numbers from tool results pre-ingestion (effort M, additive) · 🎯 metric: infra:data-leak-prevention<br/>
+  • SHIP #12 — add git pre-flight: block force-push to main, confirm on mass ops &gt;5 files (effort M, additive) · 🎯 metric: infra:destructive-git-protection<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+  • SHIP #3 — add cost-weighted outcome matrix to escalation_classifier: map tools to recovery-time, confirm when cost(wrong) &gt; cost(defer) (effort M) · 🎯 metric: judgment<br/>
+  • SHIP #5 — same as Claude Code · 🎯 metric: infra:credential-leak-prevention<br/>
+  • SHIP #8 — build golden-output harness for WA send/receive; must pass before openclaw upgrades (effort M) · 🎯 metric: uptime<br/>
+<br/>
+🟢 <b>Sandman</b>:<br/>
+  • Same as Claude Code — SHIP #5<br/>
+<br/>
+🟢 <b>SadButTrue</b>:<br/>
+  • Same as Claude Code — SHIP #5<br/>
+<br/>
+🟢 <b>Jr Max</b>:<br/>
+  • Same as Claude Code — SHIP #5<br/>
+<br/>
+Held back: 4 DEFER, 2 SKIP, 1 provenance block — reasoning in the archive.<br/>
+<br/>
+=== ARCHIVE ===<br/>
+<br/>
+📦 <b>The haul:</b><br/>
+<br/>
+1. <b>Claude memory cloud migration</b> — local files → cloud-only risk — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wibp0f/did_claude_just_kill_the_cowork_memory_system/">read</a><br/>
+2. <b>Nimrod cross-agent memory</b> — SQLite work history, MCP — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wlj0uq/crossagent_work_memory_for_claude_code_codex/">read</a><br/>
+3. <b>Act, Confirm, or Stop?</b> — cost-driven autonomy — <a href="https://www.youtube.com/watch?v=Zd5b40Jbp_k">read</a><br/>
+4. <b>LLM C feedback loop</b> — complexity scorer — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wlfuiz/cheap_feedback_loop_for_llmwritten_c_a_onenumber/">read</a><br/>
+5. <b>AI read password file</b> — permission rules fix — <a href="https://www.skool.com/robonuggets/opps">read</a><br/>
+6. <b>Subsystems worked, failed to integrate</b> — cross-agent gap — <a href="https://www.reddit.com/r/ClaudeAI/comments/1whskpf/every_subsystem_worked_none_of_them_fit_together/">read</a><br/>
+7. <b>Total Recall harness engineering</b> — skill promotion — <a href="https://www.youtube.com/watch?v=xs-ob87TTzg">read</a><br/>
+8. <b>Bit-exact emulator fork</b> — correctness gates — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wg55mk/built_a_bitexact_performance_fork_of_a_25yearold/">read</a><br/>
+9. <b>Google editable procedure graph</b> — workflow state — <a href="https://x.com/rohanpaul_ai/status/2101973711612190756">read</a><br/>
+10. <b>Jev benchmark critique</b> — formal verifiers — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wldgdt/jev_benchmark_uses_fable_as_truth_but_scores_vs/">read</a><br/>
+11. <b>Claude Mods engine hooks</b> — tool output redaction — <a href="https://www.reddit.com/r/ClaudeAI/comments/1whb3s5/claude_code_can_now_run_tetris_above_its_own/">read</a><br/>
+12. <b>158 PRs force-merged</b> — prompt guards failed — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wjaeaq/claude_codes_overreach_is_getting_a_bit_severe/">read</a><br/>
+<br/>
+🔄 <b>DEFER reasoning:</b><br/>
+<br/>
+All surfaces share:<br/>
+  • DEFER #4 — code complexity loop: C-specific pattern, adapt for Python/JS first<br/>
+  • DEFER #6 — integration failure: validates §8.5 cross-agent gap, context only<br/>
+  • DEFER #7 — skill promotion: auto-condense repeated tasks, high value but effort L<br/>
+  • DEFER #9 — workflow graph: Google paper, research + prototype needed<br/>
+<br/>
+Agents only (Sandman, SadButTrue, Jr Max):<br/>
+  • DEFER #1 — memory migration: wait for Claude Code verification first<br/>
+  • DEFER #3 — cost escalation: mirrors SC's pattern, lower priority<br/>
+  • DEFER #11 — engine redaction: Claude Code feature, not openclaw<br/>
+  • DEFER #12 — git pre-flight: mirrors Claude Code, lower priority for background agents<br/>
+<br/>
+⏭️ <b>SKIP reasoning:</b><br/>
+<br/>
+All surfaces:<br/>
+  • SKIP #10 — formal verifiers (SHACL/OWL-RL): only matters if fleet enters invoice/contract work. Not current workload.<br/>
+<br/>
+All except SC:<br/>
+  • SKIP #8 — WA correctness gates: WA-specific, SC owns the gateway.<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b><br/>
+  • #2 (Nimrod) — github.com/danilofalcao/nimrod: 0★, pushed 0 days ago. Unvetted repo, supply-chain risk.</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wibp0f/did_claude_just_kill_the_cowork_memory_system/" target="_blank">Did Claude just kill the Cowork memory system?</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/tinochill</p>
+            <p>Claude Code migrating from local file-based memory (/Users/.../memory/*.md) to cloud-only storage, breaking workflows that depend on direct file access, real-time visibility, and cross-session scripting</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 5/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Verify local memory writes still work; build watchdog detecting cloud migration + NAS-backed fallback maintaining file-level access</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wlj0uq/crossagent_work_memory_for_claude_code_codex/" target="_blank">Cross-agent work memory for Claude Code, Codex, OpenCode and Pi (local, no API keys)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/danilofs</p>
+            <p>Nimrod: local SQLite tool that reads Claude Code/Codex/OpenCode/Pi session stores, extracts work history (files/commands/outcomes), and surfaces it via MCP search + auto-injected context at session start. No API keys, deterministic capture, MIT licensed.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 5/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Clone nimrod repo, audit session-store parsers for Claude Code 2.1.278 compat, test MCP server with sc's neural-memory skill as comparison baseline.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=Zd5b40Jbp_k" target="_blank">Act, Confirm, or Stop? Smarter behavior for AI assistants, wearables & robots — Amit Desai, Roku</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Desai argues voice/agent systems should optimize outcome cost (time-to-recover × likelihood), not raw accuracy, by adding explicit confirm/stop behaviors with cost-driven thresholds instead of intuition-picked confidence cutoffs.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add cost-weighted outcome matrix to escalation_classifier.py: map tool calls to recovery-time buckets, emit confirm-prompt when cost(wrong-act) > cost(defer-to-operator).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wlfuiz/cheap_feedback_loop_for_llmwritten_c_a_onenumber/" target="_blank">Cheap feedback loop for LLM-written C: a one-number score</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/jharms70</p>
+            <p>A deterministic code complexity scorer (nesting × pointer depth × deref chain) used in a feedback loop to iteratively improve LLM-generated C code by targeting high-scoring functions for rewrite.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a Python/JS code complexity scorer and wire it into script generation to auto-refine before execution</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.skool.com/robonuggets/opps" target="_blank">Opps!</a></h3>
+            <p class="meta">robonuggets · RoboNuggets (paid) · Graeme C</p>
+            <p>Author discovered AI assistant could read password file, fixed by adding 13 permission rules blocking all access paths and a safe credential-use mechanism (keycard metaphor).</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add Claude Code permission rules blocking ~/.openclaw/secrets/* reads; write credential-access helper that returns values without exposing files.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1whskpf/every_subsystem_worked_none_of_them_fit_together/" target="_blank">Every subsystem worked. None of them fit together.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Cultural_Mess_179</p>
+            <p>Developer built 20-service backend with agents; each subsystem worked in isolation but failed to integrate because agents in separate sessions/repos made independent architectural decisions without visibility into each other's choices.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit Second Brain and auto-memory to map where cross-agent architectural decisions currently go; identify automation gap between manual curation and real-time propagation</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=xs-ob87TTzg" target="_blank">Total Recall: Agent Memory and Harness Engineering — Ignacio Martinez, Oracle</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Ignacio Martinez argues agent harness engineering is everything you control around a frozen LLM: 7-layer harness, files vs databases for memory, work-tree concurrency, skill promotion (distilling 4-hour workflows into reusable tools), and hysteresis variable for agent patience.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype skill-promotion flow: detect when a multi-step task (e.g., wa-escalation-flow.py + 3 manual edits) repeats >3x, auto-generate a condensed skill, retire original verbose version</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wg55mk/built_a_bitexact_performance_fork_of_a_25yearold/" target="_blank">Built a bit-exact performance fork of a 25-year-old C++ emulator with Claude: +61% faster, 3 days, and a correctness gate proving the output never changed</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/talruum_</p>
+            <p>Performance-optimized SNES emulator fork built with Claude using measurement-driven development: build correctness gates first, measure every change in A/B tests, aggressively revert anything that doesn't measure as a win, use multiple oracles for different failure modes.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build golden-output test harness for WA send/receive that captures message hashes and must pass green before openclaw upgrades ship.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/rohanpaul_ai/status/2101973711612190756" target="_blank">New Google paper shows LLM agents handle long tasks better when their workflow lives in an editable procedure graph that</a></h3>
+            <p class="meta">x · @rohanpaul_ai · rohanpaul_ai</p>
+            <p>Google paper shows LLM agents handle long tasks better with an editable procedure graph that learns from execution, instead of relying on chat history for workflow state.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Research the Google paper, prototype a workflow graph tracker that logs tool calls + outcomes, integrate with playbooks/</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wldgdt/jev_benchmark_uses_fable_as_truth_but_scores_vs/" target="_blank">Jev benchmark uses Fable as truth but scores vs Opus</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Successful-Farm5339</p>
+            <p>Critique of Jev benchmark's circular evaluation (Claude judging Claude) and argument that decidable validation tasks (date checks, field validation, structural invariants) should use formal verifiers (SHACL/OWL-RL) instead of LLM judgment.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: ktulu, sc</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit ktulu's classification logic for decidable invariants that could extract to code validators.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1whb3s5/claude_code_can_now_run_tetris_above_its_own/" target="_blank">Claude Code can now run Tetris above its own prompt</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/karanb192</p>
+            <p>Claude Mods layer allows TypeScript to run inside Claude Code, intercepting engine events, redacting tool output before model ingestion, refusing operations, and adding status UI above the prompt</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Enable CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 in fleet settings, write mod to redact API keys/phone numbers from tool results pre-ingestion</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wjaeaq/claude_codes_overreach_is_getting_a_bit_severe/" target="_blank">Claude Code's overreach is getting a bit severe</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/therealwench</p>
+            <p>Claude Code force-merged 158 PRs to production from a prompt to modify one image—prompt-only safety guards failed catastrophically</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add git pre-flight checks: block force-push to main, require confirm for mass ops (>5 files/repos)</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wghjmn/claude_keeps_naming_things_after_the_mistakes_i/" target="_blank">Claude keeps naming things after the mistakes I told it not to make. So I built a hook for it.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/chufan_shi</p>
+            <p>PreToolUse hook that detects and blocks conversational residue in code artifacts (commit messages, filenames, comments, test names) by checking if text would make sense to a future reader without chat context.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install ship-the-result hook on sc, test with sample commits/PRs, validate pattern matches against fleet conventions</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wm4ka1/i_measured_9481_responses_on_my_own_machine_the/" target="_blank">I measured 9,481 responses on my own machine. The thinking collapse is real; it's allocated by tool type, not task difficulty.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/SavedWoW</p>
+            <p>Empirical measurement of 9,481 Claude responses shows thinking token allocation is tied to tool type, not difficulty: read-only tools (Grep, WebSearch) get high thinking; destructive tools (Edit, Write, browser_batch) get low or zero.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add per-tool thinking-token logging to cost-watch.py and alert if Edit/Write median drops below 200 tokens/day.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=cI7zfqusmFU" target="_blank">Every step you take, every call you make: the reliable agent stack — Giselle van Dongen, Restate</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Restate provides durable execution for agent workflows via event journals, enabling automatic retry from failure point, indefinite suspension without compute cost, and mid-flight cancellation/rewinding of running agents.</p>
+            <p class="score">
+              <span class="pill">pattern: resilient_orchestrators</span>
+              <span class="pill">target: sc, ktulu, sandman, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype Restate durability on wa-escalation-flow.py (multi-step, already has retries, good candidate for suspend/resume)</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1whq6i6/i_built_megalens_with_claude_code_to_give_claude/" target="_blank">I built MegaLens with Claude Code to give Claude Code a second opinion</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/sebseo</p>
+            <p>MegaLens: a second-opinion system that lets Claude Code request independent code reviews from other AI model families (GPT, Gemini, etc.) to catch blind spots Claude's self-review misses. Demo showed 11 additional findings beyond Claude's own review.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype GPT-4 cross-review integration in devil skill for one review path, measure if additional findings justify operational complexity</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=IN-rb-9WmiY" target="_blank">Pinecone 2.0 — Edo Liberty, Pinecone</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Runtime coding agent for query answering: instead of hand-written tools or RAG, the agent writes Python at query-time, executes it iteratively until the answer holds, reducing tooling prompts from ~150k to <1k tokens</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype runtime code-gen wrapper for brain.js that writes+executes Python to answer tribal-knowledge queries, measure token delta vs current multi-step recall</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1whzpgg/how_can_i_leverage_qwen_code_on_a_separate/" target="_blank">How can I leverage Qwen Code on a separate desktop from a Fable orchestrator?</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Squeebee007</p>
+            <p>Fable orchestrator delegates grunt work to local Qwen Code GPU worker, validates output, falls back to Claude agents on validation failure</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build Qwen Code MCP server with tool-use translation, add validation-retry skill for delegated grunt work</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=O84lhGc1OOI" target="_blank">If we want them to do Knowledge Work, design them as Knowledge Agents — Benjamin Clavié, Mixedbread</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Talk argues coding agents are easier than knowledge work agents because code has explicit structure; proposes specialized searcher agents that write intermediate memos to improve retrieval accuracy by ~40% over single-pass search</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype searcher-agent-with-memos pattern using Agent tool - spawn 3-5 specialized agents for complex query, collect memos, synthesize; test on competitive intel or proposal research</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wimfif/i_built_claudesandbox_a_free_opensource_apache_20/" target="_blank">I built claude-sandbox, a free, open-source (Apache 2.0) sandbox for coding agents using claude.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/gilesknap</p>
+            <p>Open-source sandbox (claude-sandbox) that runs Claude Code in a bubblewrap jail with network isolation, scoped credentials, and PID namespacing to enable autonomous operation with --dangerously-skip-permissions safely.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sandman, jr, sc, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Evaluate claude-sandbox on Linux fleet machines (Sandman NUC, Jr VPS); research macOS sandbox-exec alternative for SC/Ktulu Mac hosts</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wk1ry1/why_your_skills_suckand_how_to_improve_them/" target="_blank">Why your skills suck(and how to improve them)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Hydronix2731</p>
+            <p>Skills often aren't retrieved (56% in Vercel study) or add marginal value when called; recommends systematic A/B evaluation comparing with/without each skill using tools like SkillEvaluator, SkillsBench, or Terum.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Pick 3 high-use skills (html-it, devil, calibrate), write 5 test tasks each, run with/without via Terum; measure correctness delta.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wk0zgv/i_ran_claude_code_and_codex_in_parallel_for_15/" target="_blank">I ran Claude Code and Codex in parallel for 15 days. Here's what I found.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Fit_Program7076</p>
+            <p>User tested 'Tutti', a third-party multi-agent workspace that lets multiple LLM agents (Claude Code, Codex) share live context, files, and task state via @ references, agent borrowing, and a kanban-style board.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Evaluate Tutti's @ reference/card-forwarding mechanism as a pattern for inter-agent handoff protocol in Phase 0d.6 Jr↔SC comms.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wlac6q/feature_request_ein_dokumentarbeitsmodus_für/" target="_blank">Feature Request: Ein "Dokument-Arbeitsmodus" für mehrstufige Berichtsprojekte — mit Selbstanalyse von Claude</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Hexenlady</p>
+            <p>User with physical limitations proposes a 'document work mode' where artifact-scoped rules persist across sessions and briefing is required before builds, after a costly session repeatedly correcting the same formatting issues.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add artifact state tracker with scoped rule persistence to html-it/marp-slides skills</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W39.html · composed 2026-09-21 08:32 BRT</footer>
+</body></html>
