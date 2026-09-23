@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Toolu — leitura consolidada · Google vs Meta</title>
+<style>
+:root{
+--ivory:#FAF9F5;--paper:#FFFFFF;--slate:#141413;--clay:#D97757;--clay-d:#B85C3E;
+--oat:#E3DACC;--olive:#788C5D;--g100:#F0EEE6;--g200:#E6E3DA;--g300:#D1CFC5;--g500:#87867F;--g700:#3D3D3A;
+--serif:ui-serif,Georgia,"Times New Roman",serif;
+--sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ivory);color:var(--slate);font-family:var(--sans);
+line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:48px 32px 72px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;
+color:var(--g500);display:flex;align-items:center;gap:10px;margin:0 0 18px}
+.eyebrow::before{content:"";width:24px;height:2px;background:var(--clay);flex:none}
+h1{font-family:var(--serif);font-size:clamp(34px,5vw,56px);line-height:1.07;
+letter-spacing:-.018em;margin:0 0 20px;font-weight:600}
+h1 em{font-style:italic;color:var(--clay)}
+h2{font-family:var(--serif);font-size:clamp(23px,2.6vw,30px);letter-spacing:-.012em;
+margin:0 0 14px;font-weight:600}
+h3{font-size:15px;margin:26px 0 8px;font-weight:650}
+p{margin:0 0 14px}
+.lede{font-size:18px;color:var(--g700);max-width:70ch}
+section{border-bottom:1.5px solid var(--g300);padding:44px 0 40px}
+section:last-of-type{border-bottom:0}
+.num{font-family:var(--mono);font-size:11px;color:var(--clay);letter-spacing:.1em;
+text-transform:uppercase;margin-bottom:8px;display:block}
+.verdict{background:var(--paper);border:1.5px solid var(--g300);border-left:4px solid var(--clay);
+padding:26px 28px;margin:26px 0 0;border-radius:3px}
+.verdict h2{margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin:22px 0}
+.card{background:var(--paper);border:1.5px solid var(--g200);border-radius:3px;padding:18px 20px}
+.card .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+color:var(--g500);margin-bottom:7px}
+.card .v{font-family:var(--serif);font-size:30px;line-height:1.05;letter-spacing:-.02em}
+.card .s{font-size:13px;color:var(--g500);margin-top:6px}
+.card.warn{border-color:var(--clay);background:#FDF6F2}
+.card.good{border-color:var(--olive)}
+table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px;background:var(--paper)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--g200);vertical-align:top}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+color:var(--g500);background:var(--g100);font-weight:500}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+th.n{text-align:right}
+tr.tot td{font-weight:700;border-top:2px solid var(--g300);background:var(--g100)}
+tr.hi td{background:#FDF6F2}
+.ok{color:var(--olive);font-weight:650}
+.bad{color:var(--clay-d);font-weight:650}
+.callout{background:var(--g100);border:1.5px solid var(--g200);border-radius:3px;
+padding:18px 20px;margin:20px 0;font-size:14.5px}
+.callout.alert{background:#FDF6F2;border-color:var(--clay)}
+.callout strong{color:var(--clay-d)}
+.chart{background:var(--paper);border:1.5px solid var(--g200);border-radius:3px;padding:22px;margin:22px 0;overflow-x:auto}
+ul{margin:0 0 14px;padding-left:20px}li{margin-bottom:7px}
+.rec{background:var(--paper);border:1.5px solid var(--g200);border-left:3px solid var(--clay);
+border-radius:3px;padding:20px 22px;margin:16px 0}
+.rec h3{margin:0 0 8px;font-size:16px}
+.rec .tag{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+color:var(--g500);display:block;margin-bottom:6px}
+.foot{font-family:var(--mono);font-size:11.5px;color:var(--g500);line-height:1.7;
+border-top:1.5px solid var(--g300);padding-top:22px;margin-top:8px}
+@media(max-width:700px){.wrap{padding:32px 16px 56px}.card .v{font-size:25px}
+table{font-size:12.5px}th,td{padding:8px 6px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="eyebrow">Superclawman &times; Toolu · leitura consolidada dos tr&ecirc;s relat&oacute;rios · 23/09/2026</div>
+<h1>O Google &eacute; <em>real</em>. O n&uacute;mero do Meta no relat&oacute;rio da semana &eacute; a loja inteira.</h1>
+<p class="lede">Esta &eacute; a leitura que ficamos de te devolver: os tr&ecirc;s relat&oacute;rios (tr&aacute;fego, e-mails e o semanal)
+lidos juntos, conferidos contra a pr&oacute;pria loja, com a recomenda&ccedil;&atilde;o sobre a diferen&ccedil;a entre Google e Meta.
+Todo n&uacute;mero da loja aqui foi medido hoje, direto da API da Nuvemshop.</p>
+
+<div class="verdict">
+<h2>O veredito em quatro linhas</h2>
+<p><strong>1. O Google confere &mdash; e est&aacute; melhor do que o relat&oacute;rio diz.</strong> A loja registra
+4 pedidos pagos com clique do Google naquela semana, somando <strong>R$&nbsp;1.310,27</strong>. O relat&oacute;rio disse
+4 compras e R$&nbsp;1.168. Bate.</p>
+<p><strong>2. O n&uacute;mero do Meta n&atilde;o confere.</strong> O relat&oacute;rio semanal atribui ao Meta um faturamento de
+R$&nbsp;4.609. A loja inteira faturou <strong>R$&nbsp;4.609,51</strong> naquela semana &mdash; de todas as origens somadas.
+&Eacute; a semana toda, n&atilde;o a parte do Meta.</p>
+<p><strong>3. Desde a semana de 31 de agosto, metade dos pedidos chega sem marca&ccedil;&atilde;o de origem.</strong>
+Era 11% a 22% at&eacute; 24/08. Foi para 55% e n&atilde;o voltou. Alguma coisa mudou nos links no fim de agosto,
+e isso cega qualquer relat&oacute;rio de setembro &mdash; o nosso inclusive.</p>
+<p><strong>4. O Google n&atilde;o &eacute; novidade: ele vende desde janeiro e ningu&eacute;m estava olhando.</strong>
+40 pedidos pagos em 2026 entraram por clique de an&uacute;ncio do Google. Julho foi o melhor m&ecirc;s, com 11.</p>
+</div>
+
+<section>
+<span class="num">01</span>
+<h2>A semana 14&ndash;20/09, lado a lado</h2>
+<p>De um lado o que o relat&oacute;rio da semana diz. Do outro o que a loja registrou, pedido por pedido,
+no mesmo intervalo (14 a 20 de setembro, hor&aacute;rio de Bras&iacute;lia).</p>
+
+<table>
+<thead><tr><th>&nbsp;</th><th class="n">Relat&oacute;rio</th><th class="n">Loja</th><th>Leitura</th></tr></thead>
+<tbody>
+<tr><td><strong>Google &mdash; compras</strong></td><td class="n">4</td><td class="n">4</td><td class="ok">confere</td></tr>
+<tr><td><strong>Google &mdash; faturamento</strong></td><td class="n">R$ 1.168,00</td><td class="n">R$ 1.310,27</td><td class="ok">confere (loja 12% acima)</td></tr>
+<tr class="hi"><td><strong>Meta &mdash; compras</strong></td><td class="n">23</td><td class="n">8</td><td class="bad">a loja toda teve 20 pedidos pagos</td></tr>
+<tr class="hi"><td><strong>Meta &mdash; faturamento</strong></td><td class="n">R$ 4.609,00</td><td class="n">R$ 1.432,33</td><td class="bad">R$ 4.609,51 &eacute; a receita TOTAL da semana</td></tr>
+<tr class="tot"><td>Receita paga da loja na semana</td><td class="n">&mdash;</td><td class="n">R$ 4.609,51</td><td>20 pedidos pagos, 24 no total</td></tr>
+</tbody>
+</table>
+
+<h3>De onde vieram os 20 pedidos pagos</h3>
+<table>
+<thead><tr><th>Origem registrada pela loja</th><th class="n">Pedidos</th><th class="n">Receita</th></tr></thead>
+<tbody>
+<tr><td>Meta (Instagram / Facebook Ads)</td><td class="n">8</td><td class="n">R$ 1.432,33</td></tr>
+<tr><td><strong>Sem marca&ccedil;&atilde;o nenhuma</strong></td><td class="n">8</td><td class="n">R$ 1.866,91</td></tr>
+<tr><td>Google Ads (clique de an&uacute;ncio)</td><td class="n">3</td><td class="n">R$ 1.084,20</td></tr>
+<tr><td>Google (outra entrada)</td><td class="n">1</td><td class="n">R$ 226,07</td></tr>
+<tr class="tot"><td>Total</td><td class="n">20</td><td class="n">R$ 4.609,51</td></tr>
+</tbody>
+</table>
+
+<div class="callout alert">
+<strong>O que isso faz com o ROAS.</strong> Recalculando com a receita que a loja realmente recebeu:
+o Google entregou <strong>22,6&times;</strong> (R$&nbsp;1.310,27 sobre R$&nbsp;58). O Meta entregou
+<strong>entre 1,3&times; e 3,0&times;</strong> &mdash; 1,3&times; contando s&oacute; o que est&aacute; marcado como Meta, 3,0&times; no
+cen&aacute;rio mais generoso poss&iacute;vel, em que <em>todos</em> os 8 pedidos sem marca&ccedil;&atilde;o tamb&eacute;m fossem do Meta.
+Mesmo no teto, fica abaixo dos 4&times; do relat&oacute;rio. A diferen&ccedil;a entre os canais existe e &eacute; grande &mdash;
+mas ela &eacute; 22&times; contra 1,3&ndash;3&times;, n&atilde;o 20&times; contra 4&times;.
+</div>
+</section>
+
+<section>
+<span class="num">02</span>
+<h2>A medi&ccedil;&atilde;o quebrou na semana de 31 de agosto</h2>
+<p>Esta &eacute; a descoberta mais &uacute;til do documento, porque &eacute; a &uacute;nica que d&aacute; para resolver esta semana.
+Cada pedido da loja guarda por onde a pessoa entrou. A propor&ccedil;&atilde;o de pedidos pagos que chegam
+<strong>sem nenhuma marca&ccedil;&atilde;o</strong> estava est&aacute;vel entre 11% e 22%. Na semana de 31/08 pulou para 55%
+e n&atilde;o voltou.</p>
+
+<div class="chart">
+<svg viewBox="0 0 900 250" width="100%" height="auto" role="img"
+ aria-label="Percentual de pedidos pagos sem marca&ccedil;&atilde;o de origem, por semana, de julho a setembro de 2026">
+  <line x1="60" y1="200" x2="880" y2="200" stroke="#D1CFC5" stroke-width="1.5"/>
+  <line x1="60" y1="20" x2="880" y2="20" stroke="#E6E3DA" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="60" y1="110" x2="880" y2="110" stroke="#E6E3DA" stroke-width="1" stroke-dasharray="3 3"/>
+  <text x="52" y="204" text-anchor="end" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#87867F">0%</text>
+  <text x="52" y="114" text-anchor="end" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#87867F">30%</text>
+  <text x="52" y="24" text-anchor="end" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#87867F">60%</text>
+  <!-- y = 200 - pct/60*180 -->
+  <rect x="75"  y="167" width="52" height="33"  fill="#788C5D" opacity=".75"/>
+  <rect x="145" y="164" width="52" height="36"  fill="#788C5D" opacity=".75"/>
+  <rect x="215" y="161" width="52" height="39"  fill="#788C5D" opacity=".75"/>
+  <rect x="285" y="146" width="52" height="54"  fill="#788C5D" opacity=".75"/>
+  <rect x="355" y="155" width="52" height="45"  fill="#788C5D" opacity=".75"/>
+  <rect x="425" y="140" width="52" height="60"  fill="#788C5D" opacity=".75"/>
+  <rect x="495" y="134" width="52" height="66"  fill="#788C5D" opacity=".75"/>
+  <rect x="565" y="35"  width="52" height="165" fill="#D97757"/>
+  <rect x="635" y="38"  width="52" height="162" fill="#D97757"/>
+  <rect x="705" y="80"  width="52" height="120" fill="#D97757"/>
+  <rect x="775" y="80"  width="52" height="120" fill="#D97757" opacity=".55"/>
+  <text x="101" y="161" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#3D3D3A">11%</text>
+  <text x="171" y="158" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#3D3D3A">12%</text>
+  <text x="241" y="155" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#3D3D3A">13%</text>
+  <text x="311" y="140" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#3D3D3A">18%</text>
+  <text x="381" y="149" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#3D3D3A">15%</text>
+  <text x="451" y="134" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#3D3D3A">20%</text>
+  <text x="521" y="128" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#3D3D3A">22%</text>
+  <text x="591" y="29"  text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="12" font-weight="700" fill="#B85C3E">55%</text>
+  <text x="661" y="32"  text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="12" font-weight="700" fill="#B85C3E">54%</text>
+  <text x="731" y="74"  text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="12" font-weight="700" fill="#B85C3E">40%</text>
+  <text x="801" y="74"  text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="12" font-weight="700" fill="#B85C3E">40%</text>
+  <text x="101" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#87867F">13/07</text>
+  <text x="171" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#87867F">20/07</text>
+  <text x="241" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#87867F">27/07</text>
+  <text x="311" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#87867F">03/08</text>
+  <text x="381" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#87867F">10/08</text>
+  <text x="451" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#87867F">17/08</text>
+  <text x="521" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#87867F">24/08</text>
+  <text x="591" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#B85C3E" font-weight="700">31/08</text>
+  <text x="661" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#87867F">07/09</text>
+  <text x="731" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#87867F">14/09</text>
+  <text x="801" y="218" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#87867F">21/09*</text>
+  <text x="801" y="236" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#87867F">3 dias</text>
+  <text x="470" y="245" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#87867F">pedidos pagos SEM marca&ccedil;&atilde;o de origem, por semana (segunda a domingo)</text>
+</svg>
+</div>
+
+<p>D&aacute; para ver a mesma quebra nos valores brutos. Em agosto, 18 dos 103 pedidos pagos chegaram sem origem.
+Em setembro, <strong>41 de 80</strong>. A verba n&atilde;o caiu &mdash; s&oacute; a semana de 14 a 20/09 teve R$&nbsp;1.091 no
+Meta, <em>acima</em> do ritmo de agosto (R$&nbsp;3.886 no m&ecirc;s inteiro). Ou seja: n&atilde;o &eacute; que o tr&aacute;fego pago parou. &Eacute; que ele parou de se identificar.</p>
+
+<div class="callout alert">
+<strong>Por que isso importa mais do que parece.</strong> Enquanto metade dos pedidos chega an&ocirc;nima,
+nenhum relat&oacute;rio de setembro &mdash; do Meta, do Google ou nosso &mdash; consegue dizer com seguran&ccedil;a quanto cada
+canal produziu. &Eacute; a primeira coisa a resolver, e &eacute; uma pergunta s&oacute; para a ag&ecirc;ncia:
+<em>o que mudou nos links de an&uacute;ncio no fim de agosto?</em>
+</div>
+</section>
+
+<section>
+<span class="num">03</span>
+<h2>Os relat&oacute;rios mensais de tr&aacute;fego, esses, conferem</h2>
+<p>Vale separar as duas coisas, porque a conclus&atilde;o &eacute; diferente. Os PDFs mensais de tr&aacute;fego que voc&ecirc; nos
+mandou batem com a loja &mdash; em julho e agosto a loja credita ao Meta <em>mais</em> do que o pr&oacute;prio Meta reivindica.
+S&atilde;o relat&oacute;rios confi&aacute;veis. O problema est&aacute; no semanal.</p>
+<table>
+<thead><tr><th>M&ecirc;s</th><th class="n">Meta reivindica</th><th class="n">Loja atribui ao Meta</th><th class="n">Verba</th><th>Leitura</th></tr></thead>
+<tbody>
+<tr><td>jun/26</td><td class="n">R$ 7.019 &middot; 31 compras</td><td class="n">R$ 4.643 &middot; 23 pedidos</td><td class="n">R$ 4.039</td><td>Meta acima da loja</td></tr>
+<tr><td>jul/26</td><td class="n">R$ 11.107 &middot; 69 compras</td><td class="n">R$ 12.810 &middot; 73 pedidos</td><td class="n">R$ 3.161</td><td class="ok">loja acima do Meta</td></tr>
+<tr><td>ago/26</td><td class="n">R$ 10.961 &middot; 51 compras</td><td class="n">R$ 15.329 &middot; 79 pedidos</td><td class="n">R$ 3.886</td><td class="ok">loja acima do Meta</td></tr>
+</tbody>
+</table>
+<p>Uma diferen&ccedil;a de 10% a 30% entre plataforma e loja &eacute; normal e esperada &mdash; s&atilde;o duas formas de contar.
+O que n&atilde;o &eacute; normal &eacute; um n&uacute;mero semanal que coincide, no centavo, com a receita total da loja.</p>
+</section>
+
+<section>
+<span class="num">04</span>
+<h2>O Google vende desde janeiro &mdash; e ningu&eacute;m estava olhando</h2>
+<p>Pedidos pagos de 2026 que entraram por clique de an&uacute;ncio do Google, m&ecirc;s a m&ecirc;s:</p>
+<table>
+<thead><tr><th>&nbsp;</th><th class="n">jan</th><th class="n">fev</th><th class="n">mar</th><th class="n">abr</th><th class="n">mai</th><th class="n">jun</th><th class="n">jul</th><th class="n">ago</th><th class="n">set</th><th class="n">ano</th></tr></thead>
+<tbody>
+<tr><td>Pedidos pagos via Google Ads</td><td class="n">7</td><td class="n">4</td><td class="n">0</td><td class="n">0</td><td class="n">8</td><td class="n">0</td><td class="n">11</td><td class="n">5</td><td class="n">5</td><td class="n"><strong>40</strong></td></tr>
+</tbody>
+</table>
+<p>S&atilde;o <strong>R$&nbsp;7.855,57</strong> no ano. N&atilde;o &eacute; um canal que acabou de nascer: ele produz desde janeiro,
+com julho sendo o melhor m&ecirc;s. A novidade n&atilde;o &eacute; o Google vender &mdash; &eacute; algu&eacute;m finalmente ter reportado isso.</p>
+<div class="callout">
+N&atilde;o temos hist&oacute;rico de <em>quanto foi gasto</em> no Google. Temos uma &uacute;nica semana: R$&nbsp;58. Sem o gasto
+mensal, n&atilde;o d&aacute; para dizer se o canal sempre foi eficiente ou se esta semana foi boa. &Eacute; o pedido que
+continua de p&eacute; com a ag&ecirc;ncia.
+</div>
+</section>
+
+<section>
+<span class="num">05</span>
+<h2>Por que 20&times; n&atilde;o vira 20&times; com mais verba</h2>
+<p>Este &eacute; o ponto que evita uma decis&atilde;o cara. Compare o formato das duas semanas:</p>
+<div class="grid">
+<div class="card good"><div class="k">Google &mdash; taxa de clique</div><div class="v">36%</div><div class="s">54 cliques em 149 exibi&ccedil;&otilde;es</div></div>
+<div class="card"><div class="k">Meta &mdash; taxa de clique</div><div class="v">2,3%</div><div class="s">602 cliques em 26.056 exibi&ccedil;&otilde;es</div></div>
+<div class="card"><div class="k">Google &mdash; custo por mil exibi&ccedil;&otilde;es</div><div class="v">R$ 389</div><div class="s">contra R$ 42 no Meta</div></div>
+<div class="card"><div class="k">Google &mdash; custo por pedido</div><div class="v">R$ 14,50</div><div class="s">contra R$ 55 a R$ 136 no Meta</div></div>
+</div>
+<p>Uma taxa de clique de 36% com 149 exibi&ccedil;&otilde;es &eacute; a assinatura cl&aacute;ssica de <strong>busca por marca</strong>:
+gente digitando &ldquo;Toolu&rdquo; no Google. &Eacute; barat&iacute;ssimo porque ningu&eacute;m mais disputa o nome da sua loja, e converte
+muito porque a pessoa j&aacute; decidiu comprar antes de clicar.</p>
+<p>Isso &eacute; dinheiro de verdade e vale ter. Mas tem um teto natural: <strong>dobrar a verba n&atilde;o dobra a
+quantidade de gente que procura por &ldquo;Toolu&rdquo;.</strong> O 20&times; existe porque o volume &eacute; pequeno, n&atilde;o apesar disso.</p>
+<div class="callout alert">
+<strong>E tem uma armadilha junto.</strong> Quem faz a pessoa procurar por &ldquo;Toolu&rdquo; no Google, na maior parte
+das vezes, &eacute; o an&uacute;ncio do Meta que ela viu antes. Em 2026, <strong>630 dos 989 pedidos pagos</strong>
+(R$&nbsp;122 mil de R$&nbsp;227 mil) entraram com marca&ccedil;&atilde;o do Meta. Cortar o Meta para financiar o Google
+provavelmente derruba os dois: some a demanda, e o Google fica sem o que colher.
+</div>
+</section>
+
+<section>
+<span class="num">06</span>
+<h2>A recomenda&ccedil;&atilde;o, em ordem</h2>
+
+<div class="rec">
+<span class="tag">esta semana &middot; custo zero</span>
+<h3>1 &middot; Descobrir o que mudou nos links em 31 de agosto</h3>
+<p>&Eacute; uma pergunta s&oacute;, para quem cuida do tr&aacute;fego: por que metade dos pedidos passou a chegar sem
+identifica&ccedil;&atilde;o de origem a partir do fim de agosto? Enquanto isso n&atilde;o volta, toda decis&atilde;o de verba est&aacute;
+sendo tomada com meia loja no escuro &mdash; inclusive a de aumentar o Google.</p>
+</div>
+
+<div class="rec">
+<span class="tag">esta semana &middot; R$ 58 &rarr; R$ 150 por semana</span>
+<h3>2 &middot; Subir o Google em degraus, sem tirar do Meta</h3>
+<p>O canal merece mais verba, e o teste certo &eacute; em degraus: R$&nbsp;58 &rarr; R$&nbsp;150 &rarr; R$&nbsp;300 por semana,
+um degrau por semana. O n&uacute;mero a acompanhar <strong>n&atilde;o &eacute; o ROAS, &eacute; o custo por pedido</strong> &mdash; hoje R$&nbsp;14,50.
+Enquanto ele ficar abaixo de <strong>R$&nbsp;50</strong>, o Google ainda est&aacute; comprando cliente mais barato que o Meta
+e vale subir de novo. Quando passar, parou de escalar: volta ao degrau anterior e fica l&aacute;.</p>
+</div>
+
+<div class="rec">
+<span class="tag">esta semana &middot; custo zero</span>
+<h3>3 &middot; Separar marca de n&atilde;o-marca dentro do Google</h3>
+<p>As campanhas de marca (&ldquo;Toolu&rdquo;, &ldquo;Toolu perfume&rdquo;) e as de produto gen&eacute;rico precisam ficar
+em campanhas separadas, com verba pr&oacute;pria e relat&oacute;rio pr&oacute;prio. Sen&atilde;o o 20&times; da marca esconde o resultado
+real do resto, e o degrau do item 2 fica imposs&iacute;vel de ler.</p>
+</div>
+
+<div class="rec">
+<span class="tag">pr&oacute;ximo relat&oacute;rio</span>
+<h3>4 &middot; Corrigir o relat&oacute;rio semanal</h3>
+<p>Duas corre&ccedil;&otilde;es: a linha de faturamento do Meta precisa trazer o que o <em>Meta</em> atribui a si mesmo,
+n&atilde;o a receita da loja; e o Google precisa ter hist&oacute;rico de gasto, n&atilde;o s&oacute; a semana corrente. Com isso o semanal
+volta a ser compar&aacute;vel com o mensal, que hoje &eacute; o &uacute;nico confi&aacute;vel.</p>
+</div>
+
+<div class="rec">
+<span class="tag">o maior n&uacute;mero da loja &middot; independe de verba</span>
+<h3>5 &middot; Os 802 que compraram uma vez e nunca voltaram</h3>
+<p>Medido hoje: <strong>884 pessoas</strong> pagaram um pedido em 2026 e apenas <strong>82 voltaram</strong> (9,3%).
+Das 802 que n&atilde;o voltaram, <strong>572 aceitaram receber e-mail</strong>. &Eacute; a maior oportunidade da loja e a &uacute;nica
+que n&atilde;o exige comprar audi&ecirc;ncia de novo &mdash; a Toolu j&aacute; pagou para conquistar essa gente, e 895 dos pedidos
+constam como entregues.</p>
+<p>Enquadrando honestamente: a RD Station est&aacute; contratada e produziu <strong>6 pedidos pagos em 2026</strong>
+(R$&nbsp;951), sendo 5 deles em setembro &mdash; ou seja, ela s&oacute; come&ccedil;ou a ser usada agora. Por isso o primeiro
+disparo para os 572 &eacute; uma <em>medi&ccedil;&atilde;o</em>, n&atilde;o uma campanha: serve para descobrir a taxa real de abertura e
+de retorno desta base antes de qualquer promessa de faturamento.</p>
+</div>
+</section>
+
+<section>
+<span class="num">07</span>
+<h2>O ano, para contexto</h2>
+<p>Receita paga por m&ecirc;s, medida hoje. Setembro tem 23 dias.</p>
+<table>
+<thead><tr><th>M&ecirc;s</th><th class="n">Pedidos</th><th class="n">Pagos</th><th class="n">Receita paga</th><th class="n">Ticket m&eacute;dio</th></tr></thead>
+<tbody>
+<tr><td>jan/26</td><td class="n">199</td><td class="n">181</td><td class="n">R$ 41.053,43</td><td class="n">R$ 226,81</td></tr>
+<tr><td>fev/26</td><td class="n">133</td><td class="n">128</td><td class="n">R$ 33.936,60</td><td class="n">R$ 265,13</td></tr>
+<tr><td>mar/26</td><td class="n">121</td><td class="n">116</td><td class="n">R$ 27.012,23</td><td class="n">R$ 232,86</td></tr>
+<tr><td>abr/26</td><td class="n">105</td><td class="n">96</td><td class="n">R$ 18.450,81</td><td class="n">R$ 192,20</td></tr>
+<tr><td>mai/26</td><td class="n">145</td><td class="n">130</td><td class="n">R$ 43.481,94</td><td class="n">R$ 334,48</td></tr>
+<tr><td>jun/26</td><td class="n">54</td><td class="n">50</td><td class="n">R$ 10.775,71</td><td class="n">R$ 215,51</td></tr>
+<tr><td>jul/26</td><td class="n">109</td><td class="n">105</td><td class="n">R$ 17.708,43</td><td class="n">R$ 168,65</td></tr>
+<tr><td>ago/26</td><td class="n">106</td><td class="n">103</td><td class="n">R$ 19.557,66</td><td class="n">R$ 189,88</td></tr>
+<tr><td>set/26 (23d)</td><td class="n">86</td><td class="n">80</td><td class="n">R$ 15.024,25</td><td class="n">R$ 187,80</td></tr>
+<tr class="tot"><td>2026</td><td class="n">1.058</td><td class="n">989</td><td class="n">R$ 227.001,06</td><td class="n">R$ 229,53</td></tr>
+</tbody>
+</table>
+<p>O ticket mediano pago &eacute; R$&nbsp;154,32 e o p90 &eacute; R$&nbsp;340,63 &mdash; a m&eacute;dia de R$&nbsp;229 &eacute; puxada por
+poucos pedidos grandes. A queda de jan&ndash;fev (cerca de R$&nbsp;37 mil/m&ecirc;s) para jul&ndash;set
+(R$&nbsp;15 a 19 mil) continua sendo o fato principal da loja, e &eacute; ela que d&aacute; tamanho ao item 5.</p>
+</section>
+
+<section>
+<span class="num">08</span>
+<h2>O que ainda n&atilde;o sabemos</h2>
+<ul>
+<li><strong>O que mudou nos links no fim de agosto.</strong> &Eacute; a pergunta do item 1 e destrava todo o resto.</li>
+<li><strong>Quanto foi gasto no Google antes desta semana.</strong> Sem isso n&atilde;o d&aacute; para dizer se o canal
+sempre foi eficiente.</li>
+<li><strong>Quantos contatos existem de fato na RD Station</strong> e se a base da loja est&aacute; sincronizada.
+A pergunta segue com o Nilton, ainda sem resposta &mdash; refor&ccedil;ada hoje.</li>
+<li><strong>Se o dom&iacute;nio toolu.com.br est&aacute; autenticado</strong> (SPF, DKIM, DMARC). Sem isso, disparo em
+volume cai em spam e queima o dom&iacute;nio &mdash; &eacute; pr&eacute;-requisito do item 5.</li>
+<li><strong>Por que junho caiu para 50 pedidos pagos</strong> contra 130 em maio. Voc&ecirc; j&aacute; deu a leitura
+(&eacute;poca fraca e estrat&eacute;gia, com a troca da empresa de tr&aacute;fego em 2 de julho) &mdash; fica registrado, mas o
+n&uacute;mero ainda n&atilde;o tem explica&ccedil;&atilde;o medida.</li>
+</ul>
+</section>
+
+<section>
+<span class="num">09</span>
+<h2>Como estes n&uacute;meros foram obtidos</h2>
+<p>Leitura direta da API da Nuvemshop em <strong>23/09/2026, entre 08h00 e 08h20 BRT</strong>. Apenas
+requisi&ccedil;&otilde;es de leitura, nenhuma altera&ccedil;&atilde;o na loja. As sondas imprimiram somente totais &mdash; nenhum nome,
+telefone, e-mail ou documento de cliente saiu em lugar nenhum. Janela: 01/01/2026 a 23/09/2026,
+1.058 pedidos. A origem de cada pedido vem do registro de visita que a pr&oacute;pria loja guarda, comparada
+com os relat&oacute;rios de Meta e Google que voc&ecirc; enviou.</p>
+<h3>Duas coisas que vale registrar sobre o m&eacute;todo</h3>
+<ul>
+<li><strong>Pedido pago n&atilde;o &eacute; pedido criado.</strong> Contamos apenas <code>pago</code>. Pedidos antigos
+podem ser pagos depois, ent&atilde;o a tabela de meses se move um pouco a cada medi&ccedil;&atilde;o &mdash; esta
+substitui a de 21/09.</li>
+<li><strong>A origem registrada &eacute; a da visita que gerou o pedido.</strong> Isso sub-credita canais de
+descoberta como o Meta, em que a pessoa v&ecirc; o an&uacute;ncio hoje e compra depois por outro caminho. &Eacute; mais um
+motivo para n&atilde;o ler o 1,3&times; do Meta como n&uacute;mero final &mdash; e para tratar a faixa 1,3&times;&ndash;3,0&times; como a
+leitura honesta.</li>
+</ul>
+</section>
+
+<div class="foot">
+Superclawman &times; Toolu &middot; leitura consolidada dos tr&ecirc;s relat&oacute;rios &middot; vers&atilde;o 3 &middot; 23/09/2026<br>
+Substitui o diagn&oacute;stico v2 de 21/09, que atribu&iacute;a ao Meta a totalidade da verba de an&uacute;ncio.
+Esta vers&atilde;o incorpora a campanha do Google, mede a origem real de cada pedido e data a quebra de
+medi&ccedil;&atilde;o em 31/08.
+</div>
+
+</div>
+</body>
+</html>
