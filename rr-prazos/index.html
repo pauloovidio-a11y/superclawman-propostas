@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saneamento e Prazos</title>
+<style>
+  :root{
+    --ivory:#F6F1E7; --paper:#FBF8F1; --slate:#1C1712;
+    --clay:#6D1A2D; --clay-d:#521221; --oat:#EFE7D7; --olive:#0F7A4D;
+    --g100:#F2ECE0; --g200:#E6DDCC; --g300:#D2C7B2; --g500:#7D7266; --g700:#4A423A;
+    --serif: ui-serif, Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box; min-width:0}
+  html,body{overflow-x:hidden}
+  body{margin:0; background:var(--ivory); color:var(--slate);
+       font-family:var(--sans); font-size:16.5px; line-height:1.6;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px; margin:0 auto; padding:44px 16px 72px}
+  @media(min-width:760px){ .wrap{padding:54px 32px 84px} }
+
+  .eyebrow{font-family:var(--mono); font-size:11.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--g500); display:flex; align-items:center;
+    gap:12px; margin:0 0 18px}
+  .eyebrow::before{content:""; width:24px; height:2px; background:var(--clay); flex:none}
+
+  h1{font-family:var(--serif); font-weight:400; font-size:clamp(32px,5vw,54px);
+     line-height:1.07; letter-spacing:-.018em; margin:0 0 14px}
+  h1 em{color:var(--clay); font-style:italic}
+  .sub{font-size:18px; color:var(--g700); max-width:68ch; margin:0 0 4px}
+  .stamp{font-family:var(--mono); font-size:12px; color:var(--g500); margin-top:14px}
+
+  h2{font-family:var(--serif); font-weight:400; font-size:clamp(23px,3.1vw,31px);
+     letter-spacing:-.012em; margin:0 0 8px}
+  h3{font-size:16px; margin:24px 0 8px}
+  p{margin:0 0 14px; max-width:76ch}
+  section{border-top:1.5px solid var(--g300); margin-top:48px; padding-top:30px}
+  .lead{color:var(--g500); font-family:var(--mono); font-size:12px; letter-spacing:.08em;
+        text-transform:uppercase; margin:0 0 18px}
+
+  .box{background:var(--paper); border:1px solid var(--g300); border-radius:3px;
+       padding:24px; margin:26px 0}
+  .box.key{border-left:3px solid var(--clay)}
+  .box p:last-child{margin:0}
+  .box .t{font-family:var(--mono); font-size:11px; letter-spacing:.09em;
+          text-transform:uppercase; color:var(--clay); margin-bottom:10px}
+
+  .grid{display:grid; gap:14px; margin:22px 0}
+  @media(min-width:720px){ .grid.c2{grid-template-columns:1fr 1fr} .grid.c3{grid-template-columns:repeat(3,1fr)} }
+  .card{background:var(--paper); border:1px solid var(--g300); border-radius:3px; padding:20px}
+  .card h4{margin:0 0 8px; font-size:16.5px; font-weight:600}
+  .card p{font-size:14.5px; color:var(--g700); margin:0 0 9px}
+  .card p:last-child{margin:0}
+  .card .n{font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--g500);
+           text-transform:uppercase; display:block; margin-bottom:8px}
+
+  .flow{list-style:none; margin:22px 0; padding:0; counter-reset:s}
+  .flow li{position:relative; padding:0 0 18px 46px; border-left:1px solid var(--g300);
+           margin-left:13px}
+  .flow li:last-child{border-left-color:transparent; padding-bottom:0}
+  .flow li::before{counter-increment:s; content:counter(s);
+    position:absolute; left:-13px; top:-2px; width:26px; height:26px; border-radius:50%;
+    background:var(--clay); color:#fff; font-family:var(--mono); font-size:12px;
+    display:flex; align-items:center; justify-content:center}
+  .flow strong{display:block; margin-bottom:3px}
+  .flow span{color:var(--g700); font-size:15px}
+
+  .tbl-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:20px 0}
+  table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:480px}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--g300); vertical-align:top}
+  th{font-family:var(--mono); font-size:10.5px; letter-spacing:.07em; text-transform:uppercase;
+     color:var(--g500); font-weight:400; white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  .yes{color:var(--olive); font-weight:600}
+  .no{color:var(--clay); font-weight:600}
+
+  ul.plain{margin:0 0 14px; padding-left:20px; max-width:76ch}
+  ul.plain li{margin-bottom:8px}
+
+  .ask{background:var(--g100); border:1px solid var(--g300); border-left:3px solid var(--clay);
+       border-radius:3px; padding:18px 20px; margin:14px 0}
+  .ask .q{font-weight:600; margin-bottom:6px}
+  .ask p{font-size:14.5px; color:var(--g700); margin:0}
+
+  code{font-family:var(--mono); font-size:13px; background:var(--g100);
+       border:1px solid var(--g300); border-radius:2px; padding:1px 6px;
+       color:var(--g700); overflow-wrap:anywhere}
+
+  footer{border-top:1.5px solid var(--g300); margin-top:52px; padding-top:20px;
+         font-family:var(--mono); font-size:11.5px; color:var(--g500)}
+
+  @media(max-width:640px){
+    .tbl-scroll table{min-width:0}
+    .tbl-scroll thead{display:none}
+    .tbl-scroll tr:first-child{display:none}
+    .tbl-scroll tr{display:block; border:1px solid var(--g300); border-radius:3px;
+                   padding:10px 12px; margin-bottom:10px; background:var(--paper)}
+    .tbl-scroll td{display:flex; justify-content:space-between; gap:14px; border:none;
+                   padding:5px 0; text-align:right}
+    .tbl-scroll td::before{content:attr(data-l); font-family:var(--mono); font-size:10.5px;
+      letter-spacing:.07em; text-transform:uppercase; color:var(--g500); text-align:left; flex:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Rodrigues e Rodrigues Advogados · reunião com a Luana · 23/09, 16h30</div>
+  <h1>Saneamento do servidor<br>e apoio aos <em>prazos</em></h1>
+  <p class="sub">Duas frentes que já foram decididas em 22/09. Esta reunião é o começo da primeira
+  e o acerto da segunda. Nada aqui depende do ADV Box nem do final do ano.</p>
+  <p class="stamp">Superclawman.ai · pauta de trabalho, para abrir na tela durante a reunião</p>
+
+  <div class="box key">
+    <div class="t">O ponto de partida, em uma frase</div>
+    <p>O Mike <strong>já enxerga o SharePoint do escritório com permissão de escrita</strong>, e o
+    escritório <strong>já tem um padrão de nomes escrito</strong>. Falta só uma coisa para começar:
+    esse documento chegar às nossas mãos e às do Mike — o Dr. Frederico é quem repassa. Com ele,
+    a primeira lista de renomeações sai na mesma semana.</p>
+  </div>
+
+  <section>
+    <p class="lead">Frente 1 · o servidor</p>
+    <h2>Organizar as pastas por natureza de processo</h2>
+    <p>O acordo de 22/09 é claro: o saneamento e a organização das pastas são feitos com a IA,
+    <strong>sem esperar a integração com o ADV Box</strong>. Junto com as pastas vai também a
+    conferência de telefone e e-mail dos clientes.</p>
+
+    <h3>Como isso roda, na prática</h3>
+    <ol class="flow">
+      <li><strong>O Mike lê e mapeia</strong>
+        <span>Ele percorre o acervo e monta o retrato do que existe hoje: quantas pastas, quais
+        naturezas aparecem, onde há duplicidade, o que está solto na raiz e o que não tem nome
+        reconhecível. Leitura apenas — nada muda nesta etapa.</span></li>
+      <li><strong>Ele propõe, a Luana aprova</strong>
+        <span>A proposta vem como lista: nome atual → nome novo, pasta atual → pasta nova, com o
+        motivo ao lado. A Luana aprova, corta ou corrige. Nenhum arquivo é renomeado antes desse
+        aval.</span></li>
+      <li><strong>Ele executa em lotes, não de uma vez</strong>
+        <span>Começa por uma natureza de processo só. Confere-se o resultado, e só então vai a
+        próxima. Um lote errado se desfaz; o acervo inteiro errado, não.</span></li>
+      <li><strong>Fica registrado</strong>
+        <span>Cada renomeação fica anotada: o que era, o que virou, quando e por ordem de quem.
+        Se precisar voltar atrás, há de onde voltar.</span></li>
+    </ol>
+
+    <div class="ask">
+      <div class="q">O que destrava a frente 1 — o padrão de nomes, com o Dr. Frederico</div>
+      <p>Não vamos inventar uma convenção: o escritório já tem a dele, por escrito. O pedido é que
+      <strong>o Dr. Frederico repasse esse documento para nós e para o Mike</strong>. Junto com ele,
+      ajuda muito a Luana apontar de três a cinco pastas que estão <em>certas</em> na prática — o
+      documento diz a regra, o exemplo mostra como ela é aplicada no dia a dia.</p>
+    </div>
+
+    <div class="ask">
+      <div class="q">O que ainda bloqueia</div>
+      <p>A TI do escritório precisa concluir a migração do OneDrive e liberar o acervo ao Mike e ao
+      Lucas — prazo combinado até 29/09. Enquanto o acervo não estiver liberado por inteiro, o Mike
+      trabalha só na parte que já enxerga.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="lead">Frente 2 · os prazos</p>
+    <h2>A dona do prazo continua sendo a Luana</h2>
+
+    <div class="box key">
+      <div class="t">A decisão de 22/09 que vale a pena dizer em voz alta</div>
+      <p>O aviso diário de prazos <strong>já está construído — e foi deixado desligado de
+      propósito</strong>, porque a rotina da Luana (D-2, D-1 e os do dia) já atende. A IA não entra
+      para substituir o controle dela. Entra para tirar dela o trabalho que é repetitivo e devolver
+      o que hoje ninguém consegue ver.</p>
+    </div>
+
+    <div class="grid c2">
+      <div class="card">
+        <span class="n">o que continua com ela</span>
+        <h4>O controle e a palavra final</h4>
+        <p>Ela segue mandando D-2, D-1 e os do dia. Nada muda no que os advogados recebem, a menos
+        que ela peça.</p>
+        <p>Prazo é responsabilidade — e responsabilidade não se delega para um robô.</p>
+      </div>
+      <div class="card">
+        <span class="n">o que a ia assume</span>
+        <h4>A digitação e a conferência</h4>
+        <p>A exportação em Excel entra no painel sozinha, sem ninguém redigitar. O painel mostra
+        atrasados, hoje e os próximos sete dias em uma tela.</p>
+        <p>E aponta o que destoa: prazo sem responsável, processo que sumiu da exportação, data que
+        não bate com a anterior.</p>
+      </div>
+    </div>
+
+    <h3>O combinado operacional</h3>
+    <div class="tbl-scroll">
+      <table>
+        <tr><th>Item</th><th>Situação</th><th>O que falta</th></tr>
+        <tr>
+          <td data-l="Item">Exportação do CPJ direto para o número do Paulo (final 718)</td>
+          <td class="no" data-l="Situação">pendente</td>
+          <td data-l="Falta">O painel foi carregado uma vez, em 14/09, e não recebeu nada desde então.</td>
+        </tr>
+        <tr>
+          <td data-l="Item">Com que frequência a exportação sai</td>
+          <td class="no" data-l="Situação">a confirmar</td>
+          <td data-l="Falta">Diária, semanal, sob demanda? É isso que define o ritmo do painel.</td>
+        </tr>
+        <tr>
+          <td data-l="Item">Publicações — Control Jus (contrato 041872)</td>
+          <td class="yes" data-l="Situação">já chega</td>
+          <td data-l="Falta">Ela mandou o relatório de 23/09: 36 publicações do dia. Sistema diferente do de prazos.</td>
+        </tr>
+        <tr>
+          <td data-l="Item">ADV Box</td>
+          <td data-l="Situação">não contratado</td>
+          <td data-l="Falta">Negociação de preço, migração prevista para o fim do ano. Nada aqui espera por ele.</td>
+        </tr>
+        <tr>
+          <td data-l="Item">Dono dos prazos</td>
+          <td class="yes" data-l="Situação">definido</td>
+          <td data-l="Falta">A Luana, controller. Sem mudança.</td>
+        </tr>
+        <tr>
+          <td data-l="Item">Aviso diário automático</td>
+          <td class="yes" data-l="Situação">pronto e desligado</td>
+          <td data-l="Falta">Fica desligado enquanto a rotina dela atender. Ligar é decisão dela.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="box key">
+      <div class="t">O painel já existe e já tem os prazos dela dentro</div>
+      <p>Não é uma proposta: está no ar em <strong>rr.superclawman.ai</strong>, e o Mike lê o mesmo
+      banco. Foi carregado com <strong>uma exportação do CPJ, em 14/09</strong> — 293 prazos, mais 7
+      que o Mike registrou depois. Hoje são <strong>295 em aberto</strong>.</p>
+      <p>E é aí que está o ponto desta reunião. O painel mostra <strong>159 atrasados</strong> e
+      apenas <strong>4 concluídos nos últimos 30 dias</strong>. Isso não quer dizer que o escritório
+      perdeu 159 prazos. Quer dizer que a nossa cópia parou em 14/09: os prazos que a equipe cumpriu
+      não têm como chegar até ela, então envelhecem sozinhos na tela.</p>
+      <p><strong>Um painel sem alimentação vira um painel errado — e um painel errado é pior do que
+      nenhum</strong>, porque as pessoas param de olhar. A exportação recorrente não é burocracia
+      nova: é a única coisa que falta para o que já está construído dizer a verdade.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="lead">Fechamento</p>
+    <h2>O que sai desta reunião</h2>
+    <div class="grid c3">
+      <div class="card">
+        <span class="n">hoje, na reunião</span>
+        <h4>O padrão de nomes em mãos</h4>
+        <p>O documento do escritório, repassado pelo Dr. Frederico ao Mike e a nós, mais três a
+        cinco pastas que a Luana considere certas. E por onde começar: qual natureza de processo
+        primeiro.</p>
+      </div>
+      <div class="card">
+        <span class="n">dela, esta semana</span>
+        <h4>A exportação do CPJ</h4>
+        <p>O arquivo de prazos direto para o número do Paulo (final 718), e com que frequência ele
+        pode sair. É o que tira o painel de 14/09 e o traz para hoje.</p>
+      </div>
+      <div class="card">
+        <span class="n">nosso</span>
+        <h4>O retrato do acervo</h4>
+        <p>O mapa do que existe hoje no SharePoint e a primeira lista de renomeações para ela
+        aprovar — sem tocar em nada antes do aval.</p>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="t">Uma observação honesta sobre o acervo</div>
+      <p>Servidor de escritório que cresceu por anos costuma ter pasta duplicada, nome que só quem
+      criou entende e arquivo solto na raiz. Isso é normal e não é crítica a ninguém. O ponto de
+      dizer agora é outro: quanto mais bagunçado o ponto de partida, mais a primeira lista de
+      propostas vai parecer grande. Ela vai ser grande mesmo — e é por isso que se aprova em lotes,
+      por natureza de processo, e não de uma vez.</p>
+    </div>
+  </section>
+
+  <footer>
+    Rodrigues e Rodrigues Advogados · Superclawman.ai · pauta para a reunião de 23/09/2026, 16h30<br>
+    Baseada nas decisões registradas em 22/09: saneamento com a IA sem esperar o ADV Box · Luana
+    como dona dos prazos · aviso diário construído e mantido desligado.
+  </footer>
+
+</div>
+</body>
+</html>
