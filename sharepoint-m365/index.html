@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agente no SharePoint e Microsoft 365</title>
+<style>
+:root{
+  --ivory:#F6F7F9; --paper:#FFFFFF; --slate:#11202E;
+  --clay:#1F5FAE; --clay-d:#16498A; --oat:#D9E2EE; --olive:#3B7A57;
+  --g100:#F0F2F6; --g200:#E4E8EF; --g300:#D3D9E3; --g500:#7C879A; --g700:#3A4657;
+  --amber:#8A6512;
+  --serif: ui-serif, Georgia, "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ivory);color:var(--slate);font-family:var(--sans);
+     font-size:16.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:44px 16px 72px}
+@media(min-width:760px){.wrap{padding:52px 32px 80px}}
+
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--g500);display:flex;align-items:center;gap:11px;margin:0 0 18px}
+.eyebrow::before{content:"";width:24px;height:2.5px;background:var(--clay);flex:none}
+
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(31px,5.3vw,54px);line-height:1.07;
+   letter-spacing:-.018em;margin:0 0 20px;max-width:19ch}
+h1 em{font-style:italic;color:var(--clay)}
+.lede{font-size:clamp(16.5px,2vw,19.5px);color:var(--g700);max-width:62ch;margin:0 0 8px}
+
+h2{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3vw,29px);line-height:1.18;
+   letter-spacing:-.012em;margin:0 0 6px}
+h3{font-size:16px;margin:0 0 7px;letter-spacing:-.005em}
+p{margin:0 0 14px}
+section{border-top:1.5px solid var(--g300);margin-top:52px;padding-top:34px}
+.sec-no{font-family:var(--mono);font-size:11.5px;color:var(--clay);letter-spacing:.09em;margin-bottom:9px}
+.sub{color:var(--g500);font-size:15px;margin:0 0 22px;max-width:66ch}
+
+.grid{display:grid;gap:16px}
+@media(min-width:720px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}}
+
+.card{background:var(--paper);border:1px solid var(--g200);border-radius:11px;padding:19px 20px}
+.card p:last-child{margin-bottom:0}
+.card .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--g500);margin-bottom:9px}
+
+table{width:100%;border-collapse:collapse;font-size:15px;background:var(--paper);
+  border:1px solid var(--g200);border-radius:11px;overflow:hidden}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--g200);vertical-align:top}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+   color:var(--g500);background:var(--g100);font-weight:500}
+tr:last-child td{border-bottom:none}
+td strong{font-weight:600}
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl-scroll table{min-width:520px}
+
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat b{font-family:var(--serif);font-size:clamp(26px,4vw,36px);font-weight:600;line-height:1;
+  letter-spacing:-.02em;color:var(--clay)}
+.stat span{font-size:13.5px;color:var(--g700)}
+
+.note{border-left:3px solid var(--amber);background:#FBF7EC;padding:17px 19px;border-radius:0 9px 9px 0}
+.note .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:8px;font-weight:600}
+.note p:last-child{margin-bottom:0}
+
+.good{border-left:3px solid var(--olive);background:#F1F7F3;padding:17px 19px;border-radius:0 9px 9px 0}
+.good .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--olive);margin-bottom:8px;font-weight:600}
+.good p:last-child{margin-bottom:0}
+
+ul{margin:0 0 14px;padding-left:19px}li{margin-bottom:7px}
+ul.tight li{margin-bottom:5px}
+code{font-family:var(--mono);font-size:.885em;background:var(--g100);padding:1.5px 5px;border-radius:4px}
+
+svg{display:block;max-width:100%;height:auto}
+.diagram{background:var(--paper);border:1px solid var(--g200);border-radius:11px;padding:20px 14px}
+
+footer{border-top:1.5px solid var(--g300);margin-top:56px;padding-top:22px;
+  font-size:13.5px;color:var(--g500);display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between}
+footer .mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Superclawman.ai · Microsoft 365 &amp; SharePoint</p>
+  <h1>Um agente que <em>trabalha</em> no seu SharePoint — não um chat esperando pergunta.</h1>
+  <p class="lede">A diferença não é o modelo de IA. É quem começa a conversa. Um chat responde quando
+  alguém pergunta. Um agente lê o ambiente sozinho, num ritmo, e fala quando tem algo a dizer.</p>
+  <p class="lede">Este documento explica como isso funciona por dentro, o que já está medido em
+  produção, e — igualmente importante — <strong>onde a coisa para</strong>.</p>
+
+  <!-- ─────────────────────────────── 1 -->
+  <section>
+    <p class="sec-no">01</p>
+    <h2>A distinção que decide tudo</h2>
+    <p class="sub">Quase todo mundo que nos procura já usa IA lendo pastas, e já viu funcionar.
+    A pergunta certa não é “a IA consegue ler isto?”. É “quem tem que lembrar de perguntar?”.</p>
+    <div class="tbl-scroll">
+    <table>
+      <tr>
+        <th style="width:22%">&nbsp;</th>
+        <th>Chat com acesso às pastas</th>
+        <th>Agente no ambiente</th>
+      </tr>
+      <tr>
+        <td><strong>Quem começa</strong></td>
+        <td>a pessoa, quando lembra</td>
+        <td>o próprio agente, por rotina</td>
+      </tr>
+      <tr>
+        <td><strong>Memória</strong></td>
+        <td>a da conversa; fecha a aba, acabou</td>
+        <td>por projeto, por cliente, por processo — persistente</td>
+      </tr>
+      <tr>
+        <td><strong>O que vê</strong></td>
+        <td>o que você apontar naquela hora</td>
+        <td>tudo que mudou desde a última vez que olhou</td>
+      </tr>
+      <tr>
+        <td><strong>Quando some</strong></td>
+        <td>ninguém nota — não perguntar parece normal</td>
+        <td>o silêncio é detectado e vira alerta</td>
+      </tr>
+      <tr>
+        <td><strong>Resultado típico</strong></td>
+        <td>ótimas respostas, sob demanda</td>
+        <td>a pendência chega antes de alguém procurar</td>
+      </tr>
+    </table>
+    </div>
+    <p style="margin-top:16px;color:var(--g700)">Não é substituir o que já funciona. Um chat continua
+    sendo a melhor ferramenta para uma pergunta pontual. O que ele não faz é reparar que ninguém tocou
+    num processo há onze dias.</p>
+  </section>
+
+  <!-- ─────────────────────────────── 2 -->
+  <section>
+    <p class="sec-no">02</p>
+    <h2>Como o agente enxerga o ambiente</h2>
+    <p class="sub">Pela API oficial da Microsoft (Graph), com o endpoint <code>delta</code>: depois da
+    primeira leitura, ele nunca mais varre a biblioteca inteira — pergunta só o que mudou.</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 900 260" role="img" aria-label="Fluxo: SharePoint e OneDrive, via Microsoft Graph delta, para o índice do agente, memória por projeto e as rotinas que disparam alertas.">
+        <defs>
+          <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="#7C879A"/>
+          </marker>
+        </defs>
+        <!-- col 1 -->
+        <rect x="12" y="62" width="176" height="122" rx="10" fill="#F0F2F6" stroke="#D3D9E3"/>
+        <text x="100" y="92" text-anchor="middle" font-family="ui-serif,Georgia,serif" font-size="16" font-weight="600" fill="#11202E">O ambiente</text>
+        <text x="100" y="117" text-anchor="middle" font-size="12.5" fill="#3A4657">SharePoint · OneDrive</text>
+        <text x="100" y="137" text-anchor="middle" font-size="12.5" fill="#3A4657">Outlook · Teams</text>
+        <text x="100" y="161" text-anchor="middle" font-size="11.5" fill="#7C879A">já é onde a equipe vive</text>
+        <line x1="192" y1="123" x2="236" y2="123" stroke="#7C879A" stroke-width="1.6" marker-end="url(#a)"/>
+
+        <!-- col 2 -->
+        <rect x="240" y="62" width="176" height="122" rx="10" fill="#FFFFFF" stroke="#1F5FAE" stroke-width="1.6"/>
+        <text x="328" y="92" text-anchor="middle" font-family="ui-serif,Georgia,serif" font-size="16" font-weight="600" fill="#1F5FAE">Graph delta</text>
+        <text x="328" y="117" text-anchor="middle" font-size="12.5" fill="#3A4657">“o que mudou desde</text>
+        <text x="328" y="135" text-anchor="middle" font-size="12.5" fill="#3A4657">a última vez?”</text>
+        <text x="328" y="161" text-anchor="middle" font-size="11.5" fill="#7C879A">novos E editados</text>
+        <line x1="420" y1="123" x2="464" y2="123" stroke="#7C879A" stroke-width="1.6" marker-end="url(#a)"/>
+
+        <!-- col 3 -->
+        <rect x="468" y="62" width="176" height="122" rx="10" fill="#F0F2F6" stroke="#D3D9E3"/>
+        <text x="556" y="92" text-anchor="middle" font-family="ui-serif,Georgia,serif" font-size="16" font-weight="600" fill="#11202E">Memória</text>
+        <text x="556" y="117" text-anchor="middle" font-size="12.5" fill="#3A4657">por projeto,</text>
+        <text x="556" y="135" text-anchor="middle" font-size="12.5" fill="#3A4657">cliente ou processo</text>
+        <text x="556" y="161" text-anchor="middle" font-size="11.5" fill="#7C879A">persiste entre conversas</text>
+        <line x1="648" y1="123" x2="692" y2="123" stroke="#7C879A" stroke-width="1.6" marker-end="url(#a)"/>
+
+        <!-- col 4 -->
+        <rect x="696" y="62" width="192" height="122" rx="10" fill="#FFFFFF" stroke="#3B7A57" stroke-width="1.6"/>
+        <text x="792" y="92" text-anchor="middle" font-family="ui-serif,Georgia,serif" font-size="16" font-weight="600" fill="#3B7A57">Rotina</text>
+        <text x="792" y="117" text-anchor="middle" font-size="12.5" fill="#3A4657">de hora em hora,</text>
+        <text x="792" y="135" text-anchor="middle" font-size="12.5" fill="#3A4657">sem ninguém pedir</text>
+        <text x="792" y="161" text-anchor="middle" font-size="11.5" fill="#7C879A">alerta · resumo · pendência</text>
+
+        <text x="450" y="30" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11" letter-spacing="1.4" fill="#7C879A">O CICLO COMPLETO LEVA SEGUNDOS, NÃO MINUTOS</text>
+        <line x1="100" y1="206" x2="792" y2="206" stroke="#D3D9E3" stroke-width="1" stroke-dasharray="3 4"/>
+        <text x="450" y="228" text-anchor="middle" font-size="12" fill="#7C879A">o documento só é relido quando a data de modificação dele realmente mudou</text>
+      </svg>
+    </div>
+
+    <div class="grid g3" style="margin-top:18px">
+      <div class="card"><div class="stat"><b>~19.400</b><span>documentos no escopo de um acervo em produção hoje</span></div></div>
+      <div class="card"><div class="stat"><b>6,8 s</b><span>uma rodada completa de verificação, medida</span></div></div>
+      <div class="card"><div class="stat"><b>1&nbsp;×&nbsp;hora</b><span>o ritmo padrão; ajustável por caso</span></div></div>
+    </div>
+    <p style="margin-top:14px;font-size:14.5px;color:var(--g500)">Por que isso importa: uma releitura
+    completa da mesma biblioteca leva cerca de vinte minutos e a Microsoft passa a limitar o acesso.
+    O <code>delta</code> é o que torna “de hora em hora” viável em vez de teórico.</p>
+  </section>
+
+  <!-- ─────────────────────────────── 3 -->
+  <section>
+    <p class="sec-no">03</p>
+    <h2>O que ele faz sozinho</h2>
+    <p class="sub">Três frentes que aparecem em praticamente toda conversa — e que não dependem de
+    ninguém abrir um chat.</p>
+    <div class="grid g3">
+      <div class="card">
+        <div class="k">Frente 1</div>
+        <h3>Organizar um acervo que cresceu sozinho</h3>
+        <p>Pastas criadas por dez pessoas em dez anos, com dez critérios. O agente lê o conteúdo,
+        classifica por natureza real, aponta duplicados e órfãos, e completa cadastro que ficou pela
+        metade — telefone, e-mail, identificação — conferindo contra os próprios documentos.</p>
+      </div>
+      <div class="card">
+        <div class="k">Frente 2</div>
+        <h3>Controle de prazo a partir do que já existe</h3>
+        <p>Não exige sistema novo. Se o controle hoje sai numa planilha exportada, o agente recebe a
+        planilha, cruza com o acervo e passa a cobrar: o que vence, o que está sem responsável, o que
+        mudou desde a última versão. O sistema definitivo pode chegar depois, sem refazer nada.</p>
+      </div>
+      <div class="card">
+        <div class="k">Frente 3</div>
+        <h3>Um portal por projeto, com memória própria</h3>
+        <p>Quando cada contrato tem seu próprio site, o agente trata cada um como uma unidade: o que
+        se move, o que parou, o que diverge do planejado. Ele não confunde o projeto A com o B porque
+        a memória é separada na origem.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── 4 -->
+  <section>
+    <p class="sec-no">04</p>
+    <h2>O limite honesto</h2>
+    <p class="sub">Esta é a parte que costuma ser omitida, e é justamente a que define o escopo.</p>
+    <div class="note">
+      <div class="k">⚠️ O que nenhuma IA faz</div>
+      <p><strong>IA não inventa status que ninguém registrou.</strong> Se uma etapa foi concluída e
+      não existe nenhum vestígio disso em lugar nenhum — nenhum arquivo, nenhum e-mail, nenhuma
+      alteração — não há de onde tirar. Quem prometer o contrário está vendendo adivinhação.</p>
+    </div>
+    <div class="good" style="margin-top:16px">
+      <div class="k">✓ O que dá para derivar sem ninguém digitar nada</div>
+      <p>O ambiente produz sinal o tempo todo, mesmo quando ninguém preenche formulário:</p>
+      <ul class="tight" style="margin-top:9px;margin-bottom:0">
+        <li>atividade e versão de documento — quem mexeu em quê, e quando</li>
+        <li>data da última alteração de cada pasta e de cada projeto</li>
+        <li>itens de lista parados há mais tempo do que deveriam</li>
+        <li>e-mail e conversa de Teams ligados àquele projeto</li>
+        <li>cronograma previsto contra o que de fato se moveu</li>
+      </ul>
+    </div>
+    <p style="margin-top:16px;color:var(--g700)">Na prática, a maior parte do “preenchimento manual”
+    que hoje trava a equipe cai nessa segunda lista. É por isso que vale medir antes de prometer:
+    a resposta muda por ambiente.</p>
+  </section>
+
+  <!-- ─────────────────────────────── 5 -->
+  <section>
+    <p class="sec-no">05</p>
+    <h2>Por onde o agente fala</h2>
+    <p class="sub">O cérebro é um só. O que muda é o canal — e os dois públicos raramente são o mesmo.</p>
+    <div class="grid g2">
+      <div class="card">
+        <div class="k">Para dentro</div>
+        <h3>Microsoft 365</h3>
+        <p>Pela conexão oficial da Microsoft com o login da própria equipe. Lê SharePoint e OneDrive,
+        Outlook e Teams; com escrita liberada, responde no Teams, manda e-mail e atualiza arquivo.</p>
+        <p style="font-size:14px;color:var(--g500);margin-top:10px"><strong>Detalhe técnico que
+        importa:</strong> a permissão é <em>delegada</em> — o agente enxerga exatamente o que aquele
+        usuário enxerga, nem um arquivo a mais. Em compensação, ele aparece como aquela pessoa. Dar a
+        ele nome e rosto próprios dentro do Teams é um passo adicional, não vem junto.</p>
+      </div>
+      <div class="card">
+        <div class="k">Para fora</div>
+        <h3>WhatsApp</h3>
+        <p>Campo, fornecedor, obra, cliente final — quem não abre Teams. É o canal onde a informação
+        realmente chega: foto, medição, status, cobrança de pendência.</p>
+        <p style="font-size:14px;color:var(--g500);margin-top:10px"><strong>Estado:</strong> stack já
+        em produção em cliente pagante hoje, não é protótipo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── 6 -->
+  <section>
+    <p class="sec-no">06</p>
+    <h2>O que pedimos ao TI</h2>
+    <p class="sub">Curto de propósito. Pedimos o acesso completo de uma vez e estreitamos depois, se
+    fizer sentido — voltar para pedir uma permissão de cada vez custa semanas.</p>
+    <div class="tbl-scroll">
+    <table>
+      <tr><th style="width:34%">O quê</th><th>Para quê</th></tr>
+      <tr><td><strong>Leitura de sites e arquivos</strong><br><span style="font-size:13.5px;color:var(--g500)">Sites.Read.All · Files.Read.All</span></td>
+          <td>o mínimo absoluto — sem isso o agente não enxerga nada</td></tr>
+      <tr><td><strong>Escrita</strong> <span style="font-size:13.5px;color:var(--g500)">(opcional)</span></td>
+          <td>só se ele for organizar pastas ou completar cadastro, em vez de apenas relatar</td></tr>
+      <tr><td><strong>Quais bibliotecas</strong></td>
+          <td>o escopo é fixado explicitamente. Deixar em branco significa “a biblioteca inteira”, o que
+          em acervos grandes passa de centenas de gigabytes — o recorte é um dispositivo de segurança,
+          não uma preferência</td></tr>
+      <tr><td><strong>Quem é o administrador</strong></td>
+          <td>uma pessoa, não um departamento — é quem aprova e quem desfaz, se precisar</td></tr>
+    </table>
+    </div>
+    <div class="card" style="margin-top:18px;border-color:var(--oat);background:var(--g100)">
+      <div class="k">Como isso roda do lado de cá</div>
+      <p>A assinatura de IA fica <strong>no nome do cliente</strong> e o servidor é <strong>dele</strong>,
+      com o nosso acesso como administrador. Nada de dado sai do ambiente do cliente para uma caixa
+      nossa: nós operamos, o cliente é dono. Se a relação terminar, a infraestrutura continua de pé
+      com ele.</p>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────── 7 -->
+  <section>
+    <p class="sec-no">07</p>
+    <h2>Como costuma começar</h2>
+    <div class="grid g3">
+      <div class="card"><div class="k">Passo 1</div><h3>Medir o ambiente</h3>
+        <p>Quantos sites, quanto volume, o que é estruturado e o que é documento solto. Sem esse número
+        qualquer estimativa é chute.</p></div>
+      <div class="card"><div class="k">Passo 2</div><h3>Um recorte só</h3>
+        <p>Uma biblioteca, um tipo de processo, um projeto. Roda de verdade, com a equipe usando,
+        antes de ampliar.</p></div>
+      <div class="card"><div class="k">Passo 3</div><h3>Ampliar por configuração</h3>
+        <p>Incluir a próxima pessoa ou o próximo projeto é uma linha de configuração, não um novo
+        desenvolvimento. É assim que se evita o projeto que nunca termina.</p></div>
+    </div>
+    <p style="margin-top:20px;color:var(--g700)">Escopo, prazo e investimento são tratados diretamente
+    com o Paulo, depois de medir o ambiente — porque antes disso qualquer número seria inventado.</p>
+  </section>
+
+  <footer>
+    <span>Superclawman.ai · agentes de IA operando no ambiente do cliente</span>
+    <span class="mono">v1.0 · 23.09.2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
