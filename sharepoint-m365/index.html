@@ -14,10 +14,12 @@
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-text-size-adjust:100%;overflow-x:hidden}
+html,body{max-width:100%}
 body{margin:0;background:var(--ivory);color:var(--slate);font-family:var(--sans);
-     font-size:16.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+     font-size:16.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+     overflow-x:hidden;overflow-wrap:break-word}
 .wrap{max-width:1120px;margin:0 auto;padding:44px 16px 72px}
 @media(min-width:760px){.wrap{padding:52px 32px 80px}}
 
@@ -53,8 +55,28 @@ th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:
    color:var(--g500);background:var(--g100);font-weight:500}
 tr:last-child td{border-bottom:none}
 td strong{font-weight:600}
-.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.tbl-scroll table{min-width:520px}
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+@media(min-width:640px){.tbl-scroll table{min-width:520px}}
+
+/* Narrow screens: the comparison tables become stacked cards. A 3-column table
+   cannot be read at 390px and forcing a horizontal scroll inside a document
+   someone opens on a phone in a meeting is worse than restacking it. */
+@media(max-width:639px){
+  .tbl-scroll table,.tbl-scroll tbody,.tbl-scroll tr,.tbl-scroll td{display:block;width:100%}
+  /* The header row is a <tr> of <th> inside an IMPLICIT tbody — there is no <thead>
+     element to hide, so target the row itself. Left visible it stays a real
+     3-column table-row and drags the whole document wider than the screen. */
+  .tbl-scroll thead,.tbl-scroll tr:first-child{display:none}
+  .tbl-scroll th{display:none}
+  .tbl-scroll tr{border-bottom:1px solid var(--g200);padding:4px 0 10px}
+  .tbl-scroll tr:last-child{border-bottom:none}
+  .tbl-scroll td{border-bottom:none;padding:5px 14px}
+  .tbl-scroll td:first-child{padding-top:13px;font-size:15.5px}
+  .tbl-scroll td:first-child strong{color:var(--clay)}
+  .tbl-scroll td[data-l]::before{content:attr(data-l);display:block;
+    font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--g500);margin-bottom:3px}
+}
 
 .stat{display:flex;flex-direction:column;gap:2px}
 .stat b{font-family:var(--serif);font-size:clamp(26px,4vw,36px);font-weight:600;line-height:1;
@@ -75,7 +97,7 @@ ul{margin:0 0 14px;padding-left:19px}li{margin-bottom:7px}
 ul.tight li{margin-bottom:5px}
 code{font-family:var(--mono);font-size:.885em;background:var(--g100);padding:1.5px 5px;border-radius:4px}
 
-svg{display:block;max-width:100%;height:auto}
+svg{display:block;max-width:100%;width:100%;height:auto}
 .diagram{background:var(--paper);border:1px solid var(--g200);border-radius:11px;padding:20px 14px}
 
 footer{border-top:1.5px solid var(--g300);margin-top:56px;padding-top:22px;
@@ -108,28 +130,28 @@ footer .mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em}
       </tr>
       <tr>
         <td><strong>Quem começa</strong></td>
-        <td>a pessoa, quando lembra</td>
-        <td>o próprio agente, por rotina</td>
+        <td data-l="Chat com acesso às pastas">a pessoa, quando lembra</td>
+        <td data-l="Agente no ambiente">o próprio agente, por rotina</td>
       </tr>
       <tr>
         <td><strong>Memória</strong></td>
-        <td>a da conversa; fecha a aba, acabou</td>
-        <td>por projeto, por cliente, por processo — persistente</td>
+        <td data-l="Chat com acesso às pastas">a da conversa; fecha a aba, acabou</td>
+        <td data-l="Agente no ambiente">por projeto, por cliente, por processo — persistente</td>
       </tr>
       <tr>
         <td><strong>O que vê</strong></td>
-        <td>o que você apontar naquela hora</td>
-        <td>tudo que mudou desde a última vez que olhou</td>
+        <td data-l="Chat com acesso às pastas">o que você apontar naquela hora</td>
+        <td data-l="Agente no ambiente">tudo que mudou desde a última vez que olhou</td>
       </tr>
       <tr>
         <td><strong>Quando some</strong></td>
-        <td>ninguém nota — não perguntar parece normal</td>
-        <td>o silêncio é detectado e vira alerta</td>
+        <td data-l="Chat com acesso às pastas">ninguém nota — não perguntar parece normal</td>
+        <td data-l="Agente no ambiente">o silêncio é detectado e vira alerta</td>
       </tr>
       <tr>
         <td><strong>Resultado típico</strong></td>
-        <td>ótimas respostas, sob demanda</td>
-        <td>a pendência chega antes de alguém procurar</td>
+        <td data-l="Chat com acesso às pastas">ótimas respostas, sob demanda</td>
+        <td data-l="Agente no ambiente">a pendência chega antes de alguém procurar</td>
       </tr>
     </table>
     </div>
@@ -294,15 +316,15 @@ footer .mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em}
     <table>
       <tr><th style="width:34%">O quê</th><th>Para quê</th></tr>
       <tr><td><strong>Leitura de sites e arquivos</strong><br><span style="font-size:13.5px;color:var(--g500)">Sites.Read.All · Files.Read.All</span></td>
-          <td>o mínimo absoluto — sem isso o agente não enxerga nada</td></tr>
+          <td data-l="Para quê">o mínimo absoluto — sem isso o agente não enxerga nada</td></tr>
       <tr><td><strong>Escrita</strong> <span style="font-size:13.5px;color:var(--g500)">(opcional)</span></td>
-          <td>só se ele for organizar pastas ou completar cadastro, em vez de apenas relatar</td></tr>
+          <td data-l="Para quê">só se ele for organizar pastas ou completar cadastro, em vez de apenas relatar</td></tr>
       <tr><td><strong>Quais bibliotecas</strong></td>
-          <td>o escopo é fixado explicitamente. Deixar em branco significa “a biblioteca inteira”, o que
+          <td data-l="Para quê">o escopo é fixado explicitamente. Deixar em branco significa “a biblioteca inteira”, o que
           em acervos grandes passa de centenas de gigabytes — o recorte é um dispositivo de segurança,
           não uma preferência</td></tr>
       <tr><td><strong>Quem é o administrador</strong></td>
-          <td>uma pessoa, não um departamento — é quem aprova e quem desfaz, se precisar</td></tr>
+          <td data-l="Para quê">uma pessoa, não um departamento — é quem aprova e quem desfaz, se precisar</td></tr>
     </table>
     </div>
     <div class="card" style="margin-top:18px;border-color:var(--oat);background:var(--g100)">
