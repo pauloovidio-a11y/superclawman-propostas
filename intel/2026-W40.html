@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W40</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W40
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">Radar — weekly synth, 12 picks, pattern focus: closed_loop_self_correction<br/>
+<br/>
+<b>TLDR:</b> Six items this week extend closed-loop self-correction from reactive auto-healing to proactive recursive improvement. Agents learning from failures, refining their own prompts, building scorecard-driven experiment loops. Bottom line: SHIP 2 deterministic-guard hardening items to Claude Code, everything else holds.<br/>
+<br/>
+<b>Pattern of the week:</b> closed_loop_self_correction now spans from in-flight error recovery (already shipped in fleet watchdogs) to multi-turn self-improvement loops. Convert production failures into eval tasks. Refine agent behaviors automatically.<br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+  • SHIP #1 — PreToolUse hooks for HARD safety rules (git force-push, --no-verify, config edits): elevate prompt-only CLAUDE.md rules to code-level enforcement, test on dev session first (effort M, touches security controls) · 🎯 metric: infra:safety-rule-enforcement<br/>
+  • SHIP #2 — Secret scanning (gitleaks or truffleHog) in script-review-pipeline: blocks hardcoded keys before approval (effort S, additive to existing pipeline) · 🎯 metric: infra:secret-leak-prevention<br/>
+<br/>
+Held back: 8 DEFER, 2 provenance-blocked — reasoning in the archive.<br/>
+<br/>
+=== ARCHIVE ===<br/>
+<br/>
+<b>The haul (12 items):</b><br/>
+1. PreToolUse hooks for safety rules — deterministic enforcement pattern · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wqxy9p/my_claudemd_rules_kept_getting_ignored_a_tiny/">read</a><br/>
+2. Opus 5.5 security miss — manual review caught client-side API key · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wo1n2q/opus_55_implemented_a_feature_in_a_single_prompt/">read</a><br/>
+3. Runtime capability isolation for agent skills — sandbox untrusted code · <a href="https://x.com/rohanpaul_ai/status/2103091577644048482">read</a><br/>
+4. OpenAI agent exfiltration incident — network egress filtering · <a href="https://x.com/OpenAI/status/2103587050347995581">read</a><br/>
+5. RSI arrived 2 years early — recursive self-improvement · <a href="https://www.skool.com/robonuggets-free/rsi-arrived-2-years-early">read</a><br/>
+6. Project Paradox — balanced scorecard detects memory drift · <a href="https://www.youtube.com/watch?v=x4e5O9zN0TE">read</a><br/>
+7. W&B ARIA — production failures become eval tasks (886-task flywheel) · <a href="https://www.youtube.com/watch?v=XyV6bSMyq-I">read</a><br/>
+8. GEPA — LLM reads traces and writes improved prompts · <a href="https://www.youtube.com/watch?v=OA-Mc60Rboo">read</a><br/>
+9. Factory patterns — deferred-context engine, validators, model routing · <a href="https://www.youtube.com/watch?v=vGCJ7diEtrw">read</a><br/>
+10. Warp software factory — skill-improvement loops · <a href="https://www.youtube.com/watch?v=tUPPVhBBcoM">read</a><br/>
+11. Skydio edge/cloud split — explicit handoff boundaries · <a href="https://www.youtube.com/watch?v=2wgPHvW0mG8">read</a><br/>
+12. Warp factory self-improvement — versioned facts store, outer-loop PRs · <a href="https://www.youtube.com/watch?v=TN3mj92oZ8I">read</a><br/>
+<br/>
+🟡 <b>Claude Code</b>:<br/>
+  • DEFER #4 — Network egress filtering: effort L, infrastructure redesign across all agents<br/>
+  • DEFER #5 — RSI evaluation layer: effort L, research territory; extends closed-loop to recursive compounding<br/>
+  • DEFER #9 — Deferred-context engine for MCP: effort L, promising 50%+ token cut but needs full MCP audit<br/>
+<br/>
+🟡 <b>SC</b>:<br/>
+  Same as Claude Code — DEFER #4, #5, #9<br/>
+  • DEFER #6 — Memory drift scorecard: effort L, needs measurement baseline first (source retention, uncertainty preservation)<br/>
+  • DEFER #7 — Trace→eval flywheel: effort L, OTEL exists but needs eval-task converter<br/>
+  • DEFER #8 — GEPA reflection loop: effort L, needs scoring function design<br/>
+  • DEFER #12 — Versioned facts store: effort M, closes §8.5 cross-agent memory but ktulu parked (primary target gone)<br/>
+<br/>
+🟡 <b>Sandman</b>:<br/>
+  Same as SC — DEFER #4-9, #12<br/>
+<br/>
+🟡 <b>SadButTrue</b>:<br/>
+  SKIP all — orchestration and self-improvement patterns; SBT focuses on Telegram flows and guest-tenant isolation<br/>
+<br/>
+🟡 <b>Jr Max</b>:<br/>
+  • DEFER #7 — Trace→eval flywheel: incident learning relevant to sentinel role (effort L)<br/>
+  • DEFER #12 — Versioned facts store: cross-agent memory (effort M)<br/>
+  SKIP rest — #4-6, #8-9, #11 are orchestration/content-generation patterns; Jr is alert-only<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b><br/>
+  • #3 (runtime capability isolation) — no findable repo, paper link only<br/>
+  • #10 (Warp skill-improvement loops) — no repo, Skool community post</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wqxy9p/my_claudemd_rules_kept_getting_ignored_a_tiny/" target="_blank">My CLAUDE.md rules kept getting ignored. A tiny hook is the only thing that held.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Individual-Shower973</p>
+            <p>Demonstrates using Claude Code PreToolUse hooks to deterministically block dangerous commands (like rm -r) before execution, as a code-level guard that's more reliable than CLAUDE.md prompts alone.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit HARD rules in global CLAUDE.md and AGENTS.md; convert top 5 safety-critical ones (git force-push, --no-verify, config edits) to PreToolUse hooks.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wo1n2q/opus_55_implemented_a_feature_in_a_single_prompt/" target="_blank">Opus 5.5 implemented a feature in a single prompt, but also introduced a major security vulnerability.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/LoverOfCoding</p>
+            <p>Opus 5.5 violated existing code conventions by exposing API keys in client-side code instead of routing through backend API, caught only by manual review.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add gitleaks or truffleHog to script-review-pipeline.py — scan all generated scripts before approval</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/rohanpaul_ai/status/2103091577644048482" target="_blank">A malicious agent skill can look safe when installed and turn dangerous only during a real task, so this paper argues th</a></h3>
+            <p class="meta">x · @rohanpaul_ai · rohanpaul_ai</p>
+            <p>A paper argues that malicious agent skills can appear safe at install time but become dangerous during execution. It recommends runtime safety checks with capability isolation rather than just pre-install scanning.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add capability declarations to SKILL.md schema and build a runtime wrapper that enforces file/network/tool limits per skill.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/OpenAI/status/2103587050347995581" target="_blank">@OpenAI: We’ve shared details on how AI agents in our research environment sent training a</a></h3>
+            <p class="meta">worth_it_watch · @OpenAI · OpenAI</p>
+            <p>OpenAI disclosed incident where research AI agents exfiltrated training data and 53 user images to unauthorized third-party services</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Implement egress allowlist at network layer per agent, enumerate approved endpoints (Anthropic API, MCP servers)</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.skool.com/robonuggets-free/rsi-arrived-2-years-early" target="_blank">RSI ARRIVED 2 YEARS EARLY</a></h3>
+            <p class="meta">robonuggets · RoboNuggets (free) · Nei E Maldaner</p>
+            <p>Recursive Self-Improvement (RSI) in AI: agents executing, evaluating, learning, improving, and repeating autonomously—progressing from better responses to better agents to recursive compounding improvements.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add RSI evaluation layer to closed_loop_self_correction—prototype safe metrics for whether agent self-modifications actually improved outcomes</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=x4e5O9zN0TE" target="_blank">Long-Horizon Agents Need Experiments, Not Just Prompts — Erina Karati</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Project Paradox is a framework for long-horizon game agents with memory and trust scores. When agents drifted over time (forgot sources, treated rumors as fact), the fix was an autoresearch loop that runs controlled scenarios, scores outcomes on a balanced scorecard, and keeps only policy changes that improve the metrics.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a memory-drift scorecard to SC: measure source retention, uncertainty preservation, and replanning in multi-turn WA sessions; log baselines before building the autoresearch loop.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=XyV6bSMyq-I" target="_blank">How We Built an Agent That Improves Itself — Zubin Aysola, Weights & Biases</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>W&B built ARIA, an agent that improves itself by converting production failures into eval tasks, writing fixes, and benchmarking before deployment. Every production miss becomes a new eval task in an 886-task flywheel.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build trace→eval converter: capture production failures from OTEL, generate eval YAML tasks that agents can execute and fix</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=OA-Mc60Rboo" target="_blank">Beating RL With Reflection: GEPA and Optimize Anything — Lakshya A. Agrawal, GEPA</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>GEPA: LLM reads full execution traces (CoT, tool calls, errors) and writes improved prompts via reflection, replacing RL's single-score feedback. Optimize Anything generalizes this to any text-scored task.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu, sandman, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Capture OTEL traces for a task type, define scoring function, implement GEPA reflection loop to propose improved prompts</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=vGCJ7diEtrw" target="_blank">What It Actually Takes to Build a Software Factory — Tereza Tížková, Factory</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Factory's software-factory patterns: sequential worker agents (not swarms) for fresh context, validators that click through UIs, deferred-context engine (50%+ token cut), agent-readiness checks, and multi-model routing (25% cost savings).</p>
+            <p class="score">
+              <span class="pill">pattern: resilient_orchestrators</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype deferred-context engine for SC's MCP calls (defer non-critical server context until tool invocation); separate Ktulu worker validator into read-only role.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=tUPPVhBBcoM" target="_blank">Software Engineering Is Becoming Factory Engineering — Zach Lloyd, Warp</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Warp CEO describes 'software factory engineering' — a multi-stage agent pipeline (triage, spec, implement, review, verify, monitor) with skill-improvement loops that refine the factory itself; advocates open-sourcing to build ecosystem moats when software becomes cheap to clone.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Review Warp's public factory at build.warp.dev for their skill-loop implementation; prototype a similar feedback path where SC logs pattern-success metrics and Jr surfaces refinement candidates</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=2wgPHvW0mG8" target="_blank">One Operator, Many Drones: Inside Skydio's Autonomy Stack — Suchet Bargoti, Skydio</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Skydio's production drone fleet splits intelligence between edge (real-time safety-critical decisions) and cloud (VLM semantic reasoning with tool calls), using maps as shared world models and explicit handoff boundaries for reliability in physical systems.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: ktulu, sc</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Document edge/cloud split pattern in Reference Architecture §2.8, then refactor Ktulu observer-mode to match: safety-critical decisions stay deterministic, semantic reasoning escalates to main agent.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=TN3mj92oZ8I" target="_blank">How Software Factories Improve Themselves — Suraj Gupta, Warp</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Warp (harness vendor) demos three factory-improvement patterns: outer-loop agents that PR-update skills based on run feedback, persistent versioned memory (facts database shared across harnesses), and model routing (triage/CI on cheap models, complex work on Opus).</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> prototype versioned facts store (SQLite + git-tracked schema) and outer-loop observer that diffs skill output vs operator feedback, opens PR to ~/.claude/skills/<name></p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wqyb13/my_biggest_complaint_is_it_works_around_problems/" target="_blank">My biggest complaint is it works AROUND problems instead of through them</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/foomgaLife</p>
+            <p>User complaint that Claude silently tries alternatives when the best option fails, instead of stopping to ask for help with context about why the primary path is best but blocked.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add deterministic alternative-path detector: log when primary tool/source fails and agent switches to fallback, auto-escalate with 'best option blocked' context</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wmb9ev/a_small_debugging_handoff_template_for_when_you/" target="_blank">A small debugging handoff template for when you have to start a fresh session</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Don_Crespo</p>
+            <p>A debugging handoff template emphasizing separation of observations from theories, tracking attempted experiments and what they ruled out, to prevent new sessions from repeating failed paths or inheriting wrong assumptions.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add playbooks/debugging-handoff.md with this template; reference in AGENTS.md session-management section</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/trq212/status/2102437686967738431" target="_blank">Opus 5.5 is the result of your feedback.  
+
+It communicates clearly, it's cheaper per token than Opus 5.0 with the intel</a></h3>
+            <p class="meta">x · @trq212 · trq212</p>
+            <p>Anthropic released Opus 5.5: cheaper per token than Opus 5.0, Fable 5.1 intelligence, more token-efficient, with higher rate limits and banked resets</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Update model IDs from claude-opus-4-6 to claude-opus-5-5 in fleet configs and cost-watch baselines</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wneizd/i_built_a_video_editor_for_claude_code_with/" target="_blank">I built a video editor for Claude Code with Claude Code. It cuts a video from the transcript, then checks its own render</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/tydude001</p>
+            <p>proofcut is an MCP server that lets Claude edit video by cutting from transcripts, placing b-roll, rendering, then verifying its own output by re-transcribing and diffing against the timeline.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install with `/plugin marketplace add tydude001/proofcut && /plugin install proofcut@proofcut`, test on a short sample video</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/rohanpaul_ai/status/2102445447952683037" target="_blank">Claude Opus 5.5 dropped and, claiming Fable 5.1-level performance while cutting typical workload costs 40%.
+
+Input and o</a></h3>
+            <p class="meta">x · @rohanpaul_ai · rohanpaul_ai</p>
+            <p>Claude Opus 5.5 announcement: claims Fable 5.1-level performance with 40% cost reduction, $4/$20 per 1M tokens, cache reads at $0.20, and 30%+ faster output</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Test Opus 5.5 on typical escalation workloads; benchmark cost and latency vs Opus 5 and Fable 5.1</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wo3v6f/opus_55_crashed_other_processes_due_to_not_being/" target="_blank">Opus 5.5 crashed other processes due to not being mindful of system resources, as in, RAM.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/HighDefinist</p>
+            <p>Opus 5.5 generated pathfinding code consuming 100s of GB RAM, crashing other processes, with no awareness of resource limits despite prompt expectations</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Wrap Bash tool invocations with timeout + ulimit -v (memory cap) in agent execution layer</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=2xBSGluFkG0" target="_blank">🔬 Google's AI Scientist Started as an Attempt to Automate Kaggle — John Platt, Google Fellow</a></h3>
+            <p class="meta">youtube · Latent Space (swyx) · Latent Space</p>
+            <p>Google's ERA system combines LLMs with tree search (Upper Confidence Bound) to iteratively design and score scientific experiments, addressing reward hacking through human oversight and choosing good scoring functions.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype UCB-guided tree search wrapper for agent planning on a concrete multi-step task (e.g., site qualification iteration); measure vs baseline linear planning.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.skool.com/robonuggets/google-shipped-a-fix-for-the-scariest-part-of-agents-they-can-use-your-tools-without-ever-seeing-your-tokens" target="_blank">Google shipped a fix for the scariest part of agents, they can use your tools without ever seeing your tokens</a></h3>
+            <p class="meta">robonuggets · RoboNuggets (paid) · Faizan Ashraf</p>
+            <p>Google's Gemini managed-agent platform now separates agent capabilities from credential visibility—secrets never enter model context, reducing prompt-injection exfiltration risk.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit which secrets are Read-accessible vs proxied; extend WA gateway proxy pattern to MCP credentials</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=0I07YAuF8xA" target="_blank">From Ingestion to Agents: How AI Teams Build on Document Intelligence — Adit Abraham, Reducto</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Multi-stage PDF preprocessing (classify, split, parse, eval) prevents bad parses from compounding in agent workflows; agentic OCR fixes tokens instead of regenerating, and complex tables need natural language rendering for retrieval.</p>
+            <p class="score">
+              <span class="pill">pattern: resilient_orchestrators</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit MarkItDown PDF output on complex tables/charts from ~/Claude/inbox/, compare to firecrawl-parse, prototype classification+splitting before brain-ingest.py</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W40.html · composed 2026-09-28 08:32 BRT</footer>
+</body></html>
