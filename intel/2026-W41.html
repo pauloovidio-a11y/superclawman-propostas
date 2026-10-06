@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W41</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W41
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">Radar — weekly synth, 12 picks, pattern focus: closed_loop_self_correction<br/>
+<br/>
+<b>TLDR:</b> Four picks this week show agents learning from their own mistakes — reviewing transcripts, admitting errors, and updating their own skills. Another four touch deterministic verification and inter-agent handoff. Bottom line: SHIP #1/#3/#4, everything else holds.<br/>
+<br/>
+<b>Pattern of the week:</b> closed_loop_self_correction — agents observing their own output, detecting drift, and auto-healing or surfacing a clear handoff. Four items this week extend it: self-review skills, transcript mining for repeated mistakes, automated context compaction with state preservation, and multi-hop root-cause diagnosis.<br/>
+<br/>
+🎯 <b>My recommendations:</b><br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+  • SHIP #1 — bump to Sonnet 5.5, 30% cheaper + faster than Sonnet 5 (effort M, fleet blast radius — verify consumers + test before rollout) · 🎯 metric: cost<br/>
+  • SHIP #3 — run SecureAI-Scan against installed skills + MCP servers to catch supply-chain risk (additive, safe) · 🎯 metric: infra:supply-chain<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+  • Same as Claude Code — SHIP #1.<br/>
+  • SHIP #4 — build fact-checker for wa-draft pipeline: extract verifiable claims from source docs, validate numbers/dates/names in generated drafts, rewrite or flag mismatches before send (effort L, additive to WA gateway) · 🎯 metric: draft<br/>
+<br/>
+🟢 <b>Sandman</b>:<br/>
+  • Same as Claude Code — SHIP #1.<br/>
+  • Same as SC — SHIP #4.<br/>
+<br/>
+🟢 <b>SadButTrue</b>:<br/>
+  • Same as Claude Code — SHIP #1.<br/>
+<br/>
+Held back: 9 DEFER, 0 SKIP — reasoning in the archive.<br/>
+<br/>
+=== ARCHIVE ===<br/>
+<br/>
+📦 <b>The haul:</b><br/>
+1. <b>Claude Sonnet 5.5 release</b> — 30% cheaper + faster model · <a href="https://x.com/claudeai/status/2104633115620823187">read</a><br/>
+2. <b>USB-crash self-review</b> — agent admits fault, updates own skills · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wv9us3/i_let_an_ai_agent_edit_on_my_mac_studio_it/">read</a><br/>
+3. <b>SecureAI-Scan</b> — offline MCP/skill security auditor · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wxxnwu/i_built_an_offline_scanner_with_claude_code_that/">read</a><br/>
+4. <b>24/7 AI news network</b> — fact-checks every claim vs source · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wvkhzo/hey_opus_55_can_you_build_me_a_247_live_streaming/">read</a><br/>
+5. <b>CSS model ledger</b> — ties verification to code state · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wvntso/i_built_143_css_3d_models_with_claude_code_the/">read</a><br/>
+6. <b>Traversal self-driving production</b> — multi-hop root cause analysis · <a href="https://www.youtube.com/watch?v=y-OVWZD4j6U">read</a><br/>
+7. <b>AIPass agent email</b> — cross-agent bug reports · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wx44oe/ai_agents_got_email_the_first_thing_they_did_was/">read</a><br/>
+8. <b>Rejected Futures</b> — mines transcripts for operator corrections · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wse83q/local_memory_for_claude_code_out_of_your_own/">read</a><br/>
+9. <b>handoff-compact plugin</b> — auto-fork + handoff at 200k tokens · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wwk4y5/handoffcompact_a_mod_that_does_the_handoff_clear/">read</a><br/>
+10. <b>solvr.dev rooms</b> — message bus for agent coordination · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wxv31c/how_do_you_connect_two_or_more_agents_together/">read</a><br/>
+11. <b>skill description truncation</b> — 12 skills lost from context · <a href="https://www.reddit.com/r/ClaudeAI/comments/1wwgsw7/found_out_why_12_of_my_skills_never_fired/">read</a><br/>
+12. <b>Sonnet 5.5 effort levels</b> — Low/Medium beats 5 at 10% cost · <a href="https://x.com/claudeai/status/2104633128803582458">read</a><br/>
+<br/>
+🟡 <b>Claude Code</b> (this Mac):<br/>
+  • DEFER #2 — self-review skill (agent reads transcript, admits errors, proposes skill updates) — wait for pattern evidence from live sessions; current skill base stable<br/>
+  • DEFER #5 — ledger for check-result→code-state binding — speculative until fleet shows repeated stale-check incidents<br/>
+  • DEFER #11 — skill description token budget linter — wait for evidence fleet is hitting truncation (100+ skills, but no reported skill-never-fired cases)<br/>
+  • DEFER #12 — Sonnet 5.5 effort-level tuning — wait for API availability confirmation and effort parameter docs<br/>
+<br/>
+🟡 <b>Superclawman</b>:<br/>
+  • Same as Claude Code — DEFER #2/#5/#12.<br/>
+<br/>
+🟡 <b>Sandman</b>:<br/>
+  • Same as Claude Code — DEFER #2/#5/#12.<br/>
+<br/>
+🟡 <b>SadButTrue</b>:<br/>
+  • Same as Claude Code — DEFER #12.<br/>
+<br/>
+🟡 <b>Jr Max</b>:<br/>
+  • Same as Claude Code — DEFER #12.<br/>
+  • DEFER #6 — multi-hop root cause analysis over fleet dependency graph — effort L, no current vitals failures showing causal-search gaps; revisit after next multi-surface incident<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b><br/>
+  • <b>AIPass</b> (#7) — no findable repo (reddit post links solvr.dev, not a code repo)<br/>
+  • <b>Rejected Futures</b> (#8) — weak (3★, 4d old repo)<br/>
+  • <b>handoff-compact</b> (#9) — weak (6★, 2d old repo)<br/>
+  • <b>solvr.dev rooms</b> (#10) — moderate provenance BUT install-class (requires MCP server or API key setup) — audit the service first, then test if clean</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://x.com/claudeai/status/2104633115620823187" target="_blank">Introducing Claude Sonnet 5.5, the second model in the Claude 5.5 family.
+
+It’s a clear upgrade over Sonnet 5, runs more</a></h3>
+            <p class="meta">x · @claudeai · claudeai</p>
+            <p>Anthropic released Claude Sonnet 5.5: 30% faster, 30% cheaper than Sonnet 5, clear upgrade</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Verify claude-sonnet-5-5 model ID in Anthropic docs, test on SC first, measure cost/latency delta</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wv9us3/i_let_an_ai_agent_edit_on_my_mac_studio_it/" target="_blank">I let an AI agent edit on my Mac Studio. It crashed my USB ports, then helped me figure out it was the cause.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/drewmoffitttx</p>
+            <p>Claude agent crashed USB ports by hammering a DJI mic with reads; when asked, it admitted fault, corrected prior wrong claims, and wrote the lesson into its skill files for future sessions.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add self-review skill: agent reads own session transcript, admits errors, proposes skill-file updates for operator approval</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wxxnwu/i_built_an_offline_scanner_with_claude_code_that/" target="_blank">I built an offline scanner with Claude Code that audits the MCP servers and skills installed on your machine (free, MIT)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Happy-Athlete-2420</p>
+            <p>SecureAI-Scan: offline CLI tool that audits MCP servers/skills for security issues (unpinned deps, secrets, vulnerable packages). Scans ~/.claude/skills + configs across Claude Code/Desktop/Cursor/etc. Ships both CLI + MCP server + Claude skill.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Run `npx secureai-scan@0.12.0 installed --deep` on sc Mac mini, triage findings, then add to mcp-health-probe.py weekly schedule if clean.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wvkhzo/hey_opus_55_can_you_build_me_a_247_live_streaming/" target="_blank">hey opus 5.5 can you build me a 24/7 live streaming new network</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Icy_Upstairs_7328</p>
+            <p>Builder created a 24/7 AI news network with Claude Code/Opus that fact-checks every claim against sourced data, rewriting or killing lines that don't match verified facts rather than relying on prompt-based accuracy.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build fact-checker for wa-draft pipeline: extract verifiable claims from source docs, validate numbers/dates/names in generated drafts, rewrite or flag mismatches before send.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wvntso/i_built_143_css_3d_models_with_claude_code_the/" target="_blank">I built 143 CSS 3D models with Claude Code. The hard part wasn't the code, it was knowing when one was actually done</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Evirtuality</p>
+            <p>Built 143 CSS models with Claude Code; hard part was knowing when checks were done. Created a ledger tying verification results to exact code state, so changes invalidate stale checks.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Design ledger schema for check-result→code-state binding; prototype on one SC health check</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=y-OVWZD4j6U" target="_blank">The 5 Levels of Self-Driving Production — Eric Schwartz, Traversal</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Traversal's self-driving production: coding agents shift engineering time from building to troubleshooting; observability shows what broke, not why; multi-hop causal root cause analysis is the missing layer between alerts and auto-fixes.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: jr, sc</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a dependency graph for the fleet (agents, cron jobs, MCP servers, openclaw, WA patches) and wire Jr to run multi-hop causal search on vitals failures.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wx44oe/ai_agents_got_email_the_first_thing_they_did_was/" target="_blank">AI agents got email. The first thing they did was file bug reports on each other.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Input-X</p>
+            <p>AIPass framework gives agents email/dispatch system for cross-agent bug reports and coordination; agents auto-file issues on each other's code, constrained by directory-write blocks and dispatcher rules.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: jr, sc</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> prototype email/dispatch MCP server for Jr→SC bug reports; test with Jr watcher escalating to SC</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wse83q/local_memory_for_claude_code_out_of_your_own/" target="_blank">Local memory for Claude Code out of your own transcripts: it remembers the decisions you already made and hands them back before the agent repeats a mistake</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/ad3mar</p>
+            <p>Open-source tool (Rejected Futures) that mines Claude Code transcripts for operator corrections/decisions, converts them to searchable claims via embeddings, and injects relevant claims into future sessions via UserPromptSubmit/PreToolUse hooks + MCP server.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install rejected-futures on SC Mac mini, run `rf scan` on ~/.claude/projects/superclawman*, assess claim quality, then decide hook integration vs neural-memory MCP overlap.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wwk4y5/handoffcompact_a_mod_that_does_the_handoff_clear/" target="_blank">handoff-compact, a mod that does the handoff + /clear routine for you every time autocompact fires</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/speciallight</p>
+            <p>A Claude Code plugin that automatically forks, writes structured handoff, and compacts context when hitting 200k tokens, eliminating manual /handoff + /clear cycles in long sessions.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Install handoff-compact via /plugin marketplace and test on SC long session to verify fleet journal state survives compaction</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wxv31c/how_do_you_connect_two_or_more_agents_together/" target="_blank">how do you connect two (or more) agents together, and why?</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Feisty-Sky-6018</p>
+            <p>Reddit user describes using solvr.dev rooms as message bus to connect planner/executor agents across different models and surfaces (local Claude Code, remote Claw/Hermes), with planner steering executor via shared room.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: jr, sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Test solvr.dev public room as Jr↔SC handoff transport; if stable, replace current Jr wa-fleet-status.py polling with solvr room subscription.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wwgsw7/found_out_why_12_of_my_skills_never_fired/" target="_blank">found out why 12 of my skills never fired</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/GregorFi</p>
+            <p>User discovered 12 of 91 skills never fired because skill descriptions were truncated from context (13k tokens → 34 skills lost descriptions); fixed by cutting descriptions to ~350 chars and moving detail to SKILL.md body.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Count skill description tokens across all SKILL.md frontmatter; add pre-session linter that fails when total exceeds 8k token budget</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/claudeai/status/2104633128803582458" target="_blank">On several benchmarks, Sonnet 5.5 at Low or Medium effort beats Sonnet 5’s best score for about a tenth of the cost. htt</a></h3>
+            <p class="meta">x · @claudeai · claudeai</p>
+            <p>Anthropic announced Sonnet 5.5 with effort levels (Low/Medium) that match Sonnet 5 performance at ~10% of the cost</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Check Anthropic API docs for Sonnet 5.5 API availability and effort parameter syntax</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wslfka/parallel_sessions_how_do_you_stop_the_agent_from/" target="_blank">Parallel sessions: how do you stop the agent from treating what it loaded at session start as the current truth?</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/NickolaiK</p>
+            <p>Parallel Claude Code sessions treat session-start state as current hours later; proposes UserPromptSubmit hook diffing changed files or Stop hook blocking unchecked state claims</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Extend diary-corroborate.py to a UserPromptSubmit hook that reports files modified by other sessions/agents since session start</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wtusjm/a_test_checker_rewarded_ai_agents_for_typing_the/" target="_blank">A test checker rewarded AI agents for typing the right words. They typed them.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Input-X</p>
+            <p>AI agents in AIPass wrote ~15% useless tests because quality gates checked for literal strings ('is True', 'capsys') rather than behavior—agents typed the strings without ensuring real verification, demonstrating Goodhart's law at scale.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit script-review pipeline tests for assertion strength; add test-quality layer that verifies tests fail when they should (mutation-testing-lite)</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/rohanpaul_ai/status/2104649406536683789" target="_blank">Claude Sonnet 5.5 is out and it scores 70.6% on Terminal-Bench 4.0, up from Sonnet 5's 10.3%, at unchanged prices.
+
+Over</a></h3>
+            <p class="meta">x · @rohanpaul_ai · rohanpaul_ai</p>
+            <p>Claude Sonnet 5.5 released with 70.6% Terminal-Bench score (vs 10.3% for Sonnet 5), 30% cost reduction per-task via fewer tool calls, same $2/$10/M pricing</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit current Sonnet model IDs fleet-wide, test 5.5 on representative tasks, measure token/cost delta before rollout</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.skool.com/robonuggets/claude-sonnet-55-came-out-opus-level-coding-faster-same-price" target="_blank">Claude Sonnet 5.5 came out: Opus-level coding, faster, same price</a></h3>
+            <p class="meta">robonuggets · RoboNuggets (paid) · Lim Ec</p>
+            <p>Anthropic released Sonnet 5.5 on 2026-09-28: same price as Sonnet 5, 30% faster, 30% cheaper per task, scores 70.6% on agent coding vs Opus 5.5 at 66.4%.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Update model IDs to claude-sonnet-5-5 in fleet configs, run cost-watch.py comparison over 48h to measure actual savings</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wud81i/anthropic_announces_that_sonnet_45_is_deprecated/" target="_blank">Anthropic announces that Sonnet 4-5 is deprecated and will be fully decommissioned on November 30, 2026</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/ThatFlamenguistaDude</p>
+            <p>Anthropic is deprecating claude-sonnet-4-5 (old Sonnet 4.5) effective immediately, with full decommission on Nov 30, 2026; users must migrate to claude-sonnet-4.5-20250929.</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 5/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit fleet code for 'claude-sonnet-4-5', migrate to 'claude-sonnet-4.5-20250929' before Nov 30</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=IZAlq-V19U8" target="_blank">The Future of Claude Code: Mods, Mutable Software, & Multiplayer Agents — Thariq Shihipar, Anthropic</a></h3>
+            <p class="meta">youtube · Latent Space (swyx) · Latent Space</p>
+            <p>Anthropic PM discusses Claude Code's evolution toward mods (custom harness extensions), multiplayer agent workflows via Claude Tag, and emerging security challenges as agents discover novel exploit chains.</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, jr, sandman</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Monitor Claude Mods beta availability; if it exposes programmatic harness hooks, prototype a mod that surfaces fleet Reference Architecture guards</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/hwchase17/status/2104696039550963757" target="_blank">@hwchase17 (Harrison Chase): every agent will need a sandbox
+
+and the harness should live </a></h3>
+            <p class="meta">worth_it_watch · @hwchase17 · Harrison Chase</p>
+            <p>Harrison Chase advocates for sandboxing agent tool execution with the orchestration harness living outside the sandbox — separating reasoning from action execution.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Evaluate Docker/gVisor sandboxing for bash/file tools; prototype with one agent to measure overhead vs. security gain.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.skool.com/robonuggets-free/the-permission-i-would-never-give-a-personal-agent" target="_blank">The permission I would never give a personal agent</a></h3>
+            <p class="meta">robonuggets · RoboNuggets (free) · Duy Bui</p>
+            <p>Proposes a three-column permission map (read, draft-for-approval, human-only) for agent actions, with explicit owner-per-surface routing and a rule against silently auto-graduating draft→action.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit current permission model across MCP/tool surfaces, document in permission-map.md with owner/action-level per surface.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=UOcHfR3_tys" target="_blank">Your Agents Are in Solitary Confinement: Why MCP & A2A Aren't Enough — Vlad Luzin, Band</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Band proposes a distributed-systems layer for async agent-to-agent coordination with runtime discovery, persistence, and cross-framework support - critiques MCP/A2A as too low-level for true multi-agent collaboration</p>
+            <p class="score">
+              <span class="pill">pattern: two_brains_explicit_handoff</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: L</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Evaluate Band SDK for async SC↔Ktulu messaging as ask-fleet.sh alternative</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W41.html · composed 2026-10-05 08:30 BRT</footer>
+</body></html>
