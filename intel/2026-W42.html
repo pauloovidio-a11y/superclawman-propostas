@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W42</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W42
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">Radar — weekly synth, 12 picks, pattern focus: deterministic_guards_over_prompt_guards<br/>
+<br/>
+This week's theme: put the check in code, and measure whether a written rule does anything.<br/>
+<br/>
+Bottom line: SHIP #3 first, then #9, #11 and #7 after a quick check, everything else holds.<br/>
+<br/>
+Pattern of the week: <b>deterministic_guards_over_prompt_guards</b>. Code enforces a rule every time, but a prompt line only works if the model remembers it.<br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+  • SHIP #3 — <b>Stop hook needs a human exit</b> <a href="https://www.reddit.com/r/ClaudeAI/comments/1wz83x7/i_gave_claude_code_a_stop_hook_that_blocks_red/">read</a>: our memory guard can pull headless runs off their job (23 found when scoring), so block only sessions that touched the file (effort S, local) · 🎯 metric: infra:headless runs are never held by the memory guard<br/>
+  • SHIP-after-check #9 — <b>Fail closed when a guard hook breaks</b> <a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.295">read</a>: a crashed or timed-out guard hook lets the action through today, so try <code>onFailure: "block"</code> on one secrets guard (effort S, the installed 2.1.296 has it, a slow hook will now block commands) · 🎯 metric: infra:a broken guard hook blocks instead of passing<br/>
+  • SHIP #11 — <b>Check carried notes against the ledger</b> <a href="https://www.reddit.com/r/ClaudeAI/comments/1x24pot/49_of_307_pr_and_issue_states_in_my_claude_code/">read</a>: journal lines like "#1131 OPEN" can go stale, so a read-only script can flag the ones the ledger shows done (effort S, additive) · 🎯 metric: infra:carried journal claims match the ledger<br/>
+<br/>
+🟢 <b>Superclawman</b> (the cost scripts live in its workspace):<br/>
+  • SHIP-after-check #7 — <b>Price rows for Claude Haiku 5.5</b> <a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.293">read</a>: the cost scripts have no row for it, so its spend could read about 10x too high (effort S, additive, confirm the rates first) · 🎯 metric: cost<br/>
+<br/>
+Held back: 6 DEFER, 2 SKIP — reasoning in the archive.<br/>
+<br/>
+=== ARCHIVE ===<br/>
+<br/>
+📦 <b>The haul</b><br/>
+<br/>
+1. <b>Anthropic's official agent skills guide. 6 insights</b> — Reddit recap of skill tips — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wyjty8/anthropics_official_agent_skills_guide_6_insights/">read</a><br/>
+2. <b>I gave the 9 most popular Claude Code skills a sugar pill</b> — skills versus placebo test — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wz4rfz/i_gave_the_9_most_popular_claude_code_skills_a/">read</a><br/>
+3. <b>I gave Claude Code a Stop hook that blocks red builds</b> — hook with no human exit — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wz83x7/i_gave_claude_code_a_stop_hook_that_blocks_red/">read</a><br/>
+4. <b>Subagents use a 5-min cache by default?!?</b> — subagent cache warning — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wze3rr/subagents_use_a_5min_cache_by_default/">read</a><br/>
+5. <b>I benchmarked 8 Claude Code add-ons on my production repos</b> — memory beat code graphs — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wzdfam/i_benchmarked_8_claude_code_addons_on_my/">read</a><br/>
+6. <b>I built a Mac app so I never have to make another .env file</b> — secret-masking Mac app — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wzyc1w/i_built_a_mac_app_so_i_never_have_to_make_another/">read</a><br/>
+7. <b>v2.1.293</b> — Claude Code release, Haiku 5.5 — <a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.293">read</a><br/>
+8. <b>Introducing Claude Haiku 5.5</b> — cheaper small model — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x03k4j/introducing_claude_haiku_55_the_cheapest_fastest/">read</a><br/>
+9. <b>v2.1.295</b> — Claude Code release, hook fail-closed — <a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.295">read</a><br/>
+10. <b>I tested a popular Claude Code debugging skill against a same-length placebo</b> — skill never self-fired — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x1nvh8/i_tested_a_popular_claude_code_debugging_skill/">read</a><br/>
+11. <b>49 of 307 PR and issue states in my handoff notes were already wrong</b> — stale handoff notes — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x24pot/49_of_307_pr_and_issue_states_in_my_claude_code/">read</a><br/>
+12. <b>I let Claude Code work in a sandbox that can only reach the hosts I allow</b> — egress sandbox (OpenRod) — <a href="https://www.reddit.com/r/ClaudeAI/comments/1wzixdy/i_let_claude_code_work_in_a_sandbox_that_can_only/">read</a><br/>
+<br/>
+Pattern count: 7 items this week matched <b>deterministic_guards_over_prompt_guards</b>. Five are in this list: #3, #6, #9, #11, #12.<br/>
+<br/>
+🎯 <b>SHIP first steps</b><br/>
+<br/>
+<i>I scored these without seeing the live fleet. Each SHIP starts with a read-only check.</i><br/>
+<br/>
+  • #3 — open <code>~/.claude/bin/memory-pointer-guard.py</code>. Make it block only when the session's own transcript mentions the file it complains about.<br/>
+  • Add a test (the radar scorer named <code>tests/test_memory_pointer_guard.py</code>) and prove it with one headless run. The WA brain's <code>claude -p</code> calls possibly read the same hook, so check them too.<br/>
+<br/>
+  • #7 — confirm the Haiku 5.5 rates on the pricing page. Then add <code>claude-haiku-5-5</code> rows to <code>PRICING</code> in <code>scripts/cost-watch.py</code> and to <code>PRICING_PER_MTOK</code> in <code>scripts/mcp-cost-breakdown.py</code>.<br/>
+  • The price steps at 100K tokens, and the 0-200k split in <code>mcp-cost-breakdown.py</code> does not fit that. Handle the step on purpose.<br/>
+  • Scope: this is the Claude Code CLI, not the Python SDK, and no model pin changes. No upgrade is needed because 2.1.296 is installed.<br/>
+<br/>
+  • #9 — find the PreToolUse guard hooks in <code>~/.claude/settings.json</code>. The env-dump guard is the first candidate, if it is one.<br/>
+  • Add <code>onFailure: "block"</code> to that one hook, force it to crash, and confirm the command is blocked. Never set it on the SessionStart or UserPromptSubmit hooks that inject context.<br/>
+  • Watch for a day. A slow start, like the pyenv lock stall of 2026-09-09, would now block commands.<br/>
+<br/>
+  • #11 — write a read-only script in the style of <code>scripts/diary-corroborate.py</code>. It reads the newest journal entry, finds a <code>#N</code> next to a state word, and compares it with the live row from <code>fleet_tasks.py</code>.<br/>
+  • Print only contradictions, and log hit and skip counts for a week. Our own proof: on 2026-09-06 two of three board rows picked were already done.<br/>
+  • The post's 16% is per check on one machine, so trust our own hit rate, not that number.<br/>
+<br/>
+🎯 <b>DEFER and SKIP, by surface</b><br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+  • DEFER #1 — skills guide recap. Humanizer is the only skill over 500 lines (789), so split it when next edited.<br/>
+  • Why held: a lint script for one file is not worth building.<br/>
+  • DEFER #4 — subagent cache TTL. Compare cache writes with reads in OTEL first, then set <code>subagentPromptCacheTtl</code> only where subagents idle past 5 minutes.<br/>
+  • Why held: the post's 1h contrast is for subscriptions, and our keys are pay-as-you-go. A 1h write also costs more than a 5m one.<br/>
+  • Also re-check the setting name on 2.1.296. The scorer read it in a 2.1.290 binary.<br/>
+  • DEFER #6 — secret-masking wrapper. A wrapper the agent must remember to call is as weak as a prompt rule, so build it only with a hook that forces its use.<br/>
+  • Also: for keys in 1Password, <code>op run</code> already masks output.<br/>
+  • DEFER #10 — skill self-fire rate. Count Skill calls for devil and calibrate in old transcripts, which tests the "fires on its own" column of our meta-skills table.<br/>
+  • FYI: a skills eval harness is a settled call (build-eval-harness-skills-fleet, 2026-09-09), so keep this to the count.<br/>
+  • SKIP #2 — popular skills versus placebo. It is the same job as the settled eval-harness call (build-eval-harness-skills-fleet, 2026-09-09).<br/>
+  • Its one useful number (extra text alone moved cost 2% to 16%) already sits behind our bootstrap budget rule.<br/>
+  • SKIP #5 — add-on benchmark. Already shipped: <code>kratos_startup_probe.py</code> goes red on any start-up hook over 10,000 characters (fixed 2026-09-27).<br/>
+  • MEMORY.md is also 14 hub lines, so the result only backs up our index bar.<br/>
+  • SKIP #8 — Haiku 5.5 launch. The installed Claude Code is already 2.1.296, and the cost side is SHIP #7.<br/>
+  • SKIP #12 — egress sandbox. Kratos orchestrates the fleet over ssh and the bridge, so deny-by-default would break its job.<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+  • DEFER #8 — move Haiku pins to 5.5. The call sites the scorer named are retired, so do SHIP #7 first to see real Haiku spend.<br/>
+  • Then list the real Haiku pins and replay a sample before changing any.<br/>
+  • FYI: the Sonnet 5.5 cache-read cut does not reopen the declined Sonnet 5.5 bump (W41 #1).<br/>
+  • DEFER #12 — observe-only egress log on the headless brain lane. It sits in a live reply path (effort M), and the tool is unvetted.<br/>
+  • SKIP #1 to #6 and #9 to #11 — these live in Claude Code settings, skills and journals, which openclaw does not read.<br/>
+  • SC calls the API through <code>client.messages.create</code> with its own <code>cache_control</code>, and it already runs <code>diary-corroborate.py</code> on its own diary.<br/>
+<br/>
+🟡 <b>Sandman</b>:<br/>
+  • SKIP all. #5 is the nearest match for persistent memory, but the bootstrap budget contract already covers Sandman, and nothing shows it carries the ledger state that #11 checks.<br/>
+<br/>
+🟡 <b>SadButTrue</b>:<br/>
+  • SKIP all. It is a Hermes agent, so Claude Code hooks, skills and caches do not apply, and #12 (nearest, for guest-tenant isolation) wraps Claude Code and is unvetted.<br/>
+<br/>
+🟡 <b>Jr Max</b>:<br/>
+  • SKIP all. It is alert-only and ships an item only if SC ships it, and SC ships only #7 (central cost scripts).<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b><br/>
+<br/>
+  • fidelius (#6) — closed-source Mac app, so there is no repo to check. Do not install.<br/>
+  • OpenRod (#12) — new project from a launch post, with no provenance check on file. Do not install.</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wyjty8/anthropics_official_agent_skills_guide_6_insights/" target="_blank">Anthropic's official agent skills guide. 6 insights</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/BuffaloConscious7919</p>
+            <p>Reddit recap of Anthropic's skill-writing guide: gerund names, links one level deep, a table of contents on long files, test before you write, a strong description, and SKILL.md under 500 lines. It is second-hand; the official doc is linked in the post.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write a short lint script for ~/.claude/skills/*/SKILL.md (500-line cap, description length, link depth), then split humanizer (789 lines) into reference files.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wz4rfz/i_gave_the_9_most_popular_claude_code_skills_a/" target="_blank">I gave the 9 most popular Claude Code skills a sugar pill. 2 beat it, 1 did worse than the pill.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/simon_ether</p>
+            <p>Reddit experiment pitting 9 popular Claude Code skills against same-token-count placebo text (450 Opus 5.5 runs on public coding tasks). Only 2 beat placebo on cost (-12%, -5%), 1 did worse on pass rate (80% vs 100%), none was measurably cheaper than no skill, and placebo length alone moved cost +2% to +16%. Caveats: one model, small N, both wins barely significant.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Check skill-placebo's results for any skill we run fleet-wide (e.g. karpathy-guidelines), then reuse its length-matched placebo arm to A/B one always-on SC bootstrap block before adding more text.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wz83x7/i_gave_claude_code_a_stop_hook_that_blocks_red/" target="_blank">I gave Claude Code a Stop hook that blocks red builds. It ended up answering its own question and changing our API.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/HyperBlade9</p>
+            <p>A Claude Code Stop hook that blocks turn-end on a red build had no 'needs a human' exit. When Claude stopped to ask a design question, the hook forced it to pick a default itself and silently change the public API. The fix was a third verdict: exit 0 when only the frozen tests fail.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> In ~/.claude/bin/memory-pointer-guard.py main(), return silently when CLAUDE_CODE_ENTRYPOINT == 'sdk-cli' or the payload's transcript_path never mentions the unreachable file, and add a test in tests/test_memory_pointer_guard.py.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wze3rr/subagents_use_a_5min_cache_by_default/" target="_blank">Subagents use a 5-min cache by default?!? 🤦🏻‍♂️</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Master-Biscotti-1186</p>
+            <p>Reddit post: Claude Code subagents default to a 5-min prompt cache while the main session gets 1h on a subscription, so a subagent idle for more than 5 min re-pays its whole context. The author keeps subagents short-lived and small instead of setting subagentPromptCacheTtl to 1h. Checked against our installed 2.1.290 binary: that setting exists and also governs workflows, background and helper requests (unset = 5m), and no seat in our config pins it.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Compare cacheCreation vs cacheRead token usage for Kratos and cc-cli subagent requests in the existing OTEL data, and add subagentPromptCacheTtl: '1h' to ~/.claude/settings.json only on a seat that reuses subagents after gaps over 5 min (leave short-lived Workflow fan-out on 5m, since 1h writes cost more).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wzdfam/i_benchmarked_8_claude_code_addons_on_my/" target="_blank">I benchmarked 8 Claude Code add-ons on my production repos (1,500 graded runs). Code graphs didn't change the answers, memory did.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Psychological_Pin569</p>
+            <p>Reddit benchmark of 8 Claude Code add-ons (1,500 blind-graded runs, 4 work repos): code-graph tools gave no accuracy gain and cost 25% more. Pruning a memory store from 225 to 32 facts raised scores, halved false claims and cut cost 44%. One memory tool's hook output passed Claude Code's 10K limit, so the model saw only a 2 KB preview.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> already shipped — kratos_startup_probe.py turns red on any start-up hook over 10,000 chars (fixed 2026-09-27), and the hub-and-spoke MEMORY.md keeps injected memory small.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wzyc1w/i_built_a_mac_app_so_i_never_have_to_make_another/" target="_blank">I built a Mac app so I never have to make another .env file 😤</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/maryshia</p>
+            <p>Launch post for fidelius, a closed-source Mac app (iCloud Keychain) with an `accio <project> <cmd>` wrapper that injects secrets as env vars and masks their values in command output. The author's own test: keys printed by the app itself (crash log, env dump) reached the Claude Code transcript 11 of 12 times despite deny rules; through accio they show as <concealed by fidelius: NAME>.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype ~/.claude/bin/with-secrets: inject one secrets/*.env into the child env only and mask exact values in stdout+stderr, tested like env-dump-guard.test.py against a deliberate env dump and a cdp2.py-style echo (`op run` already masks by default for any key moved into 1Password).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.293" target="_blank">v2.1.293</a></h3>
+            <p class="meta">anthropic_rss · Claude Code Releases (GH) · ashwin-ant</p>
+            <p>Claude Code 2.1.293 adds Claude Haiku 5.5 (claude-haiku-5-5; $0.10/$0.50 per Mtok, 1M context) as the default Haiku on the Anthropic API. It also fixes post-compaction work retraction and an HTTP MCP memory leak.</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Verify the rates on the live pricing page, then add claude-haiku-5-5 rows to PRICING in scripts/cost-watch.py and PRICING_PER_MTOK in scripts/mcp-cost-breakdown.py (its >100K price step doesn't fit our 0-200k tier split) and upgrade the mini to Claude Code 2.1.293.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x03k4j/introducing_claude_haiku_55_the_cheapest_fastest/" target="_blank">Introducing Claude Haiku 5.5: the cheapest, fastest, and most capable small model we’ve ever released</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/ClaudeOfficial</p>
+            <p>Anthropic's official Claude Haiku 5.5 launch post: about 75% cheaper than Haiku 4.5 on average (90% less per token under 100K tokens, half price above), first Haiku with an adjustable effort setting, and Sonnet 5.5 cache reads halved. The Reddit post carries no model ID, price table, or benchmarks; those are on the linked anthropic.com page.</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Grep for the claude-haiku-4-5-20251001 pin to list every Haiku call site, then replay a sample of recent fleet-router and Jr composer prompts through Haiku 5.5 next to 4.5 (accuracy and cost) before flipping any pin.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.295" target="_blank">v2.1.295</a></h3>
+            <p class="meta">anthropic_rss · Claude Code Releases (GH) · ashwin-ant</p>
+            <p>Claude Code 2.1.295 adds `onFailure: "block"`, so a command or HTTP hook that fails to start, times out or exits with an odd code now blocks the action instead of letting it through. It also fixes `claude -p` output loss and headless remote-MCP reconnect loops; most other items are gateway or UI only.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Upgrade the mini from 2.1.293 to 2.1.295, set `onFailure:"block"` on any PreToolUse guard hooks in ~/.claude/settings.json (never on the SessionStart/UserPromptSubmit context injectors), then force one to crash to prove it blocks.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x1nvh8/i_tested_a_popular_claude_code_debugging_skill/" target="_blank">I tested a popular Claude Code debugging skill against a same-length placebo. Claude never used it on its own, and forcing it didn't change the score</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Sufficient-Storage87</p>
+            <p>Reddit A/B test of a popular Claude Code debugging skill vs a same-length placebo: Claude never opened the skill on its own in 16 headless runs, and when forced, hidden-test scores were the same (61.8 none / 61.8 placebo / 62.6 skill, of 66). One bug, one model, 5 runs per group, so the author claims only 'no measurable effect here'.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: fleet</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read-only: count Skill tool_use calls for devil/calibrate in existing session transcripts or OTEL data against eligible sessions to get the real self-fire rate behind the meta-skills table.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x24pot/49_of_307_pr_and_issue_states_in_my_claude_code/" target="_blank">49 of 307 PR and issue states in my Claude Code handoff notes were already wrong when a later session read them</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Sea-Perception1619</p>
+            <p>A Claude Code user checks carried handoff notes at load time: a note with a #N ref plus a state word is compared with a read-only gh pr/issue view. 49 of 307 definite checks (16%) found the note already wrong (counted per check, one machine, 528 more skipped).</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write a read-only script, modelled on scripts/diary-corroborate.py, that finds a #N ref plus a state word in carried journal lines, compares it with the live fleet_tasks.py row, prints only contradictions, and logs hit and skip counts.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wzixdy/i_let_claude_code_work_in_a_sandbox_that_can_only/" target="_blank">I let Claude Code work in a sandbox that can only reach the hosts I allow, and every connection it makes or tries gets logged</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/ilai456</p>
+            <p>Builder's launch post for OpenRod (Apache-2.0, on NVIDIA OpenShell): Claude Code in a sandbox with deny-by-default egress, an ALLOWED/DENIED connection log (JSON/OCSF/webhook export) and an approve/reject/revoke queue for blocked hosts. API keys stay in the gateway and attach only to requests for hosts they are approved for; MCPs imported from the user's config each get their own host allowlist.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Run a one-week observe-only egress log on one unattended lane (the `claude -p` brain call behind wa_brain/opus_decision.py), then enforce that host list deny-by-default with denials logged.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=p7gaxmCUiIU" target="_blank">Hill-Climbing Skills: Improve Agents Without Changing the Model — Shubhankar Srivastava, Browserbase</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Browserbase's AutoBrowse: a doer agent runs the browser, and a teacher agent reads screenshots, traces and results, then writes lessons into a strategy file that graduates into a reusable skill file, with no model-weight changes. It needs a replayable environment and a verifiable outcome; drift-triggered repairs go to human review, and generated skills need prompt-injection scrutiny.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read github.com/shubh24/ai-engineer-autobrowse, then run its doer/teacher loop on one read-only Sults or Central Foz portal check against a replay fixture with a deterministic verifier, writing a draft SKILL.md for human review (never auto-installed).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=Uv0nAf_7tyU" target="_blank">Decoupling the Brain from the Hands: Claude Managed Agents (Part 1 of 4) — Anthropic</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Anthropic talk (part 1 of 4): Managed Agents split one 'pet' container into an append-only session log, a brain (harness + Claude) and hands (sandboxes, tools), and an egress proxy adds credentials so Claude never sees them. It is intro-level and the fleet does not use this API, so only the design ideas matter.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a small proxy on SC that adds the auth header for one provider (for example Firecrawl) and runs as a separate OS user, then add a test that the agent's shell cannot read that key.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=J17o5r5PKmw" target="_blank">Your AI Agent Is Confidently Wrong About Production — Willem Pienaar, Cleric</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Cleric's CTO on why production-debugging agents are confidently wrong (symptom taken for cause, no baseline for normal, lossy sub-agent summaries, anchoring on past incidents) and how grounding plus tracking real post-fix outcomes calibrates their confidence. Judged from the description and chapter list only; no transcript.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> In jr2-vitals/jr2_incident_history.py count per-pattern recurrences within 72h of a 'fixed' action, push the count through incidents-index.json, and print 'fix held N of M' in incident_lookup.py brief(), with a fixed-then-recurred test fixture.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wyjp7i/i_tested_20_ways_to_make_a_cheap_coding_model_act/" target="_blank">I tested 20+ ways to make a cheap coding model act like an expensive one. Here's what worked and what didn't</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/KangarooAnxious9394</p>
+            <p>Pre-registered Haiku-vs-Sonnet coding tests: a stronger model that speaks up only after repeated mistakes gave +7/63 at ~1.3x cost (always-on: +8 at 3.5x), and run-it fact feedback edged advice (35/42 vs 32/42). Code-knowledge memory, checklists and model routing did not help, and a strong model gained nothing (45/45 either way).</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> In scripts/self-reflect.mjs (Haiku-only today), escalate to Sonnet only when the same failure signature repeats; port the idea, not mihad (non-commercial licence).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=qZj7sqmidqA" target="_blank">From Vibes to Production: Evaluating and Shipping AI Agents That Work 101 — Laurie Voss, Arize AI</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>A ~110-minute Arize workshop on testing an AI agent built with the Claude Agent SDK. Read the traces first, add a cheap code check, then use single-question yes/no LLM judges that see the agent's own research and are checked against human labels; failures become test datasets and controlled prompt experiments.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write scripts/judge-vs-paulo.py to replay past initiative-engine voice cards, with the loop's recorded work_result as context, through one binary 'faithful to recorded state' judge and report precision/recall against Paulo's good/bad verdicts (offline only; skip the Arize/OpenInference part, since OTEL is already live).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wz1u9e/reduce_thinking_w_zero_quality_loss_opus_55/" target="_blank">Reduce thinking w/ zero quality loss: Opus 5.5 tested plus 3 others, 664 agent runs, up to 29% less thinking</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/PilgrimofHaqq2</p>
+            <p>Reddit post shares a 9-rule 'thinking discipline' block for AGENTS.md/CLAUDE.md (settle answers once, doubt isn't evidence, don't flip on no-evidence pushback, verify with real checks). Claims 664 runs on 4 models incl. Opus 5.5 lost no tasks, with each model gaining either up to 29% less thinking or a held correct fix under pushback; self-reported, and the text cuts off mid-rule 8.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> A/B the 9 rules on one non-outbound Opus lane (same ~30 inputs, baseline vs. rules appended to its system prompt), compare output tokens and answer parity, and keep them out of AGENTS.md (one-line-in budget contract) unless they win.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1wz4dp5/i_approved_an_agents_oc_delete_all_without/" target="_blank">I approved an agent’s “oc delete —all” without reading it, so I built guardrails (and 10 other mods) with Claude Code’s new function hooks</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Sea-University-7237</p>
+            <p>A developer built 11 Claude Code function-hook add-ons after approving a destructive oc delete --all unread; the main one blocks risky tool calls (rm -rf, mass deletes, force-push, .env reads). Two lessons: a deny message saying 'the user blocked this, don't work around it, ask' stops reworded retries, and ignoring quoted text when matching commands cuts false blocks.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Check Kratos's .claude/settings.json for an existing PreToolUse deny; if none, add a log-only one (rm -rf, force-push, mass delete) with quote-aware matching and a 'user blocked this, don't work around it, ask' reason, then enforce after a clean week; skip context-keeper (model-calling lifecycle hook = known recursion trap).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=X4w2Pkz5tDY" target="_blank">Grep or Embeddings? Agentic Search Over Company Documents — George He, LlamaIndex</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>LlamaIndex talk: grep works for code, but huge, messy, permissioned company documents need an indexed hybrid search first, then list, metadata filter, grep and read tools (with page screenshots for hard PDFs). The demo builds a cash-flow table from 135 Alphabet filings. Scored from the video description only.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Test the open-source LiteParse (github.com/run-llama/liteparse) against MarkItDown on 5 scanned or table-heavy client PDFs and compare the text each one recovers.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/claudeai/status/2107894039626277339" target="_blank">Introducing Claude Haiku 5.5: the cheapest, fastest, and most capable small model we’ve ever released.
+
+On average, it c</a></h3>
+            <p class="meta">x · @claudeai · claudeai</p>
+            <p>Anthropic announced Claude Haiku 5.5, which it calls its cheapest, fastest and most capable small model, with about 75% lower running cost than Haiku 4.5 on average. The tweet text gives no model ID, price table or benchmarks, so the saving on our workloads is unproven.</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc, jr, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Confirm the model ID, per-token price and API availability in Anthropic's models and pricing docs, then canary it against claude-haiku-4-5-20251001 on SC's Phase 8 fleet-router dispatcher and compare routing accuracy and cost on live traffic before moving Jr or scripts/self-reflect.mjs.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/trq212/status/2107898493234982968" target="_blank">We've heard how much people love Haiku and it's back in 5.5, cheaper, faster than ever before. 
+
+In fact it's 10x cheape</a></h3>
+            <p class="meta">x · @trq212 · trq212</p>
+            <p>Anthropic's @trq212 says Haiku returns in the 5.5 line, faster and claimed 10x cheaper than Haiku 4.5 under 100k tokens, usable in the API, computer use and workflows. Single tweet: no model ID, price table or benchmarks.</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Confirm the Haiku 5.5 model ID and price on Anthropic's pricing page, then replay a sample of past fleet-router dispatches on it and on claude-haiku-4-5-20251001, and swap the dispatcher and Jr composer model name only if the routes match.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/cursor_ai/status/2107897257651769464" target="_blank">Claude Haiku 5.5 is priced at $0.10/M input and $0.50/M output tokens, or $0.50/M and $2.50/M above 100k input tokens.
+
+</a></h3>
+            <p class="meta">x · @cursor_ai · cursor_ai</p>
+            <p>Cursor says Claude Haiku 5.5 costs $0.10/M input and $0.50/M output ($0.50 and $2.50 above 100k input tokens), and Sonnet 5.5 cache reads fell from $0.20 to $0.10/M. The post gives prices only: no quality data and no confirmation from Anthropic.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Check both prices on Anthropic's pricing page, then fix any hardcoded per-model prices in cost-watch.py and shadow-test Haiku 5.5 against Haiku 4.5 on the fleet-router and Jr composer prompts before changing any model ID.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/rohanpaul_ai/status/2107901719858622628" target="_blank">Anthropic dropped Haiku 5.5
+
+&gt; costs 90% less than Haiku 4.5 on prompts up to 100K tokens.
+
+&gt; Haiku 5.5 adds the f</a></h3>
+            <p class="meta">x · @rohanpaul_ai · rohanpaul_ai</p>
+            <p>Secondhand tweet: Anthropic released Haiku 5.5, 90% cheaper than Haiku 4.5 on prompts up to 100K tokens, with the first effort setting on a Haiku (trades cost for accuracy). Anthropic still recommends Sonnet 5.5 and Opus 5.5 for complex agentic coding.</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc, sandman, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Confirm the price, then add a Haiku 5.5 row (note the 100K-token tier) to scripts/cost-watch.py and scripts/llm-cost-daily.mjs (the latter prices unknown models as Haiku 4.5) before a side-by-side test on one classifier such as scripts/wa-intent-classify.py.</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W42.html · composed 2026-10-12 08:41 BRT</footer>
+</body></html>
