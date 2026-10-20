@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recepcionista con IA para clientes 3CX — avance técnico</title>
+<style>
+:root{
+  --ivory:#F6F7F9; --paper:#FFFFFF; --slate:#11202E;
+  --clay:#1F5FAE; --clay-d:#16498A; --oat:#D9E2EE; --olive:#3B7A57;
+  --red:#B4412F;
+  --g100:#EEF1F5; --g200:#E3E8EF; --g300:#CBD3DE; --g500:#6B7787; --g700:#34404E;
+  --serif: ui-serif, Georgia, "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ivory);color:var(--slate);font:16px/1.55 var(--sans);-webkit-text-size-adjust:100%}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 32px 56px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;font:12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--g500);padding-bottom:18px;border-bottom:1.5px solid var(--g300)}
+.top b{color:var(--slate);font-weight:600;letter-spacing:.04em;text-transform:none;font-family:var(--sans);font-size:15px}
+.eyebrow{display:flex;align-items:center;gap:10px;font:12px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--clay);margin:36px 0 12px}
+.eyebrow::before{content:"";width:24px;height:2px;background:var(--clay)}
+h1{font:400 clamp(34px,5vw,56px)/1.06 var(--serif);letter-spacing:-.018em;margin:0 0 18px;max-width:900px}
+h1 em{color:var(--clay);font-style:italic}
+.lede{font-size:clamp(17px,2vw,20px);line-height:1.5;color:var(--g700);max-width:780px;margin:0 0 10px}
+.lede strong{color:var(--slate)}
+.meta{font:13px/1.5 var(--mono);color:var(--g500);margin:14px 0 0}
+section{padding:36px 0 34px;border-bottom:1.5px solid var(--g300)}
+section:last-of-type{border-bottom:none}
+h2{font:400 clamp(24px,3vw,32px)/1.15 var(--serif);letter-spacing:-.012em;margin:0 0 6px}
+.sub{color:var(--g500);margin:0 0 22px;max-width:760px}
+.k{display:block;font:11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin-bottom:6px}
+
+/* flow diagram */
+.flow{margin:0;background:var(--paper);border:1px solid var(--g200);border-radius:14px;padding:26px 22px 20px}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px}
+.steps>li{position:relative;min-width:0}
+.steps>li:not(:last-child)::after{content:"";position:absolute;top:17px;right:-21px;width:16px;height:2px;background:var(--clay)}
+.steps>li:not(:last-child)::before{content:"";position:absolute;top:13px;right:-22px;border:5px solid transparent;border-left:7px solid var(--clay);border-right:0}
+.n{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--clay);color:#fff;font:600 15px/1 var(--sans);margin-bottom:10px}
+.steps h3{font:600 15.5px/1.3 var(--sans);margin:0 0 5px}
+.steps p{margin:0;font-size:14px;line-height:1.45;color:var(--g700)}
+.steps .opt{display:block;margin-top:6px;font-size:13px;color:var(--g700)}
+.steps .opt b{color:var(--clay-d)}
+.branch{margin-top:22px;display:flex;gap:12px;align-items:flex-start;background:#FBF1EE;border:1px solid #EDCFC7;border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.45}
+.branch .tag{flex:none;font:600 11px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--red);border-radius:6px;padding:5px 7px;margin-top:1px}
+
+/* two columns */
+.two{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:start}
+.two>*{min-width:0}
+
+/* fields table */
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--paper);border:1px solid var(--g200);border-radius:12px;overflow:hidden}
+th{font:500 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--g500);text-align:left;padding:10px 12px;border-bottom:1.5px solid var(--g300);background:var(--g100)}
+td{padding:10px 12px;border-bottom:1px solid var(--g200);vertical-align:top;line-height:1.42}
+tr:last-child td{border-bottom:none}
+td.f{font-weight:600;white-space:nowrap}
+td.f small{display:block;font:400 11px/1.3 var(--mono);color:var(--g500);margin-top:2px;white-space:normal}
+
+/* call sample */
+.call{background:var(--paper);border:1px solid var(--g200);border-radius:12px;padding:16px 16px 14px}
+.call .k{margin-bottom:10px}
+.b{border-radius:12px;padding:8px 12px;font-size:14px;line-height:1.42;margin:0 0 8px;max-width:92%}
+.b.a{background:var(--oat)}
+.b.c{background:var(--g100);margin-left:auto}
+.b i{display:block;font:600 10.5px/1.2 var(--mono);font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:var(--g500);margin-bottom:3px}
+.call .note{font-size:12.5px;color:var(--g500);margin:10px 0 0;line-height:1.4}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.cards>*{min-width:0}
+.card{background:var(--paper);border:1px solid var(--g200);border-radius:12px;padding:18px 20px}
+.card h3{font:600 16px/1.3 var(--sans);margin:0 0 8px}
+.card p{margin:0 0 8px;font-size:14.5px;color:var(--g700)}
+.card p:last-child{margin-bottom:0}
+.card .need{font-size:13px;color:var(--g500)}
+.card.pick{border:1.5px solid var(--clay)}
+.pill{display:inline-block;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--olive);border-radius:20px;padding:5px 9px;margin-left:6px;vertical-align:2px}
+.callout{margin-top:18px;background:var(--paper);border-left:3px solid var(--clay);border-radius:0 10px 10px 0;padding:12px 16px;font-size:14.5px;color:var(--g700)}
+
+ul.plain{margin:0;padding-left:1.1em}
+ul.plain li{margin:0 0 8px;font-size:15px}
+ul.plain li b{color:var(--slate)}
+.tbd{font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--clay-d);background:var(--oat);border-radius:4px;padding:3px 6px;white-space:nowrap}
+
+/* asks */
+ol.asks{margin:0;padding:0;list-style:none;counter-reset:a;display:grid;gap:10px}
+ol.asks li{counter-increment:a;position:relative;background:var(--paper);border:1px solid var(--g200);border-radius:10px;padding:12px 14px 12px 50px;font-size:15px;line-height:1.45}
+ol.asks li::before{content:counter(a);position:absolute;left:14px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--oat);color:var(--clay-d);font:600 13px/24px var(--sans);text-align:center}
+
+/* timeline */
+.weeks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.weeks>*{min-width:0}
+.wk{background:var(--paper);border:1px solid var(--g200);border-top:3px solid var(--clay);border-radius:10px;padding:14px 16px}
+.wk .k{color:var(--g500)}
+.wk h3{font:600 15px/1.3 var(--sans);margin:0 0 6px}
+.wk p{margin:0;font-size:14px;color:var(--g700);line-height:1.45}
+
+footer{margin-top:26px;padding-top:16px;border-top:1.5px solid var(--g300);display:flex;justify-content:space-between;gap:16px;font:12px/1.5 var(--mono);color:var(--g500)}
+
+@media screen and (max-width:880px){
+  .wrap{padding:24px 16px 40px}
+  .steps{grid-template-columns:minmax(0,1fr);gap:0}
+  .steps>li{display:grid;grid-template-columns:36px minmax(0,1fr);column-gap:14px;padding-bottom:20px}
+  .steps>li .n{grid-row:1/span 5;margin:0}
+  .steps>li>*:not(.n){grid-column:2}
+  .steps>li:not(:last-child)::after{top:40px;right:auto;left:17px;width:2px;height:calc(100% - 44px)}
+  .steps>li:not(:last-child)::before{display:none}
+  .two,.cards{grid-template-columns:minmax(0,1fr)}
+  .weeks{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .top{flex-wrap:wrap}
+  .branch{flex-direction:column;gap:8px}
+}
+@media screen and (max-width:560px){
+  .weeks{grid-template-columns:minmax(0,1fr)}
+  table,thead,tbody,tr,td{display:block;width:100%}
+  thead{display:none}
+  table{border:none;background:none}
+  tr{background:var(--paper);border:1px solid var(--g200);border-radius:10px;margin-bottom:10px;padding:4px 0}
+  td{border:none;padding:6px 14px}
+  td.f{white-space:normal;padding-top:10px}
+  td[data-l]::before{content:attr(data-l);display:block;font:500 10.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--g500);margin-bottom:2px}
+  footer{flex-direction:column;gap:4px}
+}
+@page{size:A4;margin:12mm}
+@media print{
+  html{zoom:.85}
+  body{background:#fff}
+  .wrap{max-width:none;padding:0}
+  .eyebrow{margin-top:16px}
+  h1{font-size:46px}
+  section{padding:22px 0 20px;break-inside:avoid}
+  .flow,.call,.card,.wk,ol.asks li,tr,.branch,.callout{break-inside:avoid}
+  footer{break-before:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="top"><b>superclawman.ai</b><span>Avance técnico · para Smart-Click</span></div>
+
+<div class="eyebrow">Reunión del miércoles 21 de octubre</div>
+<h1>Recepcionista con IA para clientes <em>3CX</em></h1>
+<p class="lede">El cliente llama a soporte, <strong>cuenta lo que le pasa como se lo contaría a una persona</strong> y cuelga con su caso registrado. Sin menú de opciones y sin llenar un formulario. Es la misma lógica del video de soporte que Paulo les mostró, ahora por teléfono.</p>
+<p class="meta">Ejemplo de esta página: la línea de soporte de Smart-Click y los 8 campos de su formulario web.</p>
+
+<section>
+  <h2>Cómo va una llamada</h2>
+  <p class="sub">Cinco pasos. 3CX sigue manejando los números, las colas y las extensiones como hoy; el agente es una extensión más.</p>
+  <figure class="flow">
+    <ol class="steps">
+      <li><span class="n">1</span><h3>Entra la llamada al 3CX</h3><p>Por el número de soporte o por una opción del menú actual. 3CX la pasa a la extensión del agente.</p></li>
+      <li><span class="n">2</span><h3>El agente atiende en español</h3><p>Saluda con el nombre de la empresa, escucha el problema y hace las preguntas que haría un técnico.</p></li>
+      <li><span class="n">3</span><h3>Completa los 8 campos</h3><p>Los saca de la conversación y confirma cada dato con el cliente. Detalle en la tabla de abajo.</p></li>
+      <li><span class="n">4</span><h3>Abre el ticket</h3><p>Por uno de dos caminos:</p><span class="opt"><b>A</b> · directo en su sistema de tickets (por ejemplo, Odoo Helpdesk)</span><span class="opt"><b>B</b> · correo al buzón de soporte, igual al del formulario</span></li>
+      <li><span class="n">5</span><h3>Confirma por voz</h3><p>Lee el resumen y, si el sistema lo devuelve, el número del ticket. El cliente sabe qué quedó registrado antes de colgar.</p></li>
+    </ol>
+    <div class="branch"><span class="tag">Transferir</span><span><b>En cualquier momento:</b> si el caso es urgente o el cliente pide hablar con una persona, el agente deja el ticket abierto con lo que ya contó y transfiere la llamada a la extensión o la cola que ustedes definan. El técnico no tiene que volver a preguntar.</span></div>
+  </figure>
+</section>
+
+<section>
+  <h2>Cómo pide y valida los 8 campos</h2>
+  <p class="sub">Los mismos campos del formulario de soporte de su web, en el mismo orden. El cliente no dicta un formulario: conversa, y el agente arma el ticket.</p>
+  <div class="two">
+    <table>
+      <thead><tr><th>Campo</th><th>Cómo lo obtiene</th><th>Cómo lo valida</th></tr></thead>
+      <tbody>
+        <tr><td class="f">Nombre y Apellido</td><td data-l="Cómo lo obtiene">«¿Con quién tengo el gusto?»</td><td data-l="Cómo lo valida">Lo repite. Si el apellido es poco común, pide que lo deletree.</td></tr>
+        <tr><td class="f">Celular</td><td data-l="Cómo lo obtiene">Propone el número desde el que llama: «¿Le contactamos a este mismo, el que termina en 4521?»</td><td data-l="Cómo lo valida">10 dígitos que empiezan con 09. Si dicta otro, lo repite en grupos.</td></tr>
+        <tr><td class="f">Email Empresarial</td><td data-l="Cómo lo obtiene">Lo pide y lo repite deletreado, con «arroba» y «punto».</td><td data-l="Cómo lo valida">Revisa el formato. Si es una cuenta personal, pregunta si tiene uno de la empresa. Si queda duda, lo marca «por confirmar» y el técnico lo confirma por el celular.</td></tr>
+        <tr><td class="f">Empresa</td><td data-l="Cómo lo obtiene">«¿De qué empresa nos llama?»</td><td data-l="Cómo lo valida">Si el número ya está en la agenda de 3CX, la empresa viene de ahí y solo la confirma.</td></tr>
+        <tr><td class="f">Provincia</td><td data-l="Cómo lo obtiene">Pregunta la ciudad, que es lo natural.</td><td data-l="Cómo lo valida">La pasa a una de las 24 provincias del formulario: Quito → Pichincha, Cuenca → Azuay.</td></tr>
+        <tr><td class="f">Producto / Servicio</td><td data-l="Cómo lo obtiene">No lee la lista: lo deduce del problema. «La central no da tono» → Centrales Telefónicas.</td><td data-l="Cómo lo valida">Elige una de las 10 opciones del formulario y la confirma. Si ninguna encaja: «Otro».</td></tr>
+        <tr><td class="f">Asunto</td><td data-l="Cómo lo obtiene">Lo escribe el agente, en una línea.</td><td data-l="Cómo lo valida">Lo lee al final, con el resumen.</td></tr>
+        <tr><td class="f">Su requerimiento</td><td data-l="Cómo lo obtiene">Lo redacta el agente con lo que contó el cliente: qué pasa, desde cuándo, qué ya probó.</td><td data-l="Cómo lo valida">Pregunta lo que falta para que el técnico no tenga que llamar de vuelta: qué equipo, dónde, si afecta a uno o a todos.</td></tr>
+      </tbody>
+    </table>
+    <div class="call">
+      <span class="k">Así suena · ejemplo ficticio</span>
+      <p class="b a"><i>Agente</i>Soporte de Smart-Click, buenas tardes. Cuénteme, ¿en qué le ayudo?</p>
+      <p class="b c"><i>Cliente</i>Hola, en la oficina los teléfonos no tienen tono desde la mañana.</p>
+      <p class="b a"><i>Agente</i>Entiendo. ¿Es en todos los teléfonos o en uno solo?</p>
+      <p class="b c"><i>Cliente</i>En todos.</p>
+      <p class="b a"><i>Agente</i>Lo registro como urgente. ¿Con quién tengo el gusto, y de qué empresa y ciudad nos llama?</p>
+      <p class="b c"><i>Cliente</i>María Torres, de Comercial Andina, en Quito.</p>
+      <p class="b a"><i>Agente</i>Gracias, María. ¿Le contactamos a este mismo celular, el que termina en 4521?</p>
+      <p class="b c"><i>Cliente</i>Sí, a ese.</p>
+      <p class="b a"><i>Agente</i>Listo. Quedó registrado: «Central sin tono en toda la oficina», Centrales Telefónicas, Pichincha. Como es urgente, le paso ahora con un técnico.</p>
+      <p class="note">El correo y los demás datos se piden igual; aquí se acortó.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Dónde queda el ticket</h2>
+  <p class="sub">Hoy el formulario de su web envía un correo a soporte@smart-click.com. El agente puede usar ese mismo camino o entrar directo al sistema de tickets.</p>
+  <div class="cards">
+    <div class="card">
+      <span class="k">Opción A</span>
+      <h3>Directo en su sistema de tickets</h3>
+      <p>Si el correo de soporte termina en un sistema de tickets (Odoo Helpdesk u otro), el agente crea el ticket ahí, con los 8 campos en su lugar. El número de ticket vuelve en el momento y el agente se lo dice al cliente en la llamada.</p>
+      <p class="need">Necesita: un usuario con acceso por API a ese sistema.</p>
+    </div>
+    <div class="card pick">
+      <span class="k">Opción B <span class="pill">Para empezar</span></span>
+      <h3>Correo al buzón de soporte</h3>
+      <p>El agente envía un correo con los mismos 8 campos del formulario al mismo buzón. Del lado de ustedes no hay que instalar nada. Si su sistema responde a ese correo (por ejemplo, con el número de ticket), comprobamos en la primera semana que la respuesta le llegue al cliente.</p>
+      <p class="need">Necesita: nada nuevo. Se puede pasar a la opción A después, sin cambiar la llamada.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Cómo se conecta con 3CX</h2>
+  <p class="sub">A alto nivel. El detalle lo cerramos con su equipo técnico.</p>
+  <div class="two">
+    <ul class="plain">
+      <li><b>Como una extensión más.</b> 3CX V20 permite conectar una aplicación externa que funciona como una extensión de la central («Programmable Extensions», sobre su Call Control API). El agente recibe llamadas por su número interno o por un DID.</li>
+      <li><b>3CX sigue al mando de la telefonía.</b> Troncales, números, colas, horarios y el menú actual no cambian.</li>
+      <li><b>Transferir, buzón de voz o colgar</b> se hace por la misma API de 3CX, hacia la extensión o la cola que ustedes definan.</li>
+      <li><b>Requisito según 3CX:</b> V20 Update 10 o posterior, el acceso al Call Control API activado, y un administrador que cree el acceso en Admin › Integraciones › API.</li>
+      <li><b>Centrales con versiones anteriores:</b> por troncal SIP. <span class="tbd">A definir con su equipo</span></li>
+      <li><b>Edición o licencia de 3CX que lo incluye:</b> <span class="tbd">A confirmar con su equipo</span></li>
+    </ul>
+    <div class="card">
+      <span class="k">Pregunta probable de sus clientes</span>
+      <h3>¿Y el recepcionista con IA que ya trae 3CX?</h3>
+      <p>El de 3CX saluda, toma datos y enruta la llamada. Este agente hace el trabajo de soporte completo: entiende el problema técnico, llena el ticket con los 8 campos validados y lo deja en su sistema.</p>
+      <p>Pueden convivir: el recepcionista de 3CX puede pasar las llamadas de soporte a este agente. Lo probamos en el piloto.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Lo que necesitamos de ustedes</h2>
+  <p class="sub">Para pasar de este avance a un piloto.</p>
+  <ol class="asks">
+    <li><b>Un cliente piloto con 3CX V20 Update 10 o posterior</b> (o la propia línea de soporte de Smart-Click), y un administrador que pueda crear la extensión del agente.</li>
+    <li><b>Qué pasa hoy con el correo de soporte@smart-click.com:</b> ¿lo toma una persona o un sistema de tickets? Si es un sistema, cuál, y un usuario con acceso por API.</li>
+    <li><b>Las reglas de urgencia y transferencia:</b> qué casos van directo a una persona, a qué extensión o cola, y en qué horario.</li>
+    <li><b>Cinco a diez llamadas típicas de soporte</b>, contadas en una línea cada una, o tickets reales sin datos personales. Con eso armamos las preguntas del agente.</li>
+    <li><b>El saludo y el aviso al inicio de la llamada</b> (grabación y datos personales según la LOPDP), con el texto que ustedes ya usan.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Siguiente paso: un piloto con un cliente</h2>
+  <p class="sub">Este avance es el diseño. En el piloto lo conectamos a su 3CX y lo medimos con llamadas reales: cuatro semanas, una sola línea, con horario definido.</p>
+  <div class="weeks">
+    <div class="wk"><span class="k">Semana 1</span><h3>Accesos y guion</h3><p>Extensión del agente en 3CX, destino del ticket (opción A o B), preguntas, reglas de urgencia y aviso inicial.</p></div>
+    <div class="wk"><span class="k">Semana 2</span><h3>Pruebas internas</h3><p>El agente atiende la extensión interna. Su equipo lo llama con casos reales y revisamos cada ticket.</p></div>
+    <div class="wk"><span class="k">Semana 3</span><h3>Llamadas reales</h3><p>Pasa a atender el número del cliente piloto, en el horario acordado, con transferencia a su equipo.</p></div>
+    <div class="wk"><span class="k">Semana 4</span><h3>Resultados</h3><p>Llamadas atendidas, tickets completos, transferencias. Con eso decidimos juntos cómo llevarlo a más clientes.</p></div>
+  </div>
+  <p class="callout"><b>Para sus otros clientes con 3CX:</b> la conexión con la central y la forma de conversar se repiten. Lo que cambia en cada cliente son los campos del ticket, a dónde va el ticket y las reglas de urgencia. Al terminar el piloto, esa lista ya está hecha para el segundo cliente.</p>
+</section>
+
+<footer><span>superclawman.ai</span><span>Avance técnico para Smart-Click · 20 de octubre de 2026</span></footer>
+
+</div>
+</body>
+</html>
