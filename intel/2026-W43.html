@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W43</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W43
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">Radar — weekly synth, 12 picks, pattern focus: deterministic_guards_over_prompt_guards<br/>
+<br/>
+The week's theme: how to trust an agent that acts when nobody is watching.<br/>
+<br/>
+<b>Bottom line: SHIP #7, #8, #1, #4 and #2 (small read-only checks first), everything else holds.</b><br/>
+<br/>
+Pattern of the week: a rule in code beats a rule in a prompt. Eight of the twelve picks touch it.<br/>
+<br/>
+🎯 <b>SHIP calls:</b><br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+  • SHIP #4 <b>Self-improve skill / LESSONS_LEARNED.md</b> — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x8a2m2/selfimprove_skill_lessons_learnedmd/">read</a> — turn "never edit a running script" (it broke live runs twice) into a hook that blocks the edit, after checking for an existing guard. (effort S, additive, shell scripts only; test what happens if the hook crashes) · 🎯 metric: infra:no edits to a running script<br/>
+  • SHIP #2 <b>Your Claude Code prompt cache drops from an hour to five minutes</b> — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x6q056/your_claude_code_prompt_cache_drops_from_an_hour/">read</a> — check the <code>/usage</code> cache line on the Kratos seat; if hits are low, a longer cache time may cut re-read cost. (effort S, Claude Code setting not the SDK; merge, never overwrite; confirm names in the docs, the source is a Reddit digest) · 🎯 metric: cost<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+  • SHIP #7 <b>Your Agent Is a Lethal Trifecta</b> — <a href="https://www.youtube.com/watch?v=ws9XcGGPBDk">watch</a> — check what each lane that answers contacts without Paulo can read and send, then test that inbound text cannot reach <code>~/.openclaw/secrets</code>. (effort S for the check, M if the test grows; read-only first, no real sends) · 🎯 metric: infra:no path from inbound text to secrets<br/>
+  • SHIP #8 <b>Reliable, Smart Workflows for Finance, Wealth and Insurance</b> — <a href="https://www.youtube.com/watch?v=8g0g1ncwzG0">watch</a> — read <code>selfchat_commands.py</code> and <code>wa-send-text.mjs</code> for exact approved text and review-not-retry on a timeout, since OpenClaw cannot unsend a WhatsApp message. (effort S, read-only; a patch to the live send path gets its own approval) · 🎯 metric: infra:sent text equals approved text, no blind retry<br/>
+  • SHIP #1 <b>I run Claude Code and Codex in parallel on two machines</b> — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x92aeq/i_run_claude_code_and_codex_in_parallel_on_two/">read</a> — check whether a failed search in <code>inject-memory.sh</code> looks like its empty "recall not needed" reply, and if so give it its own exit code. (effort S, shared script on the live draft path: check callers first) · 🎯 metric: retrieval<br/>
+<br/>
+🟢 <b>Sandman</b>:<br/>
+  • Same as SC — SHIP #1, after SC's check; its memory script may differ, so verify first.<br/>
+<br/>
+🟢 <b>SadButTrue</b>:<br/>
+  • Same as SC — SHIP #7, as a read-only list first (it has no repair allow-list yet).<br/>
+<br/>
+Held back: 2 DEFER, 5 SKIP — reasoning in the archive.<br/>
+<br/>
+=== ARCHIVE ===<br/>
+<br/>
+📦 <b>The haul (12):</b><br/>
+<br/>
+1. <b>I run Claude Code and Codex in parallel on two machines</b> — two-runtime field notes — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x92aeq/i_run_claude_code_and_codex_in_parallel_on_two/">read</a><br/>
+2. <b>Your Claude Code prompt cache drops from an hour to five minutes</b> — prompt cache TTL explained — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x6q056/your_claude_code_prompt_cache_drops_from_an_hour/">read</a><br/>
+3. <b>A Stop hook that writes my handoff 10 minutes before the prompt cache dies</b> — idle-timer handoff hook — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x6m9nv/a_stop_hook_that_writes_my_handoff_10_minutes/">read</a><br/>
+4. <b>Self-improve skill / LESSONS_LEARNED.md</b> — lessons that load at edit time — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x8a2m2/selfimprove_skill_lessons_learnedmd/">read</a><br/>
+5. <b>Self Labs Agent Vault launch</b> — placeholder-token browser proxy — <a href="https://x.com/rohanpaul_ai/status/2110792931808616849">read</a><br/>
+6. <b>How to Know If Your AI Agent Is Any Good (Arize)</b> — agent eval workshop — <a href="https://www.youtube.com/watch?v=SHMCGrNJJGc">watch</a><br/>
+7. <b>Your Agent Is a Lethal Trifecta (Keycard)</b> — scoped short-lived agent credentials — <a href="https://www.youtube.com/watch?v=ws9XcGGPBDk">watch</a><br/>
+8. <b>Reliable, Smart Workflows for Finance, Wealth and Insurance (Perpetual)</b> — models judge, code acts — <a href="https://www.youtube.com/watch?v=8g0g1ncwzG0">watch</a><br/>
+9. <b>Travel booking MCP in Claude's connectors directory</b> — connector review lessons — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x4a492/we_just_got_our_travel_booking_mcp_into_claudes/">read</a><br/>
+10. <b>OpenAI's new Decisions API</b> — cheap typed classifier endpoint — <a href="https://www.skool.com/robonuggets/openais-new-decisions-api-is-the-quiet-one-worth-your-attention-a-cheaper-10x-faster-way-to-do-all-the-routing-and-classifying-in-your-builds">read</a><br/>
+11. <b>I Believe Everything My Agents Tell Me (Rexmore)</b> — three-level agent review — <a href="https://www.youtube.com/watch?v=dYh7TQkuYFE">watch</a><br/>
+12. <b>I built an Assay skill for Claude Code</b> — behavior regression replay — <a href="https://www.reddit.com/r/ClaudeAI/comments/1x5xu9f/i_built_an_assay_skill_for_claude_code_to_catch/">read</a><br/>
+<br/>
+🟡 <b>No SHIP on any surface (7 picks):</b><br/>
+  • SKIP #3 — a hook that starts <code>claude -p</code> is barred by our v1-runaway rule. The cost figures are the author's own.<br/>
+  • DEFER #5 — the idea is right: the model never holds the card or password. The source is a launch tweet with no design to read.<br/>
+  • SKIP #6 — the eval-harness gap was judged settled on 2026-09-09, so FYI only. Its first step also replays the fleet-router, retired 2026-09-04.<br/>
+  • SKIP #9 — card verdicts already run in code. Its one open question rides on the #8 read.<br/>
+  • SKIP #10 — the first step sends client WhatsApp text to a beta endpoint and replays the retired fleet-router. The 10x claim is OpenAI's own, and GA is weeks away.<br/>
+  • DEFER #11 — levels 1 and 3 match verify-by-running and the devil skill. Level 2 (re-extract a total and match it) is new, but it sits close to the declined pre-send fact-checker (W41 #4), so aim it at finance and legal files only, never at WhatsApp sends.<br/>
+  • SKIP #12 — same eval-harness gap, FYI only. Provenance is moderate: 17 stars, author-disclosed.<br/>
+<br/>
+🟡 <b>Claude Code</b> (this Mac):<br/>
+  • DEFER #1 (git-level guards) — worth doing once a second runtime gets past our hooks and we can name the case.<br/>
+  • DEFER #4 (lesson loader) — our memory files carry no path tag, so it starts with tagging many files.<br/>
+  • DEFER #7 — after SC's check, if a Claude Code version is wanted.<br/>
+  • SKIP #8 — SC's read of the shared send script covers it.<br/>
+  • FYI #4 — the SHIP is a one-rule check on shell scripts. It is not the snapshot gate we declined (W38 #2).<br/>
+<br/>
+🟡 <b>Superclawman</b>:<br/>
+  • SKIP #2, #4 — both are Claude Code features, so they land on that surface. SC runs a Qwen brain on openclaw, and a Claude cache setting does not touch it.<br/>
+<br/>
+🟡 <b>Sandman</b>:<br/>
+  • Same as SC — SKIP #2, #4.<br/>
+  • DEFER #7 — after SC's check shows the method.<br/>
+  • DEFER #8 — it sends outside the gateway, so SC's read does not carry over. Look at it after SC's result.<br/>
+<br/>
+🟡 <b>SadButTrue</b>:<br/>
+  • Same as SC — SKIP #2, #4.<br/>
+  • SKIP #1 — it runs on Hermes, not on our memory script.<br/>
+  • SKIP #8 — its WhatsApp channel carries Enel notices only, so there is no client send path to read.<br/>
+<br/>
+🟡 <b>Jr Max</b>:<br/>
+  • SKIP #7 — already built this way: a model only picks severity, and the command comes from a static allow-list.<br/>
+  • DEFER #2 — it is a Claude Code session, so the setting applies. It only follows SC, and SC does not use it, so wait for the Kratos result.<br/>
+  • SKIP #1, #4, #8 — alert-only: none of these apply.<br/>
+<br/>
+<b>Radar notes:</b><br/>
+  • Billing: the radar prompt says the fleet is API-only. Today's fleet journal (07:10 BRT) says the fleet stays on Max plans, with metered API for the entry agent. #2 pays off differently on each, so the check comes first.<br/>
+  • Installed CLI 2.1.303 is already past the 2.1.242 floor for #2. No upgrade is needed.<br/>
+  • The pattern counter said 1 item. I count 8 of the 12 picks on deterministic_guards_over_prompt_guards.<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b><br/>
+  • Agent Vault (#5): hosted third-party service, no repo checked. Not installing.<br/>
+  • agent-review (#11): no provenance check ran. Read-only in a scratch dir at most.<br/>
+  • Assay (#12): provenance moderate, 17 stars, so audit the repo first. Not needed now.</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x92aeq/i_run_claude_code_and_codex_in_parallel_on_two/" target="_blank">I run Claude Code and Codex in parallel on two machines. These are the walls I hit and how I got past them</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Lonely-Parfait1947</p>
+            <p>Field notes from running Claude Code and Codex in parallel on two machines: enforce guards in git because Claude hooks don't bind a second runtime, verify 'done' where the result lands, one writer per worktree, and a shared memory with evidence labels where 'search failed' is UNKNOWN, never zero.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Make clawman-memory/inject-memory.sh exit with a distinct code when search could not run (callers treat it as UNKNOWN, not empty) and test it against a missing index; then add a health-ledger sensor for empty or unparsable hook files.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x6q056/your_claude_code_prompt_cache_drops_from_an_hour/" target="_blank">Your Claude Code prompt cache drops from an hour to five minutes the second you pass your plan limit</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/virtualunc</p>
+            <p>Reddit digest of Claude Code docs: the main-session prompt cache lasts 1h on a subscription within plan limits, but only 5 min on API keys, over-limit, and for subagents/workflows/compaction. promptCacheTtl / CLAUDE_CODE_PROMPT_CACHE_TTL (v2.1.242+) raises it, /usage shows a cache hit-rate line, and a mid-session model switch gets zero cache hits.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Baseline Kratos's /usage 'Prompt cache (main)' line (installed 2.1.300 has it), then merge promptCacheTtl=1h plus subagentPromptCacheTtl into ~/.cc-telegram/kratos-workspace/.claude/settings.json and compare cost for a day, since 1h cache writes cost more than 5m.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x6m9nv/a_stop_hook_that_writes_my_handoff_10_minutes/" target="_blank">A Stop hook that writes my handoff 10 minutes before the prompt cache dies</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Impossible-Bee1746</p>
+            <p>A Stop hook starts a 50-minute idle timer, then runs a headless `claude -p --resume --fork-session` to write an ~80-line handoff note while the 1h prompt cache is still warm. An env var stops the hook re-firing on its own run. Author-reported: 12 notes at ~$0.19 each vs ~$2 for one cold resume of a 270k-token session.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Don't build the Stop-hook fork (our v1-runaway rule bars it); run `claude -p --output-format json` once and read `usage.cache_creation` to see whether our seats get the 1h or 5m cache TTL.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x8a2m2/selfimprove_skill_lessons_learnedmd/" target="_blank">Self-improve skill / LESSONS_LEARNED.md</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/AdNo4170</p>
+            <p>A solo founder audited ~225 written lessons, found agents never read them at edit time, and rebuilt the loop: each lesson is OPEN, BARRED (a test or hook rejects it), ABSORBED or ARCHIVED, a validator checks the cited guard exists, and up to 3 path-matched lessons load before each edit. Numbers are self-reported.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write a PreToolUse hook (Edit|Write) that matches file_path to a paths: field on feedback memories and injects up to 3; seed it from the CLAUDE.md working rules, then turn 'never edit a running script' into a blocking check.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/rohanpaul_ai/status/2110792931808616849" target="_blank">This is how agents should handle your card.
+
+Self Labs launched Agent Vault, a hosted browser proxy that lets agents lik</a></h3>
+            <p class="meta">x · @rohanpaul_ai · rohanpaul_ai</p>
+            <p>Self Labs launched Agent Vault, a hosted browser proxy: agents (Claude Code, Codex, Grok Bot) sign in and check out with placeholder tokens while the proxy types the real card number or password into the site. Launch tweet only; it gives no detail on how the real value is scoped to a destination.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Spike a local origin-scoped placeholder resolver in SC's Playwright lane (placeholder → `op read`, only when the page host is allow-listed) and add a test that a wrong-host page never receives the value.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=SHMCGrNJJGc" target="_blank">How to Know If Your AI Agent Is Any Good: Evals With Phoenix & Claude — Laurie Voss, Arize AI</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Arize workshop that builds an eval loop for a Claude stock-analyst agent (it starts from a report saying '116% of analysts agree' that no check caught): Phoenix tracing, code evals, LLM-as-judge plus tests of the judge, prompt experiments, a Haiku 4.5 to 5.5 upgrade backed by evidence, and a CI gate with npm test.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a 30-50 case golden set from logged fleet-router (Haiku dispatcher) decisions with known-correct routes, then add a replay script in workspace/scripts that scores the current Haiku pin against claude-haiku-5-5 before any pin moves.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=ws9XcGGPBDk" target="_blank">Your Agent Is a Lethal Trifecta (And What to Do About It) — Kim Maida, Keycard</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Keycard talk on the 'lethal trifecta' (private data + untrusted input + external access): a staged on-call agent with standing admin keys drops a DB and scales pods from 4 to 40. Remedy shown: OAuth token exchange plus task-based policy at a token service issuing short-lived scoped credentials, so an approved action still fails if the approver's role cannot authorize it.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Audit which tools and secrets paths the autonomous-lane brain (scripts/wa_brain/opus_decision.py) can reach, pin a code-level allow-list, and add a test proving untrusted inbound text cannot reach ~/.openclaw/secrets.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=8g0g1ncwzG0" target="_blank">Reliable, Smart Workflows for Finance, Wealth and Insurance — Karthic Rao, Perpetual</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Perpetual keeps workflow control flow, evidence and external actions in deterministic code, with models making only typed judgments inside a plan compiler that can accept, ask or refuse. Action gates are tied to the exact payload and uncertain action outcomes go to manual review instead of retry; the 19-of-20 small-model split is a design target, not a measurement.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read selfchat_commands.py and wa-send-text.mjs to confirm a send uses the exact approved text and that a timed-out send raises a review card rather than retrying; patch whichever is missing.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x4a492/we_just_got_our_travel_booking_mcp_into_claudes/" target="_blank">We just got our travel booking MCP into Claude's official connectors directory. Here's everything the review made us change.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Efistoffeles</p>
+            <p>A LetsFG maintainer (self-reported) lists what Anthropic's connector-directory review made them change: descriptions may only describe (guidance moves into tool results), results can't sell, and any charge must start from an out-of-chat email approve click, not Claude's next tool call. Includes a tip to make approve links open a button page so email scanners don't trigger them.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Grep the approval paths (cards verdicts in selfchat_commands.py first) for 'approve sets a flag, model's next call acts'; where found, move the action into the approve handler and add a test that a flag flip alone sends nothing.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.skool.com/robonuggets/openais-new-decisions-api-is-the-quiet-one-worth-your-attention-a-cheaper-10x-faster-way-to-do-all-the-routing-and-classifying-in-your-builds" target="_blank">openai’s new decisions api is the quiet one worth your attention, a cheaper, 10x faster way to do all the routing and classifying in your builds</a></h3>
+            <p class="meta">robonuggets · RoboNuggets (paid) · Faizan Ashraf</p>
+            <p>RoboNuggets relays OpenAI's Decisions API public beta: a classify/route endpoint that returns typed answers (yes/no plus probability, fixed-set choice, score) at $0.10/M input tokens with no output charge. The 10x speed claim is OpenAI's own with no public benchmark, and GA is still weeks away.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Shadow-run 200 logged WA Phase 8 fleet-router (Haiku dispatcher) decisions through the beta endpoint on redacted text, comparing agreement, latency, cost and probability calibration, before any live path changes.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=dYh7TQkuYFE" target="_blank">I Believe Everything My Agents Tell Me: Three Levels of Review — Corey Gallon, Rexmore</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Three-level review for agents that overstate their work: a fingerprinted artifact or explicit missing-list; independent re-extraction settled against a control total and the source; then a self-audit, cold adversarial reviewers, and fresh reviewers for the revision. Evidence is the speaker's own cases, not a benchmark; released as agent skills (captivus/agent-review).</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read github.com/captivus/agent-review read-only in a scratch dir, diff it against our devil skill, and port only what is missing (fresh reviewers for the revision, a control-total reconcile step for client finance/legal drafts).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x5xu9f/i_built_an_assay_skill_for_claude_code_to_catch/" target="_blank">I built an Assay skill for Claude Code to catch AI behavior regressions before committing</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Professional-Run3614</p>
+            <p>Author-disclosed Reddit post for Assay, an MIT-licensed pytest/Jest/Vitest tool with a Claude Code skill that replays AI-behavior test cases after a prompt, tool or logic change and diffs each against its last passing baseline. Baselines are never auto-updated, and repeated runs separate flaky output from real regressions.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Replay ~10 frozen high-stakes scenarios (3p-send approval, escalate-to-Paulo, never-confirm-robot) through wa_brain/opus_decision.decide() 3x each against a pinned baseline, with a code-level check (not a prompt) blocking baseline edits without Paulo's OK; borrow Assay's design, don't install the unvetted package fleet-wide.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x5ws0m/i_built_an_opensource_mcp_server_that_lets_claude/" target="_blank">I built an open-source MCP server that lets Claude Code operate Mac apps in the background, and benchmarked it against four free tools</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/_Ar5en1c_</p>
+            <p>MIT-licensed MCP server (Ghost OS fork) that lets Claude Code drive background Mac apps via macOS accessibility, with compact text, stable element ids and refusal on ambiguous names. Author's own benchmark (self-written tasks, one model, one M1) claims 50/51 passes on 2.05M tokens vs Peekaboo (foreground flag) 41/51 on 43.6M.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Code-review github.com/Ar5en1c/youxpc (it needs macOS Accessibility permission), then A/B it against Peekaboo on 3 real fleet-step GUI tasks on a non-production Mac, not the mini, measuring tokens and pass rate.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=Wb2v9Phhnns" target="_blank">Your AI Isn’t the Problem. Your Infrastructure Is. — Jiachen Jiang, Coder</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>A written rule like a code freeze is a request, not a boundary; the talk says limits enforced in the environment are what count. It backs this with the Replit database deletion, a secondhand bank/Copilot account and the Nx supply chain attack, and six controls: sandboxes, short-lived credentials, identity-aligned access, model proxies, file/network limits and audit logs outside the agent's reach.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Run the talk's closing exercise on the mini, starting with persistent tokens: list the long-lived keys in ~/.openclaw/secrets/ that an agent session can read (names only, never values) and mark which can delete or revoke.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=8g1N_a3h9H0" target="_blank">How to Actually Tokenmaxx and Save Millions — Alvin Pane, OutRival</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Method talk on cutting token cost: measure how often the current model disagrees with itself (reported 7%) before judging a cheaper model (18%), then shadow-test with human review and a paired confidence-interval gate. The 51% prompt cut is from a synthetic example; no real savings are shown.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write a read-only replay script that runs ~100 logged wa_brain opus_decision inputs twice on the current model and once on a cheaper one, then reports the cheaper model's disagreement minus the self-disagreement baseline.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=gDRCpTMCqEU" target="_blank">What Technical Due Diligence Finds When the Deck Says “70% Automated” — Soukaïna Abelhad</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>AI Engineer talk giving investors three checks for a '70% automated' claim: workload growth vs. human labor, a defined straight-through completion boundary, and LLM-judge evals compared with domain experts. It closes on cost per accepted autonomous task, counting review, escalation, rework and failures; a framework illustrated with public examples, not a measured result.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a read-only per-contact report: cost-watch.py spend divided by WA draft cards approved unedited, with edited and rejected drafts still counted as cost.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x6jjxm/i_measured_how_often_claude_code_commits_a_file/" target="_blank">I measured how often Claude Code commits a file it never ran after the last edit. On my laptop: 68.9% of commits !</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Newbie_investisseur</p>
+            <p>Free local CLI that reads Claude Code transcripts and shows, per PR hunk, the last test, lint, build or script run after it was written, or marks it unrun. Author's self-reported stat: 68.9% of 392 in-session commits followed an edit made after the last run, many of them README or config edits.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Port the idea, don't install it (transcripts can hold secrets): write a small read-only stdlib script over ~/.claude/projects that counts commits of .py/.sh/.mjs files edited after the last test or probe run, then decide on a warn-only commit hook.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x5ttwo/i_built_a_claude_code_plugin_that_keeps_your/" target="_blank">I built a Claude Code plugin that keeps your prompt cache warm, so you stop paying to rebuild it</a></h3>
+            <p class="meta">reddit · r/ClaudeAI top day · /u/sohamspat</p>
+            <p>Open-source Claude Code plugin showing a cache-TTL countdown, real hit rate, and a cause-labelled notice on each cache rebuild, plus an optional keep-warm ping before expiry. It works from the cache read/write counts Claude Code already logs per request; a rebuild is a write over 20K tokens with a read under half the prior cache.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a per-surface cache hit rate and rebuild flag (write over 20K tokens, read under half the prior cache) to cost-watch.py before choosing 1h TTL or keep-warm; read the repo before installing, since the post never says how the ping is sent.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x6up3f/claude_code_cowrote_482_of_the_633_commits_in_my/" target="_blank">Claude Code co-wrote 482 of the 633 commits in my self-hosted notes server. Here is how we kept it in line</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/BattermanZ</p>
+            <p>A maintainer explains how two people keep Claude Code in check on one repo. Each task gets a written 'work packet' (files it may edit, files it must not touch, checks to run), parallel one-question review subagents, its own branch and PR, and a release that waits for the human to reply 'approved'.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a log-only PreToolUse hook (~/.claude/bin/scope-guard.sh, one project) that reads a per-task scope file (allowed files, do-not-touch list) and records out-of-scope edits; make only do-not-touch hits block once the log is clean.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x6vtld/i_built_a_free_claude_code_plugin_with_claude/" target="_blank">I built a free Claude Code plugin, with Claude Code, after measuring where my tokens actually go (2-min video, every number labelled)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/shaven12</p>
+            <p>Golden Thread is a free Claude Code plugin: a Markdown memory vault, per-turn rule hooks, an MCP gateway whose reader agent cut one 20-ticket Jira query from ~15K to 313 main-context tokens (measured once), and tier-up/tier-down tests of helper agents. All numbers are author-reported and some are estimates.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Trial a read-only subagent that returns a short digest for the heaviest MCP server in the daily mcp-cost-breakdown.py report, and compare total billed tokens (the reader spends its own), not just main-context size, over 5 repeat queries.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x74mbo/i_benchmarked_haiku_45_and_55_against_gpt6_luna/" target="_blank">I benchmarked Haiku 4.5 and 5.5 against GPT-6 Luna, Gemini Flash-Lite and two decision models on 1,000 support chats</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/misterespresso</p>
+            <p>Third-party benchmark of six models on 1,000 public support chats: Haiku 5.5 posts the best handoff score (F2 0.98) at $0.14 per 1,000 chats vs $2.83 for Haiku 4.5 (about 10x list price, plus caching that 4.5 cannot use under 4,096 tokens). Both Haikus give roughly 380-390 false yeses on identity verification.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> grep ~/.openclaw/workspace/scripts for claude-haiku-4-5 call sites and log usage.cache_read_input_tokens per site to find cache_control prompts under 4,096 tokens that never hit.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x7b7jq/claude_built_my_entire_teamcoordination_plugin/" target="_blank">Claude built my entire team-coordination plugin: how file leases and shared tasks work</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Historical_Dinner_69</p>
+            <p>Self-promo for an MIT Claude Code plugin that splits a ticket across teammates: a hook denies Edit/Write outside the paths a claimed task owns, and a deterministic validator checks path overlap and dependencies before parallel runs. The shared task board overlaps our fleet ledger; the lease gate and split check are the new ideas.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read the lease hook's source in cyber1443/session-share (do not install the plugin), then prototype an observe-only PreToolUse path-lease check in ~/.claude/bin/ on the mini that logs would-be denials before it is ever allowed to block.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x839jo/developers_claude_code_now_silently_syncs_your/" target="_blank">Developers: Claude Code now silently syncs your claude.ai (web) skills and plugins to your local machine, enabled by default</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/phatstackzdevops</p>
+            <p>Reddit user reports Claude Code silently syncing ~700 claude.ai skill/plugin files into ~/.claude/{skills,plugins}/synced/ via server flag tengu_claudeai_skills_sync_enabled (+~10k tokens/session), plus an earlier silent A/B enrollment despite a pinned binary. One anecdote; no opt-out given.</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> On the Mac mini run `ls ~/.claude/skills/synced ~/.claude/plugins/synced` (our skills list already shows a `synced` entry); if populated, add a ~/.claude/{skills,plugins} baseline-diff sensor to the health-ledger, else drop.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1x8f0gm/use_claudecode_with_real_customer_data_without/" target="_blank">Use ClaudeCode with real customer data without the data ever reaching Claude</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/nahuel990</p>
+            <p>Launch post for Baldanders, an MIT CLI that swaps PII (names, phones, IBANs, 55+ national ID formats, secrets) for tokens like [PERSON_1] before text reaches Claude, then restores the real values locally; Claude runs in an empty dir with tools and MCP off. Detection quality is claimed, not benchmarked.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> In an isolated venv, run Baldanders over ~20 synthetic pt-BR legal/clinic samples (CPF, CNPJ, OAB, Pix keys, phones) and record recall before wrapping any text-only client flow.</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W43.html · composed 2026-10-19 09:11 BRT</footer>
+</body></html>
