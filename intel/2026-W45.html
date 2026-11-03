@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W45</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W45
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">Radar — weekly synth, 12 picks, pattern focus: deterministic_guards_over_prompt_guards<br/>
+<br/>
+This week's picks agree on one thing: a small code check beats a reminder written in a prompt.<br/>
+<br/>
+Bottom line: SHIP #3 first (rules-file shrink alarm), plus #4, #6, #7 and #8 as small checks. Everything else holds.<br/>
+<br/>
+Pattern of the week: deterministic guards over prompt guards. Eight of the twelve picks showed a plain code check doing a job a prompt rule cannot.<br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+<br/>
+  • SHIP #3 — <b>Rules-file shrink alarm</b> <a href="https://www.reddit.com/r/ClaudeAI/comments/1xg3s17/a_wholefile_write_dropped_57_of_my_claudemd_it/">read</a>. Alert when CLAUDE.md, AGENTS.md or MEMORY.md loses over 20% of its size, and keep a snapshot to restore from. (S, additive, look for an existing guard first) · 🎯 metric: infra:rules files never silently truncated<br/>
+<br/>
+  • SHIP #4 — <b>Chrome temp-file sweep</b> <a href="https://www.reddit.com/r/ClaudeAI/comments/1xg9jt1/psa_my_mac_wouldnt_boot_because_my_test_runs_left/">read</a>. Count temp files on the mini and alert past a limit. Then check that shot.sh and the Playwright wrappers use a per-job temp dir. (S, start read-only) · 🎯 metric: infra:Mac mini boots and keeps free disk<br/>
+<br/>
+  • SHIP #6 — <b>Decisions as dumb tests</b> <a href="https://www.reddit.com/r/ClaudeAI/comments/1xhl3zz/what_finally_stopped_claude_code_from_undoing_my/">read</a>. Write 5 to 8 regex tests for costly decisions (the outputStyle fence, WA patch markers) and run them from one verify script. (S, additive) · 🎯 metric: infra:past decisions survive a cleanup edit<br/>
+<br/>
+  • SHIP #7 — <b>MCP servers v2.2.0 Node floor</b> <a href="https://github.com/modelcontextprotocol/servers/releases/tag/v2.2.0">read</a>. Run <code>node --version</code> and confirm 24.22.1 or 26.12.1, or newer. Node is a shared runtime, so test any upgrade before rollout. (S for the check, upgrade is a separate step) · 🎯 metric: infra:patched TLS trust in Node<br/>
+<br/>
+  • SHIP #8 — <b>Lean <code>claude -p</code> flags</b> <a href="https://www.reddit.com/r/ClaudeAI/comments/1xjg504/claude_p_inside_a_tool_was_slow_until_i_stopped/">read</a>. Time one text-only caller with the lean flags. Keep the outputStyle fence on every contact-facing script. (S, touches scripts that reach contacts, so verify) · 🎯 metric: cost<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+<br/>
+  • Same as Claude Code — SHIP #3, #7. SC owns the rules files and the gateway's Node runtime.<br/>
+<br/>
+🟢 <b>Sandman</b>:<br/>
+<br/>
+  • Same as SC — SHIP #7 only. Check the Node version on the NUC.<br/>
+<br/>
+Held back: 5 DEFER, 2 SKIP — reasoning in the archive.<br/>
+<br/>
+=== ARCHIVE ===<br/>
+<br/>
+📦 <b>The haul (12):</b><br/>
+<br/>
+1. <b>Agent memory promotion gate</b> — admit, reject or escalate memory writes — <a href="https://www.youtube.com/watch?v=qq2Hm4XNRgI">read</a><br/>
+2. <b>ECC agent harness</b> — hook A/B test, lint-config guard — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xfxmt2/great_agent_harness_with_242k_start_on_git/">read</a><br/>
+3. <b>CLAUDE.md truncated by a write</b> — silent 57% loss — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xg3s17/a_wholefile_write_dropped_57_of_my_claudemd_it/">read</a><br/>
+4. <b>41M Chrome temp files</b> — orphaned test profiles block boot — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xg9jt1/psa_my_mac_wouldnt_boot_because_my_test_runs_left/">read</a><br/>
+5. <b>claim-checker skill</b> — quotes must exist on source page — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xgvb0c/i_built_a_claude_skill_that_factchecks_text/">read</a><br/>
+6. <b>Decisions as dumb tests</b> — regex guards plus verify.sh — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xhl3zz/what_finally_stopped_claude_code_from_undoing_my/">read</a><br/>
+7. <b>MCP servers v2.2.0</b> — Node and certifi security floor — <a href="https://github.com/modelcontextprotocol/servers/releases/tag/v2.2.0">read</a><br/>
+8. <b>Lean <code>claude -p</code> flags</b> — faster headless calls — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xjg504/claude_p_inside_a_tool_was_slow_until_i_stopped/">read</a><br/>
+9. <b>Harbor agent testing (Arize)</b> — sandboxed task evals — <a href="https://www.youtube.com/watch?v=kRJjSOYqW0I">read</a><br/>
+10. <b>Give your agent a sandbox (Arize)</b> — code instead of tool catalogs — <a href="https://www.youtube.com/watch?v=dAoOYFx7ZYw">read</a><br/>
+11. <b>Berkeley forgetting study</b> — periodic history wipes help — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xhm6vn/berkeley_study_agents_that_periodically_wiped/">read</a><br/>
+12. <b>Cheaper model costs more (Vals AI)</b> — cost per correct task — <a href="https://www.youtube.com/watch?v=rWtbOgl5FTU">read</a><br/>
+<br/>
+🎯 <b>Held-back calls:</b><br/>
+<br/>
+🟢 <b>Claude Code</b>:<br/>
+<br/>
+  • DEFER #1 — brain.js store already has a refusal path (exit 2). The open gap is a conflict check and a deny-list for blanket rules like "always approve". Check what the refusal covers first. Touches wishlist §8.5.<br/>
+<br/>
+  • DEFER #5 — Good idea, but our propostas mostly cite client numbers, not web pages. Revisit if a LinkedIn or research deck gets a misquote.<br/>
+<br/>
+  • DEFER #9 — Needs 3 to 5 real cases with pass/fail scripts before it can move anything.<br/>
+<br/>
+  • DEFER #10 — Tool catalogs are already deferred by ToolSearch. Check mcp-cost-breakdown for the heaviest servers before piloting a sandbox wrapper.<br/>
+<br/>
+  • DEFER #12 — Close to the settled Sonnet 5.5 decision (fleet tasks #800 and #976). Resurface only if a model-routing review opens.<br/>
+<br/>
+  • SKIP #2 — The lint-config hook fits JS repos. We mostly run Python and shell. The A/B method is covered by the #9 defer.<br/>
+<br/>
+  • SKIP #11 — A question post with no implementation. Read the two papers only if context resets become a real problem.<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+<br/>
+  • Same as Claude Code for DEFER #1, #5, #12. #1 matters most here, since SC owns the memory path.<br/>
+<br/>
+🟢 <b>Sandman</b>:<br/>
+<br/>
+  • DEFER #1 — Same gate idea, with the persistent-memory lens. Wait for SC's check.<br/>
+<br/>
+🟢 <b>SadButTrue</b>:<br/>
+<br/>
+  • DEFER #3 — It has no repair allow-list, so a shrink alarm on its memory and rules files would help. Confirm its file layout first.<br/>
+<br/>
+  • DEFER #7 — POSSIBLY relevant. Its WhatsApp bridge may run on Node. Verify before acting.<br/>
+<br/>
+🟢 <b>Jr Max</b>:<br/>
+<br/>
+  • SKIP #3, #7 — Jr Max follows SC. The Telegram plugin runtime is not confirmed as Node. Add only after SC's check shows a need.</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=qq2Hm4XNRgI" target="_blank">How to Decide What Your AI Agent Should Remember - Wojciech Pluta, Oracle</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Oracle talk on agent memory promotion: a gate that decides what gets written to long-term memory by checking it against existing records, then admitting, rejecting, or escalating to a human. Also covers short/long/shared memory, DB storage, and a lean 'context card'. The demo refuses to store an 'approve every application' rule.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a code-level promotion check to the auto-memory/brain.js store path: dedupe and conflict-check a candidate fact against existing memories, and return admit/reject/escalate-to-Paulo, with a deny-list for blanket-authority rules (e.g. 'always approve').</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xfxmt2/great_agent_harness_with_242k_start_on_git/" target="_blank">Great agent harness with 242k start on Git ( possibly from one of the winner Claude Code hackathon)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Ok-Motor-9812</p>
+            <p>A Reddit post praising the ECC agent-harness repo: the author highlights its A/B test of a 'read-before-edit' hook gate on 72 real sessions with a placebo arm (gate cost ~45% more turns and ~28% more tokens with identical pass rates), and a hook that blocks edits to existing eslint/prettier configs so agents can't loosen rules to pass checks.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a PreToolUse hook that denies Edit/Write on existing lint/format/test config files (eslint, prettier, ruff, pytest.ini) unless the operator allows it, then replay a sample of past sessions via OTEL traces to compare turns/tokens with and without each existing gate.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xg3s17/a_wholefile_write_dropped_57_of_my_claudemd_it/" target="_blank">A whole-file write dropped 57% of my CLAUDE.md. It looked healthy for three days.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/bigbirdenginerd</p>
+            <p>A Reddit user reports a Claude Code whole-file write truncating their master CLAUDE.md from 58KB to 25KB (ending mid-word). It went unnoticed for three days because later appends made the file grow, and even git history was already truncated. No fix is offered, only the question of how to catch it.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a PreToolUse/PostToolUse hook (or a cron check) that records byte size + section-heading count + sha256 of CLAUDE.md, AGENTS.md, SOUL.md and MEMORY.md, and alerts on a >20% size drop, a lost top-level heading, or a file that ends mid-line, with an auto-snapshot to a separate dir for restore.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xg9jt1/psa_my_mac_wouldnt_boot_because_my_test_runs_left/" target="_blank">PSA: my Mac wouldn’t boot because my test runs left 41 million Chrome temp files behind. If your agents run browser tests, check your temp folder.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/bekircagricelik</p>
+            <p>A Reddit PSA: a solo dev's Mac failed to boot because killed headless-Chrome test runs left 41M orphaned temp profile files that macOS tried to clean at boot. Fixes: per-job TMPDIR with a trap cleanup on EXIT/INT/TERM, kill the whole process group, mock-keychain flags, a pre-run file-count threshold check.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a launchd job on the Mac mini that counts files under $(getconf DARWIN_USER_TEMP_DIR), alerts above a threshold, and sweeps stale Chrome profile dirs older than 24h; then check that shot.sh and the Playwright wrappers set a per-job TMPDIR with a trap and kill the process group.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xgvb0c/i_built_a_claude_skill_that_factchecks_text/" target="_blank">I built a Claude skill that fact-checks text against its own links, and the report script refuses quotes it can't find on the source page (free, MIT)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/deepakrodeai</p>
+            <p>A Claude skill (claim-checker) that extracts cited claims with a script, has the model mark each verified/partial/unverified with a quote, then a report script re-downloads each source and refuses any quote not found on the page, and checks that every number in a verified claim appears in its quote. Pages it can't fetch are flagged 'not machine-checked' instead of passing.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Port the quote-on-page and numbers-in-quote checks into a small script that the html-it, marp-slides and propostas build step runs on any text carrying source links, failing the build on a miss.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xhl3zz/what_finally_stopped_claude_code_from_undoing_my/" target="_blank">What finally stopped Claude Code from undoing my old decisions: turning them into dumb tests</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Fast-Aspect-2406</p>
+            <p>A Reddit post on keeping Claude Code from undoing past operator decisions by encoding each as a deliberately dumb source-regex test (25 guards), backed by a short root CLAUDE.md, a docs/decisions.md of why/post-mortems, per-directory CLAUDE.md files, and one verify.sh that must be green before 'done'.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add workspace/tests/test_invariants.py with 5-8 regex/source guards for the highest-cost decisions (e.g. WA patch markers, claude -p outputStyle fence, secret_mask) and wire it into a single verify.sh run after every edit.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://github.com/modelcontextprotocol/servers/releases/tag/v2.2.0" target="_blank">v2.2.0</a></h3>
+            <p class="meta">github · modelcontextprotocol/servers · cliffhall</p>
+            <p>MCP servers v2.2.0 release notes cover the eMudhra intermediate-CA key compromise (20 Oct 2026) and the Node.js security releases of 21 Oct. TypeScript servers rely on the host Node runtime for certificate checks, so users must run Node 24.22.1 / 26.12.1 or later. mcp-server-fetch needs certifi 2026.10.23 or later.</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc, ktulu, sandman, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Run `node --version` on the Mac mini, i7, NUC and VPS, upgrade anything below 24.22.1 / 26.12.1, and run `uvx --refresh mcp-server-fetch` if any agent uses that server. Then add a Node-version floor check to the mcp-health-probe.py sensor.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xjg504/claude_p_inside_a_tool_was_slow_until_i_stopped/" target="_blank">`claude -p` inside a tool was slow until I stopped it from loading my whole setup. the flags that fixed it</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Jazzlike-Echidna-670</p>
+            <p>A VS Code extension author cut headless `claude -p` latency by disabling everything an interactive session loads: `--tools ""`, `--strict-mcp-config` with no config, `--setting-sources ""`, `--no-session-persistence`, a temp cwd to avoid CLAUDE.md, and `--model haiku`. Results are cached by diff hash. `--bare` also skips these but needs an API key.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> grep the workspace scripts for `claude -p`, add a shared lean-flags wrapper (--tools "" --strict-mcp-config --setting-sources "" --no-session-persistence, run from a temp dir) for pure text-in/text-out callers, keep the explicit `--settings '{"outputStyle":"default"}'` fence on contact-facing ones, and time before/after.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=kRJjSOYqW0I" target="_blank">How to Test Your Agents on Real Tasks With Harbor - Xander Song, Arize AI</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Talk on Harbor, an open-source framework that runs agents against realistic tasks in isolated Docker sandboxes, scored by black-box verifiers and rewards, with oracle runs to validate setup before spending tokens. Arize shows a prompt change that steered agents to a SQL tool, cutting tool calls without losing correctness. Based on the description only; no transcript was read.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write a small task-plus-verifier suite (3-5 real WA-escalation or contact-draft cases with a pass/fail script) in intel-radar/evals/, and run it before and after the next AGENTS.md or prompt edit.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=dAoOYFx7ZYw" target="_blank">Stop Giving Your Agent Tools. Give It a Sandbox - Mikyo King, Arize AI</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Arize's Mikyo King argues agents should get a code sandbox (Bash, Python, SQL) to search and compose tools in code instead of loading full tool catalogs and raw outputs into context. Their Harbor evals show 43% fewer tokens and 31% lower cost, and they cover the hidden costs: secrets, permissions, durability, double sandboxing.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Use mcp-cost-breakdown.py to find the 2-3 MCP servers with the largest tool-schema and raw-output token share, then pilot a Bash/Python wrapper for those on one SC workflow and compare tokens against the current path.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xhm6vn/berkeley_study_agents_that_periodically_wiped/" target="_blank">Berkeley study: agents that periodically wiped their history did better on research tasks. Do you start fresh Claude sessions on purpose?</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/ombre-ai</p>
+            <p>Reddit discussion of Berkeley ('Scaling Discovery Requires Forgetting') and Microsoft (Fork-and-Flush) papers showing agents that periodically wipe session/search history while keeping the best candidate and workspace state do better on bounded research tasks (up to 15% over parallel agents, 39% over a single agent). The post itself is a question to readers about fresh sessions, with no implementation detail.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Check whether the Ktulu worker and long-lived SC sessions carry a stale early hypothesis, and trial a periodic context reset that re-seeds only from the Second Brain and fleet journal state; read the two papers before deciding.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=rWtbOgl5FTU" target="_blank">The Cheaper AI Model That Costs You More - Rayan Krishnan, Vals AI</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>AI Engineer talk by Vals AI on why single benchmark scores hide a jagged frontier: a cheaper-per-token model can cost more and score lower because it burns extra tokens, and a team cut ~90% of a $1.5M/month token bill by building internal evals from their own work history.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a small replay eval from logged real tasks (Ktulu classification/escalation, SC fleet-router dispatch) and score each candidate model on accuracy and total tokens/cost per task using the existing cost-watch.py data, then revisit the model routing table in AGENTS.md.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=3osCbSufv8g" target="_blank">Voice AI Where One Wrong Question Breaks the Rules - Shiv Indap, Upstart & Brooke Hopkins, Coval</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Upstart (voice AI lead) and Coval (ex-Waymo eval infra) describe a loop for compliance-sensitive voice agents: define metrics, monitor live calls, route to a human review queue, calibrate the LLM judge against humans (33% to 92% agreement), re-simulate fixes before production, and self-healing agents with human sign-off on every change.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: ktulu, sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Log Paulo's approve/veto verdicts on cards next to the LLM judge's verdict, compute weekly agreement, and replay a prompt fix through the 22-28/10 conversation set before deploying (extend the existing router replay harness).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=LnQce-eHm8k" target="_blank">Your AI Agent Wants Your Data. Here's How to Lock It Down - Jeff Smith, Oracle</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Oracle's Jeff Smith explains how to give agents safe database access via an MCP server: expose vetted reports as tools instead of ad hoc NL-to-SQL, point agents at a read-only standby, annotate schemas so agents stop brute-forcing the data dictionary, and enforce row-level 'deep data security' before results reach the agent.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: ktulu, sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> For the next client-data connector (e.g. Kommo read-only for Sebastián), expose a small list_reports/run_report MCP tool with fixed parameterized queries and a read-only credential instead of a free-form query tool.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.skool.com/robonuggets/weekly-challenge-os-upgrade-skillshowdown" target="_blank">Weekly Challenge: OS upgrade SkillShowdown</a></h3>
+            <p class="meta">robonuggets · RoboNuggets (paid) · Don Wilson</p>
+            <p>A paid-community post proposing a 'SkillShowdown': pit two versions of a skill against each other, replaying real past jobs from system history (no hand-written test cases), judged independently across models, to catch skill regression, post-model-upgrade skill obsolescence, and vet third-party skills. The body is a pitch with a Loom video link; no implementation details are in the text.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a script that picks one skill (e.g. humanizer), replays 10 past real invocations from OTEL/session history under old vs new SKILL.md, and has a different-model judge pick the winner.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xgsku3/i_parsed_34_gb_of_my_claude_code_transcripts_20/" target="_blank">I parsed 3.4 GB of my Claude Code transcripts. 20% of the spend was one rule I wrote myself</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Ok-Motor-9812</p>
+            <p>A Reddit user analyzed 3.4 GB of Claude Code transcripts (879 sessions, 968 subagent runs) and found 20% of spend came from a self-written rule routing every TDD step to Opus. They also found 35% of file reads were redundant re-reads (now blocked by a hook) and a 26s Semgrep commit gate caused by leftover worktrees (now 0.7s).</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Run a price-weighted pass over ~/.claude/projects transcripts to find model-routing and unchanged-file re-read waste, then prototype a PreToolUse Read hook that refuses re-reads of files whose mtime/hash is unchanged.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xgv8br/claude_sonnet_and_opus_built_11_fromscratch_c/" target="_blank">Claude Sonnet and Opus built 11 from-scratch C# libraries (1.14M lines) in 6 days. Here's the agent setup.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/ai-tacocat-ia</p>
+            <p>A Reddit post describing a Claude-based agent factory that built 11 C# libraries in 6 days: Opus plans, orchestrates and reviews, Sonnet writes the code, each work unit gets its own git worktree, and an agent hands off to a fresh successor at 400k tokens. Heavy tests run on a second machine behind a lock, and the main lesson is that trimming prompts beat adding process.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read the recursiveai.org write-up for the exact handoff-note template and 400k trigger, then compare it with how SC's long Claude Code sessions hand off work in the fleet journal.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=xZX3pmaB8Hk" target="_blank">Exploits Now Beat Patches: Open Source Security in the AI Era - Patrick Smyth, Chainguard</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Chainguard talk arguing exploits now land before patches, so 30-day remediation fails. Recommends dependency cooldown periods, faster CVE fixes, signing with SLSA/Sigstore, and hardening agent skills and other 'side doors' (CI/CD, developer laptops).</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a min-release-age cooldown (e.g. 7 days) to the fleet's npm/pip install paths and the openclaw plugin/skill update script, then test it by trying to install a package published today and confirm it is refused.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.skool.com/robonuggets-free/your-clients-agent-needs-an-off-switch-they-can-press" target="_blank">Your client's agent needs an off switch they can press</a></h3>
+            <p class="meta">robonuggets · RoboNuggets (free) · Duy Bui</p>
+            <p>A community post advising that every client-delivered agent ship with a simple operator-pressable pause switch (sheet toggle, dashboard button, or a 'PAUSE' reply to a Telegram bot) that halts actions and queues new requests, for weekend safety and client trust.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a per-client pause flag (a file or state key) that the outbound send path checks deterministically and a 'PAUSE'/'RESUME' command on the client's own channel flips, queuing inbound requests while paused; prototype it on the Mike agent (ini_3aa48600 bulk-send guardrails).</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xjjrc2/our_claude_code_agents_now_message_each_other/" target="_blank">Our Claude Code agents now message each other before two of them edit the same file</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Eyusd</p>
+            <p>Open-source tool 'murmur' lets parallel Claude Code sessions (across worktrees/laptops) see each other's work via a local daemon and 3 MCP tools (who, send, btw). A PreToolUse hook blocks an edit once when another checkout is changing the same file, prompting the agents to message and coordinate.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a PreToolUse hook in ~/.claude/settings.json that checks for the target path in other live sessions' changed-file lists (git status across worktrees) and denies once with the owner's name, before evaluating murmur itself.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xjuf0m/sonnet_55_noticed_failed_saves_then_told/" target="_blank">Sonnet 5.5 noticed failed saves, then told customers the wrong reason</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/TruthDeep8659</p>
+            <p>Reddit post on a τ-bench test of Sonnet 5.5 (and others) for catching silent save failures. It caught only 4 of 20 at low and high reasoning effort, never re-checked a save by itself, and in 3 of 8 self-fixes it told the customer a made-up cause.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: ktulu, sc, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a deterministic read-back check after each write tool call in the Ktulu and SC customer-reply path (e.g. scripts/fleet_tasks.py add -> list, calendar create -> fetch), and have the reply draft quote the tool's real error rather than an LLM-guessed cause.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.316" target="_blank">v2.1.316</a></h3>
+            <p class="meta">anthropic_rss · Claude Code Releases (GH) · ashwin-ant</p>
+            <p>Claude Code v2.1.316 adds CLAUDE_CODE_SUBAGENT_EFFORT (a default effort level for subagents), an ultrathink off-switch, and Claude apps gateway features (pooled budgets, layered policy). It deprecates Opus 4.8 fast mode (removed 2026-11-30) and fixes Bash-tool bugs, including SHELLOPTS and leftover shell commands on exit, plus a subagent model-inheritance bug. The body is truncated mid-list, so later items are unseen.</p>
+            <p class="score">
+              <span class="pill">pattern: survival_under_upstream_churn</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Upgrade Claude Code 2.1.314 to 2.1.316, grep ~/.claude/settings.json and the Kratos/cc-cli settings for fast mode or Opus 4.8 use before 2026-11-30, and trial CLAUDE_CODE_SUBAGENT_EFFORT for Workflow fan-out.</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W45.html · composed 2026-11-02 08:31 BRT</footer>
+</body></html>
