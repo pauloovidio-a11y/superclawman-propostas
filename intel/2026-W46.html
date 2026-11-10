@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W46</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W46
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">Radar — weekly synth, 12 picks, pattern focus: deterministic_guards_over_prompt_guards<br/>
+<br/>
+This week's theme: files and settings that Claude Code trusts without checking.<br/>
+<br/>
+Bottom line: SHIP five small Claude Code checks (#4, #5, #7, #9, #11), everything else holds.<br/>
+<br/>
+Three picks (#4, #5, #11) put the rule in code, not in a prompt. A hook or a hash check cannot be talked out of its job. A polite instruction can.<br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+<br/>
+  • SHIP #4 — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xn3cr5/the_binance_theft_started_as_a_coding_assignment/">Binance fake-recruiter repos</a>: write our own hook that blocks curl or wget piped into a shell, and test it with one install you run on purpose (effort S, additive, do not install the plugin from the post) · 🎯 metric: infra:no unreviewed remote script runs<br/>
+<br/>
+  • SHIP #5 — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xq11al/snyk_found_an_agent_skill_appending_remote/">Snyk skill rewriting CLAUDE.md</a>: a launchd job that hashes ~/.claude/CLAUDE.md and the skill scripts, then sends a Pushover alert on any change (effort S, alert only, reset the baseline after each fleet-doctrine-sync run) · 🎯 metric: infra:global rules file integrity<br/>
+<br/>
+  • SHIP #7 — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xqvx0z/a_study_found_agents_follow_a_stale_claudemd_90/">Stale CLAUDE.md study</a>: add one line to ~/.claude/CLAUDE.md saying to trust live code over a stale instruction file and say so (effort S, secondhand study, so test it with one planted stale path) · 🎯 metric: judgment<br/>
+<br/>
+  • SHIP-after-check #9 — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xqvimf/claude_code_21319_new_denyinsteadofprompting/">Claude Code 2.1.319 notes</a>: this version is already installed, so first grep our jobs for /loop use, because a loop that does not reschedule now ends (effort S, read-only first, touches a live session) · 🎯 metric: uptime<br/>
+<br/>
+  • SHIP #11 — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xqxx5b/if_you_ever_clicked_yes_and_dont_ask_again_in/">"Don't ask again" saves secrets</a>: one read-only scan of every fleet repo's .claude/settings.local.json for secrets and git-tracked copies, printing paths only, never the matched text (effort S, safe) · 🎯 metric: infra:no secrets in approved-command lists<br/>
+<br/>
+Superclawman, Sandman, SadButTrue, Jr Max: no SHIP this week.<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b> #6 aimpg cost tool. The repo has 0 stars and no track record. Not installing.<br/>
+<br/>
+Held back: 4 DEFER, 2 SKIP — reasoning in the archive.<br/>
+<br/>
+=== ARCHIVE ===<br/>
+<br/>
+📦 <b>The haul</b><br/>
+<br/>
+1. Kepler numbers talk — cite fact IDs, not numbers — <a href="https://www.youtube.com/watch?v=RdQCY_-SXbA">link</a><br/>
+2. Citadel institutional memory — beliefs with half-lives — <a href="https://www.youtube.com/watch?v=jDwc0aXTAFg">link</a><br/>
+3. Ramp bookkeeping agent evals — back-test before customers — <a href="https://www.youtube.com/watch?v=WJTQBENv0KI">link</a><br/>
+4. Binance fake-recruiter repos — untrusted text, hook idea — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xn3cr5/the_binance_theft_started_as_a_coding_assignment/">link</a><br/>
+5. Snyk skill rewrites CLAUDE.md — hidden remote instructions — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xq11al/snyk_found_an_agent_skill_appending_remote/">link</a><br/>
+6. 984-run model cost study — cost per solved task — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xqw0ps/i_reran_56_real_commits_with_haiku_sonnet_and/">link</a><br/>
+7. Stale CLAUDE.md study — agents obey stale files — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xqvx0z/a_study_found_agents_follow_a_stale_claudemd_90/">link</a><br/>
+8. waitfor — wait-and-summarize Unix filter — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xphqsw/waitfor_unix_tool_for_testing_efficiency/">link</a><br/>
+9. Claude Code 2.1.319 — deny setting, /loop change — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xqvimf/claude_code_21319_new_denyinsteadofprompting/">link</a><br/>
+10. 56-agent swarm vs one call — 500x cost, small gain — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xquu2r/we_ran_an_agent_swarm_34_to_56_agents_on_claude/">link</a><br/>
+11. "Don't ask again" saves secrets — settings.local.json leak — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xqxx5b/if_you_ever_clicked_yes_and_dont_ask_again_in/">link</a><br/>
+12. 2,300 hours of waiting — no-LLM watch sampler — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xlxw0q/my_claude_code_agents_spent_2300_hours_waiting/">link</a><br/>
+<br/>
+🎯 <b>Claude Code</b><br/>
+<br/>
+  • DEFER #8 — grep -m1 on a tail -f with a timeout covers most of it. Only stall detection is new. Revisit if transcripts show sleep+grep loops.<br/>
+<br/>
+  • SKIP #1 — FYI only. This is the same pre-send number gate we declined in W41 #4: wrong facts are about 0.5% of sends, it adds 30s+, and critic.py shadow covers it.<br/>
+<br/>
+  • SKIP #10 — a caution against swarms, and we run none. The one reusable idea is to compare a synthesizer's "consensus" to the raw median in code.<br/>
+<br/>
+  • SKIP #6 — the study says Haiku is about 6x cheaper per solved task and a fresh session costs about 13% more. It changes no default now. Model routing stays as is.<br/>
+<br/>
+🟡 <b>Superclawman</b><br/>
+<br/>
+  • DEFER #2 — half-lives and weekly grading of "worked/open" calls could help the initiative engine and partly touch §8.5. The engine is not edited from chat, so this waits for a working session.<br/>
+<br/>
+  • DEFER #3 — nightly replay of WhatsApp threads needs a private data set and a design. The talk transcript was not available, so details are inferred.<br/>
+<br/>
+  • DEFER #4 and #5 — check what openclaw already enforces on exec and on workspace skills before mirroring the Mac hook and hash job. AGENTS.md is load-bearing, so no edit before that check.<br/>
+<br/>
+  • DEFER #12 — a no-LLM watch registry is only worth it once a recurring "tell me when X" request shows up. Check the openclaw cron jobs first.<br/>
+<br/>
+  • SKIP #9 — it is a Claude Code setting. SC runs on openclaw.<br/>
+<br/>
+🟡 <b>Sandman</b><br/>
+<br/>
+  Same as SC on #2, #4, #5 and #12. On #12, the location ledger already covers leave-by alerts, so most of the gap is closed.<br/>
+<br/>
+🟡 <b>SadButTrue</b><br/>
+<br/>
+  • DEFER #5 — it has no repair allow-list, so an integrity check on the Hermes skills folder fits. Look at that folder's layout first. #11 and #9 are Claude Code only. SKIP.<br/>
+<br/>
+🟡 <b>Jr Max</b><br/>
+<br/>
+  SKIP everything. It is alert-only and ships only what SC ships, and SC ships nothing. If #5 proves itself on the Mac, the same job can be copied to the VPS later.<br/>
+<br/>
+⚠️ <b>Held back (provenance)</b><br/>
+<br/>
+  • #6 aimpg (github.com/kumarganduri/aimpg): 0 stars, no track record. Not installing. The study's numbers are secondhand and unverified by us.</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=RdQCY_-SXbA" target="_blank">AI Can't Make Up a Number It Can't Look Up - Vinoo Ganesh, Kepler</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Kepler CEO describes a numbers-verification architecture: code pre-extracts every fact with an ID, the model plans and cites IDs instead of writing numbers, and outputs are verified, corrected or refused. Also covers wide-then-narrow search and per-tenant document scoping.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: ktulu, sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a pre-send number check in the WA draft path: extract numerals from the draft, require each to match a value in the source facts (proposal or ledger), else block and route to the escalation flow.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=jDwc0aXTAFg" target="_blank">Your Company Has No Model of Itself. Agents Can Build One - Joao Wenzel, Citadel Securities</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Citadel Securities talk on an agentic 'institutional memory' built like a robotics state estimator: it updates beliefs as evidence arrives, ages facts by half-life, runs specialist observer agents, grades its own predictions by back-testing (flagged projects were 2x as likely to slip), and takes human corrections. It also ingests bottom-up signals (Slack, PRs, agent traces) to catch 'watermelon' projects.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a per-fact half-life and last-confirmed timestamp to the initiative-engine open-loop records, plus a weekly job that grades past 'worked/open' status calls against what actually happened.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=WJTQBENv0KI" target="_blank">How Ramp Tests Its AI Bookkeeping Agent Before Customers Do - Ryan Stevens, Ramp</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Ramp's applied-science lead describes end-to-end evals for its AI bookkeeping agent: synthetic businesses used as repeatable back-test data, accuracy vs pass@k grading, skill ablation (removing unneeded skills), two-period memory tests, and scheduled regression runs that report to Slack. Auto-tuning prompts reportedly did not work. Only the abstract and chapter titles were available, not the transcript, so details are inferred.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a small back-test set from past WhatsApp threads (replayed with fixed inputs) and run it nightly via launchd against SC's skills, with a Slack/Telegram card on regression; start by ablating one skill group and diffing outputs.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xn3cr5/the_binance_theft_started_as_a_coding_assignment/" target="_blank">The Binance theft started as a coding assignment. I’ve been sent the same kind of repo all year. All were exploits.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/UBUNTU-Buddha</p>
+            <p>Reddit post on the Binance theft that began with a fake-recruiter coding assignment, listing interview-repo lures (.vscode/tasks.json, npm scripts, fetch-and-run handlers). It promotes StrangerDanger, a Claude Code plugin where untrusted text is read only by subagents without shell or write access, acting agents get only a data-labeled report, and a hook blocks download-and-pipe-to-shell. The post body is truncated.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a PreToolUse Bash hook that denies curl/wget piped into sh/bash, then check whether the 'readers don't act, actors don't read' subagent split fits Kratos's repo and firecrawl intake paths.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xq11al/snyk_found_an_agent_skill_appending_remote/" target="_blank">Snyk found an agent skill appending remote instructions to the global CLAUDE.md</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/MrDogeAlright</p>
+            <p>Reddit video post citing a Snyk scan of ~20,000 agent skills: an 'agents-md' skill reportedly ran a hidden binary that downloaded remote text and appended it to ~/.claude/CLAUDE.md, so later Claude Code sessions load attacker-controlled instructions. Snyk flagged over 65% as unsafe but only nine as actively malicious; Snyk also sells scanning, and the item is a secondhand summary of the blog post.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a launchd job that hashes ~/.claude/CLAUDE.md and ~/.claude/skills/**/* (scripts and binaries) against a stored baseline and fires a Pushover alert on any diff not made by fleet-doctrine-sync.sh; then audit the installed skills for bundled binaries and network calls.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xqw0ps/i_reran_56_real_commits_with_haiku_sonnet_and/" target="_blank">I reran 56 real commits with Haiku, Sonnet and Opus 5.5 in Claude Code (984 runs). Here's the cost per solved task</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Status_Record5772</p>
+            <p>A pre-registered study of 56 real commits (984 runs) comparing Claude Code on Haiku 5.5, Sonnet 5.5 and Opus 5.5 by cost per solved task: Haiku is ~6x cheaper per solved task with similar solve rate, Opus costs 2.6x more for +10 points solved, and a fresh session costs ~13% more than continuing because of cache-write cost. Also reports Claude Code 2.1.287 displayed Haiku 5.5 cost at ~27x the real bill.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Run `uvx aimpg report` against local Claude Code logs to get the fleet's own per-task cost numbers, then compare against the Haiku-vs-Sonnet routing rules in AGENTS.md before changing any default.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xqvx0z/a_study_found_agents_follow_a_stale_claudemd_90/" target="_blank">A study found agents follow a stale CLAUDE.md 90% of the time, even when they notice the conflict</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/This-Establishment26</p>
+            <p>Reddit post citing a study (40 Python projects, 320 runs) where agents followed a stale CLAUDE.md 90% of the time even after noticing a conflict with the code. A one-line user-level instruction (trust the code over the instruction file and say so) raised code-following from 4% to 91%. The poster also audited their own skills: 39 of 58 unused for 60 days, 5 naming outdated models, 4 pointing at missing folders.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add one line to ~/.claude/CLAUDE.md: when an instruction file conflicts with the code or live system, trust the code and say so; then write a small script that checks paths and model IDs named in CLAUDE.md, AGENTS.md and SKILL.md files and flags missing ones.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xphqsw/waitfor_unix_tool_for_testing_efficiency/" target="_blank">waitfor - unix tool for testing efficiency</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Responsible_Buy_7999</p>
+            <p>A Reddit post sharing a prompt to build 'waitfor', a Go stdlib Unix filter that watches a stdin stream or file and exits on the first success/failure regex, stall, EOF or timeout, returning a short greppable reason record with a small tail. It spares agents from sleep-then-grep loops and from reading long logs.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build the tool from the post's prompt into ~/.openclaw/workspace/scripts/bin/waitfor, then write a short skill telling Claude Code sessions to use it for log-tailing and post-deploy verify steps instead of sleep+grep.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xqvimf/claude_code_21319_new_denyinsteadofprompting/" target="_blank">Claude Code 2.1.319: new denyInsteadOfPrompting setting, MCP tasks go to the background, /loop behavior change</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/emarkosov</p>
+            <p>Reddit recap of Claude Code 2.1.319 release notes: new permissions.denyInsteadOfPrompting setting (deny rather than block on a permission prompt), MCP tasks backgrounded by default, /loop ends when a turn doesn't reschedule, auto-mode classifier change, plus security fixes (Bash permission bypass via crafted env prefix, worktree sandbox escape).</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Version 2.1.319 is already installed; check ~/.claude/settings.json for permissions.denyInsteadOfPrompting on unattended runs, and grep fleet scripts for /loop usage that needs CLAUDE_CODE_LOOP_KEEPALIVE=1.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xquu2r/we_ran_an_agent_swarm_34_to_56_agents_on_claude/" target="_blank">We ran an agent swarm (34 to 56 agents) on Claude Opus 5.5 against live Polymarket markets, locked the forecasts before resolution, then scored them. The swarm was one Opus call at 500x the price</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Turbulent-Peace-8772</p>
+            <p>Small Brier-score test (4 Polymarket markets) comparing a 34-56 agent MiroFish swarm on Opus 5.5 to single direct calls. The swarm's 'crowd' was Opus re-voiced, cost ~500x more ($14-24 vs ~2.5c), scored only slightly better than one Opus call, and its report agent invented a 89-93% 'consensus' when the agents' own median was 45.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Before adopting any multi-agent debate or swarm pattern, run the same prompt as a single direct call and compare Brier or accuracy; for any synthesizer agent, add a code check that its stated consensus stays within a tolerance of the median of the raw agent outputs.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xqxx5b/if_you_ever_clicked_yes_and_dont_ask_again_in/" target="_blank">If you ever clicked “Yes, and don’t ask again” in Claude Code, check one file before your next push</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/WhichCardiologist800</p>
+            <p>Reddit post warning that Claude Code's 'Yes, and don't ask again' saves approved commands verbatim (including any embedded passwords/API keys) into .claude/settings.local.json; Apiiro found secrets in 1,122 public copies. Fix: audit with jq, git rm --cached, gitignore, rotate any pushed secret.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write a small script that scans every fleet repo's .claude/settings.local.json with jq for secret-like strings in permissions.allow and runs 'git ls-files --error-unmatch' to flag tracked copies; run it as a pre-push or daily check.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xlxw0q/my_claude_code_agents_spent_2300_hours_waiting/" target="_blank">My Claude Code agents spent 2,300 hours waiting for things to happen. The model ran 35 times.</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Unusual-Albatross43</p>
+            <p>A Reddit user moved 'tell me when X happens' polling out of the agent. The agent writes a watch spec (sensor, match rule, action), and a no-LLM script runs every minute and samples only the watches that are due. The model wakes only when a watch has a task to do. Result: 25 model calls and 10 fires over 17 days, versus about 9,000 turns if polled every 15 min. Sensors are Gmail search, ARP on home wifi, shared Maps location with distance-adaptive intervals, and SMS via Messages Web.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Check whether Sandman's location ledger and the openclaw cron jobs already cover this, then prototype a watches.jsonl plus a 1-minute LLM-free sampler script with Gmail-query and ARP sensors and a 'fail 3x then alert Paulo' rule.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://github.com/anthropics/claude-cookbooks/commit/41ce172f08f0f17783fb41d75267ff72fa8b33fc" target="_blank">feat(latency_optimization): add latency optimization cookbook (#957)</a></h3>
+            <p class="meta">github · anthropics/anthropic-cookbook · benlehrburger-ant</p>
+            <p>Anthropic cookbook adds an eval-driven latency optimization guide: applies each Claude API latency lever to a mock claims agent, measures TTFT, time-to-last-token and accuracy, then picks the fastest setup that still clears an accuracy bar.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read the notebook and its logged results, then reuse the TTFT/TTLT plus accuracy-bar harness against the WA Phase 8 Haiku fleet-router to pick the fastest config that holds routing accuracy.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=LL0YmIyBKSU" target="_blank">⚡️ The 2026 Software Factory Standard — Zach Lloyd, Warp.dev</a></h3>
+            <p class="meta">youtube · Latent Space (swyx) · Latent Space</p>
+            <p>Warp CEO Zach Lloyd demos a 'software factory' that turns Slack requests into PRs, scores agent runs on cost, throughput and quality, benchmarks on real engineering tasks, and uses agents to improve the factory itself. Reports internal cost per PR dropping from ~$80 to ~$15-20 via model tuning and subagent-use tuning.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a small benchmark of ~20 real past fleet tasks (e.g. Ktulu escalation classification, SC fleet-router dispatches) with cost-per-successful-task scoring, and re-run it on each model or routing change, extending the existing bench300 weekly ruler.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=-uBABM2AuFg" target="_blank">Don't Approve the AI Model. Approve the App - Doneyli De Jesus, Langfuse</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Langfuse talk on gating AI agents for a bank by certifying the whole application, not the model. Uses a golden dataset, trace scoring (code checks, path checks, LLM judge), domain-expert-set thresholds (85% gate), and annotation queues. A small model went from 60% to passing on numeric accuracy after getting a calculator tool.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a 30-case golden set of past Ktulu escalation and WA draft decisions, score it with code-path checks plus a Haiku judge, and run it as a pass/fail gate before any prompt or model change in escalation_classifier.py.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xnv4if/claude_code_sometimes_ignores_my_claudemd_and_i/" target="_blank">Claude Code sometimes ignores my CLAUDE.md and I only notice later, so I built a free plugin that checks a session rule by rule</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Aggravating_Table272</p>
+            <p>A Reddit post presenting Rulesight, a free Claude Code plugin that runs after a session: a tool-less Claude reads the raw session logs, marks each CLAUDE.md rule followed, violated or not applicable with cited steps, and suggests a hook, permission or clearer rule for each violation. The author reports that reading sessions via the SDK returned only ~9% of tool calls in a compacted session, so it reads raw logs, and that re-judging the same session flipped ~1 in 10 verdicts.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read the rulesight repo's judge prompt and log parser, then trial a read-only nightly pass over one day of SC session logs against the AGENTS.md hard rules (3p WA no-auto-draft, no unsolicited sends), reporting violations to a card without blocking.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xoatyl/my_agents_pr_description_had_10_ai_tells_in_99/" target="_blank">My agent's PR description had 10 AI tells in 99 words. Mine had 0. I built a check against my pre-AI writing</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Fabulous-Confection6</p>
+            <p>A Claude Code plugin (voiceprint) that scores agent-sent text (gh, git commit, Slack, mail) against a baseline built from the author's pre-AI writing. It uses a no-model word/phrase formula with per-channel baselines and an optional Haiku hook as a second check.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: ktulu, sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a deterministic AI-tell scorer (word list plus em-dash and 'not just X' patterns, per-100-words, top 3 only) as a pre-send check in the outbound contact-draft path, tuned on Paulo's pre-2023 sent email, and log scores only before any blocking.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=V2UqEUA8NjM" target="_blank">Stop Making Your Customers Click Approve - Emil Chetty, Wise</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Wise's data/AI lead argues customers should approve a whole job once as a locked, scoped agreement; the agent picks the steps, and Wise's existing payment code enforces the terms (allowed recipients, amounts, retries, changed quotes), so a prompt-injected agent still cannot pay a new recipient.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a 'job grant' record (allowed recipients, max amount, expiry, quote-change tolerance) in the wise skill's send script under ~/.openclaw/workspace/scripts/wise/, checked in code before a send, with a test where an out-of-grant recipient is refused.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=zLc8zeGeNaY" target="_blank">How Netflix Evaluates AI When There's No Right Answer - Cameron Wolfe, Netflix</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Netflix research scientist presents a three-part eval framework for tasks with no single right answer: calibrated human evaluation as the North Star, LLM judges and rubrics validated against human golden data, and A/B tests plus production monitoring. Also covers noise handling (power analysis, error bars, resampling) and a case where LLM judge scores were causally linked to viewer abandonment.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: ktulu, sc, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a small golden set from Paulo's approve/edit/reject verdicts on WA draft cards, then score an LLM judge's agreement against it (with bootstrap error bars) in a script under scripts/wa_brain/.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xp815k/what_i_learned_switching_from_vibes_to_running/" target="_blank">What I learned switching from vibes to running evals on an LLM feature: model swap +1%, system prompt fixes 38% → 80%</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Hingarnis</p>
+            <p>A Reddit post describing an eval-driven prompt-tuning loop for an LLM feature: 68 test cases across 12 scenario groups, an LLM judge for iteration with blind human review as the final arbiter, and a keep rule (>=3 more passing cases) to reject noise. Prompt fixes moved the pass rate from 38% to 80% over 17 rounds, while swapping models changed it by only 1%.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a small case set (about 40 real WA contact turns across 6-8 scenario groups) and a keep-rule runner (accept a prompt edit only if it passes >=3 more cases) in intel-radar or scripts/wa_brain, then gate edits to contact-draft system prompts on it.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xp8xcp/agentdesktop_vercel_labs_computer_use_for_claude/" target="_blank">agent-desktop (Vercel Labs): computer use for Claude Code via the OS accessibility tree instead of screenshots</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Antoine_mllt</p>
+            <p>Reddit post describing Vercel Labs' agent-desktop, a CLI/C library/MCP server that gives agents desktop control via the OS accessibility tree (macOS AX, Windows UIA, Linux AT-SPI) instead of screenshots. It uses snapshot-scoped element refs, returns STALE_REF when the UI has changed, runs headless by default, and has no model inside.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> On the Mac mini, install agent-desktop in a scratch dir and run snapshot/click against one app (e.g. Finder) to compare reliability with the current Peekaboo step in the 'BOUNDED DELEGATION STEP' flow; only then decide whether to add its MCP server.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=EtZwTYahfek" target="_blank">7 Things Your AI Coworker Needs - Philipp Schmid, Google DeepMind</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Google DeepMind talk on building an autonomous AI coworker with Gemini Managed Agents. It covers seven needs: brain, computer, playbooks, tools, credentials, house rules and schedule. The one transferable technique is a network proxy that swaps real credentials into outbound requests, so a prompt-injected agent never holds the secret.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a local forward proxy (e.g. a mitmproxy addon) on the Mac mini that injects Anthropic and Cloudflare keys by destination host. Give one exec sandbox only placeholder tokens, then verify with a canary key that the agent env never holds a real secret.</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W46.html · composed 2026-11-09 08:31 BRT</footer>
+</body></html>
