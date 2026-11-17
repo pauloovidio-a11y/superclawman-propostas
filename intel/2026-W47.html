@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W47</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W47
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">Radar — weekly synth, 12 picks, pattern focus: verify_by_running<br/>
+<br/>
+This week's theme: test before you trust. Skills, memory and models all got the "run it and measure" treatment.<br/>
+<br/>
+Bottom line: SHIP #3, #4 and #5, plus one small pilot (#1). Everything else holds.<br/>
+<br/>
+Pattern of the week: <b>verify_by_running</b>. A rule, a skill or a model has not earned its place until a real run shows it changes the result.<br/>
+<br/>
+🎯 <b>SHIP calls:</b><br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+  • SHIP-after-check #3 — <a href="https://github.com/modelcontextprotocol/servers/releases/tag/v2.4.0">MCP servers v2.4.0</a> fixes six holes in the filesystem, git and fetch servers; grep our configs first, bump only if we run them (shared dep, effort S to check) · 🎯 metric: infra:no unpatched MCP reference servers<br/>
+  • SHIP #4 — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xtdh8b/after_the_ai_writes_part_1_dont_carry_someone/">Don't carry someone else's work into your commit</a>: sessions share one checkout, so add a commit check that refuses unexpected staged files (effort S, additive) · 🎯 metric: infra:one session's staged files cannot land in another's commit<br/>
+  • SHIP #5 — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xtx4ik/heads_up_claude_codes_dont_ask_again_has_been/">"Don't ask again" leaks secrets</a>: extend the existing secret_guard.py to check settings.local.json is ignored and clean (effort S, additive) · 🎯 metric: infra:no secrets in tracked settings.local.json<br/>
+  • SHIP #1 — <a href="https://www.youtube.com/watch?v=yzx4IuEh_tU">Your SKILL.md is 70% stuff the model knows</a>: pilot on one skill (html-it), run with and without each claim, then prune dead lines (effort M, one skill first) · 🎯 metric: cost<br/>
+<br/>
+🟢 <b>Superclawman</b>:<br/>
+  • Same as Claude Code — SHIP-after-check #3, also in the openclaw MCP configs.<br/>
+<br/>
+Held back: 7 DEFER, 1 SKIP — reasoning in the archive.<br/>
+<br/>
+=== ARCHIVE ===<br/>
+<br/>
+<b>The haul</b><br/>
+<br/>
+1. Skill ablation talk — find dead lines in SKILL.md — <a href="https://www.youtube.com/watch?v=yzx4IuEh_tU">link</a><br/>
+2. Anthropic agent-memory summary — dreaming pass, one page per owner — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xu8tl9/claude_learning_to_judge_memory_production_agents/">link</a><br/>
+3. MCP servers v2.4.0 — six security fixes — <a href="https://github.com/modelcontextprotocol/servers/releases/tag/v2.4.0">link</a><br/>
+4. Shared-checkout commit leaks — explicit pathspec fixes — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xtdh8b/after_the_ai_writes_part_1_dont_carry_someone/">link</a><br/>
+5. "Don't ask again" secret leak — settings.local.json risk — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xtx4ik/heads_up_claude_codes_dont_ask_again_has_been/">link</a><br/>
+6. Robinhood PR reviewer — deterministic first, LLM second — <a href="https://www.youtube.com/watch?v=MQiojLnK-E0">link</a><br/>
+7. LinkedIn self-fixing agent — GEPA failure-to-prompt loop — <a href="https://www.youtube.com/watch?v=yH7_SIIgI-Y">link</a><br/>
+8. Zenity skill detonation chamber — sandbox-vet third-party skills — <a href="https://www.youtube.com/watch?v=_7P580m4kPY">link</a><br/>
+9. Agent hates your CLI — mine tool-call workarounds — <a href="https://www.youtube.com/watch?v=rS36lYuvXQ8">link</a><br/>
+10. Fintech skills A/B report — with/without-skill pass rates — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xsytlo/20_years_in_fintech_and_plain_claude_code_still/">link</a><br/>
+11. Fable 5.2 review — cost per task versus Opus — <a href="https://www.youtube.com/watch?v=QCSavlDtZOE">link</a><br/>
+12. Opus vs Fable vs Sonnet vs Haiku — per-step model benchmark — <a href="https://www.reddit.com/r/ClaudeAI/comments/1xujhrk/realworld_test_opus_vs_fable_vs_sonnet_vs_haiku/">link</a><br/>
+<br/>
+<b>Claude Code</b>:<br/>
+  • DEFER #10 — same job as #1 (with/without-skill eval). Run the #1 pilot first, then borrow this runner's grading idea.<br/>
+  • DEFER #9 — mining our own Bash calls for head/tail workarounds is useful. It needs the transcript scanner, so it waits until #1 shows the eval habit pays off.<br/>
+  • DEFER #11 and #12 — both argue for a replay eval of real fleet tasks across models. Build that harness after #1 proves the method. The fleet-wide Sonnet 5.5 bump is already declined, so this is not urgent.<br/>
+<br/>
+<b>Superclawman</b>:<br/>
+  • DEFER #2 — the Reddit post is a secondhand summary, so its numbers are unverified. Read Anthropic's original post first. The nightly Dream pass already exists, so any verify step would extend it.<br/>
+  • DEFER #6 — script-review already does deterministic checks first. The talk's reviewer-eval method is the useful part, but we only have the abstract.<br/>
+  • DEFER #7 — only the abstract is available. Revisit when the talk's details or the GEPA repo can be read.<br/>
+  • Same as Claude Code for #10, #11, #12.<br/>
+<br/>
+<b>Sandman</b>:<br/>
+  • SKIP everything. Nothing this week needs persistent-memory context. It gets #3 only if its own configs run those servers, which is unverified.<br/>
+<br/>
+<b>SadButTrue</b>:<br/>
+  • SKIP everything. The items target Claude Code and openclaw, not the Hermes stack. #5 is about Claude Code's settings file, which Hermes does not use.<br/>
+<br/>
+<b>Jr Max</b>:<br/>
+  • SKIP everything. Jr Max runs only the higgsfield MCP, so #3 does not apply. Nothing else here is alert or triage work, and it never ships ahead of SC.<br/>
+<br/>
+⚠️ <b>Held back (provenance):</b><br/>
+  • #8 Zenity detonation chamber — no findable repo, so no install is recommended. The idea (vet a skill's runtime behavior before installing it) stays as context. A cheap first version is to grep candidate skills for hooks, remote-fetched prompts and postinstall scripts.</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=yzx4IuEh_tU" target="_blank">Your SKILL.md Is 70% Stuff the Model Already Knows - Nikolay Petrov, Intel</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Talk on auditing SKILL.md files: split a skill into small checkable claims, run the model with and without each claim, and get a line-by-line map of what is new knowledge, what the model already knew, and what hurts. The first skill tested was about 70% redundant, and the useful 30% was the specific detail a naive shortener would cut first.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Pick one high-traffic skill (e.g. html-it or marp-slides SKILL.md), split it into atomic claims, and write a script that runs a fixed task set with each claim removed via plain client.messages.create, then diffs the outputs against a baseline.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xu8tl9/claude_learning_to_judge_memory_production_agents/" target="_blank">claude learning to judge memory. production agents still need to keep it accurate</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/archieteriyaki</p>
+            <p>Reddit post summarizing Anthropic's engineering post on agent memory: memory as upkeep, with a 'dreaming' pass between sessions that rereads logs and fixes stale notes. Reports that one page per contract kept 57/57 facts versus 41/57 when 4 agents shared one page, and that a wiki over transcripts beat search alone (61% vs 53%). The Reddit body is a secondhand summary, so the numbers are not verified against the source post.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a verify step to the nightly Dream pass that checks each wiki/memory claim against source transcripts and flags or fixes stale ones, and keep multi-agent writes to one page per entity (e.g. per contact) instead of a shared page.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://github.com/modelcontextprotocol/servers/releases/tag/v2.4.0" target="_blank">v2.4.0</a></h3>
+            <p class="meta">github · modelcontextprotocol/servers · cliffhall</p>
+            <p>MCP servers v2.4.0 is a security release fixing six vulnerabilities across the filesystem (TOCTOU symlink races on reads and move_file), git (repo .git/config could make read-only calls like git_status run programs via fsmonitor, hooks, etc.; --repository confinement bypass via alternates and linked worktrees) and fetch servers. Upgrade to filesystem 2.3.0 and git/fetch 2026.11.11.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman, jr</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Grep the MCP configs (~/.claude.json, openclaw mcp configs, per-agent .mcp.json) for server-filesystem, mcp-server-git and mcp-server-fetch, then pin or upgrade to 2.3.0 / 2026.11.11; consider adding a version-floor check to mcp-health-probe.py.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xtdh8b/after_the_ai_writes_part_1_dont_carry_someone/" target="_blank">After the AI Writes, Part 1: Don't Carry Someone Else's Work Into Your Commit</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Rain6fish</p>
+            <p>Reddit post describing how several AI sessions sharing one git checkout leak each other's work into commits (git add -A, bare git commit, git checkout REV -- FILE writing the index, untracked files). Fixes: commit with explicit pathspecs, check git diff --cached --name-only before a bare commit, rebuild hot files from HEAD, read old versions with git show SHA:PATH.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a git pre-commit hook (or a wrapper around the commit helper) in ~/.openclaw/workspace that fails when `git diff --cached --name-only` includes paths not named on the commit command line, and bans `git add -A` in agent commit scripts.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xtx4ik/heads_up_claude_codes_dont_ask_again_has_been/" target="_blank">Heads up: Claude Code's "don't ask again" has been leaking secrets into public repos</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Predictor_2718</p>
+            <p>Reddit post warning that Claude Code's 'Yes, and don't ask again' saves approved shell commands verbatim (including any typed tokens) into .claude/settings.local.json, which can get committed to public repos because the ignore lives only in a personal global git exclude. Cites Apiiro: 1,122 of 104,185 public copies held a secret. Author promotes their own tool, cfgaudit.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write a small pre-commit/cron check over fleet repos that fails if .claude/settings.local.json is tracked or not covered by the repo .gitignore, and greps permissions.allow for key-like strings (sk-ant-, long hex/base64); then add the ignore line to each repo's .gitignore.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=MQiojLnK-E0" target="_blank">60% of Our Data PRs Now Merge With No Human Review - Chetas Joshi, Robinhood</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Robinhood describes a hybrid PR-reviewer agent for data pipelines: deterministic checks run first, an LLM judges what scripts can't, and risky changes escalate to a human. About 60% of PRs now merge with no human review (~132 eng-hours/month saved), with a talk segment on evaluating the reviewer itself and lessons from mistakes.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Compare the talk's deterministic-first / LLM-second / risk-escalation split and reviewer-eval method against the checks in workspace/scripts/script-review*, and add a replayable eval set of past reviewed scripts to measure verdict accuracy.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=yH7_SIIgI-Y" target="_blank">An Agent That Fixes Its Own Mistakes - Saloni Gandhi & Ziwei Guo, LinkedIn</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>LinkedIn talk on a closed loop where an agent evaluates its own outputs, clusters failure patterns, reflects on root causes, and proposes targeted instruction fixes using GEPA (reflective prompt evolution). They also preview extending the loop from prompts to the whole agent harness. Only the abstract is available, so implementation details are unknown.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: ktulu, sc</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Pull the GEPA repo/paper and run a one-off offline pass over Ktulu's escalation_classifier.py labeled outputs, with proposed prompt diffs routed to Paulo for approval rather than auto-applied.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=_7P580m4kPY" target="_blank">You Can't Tell What an Agent Skill Will Do by Reading It - Roey Ben Chaim, Zenity</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>Zenity talk arguing that reading a SKILL.md cannot show what a skill does, so skills must be treated as supply-chain dependencies. It describes an 'agent detonation chamber' (sandbox, world builder, operator, process/file/network instrumentation) and cases of chained skill installs, lookalike packages, persistence, hook abuse and remote prompts.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write a pre-install vet script that runs a candidate skill's install steps in a throwaway container with strace/network logging and diffs touched files, env reads and outbound hosts, then gate installs into ~/.claude/skills on a clean report; start by also grepping candidates for hooks, remote-fetched prompts and postinstall scripts.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=rS36lYuvXQ8" target="_blank">Your Agent Hates Your CLI - Ayush Bhardwaj, Allos AI</a></h3>
+            <p class="meta">youtube · AI Engineer · AI Engineer</p>
+            <p>A talk on mining ~20,000 of one's own agent tool calls for the head/tail/grep/Python workarounds agents write after a CLI call, and turning those into CLI fixes (context around matches, compact results, batch calls, failure summary at the end). It also covers keeping skill files and help text in sync with the real flags, and replaying recorded calls as tests.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Write a script that scans recent Claude Code session transcripts for Bash calls piped into head/tail/grep/python right after our own scripts (brain.js, fleet_tasks.py, calendar_today.py, ask-fleet.sh), counts repeats per tool, and review the top 3 for output fixes and a SKILL.md check that documented flags exist.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xsytlo/20_years_in_fintech_and_plain_claude_code_still/" target="_blank">20 years in fintech and plain Claude Code still got my numbers wrong. So I made my skills public, with the before/after report (24% -> 81%)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/felipealvarengarc</p>
+            <p>A fintech developer published an MIT-licensed set of SKILL.md files (money-handling rules, required tests, pushback answers) plus a headless A/B runner with a second-model grader, reporting pass rates of 24%->81% on Sonnet 5.5 and 35%->89% on Opus 5.5 over four tuning rounds. The transferable technique is the eval method: run each prompt with and without the skill, grade against expectations written beforehand, and require the test file in the same change.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read the runner in github.com/felipealvarenga/fintech-skills and adapt it into a script that runs 5-10 prompts per skill (start with humanizer or devil) through headless `claude -p` with and without the skill, graded by a second model against pre-written expectations.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=QCSavlDtZOE" target="_blank">The NEW Claude Fable 5.2 - No Hype Tests and 7 Great Use Cases</a></h3>
+            <p class="meta">worth_it_watch · Jay E | RoboNuggets · Jay E | RoboNuggets</p>
+            <p>A YouTube review of the new Claude Fable 5.2 model: general benchmarks (Artificial Analysis index 65 vs Opus 5.5 at 59), and a cost-per-task comparison showing Fable costs about 2.6x Opus per task despite a 2x rate card. It also teaches building your own business-specific benchmarks to decide whether a new model is worth it. The transcript is truncated before the use cases and the custom-benchmark walkthrough.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a small replay eval from real fleet tasks (WA drafts, escalation classification, radar scoring) and run it on Opus 5.5 vs Fable 5.2, logging cost per task alongside quality, to inform the model-routing section of AGENTS.md.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xujhrk/realworld_test_opus_vs_fable_vs_sonnet_vs_haiku/" target="_blank">Real-world test: Opus vs Fable vs Sonnet vs Haiku on every agent of a production pipeline</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/Arqium</p>
+            <p>A Reddit post benchmarking Opus, Fable 5.2, Sonnet and Haiku on each of ~15 agents in a production legal-rules pipeline. Scoring is a weighted checklist of critical items, with a cut-off at 5 points below the reference. Key findings: Opus on the adjudicator step scored 59/98/65/53 across runs while Fable 5.2 at low effort scored 98 twice, cheaper models fail silently by omission, and the structure (two independent readers, an adjudicator, a cheap second reader) caught more errors than any single model.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Pick one high-stakes fleet step (e.g. the WA Phase 8 fleet-router or the radar scorer), define 5-10 weighted critical items, and re-run it 2-3 times per model with the real API cost logged to compare run-to-run variance.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xv3kmi/running_claude_code_headless_as_a_team_of/" target="_blank">Running Claude Code headless as a team of scheduled agents: what we had to move outside the model</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/kaijurules</p>
+            <p>A Reddit post (with product plug for Inner Droid) describing how an agency running headless Claude Code on schedules moved safety rules out of the instructions file: side-effecting actions (send, CRM write, pay) are held as pending until an exact call is approved, standing grants expire after 30 days, any changed argument forces re-approval, outbound messages pass a style check with one rewrite before human handoff, and 'done' is only counted after read-back from the target system.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a post-action read-back check to the WA/email send path (confirm the message appears in Sent / delivery receipt before closing the initiative-engine artifact), and bind approvals to a hash of the exact call args with a 30-day expiry on standing grants.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xvab7j/i_got_tired_of_tuning_my_ai_agents_by_hand_so_i/" target="_blank">I got tired of tuning my AI agents by hand, so I had Claude Code do it (open source)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/davernow</p>
+            <p>Open-source 'Harness Tuner' (Kiln-AI) runs a code-driven loop of Claude Code agents (planner, builders, judge) that tune an agent's prompts, tools, skills and model choice against multiple evals, parallel experiments, and a held-out test set enforced in code. Author claims 2.5x fewer failures, 6x cheaper, 2x faster on one production agent; the claims are unverified and the post is light on technique details.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read the repo's loop and held-out-split enforcement, then pilot a small eval set (e.g. Ktulu escalation classifier or the radar's own scoring prompt) to try the same plan/build/judge loop on one prompt.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xvh8z3/i_got_tired_of_tuning_my_ai_agents_by_hand_so_i/" target="_blank">I got tired of tuning my AI agents by hand, so I had Claude Code do it (open source)</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/davernow</p>
+            <p>Open-source Harness Tuner (Kiln-AI): a code loop runs a small team of Claude Code agents (planner, builders, keeper) that tune an agent's prompts, tools, skills and model choice against a set of evals. It runs experiments in parallel, merges winners, and scores the final agent on held-out data, enforced in code. The poster claims 2.5x fewer failures, 6x cheaper and 2x faster on one production agent, with no independent verification.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Run `harness-tuner --demo` in an isolated dir, then read how its held-out-data check is enforced in code and port that guard into our own prompt-change workflow, starting with the Haiku fleet-router or Ktulu's classifier.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xwxyta/i_built_a_testing_framework_for_ai_agents_with/" target="_blank">I built a testing framework for AI agents with Claude Code. The most useful thing it did was audit its own work: 73 findings, 4 of them false passes</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/tom_mathews</p>
+            <p>Open-source testing framework (Attest) for LLM agents: records a real agent run, replays current agent code against the recording in CI with zero model calls, and asserts on tool calls and simulated backend end-state. The author's audit of their own 1.0 found 4 false passes (e.g. an unevaluated assertion chain silently passed, an unused id-correlated client), fixed in 1.1 by failing unevaluated chains and blocking PRs that delete protected assertions.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Pull two ideas into our test harnesses first: fail any test whose assertion chain was never evaluated, and block PRs that delete protected assertions (start in ~/.openclaw/workspace/client-upgrade/tests/); then trial record/replay on the WA fleet-router dispatcher.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/LocalLLaMA/comments/1xwy5ia/testing_agents_without_running_a_model_in_ci/" target="_blank">Testing agents without running a model in CI: record once, replay with zero calls, judge with a local model only when needed (open source, I'm the author)</a></h3>
+            <p class="meta">reddit · r/LocalLLaMA new · /u/tom_mathews</p>
+            <p>Author announces Attest, an Apache-2.0 agent testing framework: a local recording proxy captures model calls once, CI replays them with zero live calls, deterministic checks (schema, cost, tool order/count, simulated-backend effects) run first, and a local judge is used only when needed, with malformed judge output reported as 'not evaluated' rather than a pass.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Pilot the record/replay idea on one deterministic flow, e.g. point a recording proxy at the escalation_classifier.py client.messages.create calls and replay them in a pytest, asserting tool order and call counts with zero live API calls.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xxdzcf/anthropic_published_a_guide_on_building_alwayson/" target="_blank">Anthropic published a guide on building always-on agents (Nov 13). It breaks them into 5 parts: inbox, timers, memory, permissions, outbox</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/emarkosov</p>
+            <p>Anthropic design guide for always-on agents, per a Reddit summary (not the primary article): an agent sleeps between runs and uses five blocks: a durable event inbox (one worker per inbox), self-set timers plus recurring schedules, file-directory memory, permissions (credential-injecting proxy, auto mode, deferred tool calls that end the run and save the session until approved), and an outbox table with a dispatcher.</p>
+            <p class="score">
+              <span class="pill">pattern: trust_gradient_for_autonomy</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read the primary article at claude.com/resources/articles/building-always-on-agents, then compare its outbox and deferred-tool-call design against the WA send path and the cards approval flow, and note any idempotency or dedup gap in the outbox.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/claudeai/status/2119867138987176141" target="_blank">Claude Fable 5.2 is available today on all paid plans, on the Claude Platform, and on all major cloud platforms.
+
+It’s $</a></h3>
+            <p class="meta">x · @claudeai · claudeai</p>
+            <p>Anthropic announced Claude Fable 5.2 as generally available on paid plans, the Claude Platform and major clouds, with API pricing cut to $8/M input and $40/M output tokens (from $10/$50).</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Update the Fable 5.2 per-token rates in cost-watch.py and mcp-cost-breakdown.py so spend alerts match the new $8/$40 pricing, and check whether any fleet call sites worth moving to Fable 5.2 are pinned to older model IDs.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/claudeai/status/2119867122683953298" target="_blank">In early testing on FrontierCode 2.0, Fable 5.2 at High effort scored about level with Opus 5.5 at Max effort, for rough</a></h3>
+            <p class="meta">x · @claudeai · claudeai</p>
+            <p>Anthropic says Fable 5.2 at High effort roughly matches Opus 5.5 at Max effort on FrontierCode 2.0 at about half the cost per task, and Fable 5.2 at Xhigh scores highest of any released model tested. Medium stays the default effort in Claude apps and Claude Code. The claim comes from early testing and the tweet gives no per-task numbers.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Run a cost-per-task A/B of Fable 5.2 High vs the current Opus escalation tier on 5 real fleet tasks (a cost-watch.py sample) and update the model routing table in AGENTS.md only if it holds.</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W47.html · composed 2026-11-16 08:31 BRT</footer>
+</body></html>
