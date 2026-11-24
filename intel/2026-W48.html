@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intel Radar — 2026-W48</title>
+<style>
+  :root { --ivory:#0F1115; --paper:#171A21; --slate:#E8E6DF;
+           --clay:#E3A04A; --g300:#2F3441; --g500:#7A8094; --g700:#B9BFCC; }
+  body { background:var(--ivory); color:var(--slate);
+         font-family: system-ui, -apple-system, sans-serif;
+         max-width: 900px; margin: 0 auto; padding: 40px 24px; line-height: 1.6; }
+  h1 { font-family: ui-serif, Georgia, serif; font-weight: 500;
+        font-size: clamp(32px, 5vw, 48px); margin: 0 0 8px; }
+  h1 em { color: var(--clay); font-style: italic; }
+  .frame { background: var(--paper); border: 1px solid var(--g300);
+            border-left: 3px solid var(--clay); padding: 20px 24px;
+            border-radius: 4px; margin: 24px 0; color: var(--g700); }
+  .item { border-top: 1px solid var(--g300); padding: 24px 0; }
+  .item:last-child { border-bottom: 1px solid var(--g300); }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item h3 a { color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--clay); }
+  .item p { color: var(--g700); margin: 8px 0; }
+  .meta { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--g500); }
+  .pill { display: inline-block; font-family: ui-monospace, Menlo, monospace;
+           font-size: 11px; padding: 2px 8px; border: 1px solid var(--g300);
+           border-radius: 10px; color: var(--g500); margin-right: 4px; }
+  .hook { color: var(--slate); }
+  footer { margin-top: 64px; color: var(--g500); font-family: ui-monospace, monospace; font-size: 12px; }
+</style></head><body>
+  <p style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+            color: var(--clay); letter-spacing: 0.1em; text-transform: uppercase;">
+    Intel Radar · 2026-W48
+  </p>
+  <h1>Weekly <em>synthesis</em></h1>
+  <div class="frame">Radar — weekly synth, 10 picks, pattern focus: deterministic_guards_over_prompt_guards<br/>
+<br/>
+This week had two themes. Keep tool results out of the model's context, and run agent-written code inside a box.<br/>
+<br/>
+Bottom line: SHIP #10, everything else holds.<br/>
+<br/>
+<b>Pattern of the week:</b> sandboxes and egress allow-lists enforce limits in code, not in a prompt. They fit our rules, but each one is a build, so they wait.<br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+  • SHIP #10 — <b>Code Mode benchmark</b> <a href="https://www.reddit.com/r/ClaudeAI/comments/1xymddk/i_benchmarked_claude_codes_code_mode_across_4/">read</a> — turn Code Mode on for one MCP-heavy session and compare its spend in cost-watch (effort S, one session, easy to undo) · 🎯 metric: cost<br/>
+<br/>
+SC, Sandman, SadButTrue, Jr Max: no SHIP this week.<br/>
+<br/>
+Held back: 7 DEFER, 2 SKIP — reasoning in the archive.<br/>
+<br/>
+=== ARCHIVE ===<br/>
+<br/>
+📦 <b>The haul:</b><br/>
+<br/>
+1. <b>MCP servers v2.5.0</b> — eight security fixes in reference servers. <a href="https://github.com/modelcontextprotocol/servers/releases/tag/v2.5.0">read</a><br/>
+2. <b>Mac screenshot app, testing lesson</b> — tests must prove they can fail. <a href="https://www.reddit.com/r/ClaudeAI/comments/1xyft89/i_built_a_free_mac_app_with_claude_code_that_puts/">read</a><br/>
+3. <b>RoboNuggets PDF-check test</b> — score each check on its own. <a href="https://www.skool.com/robonuggets/we-tested-a-pdf-checking-skill-on-fresh-examples-it-missed-a-direct-instruction">read</a><br/>
+4. <b>Simon Willison sandbox servers</b> — egress allow-list plus key swap. <a href="https://x.com/simonw/status/2122500317187330279">read</a><br/>
+5. <b>Simon Willison external sandbox</b> — agent on host, code in box. <a href="https://x.com/simonw/status/2122500307557265651">read</a><br/>
+6. <b>Amazon saved-skills paper</b> — saved skills go stale. <a href="https://x.com/rohanpaul_ai/status/2123492665929118028">read</a><br/>
+7. <b>Factory programmatic tool calling</b> — one script, many calls. <a href="https://x.com/aiDotEngineer/status/2123521702491562266">read</a><br/>
+8. <b>OpenAI alert-to-Codex pipeline</b> — agents diagnose, one refutes. <a href="https://x.com/rohanpaul_ai/status/2123577231389934075">read</a><br/>
+9. <b>Code Mode video</b> — harness change, token savings. <a href="https://www.youtube.com/watch?v=Qf0EzOEall8">read</a><br/>
+10. <b>Code Mode benchmark</b> — 192 runs, MCP savings. <a href="https://www.reddit.com/r/ClaudeAI/comments/1xymddk/i_benchmarked_claude_codes_code_mode_across_4/">read</a><br/>
+<br/>
+🎯 <b>The one SHIP, with caveats:</b><br/>
+<br/>
+#10 touches the Claude Code CLI only. It is a setting, not an SDK or library bump. Nothing in the fleet runtime changes.<br/>
+<br/>
+The benchmark is small. It ran 2 runs per cell on six tasks. It counts tokens processed, not dollars.<br/>
+<br/>
+So the trial must read real spend in cost-watch.py, with a matched session that has Code Mode off. Confirm the setting name in the 2.1.330 docs first. #9 is the video version of the same feature, but its transcript is cut off.<br/>
+<br/>
+🟢 <b>Claude Code</b> (this Mac):<br/>
+  • SKIP #1 — we declined the v2.4.0 bump on 16/11. No config on the mini names the git, filesystem or fetch servers. FYI only. Re-pitch if one gets installed.<br/>
+<br/>
+  • SKIP #9 — same feature as #10, in video form. Use #10.<br/>
+<br/>
+  • DEFER #2 — close to our rule "exercise the failure case". One more CLAUDE.md line is a budget change. Add it only if a test that cannot fail bites us.<br/>
+<br/>
+  • DEFER #4, #5 — both are builds (effort M). The linked write-ups are not read yet. No incident asks for a sandbox today.<br/>
+<br/>
+  • DEFER #6 — a script could check that paths and commands named in skills still exist. The thread is cut off. Read the paper first.<br/>
+<br/>
+  • DEFER #7 — the same idea as Code Mode. Wait for the #10 trial result.<br/>
+<br/>
+🟡 <b>Superclawman</b>:<br/>
+  • SKIP #1, #9, #10 — #1 is not installed. #9 and #10 are Claude Code features. SC runs openclaw.<br/>
+<br/>
+  • DEFER #3 — scoring each check on its own is a good habit. No named gap in our inbox path to test yet.<br/>
+<br/>
+  • DEFER #4, #5 — same as Claude Code. SC would be the first user of an egress proxy, since it holds real keys.<br/>
+<br/>
+  • DEFER #6, #7 — same as Claude Code.<br/>
+<br/>
+  • DEFER #8 — a second agent that tries to disprove an alert diagnosis could raise alert_precision. The thread is cut off. We do not know our wrong-cause rate. Replay the `incidents` collection to measure it first.<br/>
+<br/>
+🟡 <b>Sandman</b>:<br/>
+  Same as SC. Nothing here needs persistent memory, so all of it holds.<br/>
+<br/>
+🟡 <b>SadButTrue</b>:<br/>
+  • DEFER #6 — a path check on its playbooks fits a self-check gap, since it has no repair allow-list. Same hold as SC.<br/>
+<br/>
+  • SKIP the rest — wrong fit for a Telegram Hermes agent.<br/>
+<br/>
+🟡 <b>Jr Max</b>:<br/>
+  • DEFER #8 — an adversarial pass fits alert triage. It ships here only if SC ships it.<br/>
+<br/>
+  • SKIP the rest — alert-only seat, and its only MCP at the last check was higgsfield. Nothing heavy for Code Mode to save.</div>
+  <h2 style="font-family: ui-serif, Georgia, serif; font-weight: 500;
+             margin-top: 48px;">Items</h2>
+  
+          <article class="item">
+            <h3><a href="https://github.com/modelcontextprotocol/servers/releases/tag/v2.5.0" target="_blank">v2.5.0</a></h3>
+            <p class="meta">github · modelcontextprotocol/servers · cliffhall</p>
+            <p>modelcontextprotocol/servers v2.5.0 patches eight vulnerabilities in mcp-server-git (2026.11.18), server-filesystem (2.4.0) and server-everything (2.3.1). The git fixes block hooks and config-driven code execution (auto-maintenance gc hook, promisor remote/uploadpack lazy fetch, filter/merge drivers). A --repository confinement check is still not repeated after tool writes (#5599).</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 4/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Run `grep -rn 'mcp-server-git\|server-filesystem\|server-everything' ~/.claude.json ~/.openclaw/openclaw.json ~/.mcp.json` on each box; if present, bump to mcp-server-git 2026.11.18 and server-filesystem 2.4.0, then run mcp-health-probe.py to verify they still start.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xyft89/i_built_a_free_mac_app_with_claude_code_that_puts/" target="_blank">I built a free Mac app with Claude Code that puts a screenshot into the Claude Code session you pick. 1.0.0 shipped today, and here's the testing lesson it taught me</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/chriskr7</p>
+            <p>Reddit post on a Mac screenshot-to-Claude-Code-session app. The transferable part is a rule that every new or changed agent-written test must ship with proof it can fail: break the protected code, show red, restore, show green. It found tests that could never fail (asserting on an unused recorder, a state table that never drove a transition, a count compared to a literal derived from itself).</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Add a mutation-proof rule to the coding section of ~/.claude/CLAUDE.md (one line plus a pointer to a feedback memory): any test an agent writes or changes must show red after the code it guards is broken, then green after restore.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.skool.com/robonuggets/we-tested-a-pdf-checking-skill-on-fresh-examples-it-missed-a-direct-instruction" target="_blank">We tested a PDF-checking skill on fresh examples. It missed a direct instruction.</a></h3>
+            <p class="meta">robonuggets · RoboNuggets (paid) · Thiago Morani</p>
+            <p>A RoboNuggets post reports a small fresh test of a PDF-checking skill: source location 18/18, literal extraction 16/18 (OCR errors on scanned text), embedded-instruction detection missed the one new direct instruction while all 11 benign controls stayed quiet, and claim comparison gave zero verdicts because of an unsupported schema. It recommends scoring each check separately so one green result never approves the others.</p>
+            <p class="score">
+              <span class="pill">pattern: verify_by_running</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 4/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Build a small frozen eval set (3 synthetic PDFs incl. a scanned page, an innocent quotation and a novel-phrased embedded instruction) and run it against the markitdown inbox-convert path, reporting source-location, extraction, instruction-flagging and claim-check as separate columns plus a fail-closed NOT VERIFIED status.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/simonw/status/2122500317187330279" target="_blank">Each of the three sandbox servers includes an optional HTTP/HTTPS allow-list proxy, so you can control exactly which hos</a></h3>
+            <p class="meta">x · @simonw · simonw</p>
+            <p>Simon Willison announces sandbox servers (three variants) with an optional HTTP/HTTPS allow-list egress proxy and a credential-replacement mechanism, so agent code can make authenticated API calls without ever holding the real secret.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Prototype a local allow-list forward proxy that swaps placeholder tokens for real keys from ~/.openclaw/secrets/ and route one agent's code-execution subprocess through it, after reading the actual repo for design details.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/simonw/status/2122500307557265651" target="_blank">I've been exploring new ways to sandbox code written by coding agents - here's a description of the external sandbox pat</a></h3>
+            <p class="meta">x · @simonw · simonw</p>
+            <p>Simon Willison describes an 'external sandbox' pattern: the coding agent (Claude Code, Codex, Pi) runs on the host Mac, but the code it writes and executes runs inside a WebAssembly, QEMU or Apple Container sandbox. The tweet links to a write-up with demos, but the body here is only the tweet text, so the implementation details are not visible.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read the linked write-up, then trial an Apple Container sandbox for one agent-written-script path (e.g. the Mac mini script-review or oneshots runner) and compare it against the current permission-mode guard.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/rohanpaul_ai/status/2123492665929118028" target="_blank">New Amazon paper finds that saved agent skills can hurt once the environment changes, and checking and repairing them se</a></h3>
+            <p class="meta">x · @rohanpaul_ai · rohanpaul_ai</p>
+            <p>Tweet about an Amazon paper finding that saved agent skills (file paths, field names, commands) can become harmful when the environment changes, and that selectively verifying and repairing them restores their value. The body is truncated, so the exact verify/repair method is not visible.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, sandman, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Read the Amazon paper, then prototype a deterministic staleness probe that checks the file paths and commands cited in one skills/playbooks dir and flags or repairs dead references.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/aiDotEngineer/status/2123521702491562266" target="_blank">1M tokens → 60K to move 150 @linear tickets.
+
+@luke_alvoeiro of @factory walks through the example: have the model write</a></h3>
+            <p class="meta">x · @aiDotEngineer · aiDotEngineer</p>
+            <p>Factory's Luke Alvoeiro describes 'programmatic tool calling': the model writes one program that runs many tool calls (e.g. moving 150 Linear tickets) and returns only the relevant result, cutting ~1M tokens to ~60K and reducing model round trips.</p>
+            <p class="score">
+              <span class="pill">pattern: deterministic_guards_over_prompt_guards</span>
+              <span class="pill">target: sc, ktulu, sandman</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Pick one high-volume loop (e.g. the contact-profile or board-ticket batch updates in ~/.openclaw/workspace/scripts) and prototype a 'model writes one script, runs it, returns a summary' path, measuring tokens against the current per-call flow.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://x.com/rohanpaul_ai/status/2123577231389934075" target="_blank">OpenAI built a system where alerts about ChatGPT slowing down automatically start Codex agents, which dig through logs a</a></h3>
+            <p class="meta">x · @rohanpaul_ai · rohanpaul_ai</p>
+            <p>Tweet describing an OpenAI incident-response pipeline: a ChatGPT latency alert auto-launches Codex agents that dig through logs and recent code changes for a root cause, a second adversarial agent tries to disprove that diagnosis, and a third proposes a code fix for human review. The thread is truncated, so details of the gating and human approval step are thin.</p>
+            <p class="score">
+              <span class="pill">pattern: closed_loop_self_correction</span>
+              <span class="pill">target: sc, jr</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> In the Jr/watchdog alert path, add a second Haiku pass that gets the first diagnosis plus the same log excerpts, tries to refute it, and attach the verdict and confidence to the alert; start by prototyping on a replay of past incidents from the `incidents` qmd collection.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.youtube.com/watch?v=Qf0EzOEall8" target="_blank">Anthropic Just Shipped Claude's BIGGEST Harness Change Yet (Code Mode)</a></h3>
+            <p class="meta">worth_it_watch · Jay E | RoboNuggets · Jay E | RoboNuggets</p>
+            <p>YouTube video on a new 'code mode' in Claude Code: MCP tool results are processed by generated code outside the context window instead of passing through the conversation twice, claiming 35-99% token savings. The transcript is truncated, so how to enable and test it is not visible.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc, ktulu</span>
+              <span class="pill">effort: M</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Check the Claude Code 2.1.329 changelog/docs for the code-mode flag, then A/B one MCP-heavy Kratos task (e.g. Firecrawl scrape to Notion/Brain write) with it on and off, comparing cost-watch token spend.</p>
+          </article>
+          <article class="item">
+            <h3><a href="https://www.reddit.com/r/ClaudeAI/comments/1xymddk/i_benchmarked_claude_codes_code_mode_across_4/" target="_blank">I benchmarked Claude Code's "Code Mode" across 4 models and 192 runs: big savings on MCP-heavy work, little on file work</a></h3>
+            <p class="meta">reddit · r/ClaudeAI new · /u/bicameralai</p>
+            <p>A published benchmark (192 runs, 4 models, Claude Code 2.1.325/2.1.326) of the experimental Code Mode, which batches tool calls in a script. It reports 62-77% fewer tokens on MCP-record aggregation, 40-68% fewer on reading and judging records, 15-54% fewer on file work, and about 13k fewer tokens at session start. Caveats: 2 runs per cell, tokens processed rather than cost, six small tasks.</p>
+            <p class="score">
+              <span class="pill">pattern: None</span>
+              <span class="pill">target: sc</span>
+              <span class="pill">effort: S</span>
+              <span class="pill">impact: 3/5</span>
+              <span class="pill">confidence: 3/5</span>
+            </p>
+            <p class="hook"><strong>Action:</strong> Turn on Code Mode (the installed 2.1.326 already supports it) for one MCP-heavy Claude Code seat session, then compare its token use and cost in cost-watch.py against a matched session with it off, using the repo's task prompts as a starting point.</p>
+          </article>
+  <footer>~/Claude/projects/superclawman-propostas/intel/2026-W48.html · composed 2026-11-23 08:31 BRT</footer>
+</body></html>
